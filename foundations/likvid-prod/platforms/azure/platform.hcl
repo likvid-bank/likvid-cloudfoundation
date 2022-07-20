@@ -3,17 +3,24 @@ locals {
   platform = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file(".//README.md"))[0])
 }
 
-# recommended: remote state configuration
-# remote_state {
-#   backend = todo
-#   generate = {
-#     path      = "backend.tf"
-#     if_exists = "overwrite"
-#   }
-#   config = {
-#     # tip: use "my/path/${path_relative_to_include()}" to dynamically include the module id in a prefix
-#   }
-# }
+# terragrunt does not support azure remote_state, so we use a traditional generate block
+generate "backend" {
+  path      = "backend.tf"
+  if_exists = "overwrite"
+  contents  = <<EOF
+terraform {
+  backend "azurerm" {
+    use_azuread_auth     = true 
+    tenant_id            = "${local.platform.azure.aadTenantId}"
+    subscription_id      = "${local.platform.azure.subscriptionId}"
+    resource_group_name  = "cloudfoundation-tfstates"
+    storage_account_name = "tfstates85yn9"
+    container_name       = "tfstates"
+    key                  = "${path_relative_to_include()}.tfstate"
+  }
+}
+EOF
+}
 
 # recommended: enable documentation generation for kit modules
 inputs = {
