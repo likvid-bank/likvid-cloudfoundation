@@ -1,4 +1,7 @@
-# Collie Repository
+# Likvid Bank Cloud Foundation
+
+> This is an example implementation of a cloud foundation built using
+> [Landing Zone Construction Kit](https://landingzone.meshcloud.io)
 
 This repository contains configuration for `collie` to work with your clouds with a structured workflow.
 
