@@ -1,0 +1,21 @@
+# define shared configuration here that's included by all terragrunt configurations in this platform
+locals {
+  platform = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file(".//README.md"))[0])
+}
+
+# recommended: remote state configuration
+# remote_state {
+#   backend = todo
+#   generate = {
+#     path      = "backend.tf"
+#     if_exists = "overwrite"
+#   }
+#   config = {
+#     # tip: use "my/path/${path_relative_to_include()}" to dynamically include the module id in a prefix
+#   }
+# }
+
+# recommended: enable documentation generation for kit modules
+inputs = {
+  output_md_file = "${get_path_to_repo_root()}/../output.md"
+}

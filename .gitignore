@@ -1,0 +1,10 @@
+# terraform/terragrunt caches
+.terraform
+.terragrunt-cache
+
+# collie generated docs
+.docs
+
+# collie cache
+**.collie.json
+**.meta.json
