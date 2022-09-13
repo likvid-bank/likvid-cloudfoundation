@@ -1,10 +1,3 @@
-output "tfstates_resource_group_name" {
-    value = azurerm_resource_group.tfstates.name
+output "terraform_state" {
+  value = try(module.terraform_state[0], null)
 }
- output "tfstates_storage_account_name" {
-   value = azurerm_storage_account.tfstates.name
- }
-
- output "tfstates_container_name" {
-   value = azurerm_storage_container.tfstates.name
- }

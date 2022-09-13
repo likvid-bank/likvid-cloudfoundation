@@ -51,6 +51,9 @@ terraform {
 }
 
 inputs = {
-  location                   = "Germany West Central"
   platform_engineers_members = local.platform_engineers_members
+
+  terraform_state_storage = {
+    location = "germanywestcentral"
+  }
 }
