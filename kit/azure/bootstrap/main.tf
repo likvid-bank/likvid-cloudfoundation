@@ -1,3 +1,10 @@
+data "azuread_client_config" "current" {}
+
+data "azurerm_management_group" "root" {
+  name = var.aad_tenant_id
+}
+
+// we put the terraform_state part into its own module as that simplifies making it optional
 module "terraform_state" {
   count = var.terraform_state_storage != null ? 1 : 0
 

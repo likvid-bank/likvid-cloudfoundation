@@ -51,8 +51,10 @@ terraform {
 }
 
 inputs = {
-  platform_engineers_members = local.platform_engineers_members
+  aad_tenant_id = include.platform.locals.platform.azure.aadTenantId
 
+  platform_engineers_members = local.platform_engineers_members
+  service_principal_name     = "cloudfoundation_tf_deploy_user_likvid_prod"
   terraform_state_storage = {
     location = "germanywestcentral"
   }
