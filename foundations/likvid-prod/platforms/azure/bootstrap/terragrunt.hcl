@@ -1,5 +1,5 @@
 include "platform" {
-  path = find_in_parent_folders("platform.hcl")
+  path   = find_in_parent_folders("platform.hcl")
   expose = true
 }
 
@@ -32,7 +32,7 @@ locals {
   platform_engineers_members = [
     for x in local.platform_engineers_emails : {
       email = x
-      upn = "${replace(x, "@", "_")}#EXT#@devmeshcloud.onmicrosoft.com"
+      upn   = "${replace(x, "@", "_")}#EXT#@devmeshcloud.onmicrosoft.com"
     }
   ]
 }
@@ -51,6 +51,6 @@ terraform {
 }
 
 inputs = {
-  location = "Germany West Central"
+  location                   = "Germany West Central"
   platform_engineers_members = local.platform_engineers_members
 }
