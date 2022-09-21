@@ -27,6 +27,8 @@ EOF
 locals {
   platform_engineers_emails = [
     "jrudolph@meshcloud.io",
+    "mkazemi@meshcloud.io",
+    "malhussan@meshcloud.io",
   ]
 
   platform_engineers_members = [
