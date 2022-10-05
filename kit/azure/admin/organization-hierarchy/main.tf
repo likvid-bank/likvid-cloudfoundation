@@ -1,3 +1,4 @@
+
 data "azurerm_management_group" "root" {
   name = var.aad_tenant_id
 }
@@ -6,6 +7,7 @@ resource "azurerm_management_group" "platform" {
   name                       = var.platform_management_group_name
   parent_management_group_id = data.azurerm_management_group.root.id
 }
+
 
 
 resource "azurerm_management_group" "prod" {
