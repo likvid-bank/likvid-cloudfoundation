@@ -19,19 +19,10 @@ variable "allowed_locations" {
   description = "Allowed Azure regions."
 }
 
-variable "billing_users" {
-  description = "The list of users identified by their UPN that shall be granted billing access"
-  type = list(object({
-    email = string,
-    upn   = string,
-  }))
-  default = []
-}
-
-variable "foundation_browser_members" {
-  description = "IAM members for the foundation browser role"
-  type = list(object({
-    email = string,
-    upn   = string,
-  }))
-}
+# variable "foundation_browser_members" {
+#   description = "IAM members for the foundation browser role"
+#   type = list(object({
+#     email = string,
+#     upn   = string,
+#   }))
+# }

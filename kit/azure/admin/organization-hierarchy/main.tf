@@ -1,8 +1,3 @@
-module "billing_admins" {
-  source        = "./billing-admins"
-  aad_tenant_id = var.aad_tenant_id
-  billing_users = var.billing_users
-}
 
 data "azurerm_management_group" "root" {
   name = var.aad_tenant_id
@@ -13,20 +8,14 @@ resource "azurerm_management_group" "platform" {
   parent_management_group_id = data.azurerm_management_group.root.id
 }
 
-resource "azurerm_management_group" "admin" {
-  name                       = "admin"
+
+
+resource "azurerm_management_group" "prod" {
+  name                       = "prod"
   parent_management_group_id = azurerm_management_group.platform.id
 }
 
-resource "azurerm_management_group" "connectivity" {
-  name                       = "connectivity"
+resource "azurerm_management_group" "dev" {
+  name                       = "dev"
   parent_management_group_id = azurerm_management_group.platform.id
 }
-
-
-resource "azurerm_management_group" "landingzones" {
-  name                       = "landingzones"
-  display_name               = "Landing Zones"
-  parent_management_group_id = azurerm_management_group.root.id
-}
-
