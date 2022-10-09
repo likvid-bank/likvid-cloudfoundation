@@ -13,7 +13,7 @@ terraform {
 
 inputs = {
   aad_tenant_id = include.platform.locals.platform.azure.aadTenantId
-  platform_management_group_name = "festo"
+  platform_management_group_name = "platform"
   allowed_locations = [
     "germanywestcentral",
   ]
