@@ -1,0 +1,64 @@
+---
+###########################
+###########################
+## Markdown Linter rules ##
+###########################
+###########################
+
+# Linter rules doc:
+# - https://github.com/DavidAnson/markdownlint
+#
+# Note:
+# To comment out a single error:
+#   <!-- markdownlint-disable -->
+#   any violations you want
+#   <!-- markdownlint-restore -->
+#
+
+default: true
+
+###############
+# Rules by id #
+###############
+
+# Unordered list style
+# ul-style
+MD004: false
+
+# Unordered list indentation
+# ul-indent
+MD007:
+  indent: 2
+
+# Allowed line length
+# line-length
+MD013:
+  line_length: 400
+
+# Trailing punctuation in heading
+# no-trailing-punctuation
+MD026:
+  punctuation: ".,;:!。，；:"
+
+# Ordered list item prefix
+# ol-prefix
+MD029: false
+
+# Inline HTML
+# no-inline-html
+MD033: true
+
+# Emphasis used instead of a heading
+# no-emphasis-as-heading/no-emphasis-as-header
+MD036: true
+
+# First line in a file should be a top-level heading
+# first-line-heading/first-line-h1
+MD041: true
+
+#################
+# Rules by tags #
+#################
+
+# MD012, MD022, MD031, MD032, MD047
+blank_lines: true

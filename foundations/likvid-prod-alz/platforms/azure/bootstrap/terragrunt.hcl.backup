@@ -1,0 +1,23 @@
+include "platform" {
+    path = find_in_parent_folders("platform.hcl")
+  }
+
+# todo: this is a bootstrap module, you typically want to set up a provider
+  # with user credentials (cloud CLI based authentication) here
+  generate "provider" {
+    path      = "provider.tf"
+    if_exists = "overwrite"
+    contents  = <<EOF
+  provider "google|aws|azurerm" {
+    # todo
+  }
+  EOF
+  }
+
+terraform {
+    source = "${get_repo_root()}//kit/alz/bootstrap"
+  }
+
+inputs = {
+    # todo: specify inputs to terraform module
+  }
