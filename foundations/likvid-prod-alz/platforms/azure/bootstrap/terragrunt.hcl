@@ -30,7 +30,7 @@ inputs = {
     root_parent_id = "${include.platform.locals.platform.azure.aadTenantId}"
     foundation_name = "likvid-prod-alz"
     platform_engineers_members = [
-      "mkazemi_meshcloud.io#EXT#@devmeshcloud.onmicrosoft.com",
+      "XXXX#EXT#@dXXXXX.onmicrosoft.com",
     ]
     storage_account_name = "tfstates4565"
     storage_rg_name = "alz-tfstates4565"
