@@ -47,15 +47,55 @@ az login --tenant <aadTenantPrimaryDomain>
 
 ### Configuration
 1- **New Foundation**
+
 Create a new foundation to make it super simple to organize your code and later manage multiple of them. Remember if this is your first foundation you have to initialize the collie with `collie init/`.
 ```bash
 mkdir cloudfoundation && cd cloudfoundation
 collie init
-collie foundation new <name of our foundation>
+collie foundation new <name of your foundation>
 ```
 then you will go to interactive mode to configure your cloud environment. After choosing the right options click save and exit.
 
 2- **Bootstrapping**
+
+The bootstrap kit creates a `Service Principal/` with just enough permissions to deploy the resources for the alz and other kits which you might be add later. Also creating a storage account and defining the backend for terraform is this module's responsibility.
+From Collie v0.14.0 and higher, in addition to the mentioned tasks, migration of the terraform state file will be done automatically for you.
+Execute the followting command to deploy the bootstrap module and download the alz kit from azure's git repository.
+
+```bash
+collie kit bundle <a name for your kit bundle>
+```
+You will be then, prompted to input some values related to deploying the alz kit and bootstrap module.
+
+3- **Rolling out the alz kit**
+Now all you need to do is to deploy your landing zones with this command:
+```bash
+collie foundation deploy <name of your foundation> --platform <platform name> --module base
+```
+This uses the previously configured inputs to deploy the Azure landing zone Terraform module. It will take roughly 30 minutes to create all the cloud resources. 
+### That’s it!
+
+Now you have deployed your landing zones with our bootstrap module and Azure Enterprise Scale module
+
+- You have your Terraform state managed in your new object storage
+- Access to that storage is restricted to specific users (those included in the foundation platform engineers group).
+- Your foundation has everything defined as code and you can utilize the Landing Zone Construction Kit to update your landing zones.
+
+## Useful information
+- You can pass terraform's command inline with collie using `--/`: 
+```bash
+collie foundation deploy my-foundation --platform azure --module -- plan 
+```
+- Destory the alz kit and bootstrap kit respectively with these commands:
+```bash
+collie foundation deploy <name of your foundation> --platform <name of the platform> --module <name of the alz kit> -- destory
+collie foundation deploy <name of your foundation> --bootstrap -- destroy
+```
+You can find further information about collie's functions and building a landing zone with collie in [collie-cli installation guidelines](https://github.com/meshcloud/collie-cli#-installation) and [Landing Zone Construction Kit](https://github.com/meshcloud/landing-zone-construction-kit) repositories.
+
+## Whats next
+
+
 
 
 
