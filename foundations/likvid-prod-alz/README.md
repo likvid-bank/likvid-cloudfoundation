@@ -17,7 +17,7 @@ There are many reasons to start out with [Azure landing zones Terraform module](
 - It paves your way to adopting GitOps from the get go.
 - It prepares your landing zones setup for scale.
 
-There remain open questions that are not covered by only using this module:
+The remaining open questions that are not covered by only using this module are:
 
 - How can I store the terraform state of this module?
 - How can I restrict access to the terraform state file to specific users?
@@ -91,10 +91,31 @@ collie foundation deploy my-foundation --platform azure --module -- plan
 collie foundation deploy <name of your foundation> --platform <name of the platform> --module <name of the alz kit> -- destory
 collie foundation deploy <name of your foundation> --bootstrap -- destroy
 ```
+- File Structure
+Following commands help you better understand the structure of files created in this Landing zone construction kit:
+```bash
+tree
+collie foundation tree
+collie kit tree
+```
+collie foundation tree output -> <img width="1152" alt="image" src="https://user-images.githubusercontent.com/96071919/199353827-d8d92d4a-3fa7-4a76-99c8-10af7a900dad.png">
+collie kit tree output -> <img width="1057" alt="image" src="https://user-images.githubusercontent.com/96071919/199353977-c8d16bca-b165-49ef-9435-06c5f6790e8e.png">
+
+**Note** The `module.hcl/`, `Platform.hcl/` (which is unique in every foundation) and `terragrunt.hcl/` (every kit has one of this) are terragrunt files used to manage terraform modules and pass the variables and providers for them. You might need to edit one or all of them in order to create your custom kits.
+
 You can find further information about collie's functions and building a landing zone with collie in [collie-cli installation guidelines](https://github.com/meshcloud/collie-cli#-installation) and [Landing Zone Construction Kit](https://github.com/meshcloud/landing-zone-construction-kit) repositories.
 
 ## Whats next
-
+You can customize your landing zone and add tailor made kits to your foundation. To do so you can add a new kit with following command:
+```bash
+collie kit new <kit name>
+```
+As a result, a module will be added under the kit folder with different Terraform files which you can edit to your needs.
+for deploying these kits run:
+```bash
+collie kit apply
+collie foundation deploy <name of your foundation> --platform <name of the platform> --module <name of your kit>
+```
 
 
 
