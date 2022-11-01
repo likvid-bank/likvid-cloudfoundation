@@ -1,6 +1,3 @@
----
-name: likvid-prod
----
 
 # likvid-prod
 
