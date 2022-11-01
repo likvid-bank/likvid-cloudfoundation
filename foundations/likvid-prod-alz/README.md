@@ -92,6 +92,7 @@ collie foundation deploy <name of your foundation> --platform <name of the platf
 collie foundation deploy <name of your foundation> --bootstrap -- destroy
 ```
 - File Structure
+
 The following commands help you better understand the structure of files created in this Landing zone construction kit:
 ```bash
 tree
@@ -101,9 +102,12 @@ collie kit tree
 collie foundation tree output -> <img width="1152" alt="image" src="https://user-images.githubusercontent.com/96071919/199353827-d8d92d4a-3fa7-4a76-99c8-10af7a900dad.png">
 collie kit tree output -> <img width="1057" alt="image" src="https://user-images.githubusercontent.com/96071919/199353977-c8d16bca-b165-49ef-9435-06c5f6790e8e.png">
 
-**Note** The `module.hcl`, `Platform.hcl` (which is unique in every foundation), and `terragrunt.hcl` (every kit has one) are terragrunt files used to manage terraform modules and pass the variables and providers for them. You might need to edit one or all of them in order to create your custom kits.
 
-You can find further information about collie's functions and building a landing zone with collie in [collie-cli installation guidelines](https://github.com/meshcloud/collie-cli#-installation) and [Landing Zone Construction Kit](https://github.com/meshcloud/landing-zone-construction-kit) repositories.
+### Note
+The `module.hcl`, `Platform.hcl` (which are unique in every foundation), and `terragrunt.hcl` (every kit has one) are terragrunt files used to manage terraform modules and pass the variables and providers for them. You might need to edit one or all of them in order to create your custom kits.
+
+You can find further information about collie's functions and building a landing zone with collie in [collie-cli](https://github.com/meshcloud/collie-cli) and [Landing Zone Construction Kit](https://github.com/meshcloud/landing-zone-construction-kit) repositories.
+
 
 ## What is next
 You can customize your landing zone and add tailor-made kits to your foundation. To do so you can add a new kit with the following command:
@@ -116,7 +120,7 @@ for deploying these kits run:
 collie kit apply
 collie foundation deploy <name of your foundation> --platform <name of the platform> --module <name of your kit>
 ```
-
+For adding `azure landing zone` cutomized modules check these [examples](https://github.com/Azure/terraform-azurerm-caf-enterprise-scale/wiki/Examples)
 
 
 
