@@ -2,8 +2,12 @@
 
 > This is an example implementation of a cloud foundation built using
 > [Landing Zone Construction Kit](https://landingzone.meshcloud.io)
+> and [Microsoft azure landing zone terraform module](https://github.com/Azure/terraform-azurerm-caf-enterprise-scale)
 
-This repository contains configuration for `collie` to work with your clouds with a structured workflow.
+This repository consists of 2 different foundations, **Likvid-prod** and **Likvid-prod-alz**. 
+Likvid-prod-alz uses azure landing zone terraform module to accelerate deployment of platform resources based on the [Azure landing zones conceptual architecture](https://docs.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone#azure-landing-zone-conceptual-architecture). 
+
+This repository also contains configuration for `collie` to work with your clouds with a structured workflow.
 
 - `foundations/` defines a set of cloud platforms and their configuration
 - `kit/` stores IaC modules to assemble landing zones on your foundations' cloud platforms
@@ -14,42 +18,7 @@ This approach allows `collie` to generate documentation for your cloud foundatio
 
 ## Next steps
 
-### Create a new Foundation
+### How to create a landing zone using collie (check [likvid-prod](https://github.com/likvid-bank/likvid-cloudfoundation/tree/main/foundations/likvid-prod))
 
-Most users of `collie` will want to manage one or two cloud foundations (e.g. `dev` and `prod`).
-Create a new foundation and configure it interactively using
+### How to creat a landing zone based on azure landing zone terraform module (check [likvid-prod-alz](https://github.com/likvid-bank/likvid-cloudfoundation/tree/main/foundations/likvid-prod-alz))
 
-```shell
-collie foundation new
-```
-
-### Work with cloud tenants
-
-You can list tenants (e.g. AWS Accounts, Azure Subscriptions, GCP Projects) in your cloud foundations and manage tags, cost and IAM using the following commands
-
-```shell
-collie tenant list "my-foundation"    # List tenants across all clouds in the foundation
-collie tenant cost "my-foundation"    --from 2021-01-01 --to 2021-01-31  # List tenants costs across all clouds in the foundation
-collie tenant iam "my-foundation"     # Review access and permissions on tenants
-```
-
-### Build Landing Zones
-
-To build landing zones with collie, follow this workflow
-
-```shell
-collie kit new "aws/organization-policies"   # generate a new IaC module skeleton
-collie kit apply "aws/organization-policies" # apply the module to a cloud platform in your foundation
-collie foundation deploy "my-foundation"     # deploy the module to your cloud foundation
-```
-
-### Document Compliance
-
-To document how your landing zones help implement compliance, follow this workflow
-
-```shell
-collie compliance new "data-privacy/eu-only" # create a new compliance control
-vi kit/aws/organization-policies/README.md   # add a compliance statement to your aws organization-policies module
-collie compliance tree                       # review compliance control implementation across platforms
-collie docs "my-foundation"                  # generate a documentation site for your cloud foundation, incl. compliance info
-```
