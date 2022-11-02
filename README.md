@@ -20,5 +20,5 @@ This approach allows `collie` to generate documentation for your cloud foundatio
 
 How to create a landing zone using collie (check [likvid-prod](https://github.com/likvid-bank/likvid-cloudfoundation/tree/main/foundations/likvid-prod))
 
-How to create a landing zone based on azure landing zone terraform module (check [likvid-prod-alz](https://github.com/likvid-bank/likvid-cloudfoundation/tree/main/foundations/likvid-prod-alz))
+How to create a landing zone with collie based on azure landing zone terraform module (check [likvid-prod-alz](https://github.com/likvid-bank/likvid-cloudfoundation/tree/main/foundations/likvid-prod-alz))
 
