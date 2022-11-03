@@ -110,7 +110,7 @@ You can find further information about collie's functions and building a landing
 
 
 ## What is next
-You can customize your landing zone and add tailor-made kits to your foundation. To do so you can add a new kit with the following command:
+You can customize your `azure landing zone` following these [examples](https://github.com/Azure/terraform-azurerm-caf-enterprise-scale/wiki/Examples) from Microsoft or add tailor-made kits to your foundation with `collie kit` command:
 ```bash
 collie kit new <kit name>
 ```
@@ -120,7 +120,7 @@ for deploying these kits run:
 collie kit apply
 collie foundation deploy <name of your foundation> --platform <name of the platform> --module <name of your kit>
 ```
-For adding `azure landing zone` cutomized modules check these [examples](https://github.com/Azure/terraform-azurerm-caf-enterprise-scale/wiki/Examples)
+
 
 
 
