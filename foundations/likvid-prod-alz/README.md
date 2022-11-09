@@ -1,3 +1,6 @@
+---
+name: livid-prod-alz
+---
 # likvid-prod-alz
 
 Building a landing zone in Azure can be a daunting task, especially since Microsoft provides various options to pursue, from Azure resource manager (ARM) templates to Terraform modules. If you’d like to see how the different ways compare, check out our [Azure landing zone comparison](https://www.meshcloud.io/2022/09/27/azure-landing-zone-comparison/) blog post. In the end, any approach will implement the Azure landing zone conceptual architecture (also called enterprise scale in other contexts), or part of it:
