@@ -15,9 +15,13 @@ generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
   contents  = <<EOF
-provider "todo" {
-  # tip: you can access collie configuration from the local above, e.g. "${local.platform.azure.aadTenantId}"
-  # tip: you can access bootstrap module output like secrets from the dependency above, e.g. "${dependency.bootstrap.outputs.client_secret}"
+provider "azurerm" {
+  features {}
+  skip_provider_registration = true
+  tenant_id       = "${local.platform.azure.aadTenantId}"
+  subscription_id = "${local.platform.azure.subscriptionId}"
+  # client_id       = "${dependency.bootstrap.outputs.client_id}"
+  # client_secret   = "${dependency.bootstrap.outputs.client_secret}"
 }
 EOF
 }
