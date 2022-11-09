@@ -24,20 +24,21 @@ EOF
 }
 
 
-# locals {
-#   platform_engineers_emails = [
-#     "jrudolph@meshcloud.io",
-#     "mkazemi@meshcloud.io",
-#     "malhussan@meshcloud.io",
-#   ]
+locals {
+  platform_engineers_emails = [
+    "jrudolph@meshcloud.io",
+    "mkazemi@meshcloud.io",
+    "malhussan@meshcloud.io",
+    "fzieger@meshcloud.io",
+  ]
 
-#   platform_engineers_members = [
-#     for x in local.platform_engineers_emails : {
-#       email = x
-#       upn   = "${replace(x, "@", "_")}#EXT#@devmeshcloud.onmicrosoft.com"
-#     }
-#   ]
-# }
+  platform_engineers_members = [
+    for x in local.platform_engineers_emails : {
+      email = x
+      upn   = "${replace(x, "@", "_")}#EXT#@devmeshcloud.onmicrosoft.com"
+    }
+  ]
+}
 
 terraform {
   source = "${get_repo_root()}//kit/azure/bootstrap"
@@ -53,19 +54,10 @@ terraform {
 }
 
 inputs = {
-  # aad_tenant_id = include.platform.locals.platform.azure.aadTenantId
-  # platform_engineers_members = local.platform_engineers_members
-  # service_principal_name     = "cloudfoundation_tf_deploy_user_likvid_prod"
-  # terraform_state_storage = {
-  #   location = "germanywestcentral"
-  # }
-   root_parent_id = "${include.platform.locals.platform.azure.aadTenantId}"
-    foundation_name = "likvid-prod-alz"
-    platform_engineers_members = [
-      "fzieger_meshcloud.io#EXT#@devmeshcloud.onmicrosoft.com",
-      "mkazemi_meshcloud.io#EXT#@devmeshcloud.onmicrosoft.com"
-    ]
-    storage_account_name = "tfstates4565"
-    storage_rg_name = "alz-tfstates4565"
-    tfstate_location     = "germanywestcentral"
+  aad_tenant_id = include.platform.locals.platform.azure.aadTenantId
+  platform_engineers_members = local.platform_engineers_members
+  service_principal_name     = "cloudfoundation_tf_deploy_user_likvid_prod"
+  terraform_state_storage = {
+    location = "germanywestcentral"
+  }
 }
