@@ -54,7 +54,7 @@ resource "azurerm_role_definition" "cloudfoundation_deploy" {
 
       # Permission for creating Kubernetes Cluster
       "Microsoft.ContainerService/managedClusters/*",
-      "Microsoft.ContainerService/managedClusters/accessProfiles/listCredential/action"
+      "Microsoft.ContainerService/managedClusters/accessProfiles/listCredential/action",
     ]
   }
 
