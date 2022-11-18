@@ -50,7 +50,11 @@ resource "azurerm_role_definition" "cloudfoundation_deploy" {
       "Microsoft.Automation/automationAccounts/*",
 
       # Permission we need to activate/register required Resource Providers
-      "*/register/action"
+      "*/register/action",
+
+      # Permission for creating Kubernetes Cluster
+      "Microsoft.ContainerService/managedClusters/*",
+      "Microsoft.ContainerService/managedClusters/accessProfiles/listCredential/action"
     ]
   }
 
