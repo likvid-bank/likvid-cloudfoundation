@@ -4,5 +4,5 @@ provider "kubernetes" {
 }
 
 module "aks_meshplatform" {
-  source = "github.com:meshcloud/terraform-kubernetes-meshplatform.git"
+  source = "github.com/meshcloud/terraform-kubernetes-meshplatform"
 }
