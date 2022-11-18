@@ -1,12 +1,12 @@
 ---
 name: basic-aks-cluster
 summary: |
-  deploys new cloud foundation infrastructure.
-  Add a concise description of the module's purpose here.
-# optional: add additional metadata about implemented security controls
+  Deploys a no-frills AKS cluster.
 ---
 
 # basic aks cluster
 
-This documentation is intended as a reference documentation for cloud foundation or platform engineers using this module.
+AKS is managed Kubernetes offered by Microsoft.
+
+This kit module is a starting point that can be used for spinning up a new cluster.
     
