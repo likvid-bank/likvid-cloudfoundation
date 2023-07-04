@@ -8,17 +8,17 @@ generate "backend" {
   path      = "backend.tf"
   if_exists = "overwrite"
   contents  = <<EOF
-# terraform {
-#   backend "azurerm" {
-#     use_azuread_auth     = true 
-#     tenant_id            = "${local.platform.azure.aadTenantId}"
-#     subscription_id      = "${local.platform.azure.subscriptionId}"
-#     resource_group_name  = "cloudfoundation-tfstates"
-#     storage_account_name = "tfstates7n81i"
-#     container_name       = "tfstates"
-#     key                  = "${path_relative_to_include()}.tfstate"
-#   }
-# }
+terraform {
+  backend "azurerm" {
+    use_azuread_auth     = true 
+    tenant_id            = "${local.platform.azure.aadTenantId}"
+    subscription_id      = "${local.platform.azure.subscriptionId}"
+    resource_group_name  = "cloudfoundation-tfstates"
+    storage_account_name = "tfstates7n81i"
+    container_name       = "tfstates"
+    key                  = "${path_relative_to_include()}.tfstate"
+  }
+}
 EOF
 }
 
