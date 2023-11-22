@@ -10,8 +10,6 @@ data "azuread_group" "pam_groups" {
 
   object_id = each.key
   security_enabled = true
-
- # depends_on = [ azuread_group_member.pam_desired_memberships ]
 }
 
 # fetch the actual members of those groups
