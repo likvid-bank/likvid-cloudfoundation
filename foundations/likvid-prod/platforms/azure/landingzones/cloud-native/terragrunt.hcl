@@ -51,5 +51,4 @@ EOF
 inputs = {
   name                       = "cloudnative"
   parent_management_group_id = dependency.organization-hierarchy.outputs.online_id
-  
 }
