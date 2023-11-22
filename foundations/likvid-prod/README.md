@@ -1,5 +1,5 @@
 ---
-name: livid-prod
+name: likvid-foundation
 ---
 # likvid-prod
 
