@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs-unstable> { } }:
+{ pkgs ? import <nixpkgs> { }, unstable ? import <nixpkgs-unstable> { } }:
 
 pkgs.mkShell {
   NIX_SHELL = "likvid-cloudfoundation";
@@ -7,28 +7,18 @@ pkgs.mkShell {
   '';
 
   buildInputs = [
-    pkgs.deno
-
-    # terraform
-    pkgs.terraform
-    pkgs.terragrunt
-    pkgs.tflint
-    pkgs.terraform-docs
+    # collie and dependencies
+    unstable.terraform
+    unstable.terragrunt
+    unstable.tflint
+    unstable.terraform-docs
 
     # cloud provider clis
     pkgs.awscli2
     pkgs.azure-cli
     pkgs.google-cloud-sdk
 
-    # script dependencies
-    pkgs.gnused # sed acts inconsistently on macOS, so we always use GNU sed
-    pkgs.rsync
-    pkgs.jq
-    
     # node / typescript for docs
-    pkgs.nodejs-16_x
-    (pkgs.yarn.override {
-        nodejs = pkgs.nodejs-16_x;
-    })
+    pkgs.nodejs
   ];
 }
