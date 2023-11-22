@@ -35,6 +35,8 @@ locals {
     "fzieger@meshcloud.io",
   ]
 
+  # Likvid Bank's AAD used in this demo is a "workload AAD tenant" that doesn't have its own users, 
+  # so we need to invite all users via AAD B2B
   platform_engineers_members = [
     for x in local.platform_engineers_emails : {
       email = x
@@ -60,7 +62,11 @@ inputs = {
   aad_tenant_id = include.platform.locals.platform.azure.aadTenantId
   platform_engineers_members = local.platform_engineers_members
   service_principal_name     = "cloudfoundation_tf_deploy_user_likvid_prod"
+
   terraform_state_storage = {
-    location = "germanywestcentral"
+    name             = "${include.platform.locals.cloudfoundation.name}"
+    location         = "germanywestcentral"                                     #TODO change, the azure location of the resource group and storage account
+    config_file_path = include.platform.locals.terraform_state_config_file_path # platform.hcl expects state configuration output in this location, do not change
   }
+
 }

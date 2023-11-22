@@ -1,0 +1,4 @@
+storage_account_name: tfstates7n81i
+container_name: tfstates
+location: germanywestcentral
+resource_group_name: cloudfoundation-tfstates
