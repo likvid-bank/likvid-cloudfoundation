@@ -1,6 +1,5 @@
 output "documentation_md" {
   value = <<EOF
-
 # Billing
 
 It is recommended to use payment methods such as credit cards and invoices to ensure that you can access your Azure resources at any time.
