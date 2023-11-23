@@ -17,8 +17,8 @@ inputs = {
   root_id        = "alz"
   root_name      = "alz"
   default_location = "germanywestcentral"
-  deploy_corp_landing_zones = true
-  deploy_online_landing_zones = true
+  deploy_corp_landing_zones = false
+  deploy_online_landing_zones = false
   # Management resources
   deploy_management_resources = true
   subscription_id_management  = "${include.platform.locals.platform.azure.subscriptionId}" # Subscription created manually as a prerequisite
