@@ -1,7 +1,7 @@
 resource "azurerm_role_definition" "cloudfoundation_deploy" {
   name        = var.service_principal_name
   scope       = data.azurerm_management_group.root.id
-  description = "Permissions required to deploy the cloudfoundation (not operate it)"
+  description = "Permissions required to deploy the cloudfoundation"
 
   permissions {
     actions = [
@@ -15,21 +15,27 @@ resource "azurerm_role_definition" "cloudfoundation_deploy" {
       "Microsoft.Authorization/policyAssignments/*",
 
       # Assigning Blueprints
-      "Microsoft.Resources/deployments/*",
-      "Microsoft.Blueprint/blueprintAssignments/*",
       "Microsoft.Resources/subscriptions/resourceGroups/read",
-      "Microsoft.Resources/deployments/*",
 
       # Creating management groups
       "Microsoft.Management/managementGroups/read",
-      "Microsoft.Management/managementGroups/descendants/read",
       "Microsoft.Management/managementGroups/write",
+      "Microsoft.Management/managementGroups/descendants/read",
+
+      # Permissions to move subscriptions between management groups
+      "Microsoft.Management/managementgroups/subscriptions/delete",
+      "Microsoft.Management/managementgroups/subscriptions/write",
 
       # Permissions for reading and writing tags
       "Microsoft.Resources/tags/*",
 
       # Permission we need to activate/register required Resource Providers
-      "*/register/action"
+      "*/register/action",
+
+      # Deployment Permissions
+      # Permissions to create storage account and containers
+      "Microsoft.Storage/storageAccounts/*",
+      "Microsoft.Storage/storageAccounts/blobServices/containers/*"
     ]
   }
 
@@ -59,9 +65,17 @@ resource "azuread_application" "cloudfoundation_deploy" {
       id   = data.azuread_service_principal.msgraph.app_role_ids["Directory.Read.All"]
       type = "Role"
     }
-
+    resource_access {
+      id   = data.azuread_service_principal.msgraph.app_role_ids["Group.ReadWrite.All"]
+      type = "Role"
+    }
     resource_access {
       id   = data.azuread_service_principal.msgraph.app_role_ids["AppRoleAssignment.ReadWrite.All"]
+      type = "Role"
+    }
+
+    resource_access {
+      id   = data.azuread_service_principal.msgraph.app_role_ids["Application.ReadWrite.All"]
       type = "Role"
     }
   }
@@ -94,6 +108,14 @@ resource "azurerm_role_assignment" "cloudfoundation_deploy" {
 
 resource "azuread_app_role_assignment" "cloudfoundation_deploy-directory" {
   app_role_id         = data.azuread_service_principal.msgraph.app_role_ids["Directory.Read.All"]
+  principal_object_id = azuread_service_principal.cloudfoundation_deploy.object_id
+  resource_object_id  = data.azuread_service_principal.msgraph.object_id
+}
+# This azuread_app_role_assignment is necessary if you want to manage groups through Terraform.
+# Productive use in a cloud foundation should probably manage groups not via Terraform but
+# via existing IAM processes, but this is a good lean start.
+resource "azuread_app_role_assignment" "cloudfoundation_deploy-group" {
+  app_role_id         = data.azuread_service_principal.msgraph.app_role_ids["Group.ReadWrite.All"]
   principal_object_id = azuread_service_principal.cloudfoundation_deploy.object_id
   resource_object_id  = data.azuread_service_principal.msgraph.object_id
 }

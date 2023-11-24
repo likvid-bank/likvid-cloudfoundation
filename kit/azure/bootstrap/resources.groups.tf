@@ -5,9 +5,10 @@ data "azuread_users" "platform_engineers_members" {
 }
 
 resource "azuread_group" "platform_engineers" {
-  display_name     = "cloudfoundation-platform-engineers"
-  owners           = [data.azuread_client_config.current.object_id] # todo: possibly the owner needs to be the cloudfoundation SPN? need to figure out dependency order inside the boostrap module!
+  display_name     = var.platform_engineers_group
+  description = "Privileged Cloud Foundation group. Members have full access to deploy cloud foundation infrastructure and landing zones."
   security_enabled = true
+  owners           = [data.azuread_client_config.current.object_id] # todo: possibly the owner needs to be the cloudfoundation SPN? need to figure out dependency order inside the boostrap module!
 
   members = toset(data.azuread_users.platform_engineers_members.object_ids)
 }

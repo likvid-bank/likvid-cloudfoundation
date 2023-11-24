@@ -24,3 +24,12 @@ resource "azurerm_storage_container" "tfstates" {
   container_access_type = "blob"
 }
 
+resource "local_file" "tfstates_yaml" {
+  filename = var.terraform_state_config_file_path
+  content  = <<-EOT
+    storage_account_name: ${azurerm_storage_account.tfstates.name}
+    container_name: ${azurerm_storage_container.tfstates.name}
+    location: ${azurerm_storage_account.tfstates.location}
+    resource_group_name: ${azurerm_resource_group.tfstates.name}
+EOT
+}
