@@ -82,6 +82,7 @@ export const sidebar: SidebarConfig = {
 
 export default defineUserConfig<DefaultThemeOptions, ViteBundlerOptions>({
   // site-level locales config
+  base: "/likvid-cloudfoundation/",
   locales: {
     "/": {
       lang: "en-US",
