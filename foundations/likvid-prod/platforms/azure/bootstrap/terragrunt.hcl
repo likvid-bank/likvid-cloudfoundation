@@ -15,6 +15,11 @@ provider "azurerm" {
   tenant_id                  = "${include.platform.locals.platform.azure.aadTenantId}"
   subscription_id            = "${include.platform.locals.platform.azure.subscriptionId}"
   storage_use_azuread        = true
+
+  %{if get_env("ACTIONS_ID_TOKEN_REQUEST_URL") != null}
+  use_oidc              = true
+  client_id             = "11a89d3c-4fe7-4d94-bcee-c257f7a33009"
+  %{endif}
 }
 
 provider "azuread" {
@@ -64,7 +69,7 @@ inputs = {
 
   service_principal_name = "likvid_foundation_tf_deploy_user"
   documentation_uami_name  = "likvid_foundation_tf_docs_user"
-  
+
   terraform_state_storage = {
     name             = "${include.platform.locals.cloudfoundation.name}"
     location         = "germanywestcentral"                                     #TODO change, the azure location of the resource group and storage account

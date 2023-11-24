@@ -19,13 +19,6 @@ jobs:
           tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
           subscription-id: 9809209b-869e-4f5c-8d86-c8b71294153f
     
-      - name: Validate az login
-        uses: azure/CLI@v1
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az account show
-    
       - uses: actions/checkout@v3
     
       - uses: meshcloud/setup-collie@main
