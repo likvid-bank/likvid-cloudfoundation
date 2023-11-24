@@ -61,8 +61,10 @@ terraform {
 inputs = {
   aad_tenant_id = include.platform.locals.platform.azure.aadTenantId
   platform_engineers_members = local.platform_engineers_members
-  service_principal_name     = "cloudfoundation_tf_deploy_user_likvid_prod"
 
+  service_principal_name = "likvid_foundation_tf_deploy_user"
+  documentation_uami_name  = "likvid_foundation_tf_docs_user"
+  
   terraform_state_storage = {
     name             = "${include.platform.locals.cloudfoundation.name}"
     location         = "germanywestcentral"                                     #TODO change, the azure location of the resource group and storage account
