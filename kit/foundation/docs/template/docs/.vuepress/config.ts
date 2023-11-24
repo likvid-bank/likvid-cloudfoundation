@@ -85,8 +85,8 @@ export default defineUserConfig<DefaultThemeOptions, ViteBundlerOptions>({
   locales: {
     "/": {
       lang: "en-US",
-      title: "My Cloud Foundation",
-      description: "Documentation for My cloud foundations",
+      title: "Likvid Bank Cloud Foundation",
+      description: "Documentation for Likvid Bank Cloud Foundation",
     },
   },
 
