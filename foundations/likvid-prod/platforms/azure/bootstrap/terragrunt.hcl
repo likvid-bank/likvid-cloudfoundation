@@ -16,7 +16,7 @@ provider "azurerm" {
   subscription_id            = "${include.platform.locals.platform.azure.subscriptionId}"
   storage_use_azuread        = true
 
-  %{if get_env("ACTIONS_ID_TOKEN_REQUEST_URL") != null}
+  %{if try(get_env("ACTIONS_ID_TOKEN_REQUEST_URL"), null) != null}
   use_oidc              = true
   client_id             = "11a89d3c-4fe7-4d94-bcee-c257f7a33009"
   %{endif}
