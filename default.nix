@@ -9,9 +9,9 @@ pkgs.mkShell {
   buildInputs = [
     # collie and dependencies
     pkgs.terraform
-    pkgs.terragrunt
-    pkgs.tflint
-    pkgs.terraform-docs
+    unstable.terragrunt
+    unstable.tflint
+    unstable.terraform-docs
 
     # cloud provider clis
     pkgs.azure-cli
