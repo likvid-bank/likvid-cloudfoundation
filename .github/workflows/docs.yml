@@ -37,7 +37,7 @@ jobs:
     
       - name: Build and Update Documentation
         run: |
-          collie foundation docs likvid-prod --update --build
+          collie foundation docs likvid-prod --update --build --verbose --debug
  
       - name: Setup Pages
         uses: actions/configure-pages@v3
