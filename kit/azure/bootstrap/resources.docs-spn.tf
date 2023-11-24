@@ -16,7 +16,7 @@ resource "azurerm_federated_identity_credential" "docs" {
   name                = "github-actions"
   audience            = ["api://AzureADTokenExchange"]
   issuer              = "https://token.actions.githubusercontent.com"
-  subject             = "repo:likvid-bank/cloudfoundation"
+  subject             = "repo:likvid-bank/likvid-cloudfoundation:ref:refs/heads/feature/publish-docs" # todo: this needs to be updated to point to main after merge, this is also then the only workflow that should run
 }
 
 resource "azurerm_role_assignment" "docs_tfstate" {
