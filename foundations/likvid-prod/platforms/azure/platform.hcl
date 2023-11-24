@@ -22,9 +22,8 @@ terraform {
     %{if try(get_env("ACTIONS_ID_TOKEN_REQUEST_URL"), null) != null}
     use_oidc              = true
     client_id             = "11a89d3c-4fe7-4d94-bcee-c257f7a33009"
-    %{else}
-    use_azuread_auth      = true
     %{endif}
+    use_azuread_auth      = true
     tenant_id             = "${local.platform.azure.aadTenantId}"
     subscription_id       = "${local.platform.azure.subscriptionId}"
     resource_group_name   = "${try(local.tfstateconfig.resource_group_name, "")}"
