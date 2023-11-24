@@ -38,10 +38,3 @@ terraform {
 }
 EOF
 }
-
-terraform {
-  before_hook "collie_info" {
-    commands     = ["apply", "plan", "output"]
-    execute      = ["echo", "--- BEGIN COLLIE PLATFORM MODULE OUTPUT: ${path_relative_to_include()} ---"]
-  }
-}
