@@ -12,14 +12,14 @@ jobs:
       contents: read
       pages: write    
     steps:
-      - name: az login
+      - name: Setup az login
         uses: azure/login@v1
         with:
           client-id: 11a89d3c-4fe7-4d94-bcee-c257f7a33009 # see azure/bootstrap output
           tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
           subscription-id: 9809209b-869e-4f5c-8d86-c8b71294153f
     
-      - name: validate az login
+      - name: Validate az login
         uses: azure/CLI@v1
         with:
           azcliversion: latest

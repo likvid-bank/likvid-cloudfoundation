@@ -1,3 +1,5 @@
+# todo: this could be nicer packaged as it's own submodule, so that it doesn't need all those count = ... checks
+
 resource "azurerm_user_assigned_identity" "docs" {
   count = var.terraform_state_storage != null ? 1 : 0
 
@@ -18,8 +20,7 @@ resource "azurerm_federated_identity_credential" "docs" {
   issuer              = "https://token.actions.githubusercontent.com"
 
   # note: it seems wildcards are not supported yet, see https://github.com/Azure/azure-workload-identity/issues/373
-  # todo: this needs to be updated to point to main after merge, this is also then the only workflow that should run
-  subject             = "repo:likvid-bank/likvid-cloudfoundation:ref:refs/heads/feature/publish-docs" 
+  subject             = "repo:likvid-bank/likvid-cloudfoundation:environment:github-pages" 
 }
 
 resource "azurerm_role_assignment" "docs_tfstate" {
