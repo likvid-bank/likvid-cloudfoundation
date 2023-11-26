@@ -1,0 +1,4 @@
+# ignore local files that allow connecting the local terraform environment to this building block's backend and providers
+config.tf
+likvid-bank-devops-toolchain-team.private-key.pem
+terraform.tfvars

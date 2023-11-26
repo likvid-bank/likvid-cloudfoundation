@@ -9,8 +9,12 @@ resource "github_repository" "repository" {
   auto_init            = true
   vulnerability_alerts = true
 
+  lifecycle {
+    ignore_changes = [description]
+  }
+  
   template {
-    owner                = var.template_owner
-    repository           = var.template_repo   
+    owner      = var.template_owner
+    repository = var.template_repo
   }
 }

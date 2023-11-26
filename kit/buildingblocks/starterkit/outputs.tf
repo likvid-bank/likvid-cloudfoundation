@@ -11,16 +11,21 @@ terraform {
     storage_account_name  = "${azurerm_storage_account.tfstates.name}"
     container_name        = "${azurerm_storage_container.tfstates.name}"
     key                   = "buildingblocks.tfstate"
+
+    client_id             = "${azuread_service_principal.starterkit.client_id}"
+    client_secret         = "${azuread_service_principal_password.starterkit.value}"
   }
 }
 
 provider "github" {
+  owner = "${local.github_org}"
+
   app_auth {
     id              = "${local.github_app_id}"
     installation_id = "${local.github_app_installation_id}"
     
     # TODO: ensure the pem file exists on disk in the BB execution environment (with meshStack: secret file input)
-    pem_file = file("./likvid-bank-devops-toolchain-team.private-key.pem").
+    pem_file = file("./likvid-bank-devops-toolchain-team.private-key.pem")
   }
 }
 EOF
