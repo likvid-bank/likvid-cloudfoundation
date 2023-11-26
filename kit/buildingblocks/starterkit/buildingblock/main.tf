@@ -3,8 +3,10 @@
 
 resource "github_repository" "repository" {
   name        = var.repo_name
-  description = var.description
+  description = "Created from a Likvid Bank DevOps Toolchain starter kit for ${var.workspace_identifier}.${var.project_identifier}"
   visibility  = "private"
+
+  topics = [ "starterkit" ]
 
   auto_init            = true
   vulnerability_alerts = true

@@ -3,11 +3,6 @@ variable "repo_name" {
   default = "name of the created repository"
 }
 
-variable "description" {
-  type    = string
-  default = "created from a Likvid Bank DevOps Toolchain starter kit"
-}
-
 variable "visibility" {
   type    = string
   default = "private"
@@ -18,5 +13,17 @@ variable "template_owner" {
 }
 
 variable "template_repo" {
+  type = string
+}
+
+variable "workspace_identifier" {
+  type = string
+}
+
+variable "project_identifier" {
+  type = string
+}
+
+variable "subscription_id" {
   type = string
 }
