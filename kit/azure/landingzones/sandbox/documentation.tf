@@ -15,7 +15,8 @@ This landing zone intergrates below the `online` management group in the [organi
 The resource hierarchy of this landing zone looks like this:
 
 ```md
-`${resource.azurerm_management_group.sandbox.display_name}` management group for sandbox landing zone, application teams receive subscriptions
+`${resource.azurerm_management_group.sandbox.display_name}` management group for sandbox landing zone
+   └── *application team subscriptions*
 ```
 
 ## Active Policies
