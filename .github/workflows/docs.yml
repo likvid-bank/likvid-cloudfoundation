@@ -1,0 +1,58 @@
+name: docs
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      id-token: write
+      contents: read
+      pages: write
+    steps:
+      - name: Setup az login
+        uses: azure/login@v1
+        with:
+          client-id: 11a89d3c-4fe7-4d94-bcee-c257f7a33009 # see azure/bootstrap output
+          tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
+          subscription-id: 9809209b-869e-4f5c-8d86-c8b71294153f
+
+      - uses: actions/checkout@v3
+
+      - uses: meshcloud/setup-collie@main
+
+      - uses: cachix/install-nix-action@v18
+        with:
+          nix_path: nixpkgs=channel:nixos-23.05:nixpkgs-unstable=channel:nixos-unstable
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+
+      - uses: rrbutani/use-nix-shell-action@v1
+        with:
+          file: default.nix
+        env:
+          NIXPKGS_ALLOW_UNFREE: 1
+
+      - name: collie info
+        run: collie info
+
+      - name: Build and Update Documentation
+        run: |
+          collie foundation docs likvid-prod --update --build --verbose --debug
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: "foundations/likvid-prod/.docs/docs/.vuepress/dist"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
