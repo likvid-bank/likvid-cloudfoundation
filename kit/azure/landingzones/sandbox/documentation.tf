@@ -25,6 +25,6 @@ The resource hierarchy of this landing zone looks like this:
 
 |Policy|Effect|Description|Rationale|
 |-|-|-|-|
-|[${module.policy_sandbox.policy_assignments["Enforce-ALZ-Sandbox"].display_name}](https://cloudfoundation.org/maturity-model/tenant-management/playground-sandbox-environments.html#why-use-a-sandbox-environment)|Deny|${module.policy_sandbox.policy_assignments["Enforce-ALZ-Sandbox"].description}|Forbids use of certain Azure Services that are unsuitable for experimentation environments because they incur high cost and/or allow establishing non-zero-trust connectivity via VNet peering to other services.<br>The following services are forbidden<br>:${join("<br>", formatlist("- `%s`", module.policy_sandbox.policy_assignments["Enforce-ALZ-Sandbox"].parameters.listOfResourceTypesNotAllowed.value))}|
+|[${module.policy_sandbox.policy_assignments["Enforce-ALZ-Sandbox"].display_name}](https://cloudfoundation.org/maturity-model/tenant-management/playground-sandbox-environments.html#why-use-a-sandbox-environment)|Deny|${module.policy_sandbox.policy_assignments["Enforce-ALZ-Sandbox"].description}|Forbids use of certain Azure Services that are unsuitable for experimentation environments because they incur high cost and/or allow establishing non-zero-trust connectivity via VNet peering to other services.<br>The following services are forbidden:<br>${join("<br>", formatlist("- `%s`", module.policy_sandbox.policy_assignments["Enforce-ALZ-Sandbox"].parameters.listOfResourceTypesNotAllowed.value))}|
 EOF
 }
