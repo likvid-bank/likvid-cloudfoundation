@@ -111,19 +111,19 @@ Because this landing zone does not connect to on-prem, this landing zone is a po
 | **Securing all endpoints of your application**      | X                    |                      |                    |
 | **Operating system**                                | X                    |                      |                    |
 | **Network controls**                                | X                    |                      |                    |
-| **Connectivity towards on-prem**                    | X                    |                      |                    |
+| **Connectivity towards on-prem**                    |                      | *via building block* |                    |
 
-### Cloud Native Landing Zone Serverless
+### Sanbox Landing Zone
 
-A Serverless Landing Zone is a specialized environment for serverless computing, ensuring agile and cost-effective application deployment across cloud platforms.
-It provides pre-configured foundations for serverless services, streamlining development and enhancing security.
+Sandboxes are specifically designed for learning and experimentation. Sandboxes are strictly treated as **ephemeral** environments that must be torn down after an experiment has concluded. Sandboxes follow the "cloud native landing zone with internet connection"
+model. They can place additional restrictions on available services to make the environments suitable for experimentation
 
-|                                                     | application team | cloud foundation | cloud provider |
-| :-------------------------------------------------: | :--------------: | :--------------: | :------------: |
-| **Development and operations of your application**  |        X         |                  |                |
-| **Identities and Accounts within your application** |        X         |                  |                |
-|  **Information and data within your application**   |        X         |                  |                |
-|   **Securing all endpoints of your application**    |                  |                  |        x       |
-|                **Operating system**                 |                  |                  |        x       |
-|                **Network controls**                 |                  |                  |        x       |
-
+|                                                     | application team     | cloud foundation     | cloud provider     |
+|:---------------------------------------------------:|:--------------------:|:--------------------:|:------------------:|
+| **Development and operations of your application**  | X                    |                      |                    |
+| **Identities and Accounts within your application** | X                    |                      |                    |
+| **Information and data within your application**    | X                    |                      |                    |
+| **Securing all endpoints of your application**      | X                    |                      |                    |
+| **Operating system**                                | X                    |                      |                    |
+| **Network controls**                                | X                    |                      |                    |
+| **Connectivity towards on-prem**                    | *not available*      |                      |                    |

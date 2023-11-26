@@ -26,12 +26,12 @@ provider "azurerm" {
   subscription_id = "${include.platform.locals.platform.azure.subscriptionId}"
   client_id       = "${dependency.bootstrap.outputs.client_id}"
   client_secret   = "${dependency.bootstrap.outputs.client_secret}"
-  }
+}
 EOF
 }
 
 inputs = {
   # todo: set input variables
   parent_management_group_id = "${dependency.organization-hierarchy.outputs.landingzones_id}"
-  location                   = "${try(include.platform.locals.tfstateconfig.location, "could not read location from stateconfig. configure it explicitly")}"
+  location                   = "germanywestcentral"
 }

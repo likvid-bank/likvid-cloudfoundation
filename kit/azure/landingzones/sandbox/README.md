@@ -8,11 +8,14 @@ compliance:
   statement: |
     It's a best practice for development, testing, and learning purposes, providing a safe and secure area to explore Azure services
     and features. This allows users to gain hands-on experience without the risk of impacting critical systems.
+- control: cfmm/security-and-compliance/service-and-location-restrictions
+  statement: |
+    Forbids use of certain Azure Services that are unsuitable for experimentation environments because they incur high cost and/or allow establishing non-zero-trust connectivity via VNet peering to other services.
 ---
 
 # Azure Landing Zone "sandbox"
 
-This kit provides a Terraform configuration for setting up Azure Management Groups for dedicated Management Group and policy for sandbox Landingzones.
+This kit provides a Terraform configuration for setting a sandbox landing zone management group and suitable default policies.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
