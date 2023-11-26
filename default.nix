@@ -8,15 +8,17 @@ pkgs.mkShell {
 
   buildInputs = [
     # collie and dependencies
-    unstable.terraform
+    pkgs.terraform
     unstable.terragrunt
     unstable.tflint
     unstable.terraform-docs
 
     # cloud provider clis
-    pkgs.awscli2
     pkgs.azure-cli
-    pkgs.google-cloud-sdk
+    
+    # we currently don't have these managed by this collie repo, but will need it soon
+    # pkgs.awscli2
+    # pkgs.google-cloud-sdk
 
     # node / typescript for docs
     pkgs.nodejs
