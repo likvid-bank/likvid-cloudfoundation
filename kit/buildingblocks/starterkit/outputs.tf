@@ -28,5 +28,15 @@ provider "github" {
     pem_file = file("./likvid-bank-devops-toolchain-team.private-key.pem")
   }
 }
+
+provider "azurerm" {
+  features {}
+  
+  skip_provider_registration = false
+  storage_use_azuread        = true
+
+  subscription_id = var.subscription_id
+}
+
 EOF
 }
