@@ -24,11 +24,3 @@ resource "azurerm_storage_container" "tfstates" {
   container_access_type = "blob"
 }
 
-output "storage_account_details" {
-  value  = <<-EOT
-    storage_account_name: ${azurerm_storage_account.tfstates.name}
-    container_name: ${azurerm_storage_container.tfstates.name}
-    location: ${azurerm_storage_account.tfstates.location}
-    resource_group_name: ${azurerm_resource_group.tfstates.name}
-EOT
-}

@@ -9,8 +9,10 @@ include "platform" {
 # azurerm therefore uses local Azure CLI user authentication
 
 # todo: not quite sure how this will interact with our ability to generate docs in CI/CD for this module
-# it _should_ be fine since we only need to read terraform state
+# it _should_ be fine since we only need to read terraform statex^^
 
+
+# For GitHub we use github cli authentication see https://registry.terraform.io/providers/integrations/github/latest/docs#github-cli
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
@@ -25,7 +27,10 @@ provider "azuread" {
 
 provider "azurerm" {
   features {}
+  
   skip_provider_registration = false
+  storage_use_azuread        = true
+  
   subscription_id = "76a68a1d-674b-401b-976a-8b251d535f8c"
 }
 
