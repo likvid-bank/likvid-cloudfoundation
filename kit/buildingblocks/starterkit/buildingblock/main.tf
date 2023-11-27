@@ -115,6 +115,10 @@ provider "azurerm" {
   subscription_id            = "${data.azurerm_subscription.current.subscription_id}"
   storage_use_azuread        = true
 }
+
+provider "azuread" {
+ tenant_id                  = "${data.azurerm_subscription.current.tenant_id}"
+}
 EOT
 }
 
