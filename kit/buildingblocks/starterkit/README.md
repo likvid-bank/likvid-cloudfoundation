@@ -17,11 +17,127 @@ This is an implementation of "Cloud Starter Kits" that provides application team
 
 - a GitHub repository, seeded with an application starter kit
 - a GitHub actions pipeline
-- a service account solution that enables the GitHub actions pipeline to deploy to your Azure Subscription
+- a service account solution that enables the GitHub actions pipeline to deploy to their Azure Subscription
 
 ## Structure of this Kit module
 
-This kit module comes with two parts
+This kit module comes with three components, each responsible for enabling deployment of the next 
 
 - the kit module itself, acting as the building block's "backplane" that sets up all required infrastructure for deploying starterkits for application teams
-- a terraform module that forms the definition for each "building block", i.e. the instance of the starterkit deployed for a particular application team
+- a terraform module that forms the definition for each "building block", i.e. the instance of the starterkit deployed for a particular application team including a GitHub repo and GitHub actions pipeline
+- terraform code that lives in the starterkit template, deployed by a GitHub actions pipeline
+
+The following sections explain these parts in more detail
+
+### Deployment of the Building Block backplane
+
+Before we can deploy building blocks, we need to first set up the backplane. This operation is only performed once by deploying this kit module using collie as any other kit module with `collie kit apply` and `collie foundation deploy`.
+
+> Unforutnately it's currently not possible to setup a GitHub app via terraform, so please perform this manually.
+
+This will deploy the following resources:
+
+```mermaid
+flowchart TD
+  subgraph github[GitHub Organization]
+    ghapp[GitHub App]
+    ghrepotemplate[GitHub Template Repository]
+  end
+  subgraph Azure
+    subgraph bbsub[Building Block Backplane Subscription]
+      bbsubtfstate[StarterKit BB TF State]
+      bbspn[StarterKit SPN]
+
+    end
+  end
+      
+  BB((Starter Kit<br>Building Block))
+
+  BB --> github
+  BB --> Azure
+  bbspn --Storage Blob Owner--> bbsubtfstate
+  
+  
+```
+
+### Deployment of a Building Block
+
+Now that we the backplane deployed, we can use the backplane to deploy an instance of the [buildingblock](./buildingblock/) terraform module into a sandbox subscription supplied by the application team. 
+The easiest way to do this is to create a building block definition from the `buildingblock` terraform module in meshStack and configure it with the `config_tf` file produced by the backplane module.
+
+The chart below shows the interaction of cloud resources when deploying a new building block using the backplane:
+
+```mermaid
+flowchart TD
+  subgraph GitHub[GitHub Organization]
+    ghapp[GitHub App]
+    subgraph ghrepo [GitHub Repo]
+      ghpipeline[Deploy Pipeline]
+    end
+    ghrepotemplate[GitHub Template Repository]
+  end
+  subgraph Azure
+    subgraph bbsub[Building Block Backplane Subscription]
+      bbsubtfstate[StarterKit BB TF State]
+      bbspn[StarterKit SPN]
+
+    end
+    subgraph sbsub[Sandbox Subscription]
+      subgraph rgcicd[Resource Group ci-cd]
+        ghactionsuami[UAMI for GitHub Actions]
+        sbsubtfstate[Pipeline TF State]
+      end
+      subgraph rgapp[Resource Group app]
+        staticwebsite
+      end
+    end
+  end
+      
+  BB((Starter Kit Building Block))
+
+  ghapp -.deploys.-> ghrepo
+  bbspn -.deploys.-> rgcicd
+  bbspn -.deploys.-> rgapp
+  BB -.via github provider.-> ghapp
+  BB -.via azurerm provider.-> bbspn
+  ghrepotemplate -.from template.-> ghrepo
+  ghactionsuami --Storage Blob Owner--> sbsubtfstate
+  ghpipeline --Workload Identity Federation--> ghactionsuami 
+  bbspn --Storage Blob Owner--> bbsubtfstate
+  ghactionsuami --Owner--> rgapp
+  
+  linkStyle 0,1,2,3,4,5 stroke:#ff3,stroke-width:4px;
+```
+
+## Deployment of the App
+
+Now that we have the application team's sandbox subscription and their GitHub repository configured, the team can use the setup to deploy their `staticwebsite` app.
+
+```mermaid
+flowchart TD
+  subgraph GitHub[GitHub Organization]
+    subgraph ghrepo [GitHub Repo]
+      ghpipeline[Deploy Pipeline]
+    end
+  end
+  subgraph Azure
+    subgraph sbsub[Sandbox Subscription]
+      subgraph rgcicd[Resource Group ci-cd]
+        ghactionsuami[UAMI for GitHub Actions]
+        sbsubtfstate[Pipeline TF State]
+      end
+      subgraph rgapp[Resource Group app]
+        staticwebsite
+      end
+    end
+  end
+      
+  ghactionsuami -.deploys.-> staticwebsite
+  
+  ghactionsuami --Storage Blob Owner--> sbsubtfstate
+  ghpipeline --Workload Identity Federation--> ghactionsuami 
+  ghactionsuami --Owner--> rgapp
+  
+  linkStyle 0 stroke:#ff3,stroke-width:4px;
+
+```
