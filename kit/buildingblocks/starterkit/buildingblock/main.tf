@@ -31,7 +31,6 @@ resource "azurerm_role_assignment" "ghaction_tfstate" {
   scope                = azurerm_storage_container.tfstates.resource_manager_id
 }
 
-
 #
 # allow developers access to the terraform state
 #
@@ -73,6 +72,14 @@ on:
     branches:
       - "${github_repository_environment_deployment_policy.sandbox.branch_pattern}"
 
+# Configure terraform to use UAMI set up by the starterkit building block using workload identity federation.
+# We use enviornment variables here because this allows you to use the same provider.tf and backend config.tf when
+# working with terraform locally and authenticating via Azure CLI
+# See https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#argument-reference
+env:
+  ARM_USE_OIDC: "true"
+  ARM_CLIENT_ID "${azurerm_user_assigned_identity.ghactions.client_id}"
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -107,10 +114,6 @@ provider "azurerm" {
   tenant_id                  = "${data.azurerm_subscription.current.tenant_id}"
   subscription_id            = "${data.azurerm_subscription.current.id}"
   storage_use_azuread        = true
-
-  # enable GitHub actions to use UAMI setup by the starterkit building block using workload identity federation
-  use_oidc              = true
-  client_id             = "${azurerm_user_assigned_identity.ghactions.client_id}"
 }
 EOT
 }
@@ -132,10 +135,6 @@ terraform {
     storage_account_name  = "${azurerm_storage_account.tfstates.name}"
     container_name        = "${azurerm_storage_container.tfstates.name}"
     key                   = "starterkit.tfstate"
-
-    # enable GitHub actions to use UAMI setup by the starterkit building block using workload identity federation
-    use_oidc              = true
-    client_id             = "${azurerm_user_assigned_identity.ghactions.client_id}"
   }
 }
 EOT
