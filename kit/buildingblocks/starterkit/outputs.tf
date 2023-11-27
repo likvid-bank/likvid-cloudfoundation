@@ -6,7 +6,7 @@ terraform {
   backend "azurerm" {
     use_azuread_auth      = true
     tenant_id             = "${data.azurerm_subscription.current.tenant_id}"
-    subscription_id       = "${data.azurerm_subscription.current.id}"
+    subscription_id       = "${data.azurerm_subscription.current.subscription_id}"
     resource_group_name   = "${azurerm_resource_group.tfstates.name}"
     storage_account_name  = "${azurerm_storage_account.tfstates.name}"
     container_name        = "${azurerm_storage_container.tfstates.name}"
