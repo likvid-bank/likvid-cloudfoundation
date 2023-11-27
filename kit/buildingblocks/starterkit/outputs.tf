@@ -41,10 +41,14 @@ provider "azurerm" {
   client_secret   = "${azuread_service_principal_password.starterkit.value}"
 }
 
-EOF
+locals {
+  deploy_role_definition_id = "${azurerm_role_definition.starterkit_deploy.role_definition_resource_id}"
 }
 
-# TODO: why does azurerm provider not have a client_id and client_secret???
-# somewhere ought to be a role assignment for that SPN as well...
-
-# TODO: also missing the tenant_id
+provider "azuread" {
+  tenant_id       = "${data.azurerm_subscription.current.tenant_id}"
+  client_id       = "${azuread_service_principal.starterkit.client_id}"
+  client_secret   = "${azuread_service_principal_password.starterkit.value}"
+}
+EOF
+}

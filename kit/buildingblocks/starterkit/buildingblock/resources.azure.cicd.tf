@@ -1,4 +1,6 @@
 resource "azurerm_resource_group" "cicd" {
+  depends_on = [ azurerm_role_assignment.starterkit_deploy ]
+  
   name     = "ci-cd"
   location = var.location
 }

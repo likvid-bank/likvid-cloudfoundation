@@ -1,4 +1,6 @@
 resource "azurerm_resource_group" "app" {
+  depends_on = [ azurerm_role_assignment.starterkit_deploy ]
+  
   name     = "app"
   location = var.location
 }

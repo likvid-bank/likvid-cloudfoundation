@@ -18,6 +18,20 @@ resource "azuread_service_principal" "starterkit" {
 }
 
 
+data "azuread_application_published_app_ids" "well_known" {}
+
+data "azuread_service_principal" "msgraph" {
+  client_id = data.azuread_application_published_app_ids.well_known.result.MicrosoftGraph
+}
+
+# allow reading the groups and users
+resource "azuread_app_role_assignment" "starterkit-directory" {
+  app_role_id         = data.azuread_service_principal.msgraph.app_role_ids["Directory.Read.All"]
+  resource_object_id  = data.azuread_service_principal.msgraph.object_id
+  
+  principal_object_id = azuread_service_principal.starterkit.object_id
+} 
+
 # note this rotation technique requires the terraform to be run regularly
 resource "time_rotating" "key_rotation" {
   rotation_days = 365

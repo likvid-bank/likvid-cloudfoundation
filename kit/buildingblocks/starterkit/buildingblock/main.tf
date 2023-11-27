@@ -1,4 +1,14 @@
 data "azurerm_subscription" "current" {}
+data "azuread_client_config" "current" {}
+
+# note: it's important that all other azure resources transitively depend on this role assignment or else they will fail
+resource "azurerm_role_assignment" "starterkit_deploy" {
+  role_definition_id = local.deploy_role_definition_id 
+  
+  description  = "Grant permissions to deploy a starterkit building block."
+  principal_id = data.azuread_client_config.current.object_id
+  scope        = data.azurerm_subscription.current.id
+}
 
 # configure developer acess
 #

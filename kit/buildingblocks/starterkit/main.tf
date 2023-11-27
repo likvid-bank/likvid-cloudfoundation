@@ -35,6 +35,7 @@ resource "azurerm_role_definition" "starterkit_deploy" {
       "Microsoft.Authorization/roleAssignments/*",
       "Microsoft.Resources/subscriptions/resourceGroups/*",
       "Microsoft.Storage/storageAccounts/*",
+      "Microsoft.ManagedIdentity/*"
     ]
   }
 }
@@ -48,16 +49,23 @@ resource "azurerm_role_assignment" "starterkit_access" {
 
   condition_version = "2.0"
 
-  # what this does: allows only assigning the blob data owner role
+  # what this does: if the request is  not a write and not a delete, pass, else check that it only contains the expected role definition id
+  
   condition = <<-EOT
 (
-  (
-    @Request[Microsoft.Authorization/roleAssignments:RoleDefinitionId] ForAnyOfAnyValues:GuidEquals {${azurerm_role_definition.starterkit_deploy.role_definition_id}}
-  )
+  !(ActionMatches{'Microsoft.Authorization/roleAssignments/write'})
   AND
-  (
-    @Request[Microsoft.Authorization/roleAssignments:PrincipalId] ForAnyOfAnyValues:GuidEquals {${azuread_service_principal.starterkit.object_id}}
-  )
+  !(ActionMatches{'Microsoft.Authorization/roleAssignments/delete'})
+)
+OR
+(
+  @Request[Microsoft.Authorization/roleAssignments:RoleDefinitionId] ForAnyOfAnyValues:GuidEquals {${azurerm_role_definition.starterkit_deploy.role_definition_id}}
+  AND
+  @Request[Microsoft.Authorization/roleAssignments:PrincipalId] ForAnyOfAnyValues:GuidEquals {${azuread_service_principal.starterkit.object_id}}
 )
 EOT
 }
+
+# TODO: in the second OR clause we could also check on the principal id, but it seems there's a bug in that condition (or Azure...)
+# Error: "The client 'ccfee3aa-9b30-4577-bc02-cf4fafe153b5' with object id 'ccfee3aa-9b30-4577-bc02-cf4fafe153b5' has an authorization with ABAC condition that is not fulfilled to perform action 'Microsoft.Authorization/roleAssignments/write' over scope '/subscriptions/b8e79287-4fad-4b92-bf47-12fb6a385922/providers/Microsoft.Authorization/roleAssignments/ff86e113-c9db-4ccf-c067-e3c331c23596' or the scope is invalid. 
+# 
