@@ -112,7 +112,7 @@ provider "azurerm" {
   features {}
   skip_provider_registration = false
   tenant_id                  = "${data.azurerm_subscription.current.tenant_id}"
-  subscription_id            = "${data.azurerm_subscription.current.id}"
+  subscription_id            = "${data.azurerm_subscription.current.subscription_id}"
   storage_use_azuread        = true
 }
 EOT
