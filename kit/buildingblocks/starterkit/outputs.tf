@@ -35,8 +35,16 @@ provider "azurerm" {
   skip_provider_registration = false
   storage_use_azuread        = true
 
+  tenant_id       = "${data.azurerm_subscription.current.tenant_id}"
   subscription_id = var.subscription_id
+  client_id       = "${azuread_service_principal.starterkit.client_id}"
+  client_secret   = "${azuread_service_principal_password.starterkit.value}"
 }
 
 EOF
 }
+
+# TODO: why does azurerm provider not have a client_id and client_secret???
+# somewhere ought to be a role assignment for that SPN as well...
+
+# TODO: also missing the tenant_id

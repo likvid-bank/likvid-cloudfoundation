@@ -1,5 +1,5 @@
 include "platform" {
-  path = find_in_parent_folders("platform.hcl")
+  path   = find_in_parent_folders("platform.hcl")
   expose = true
 }
 
@@ -11,6 +11,9 @@ include "platform" {
 # todo: not quite sure how this will interact with our ability to generate docs in CI/CD for this module
 # it _should_ be fine since we only need to read terraform statex^^
 
+dependency "sandbox" {
+  config_path = "../../landingzones/sandbox"
+}
 
 # For GitHub we use github cli authentication see https://registry.terraform.io/providers/integrations/github/latest/docs#github-cli
 generate "provider" {
@@ -42,7 +45,7 @@ terraform {
 }
 
 inputs = {
-  service_principal_name = "devops-toolchain-starterkit" 
-  location = "germanywestcentral"
-  
+  service_principal_name = "devops-toolchain-starterkit"
+  location               = "germanywestcentral"
+  scope                  = dependency.sandbox.outputs.management_group_id
 }
