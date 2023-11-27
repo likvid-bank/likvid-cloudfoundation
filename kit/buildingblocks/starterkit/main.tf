@@ -65,7 +65,3 @@ OR
 )
 EOT
 }
-
-# TODO: in the second OR clause we could also check on the principal id, but it seems there's a bug in that condition (or Azure...)
-# Error: "The client 'ccfee3aa-9b30-4577-bc02-cf4fafe153b5' with object id 'ccfee3aa-9b30-4577-bc02-cf4fafe153b5' has an authorization with ABAC condition that is not fulfilled to perform action 'Microsoft.Authorization/roleAssignments/write' over scope '/subscriptions/b8e79287-4fad-4b92-bf47-12fb6a385922/providers/Microsoft.Authorization/roleAssignments/ff86e113-c9db-4ccf-c067-e3c331c23596' or the scope is invalid. 
-# 
