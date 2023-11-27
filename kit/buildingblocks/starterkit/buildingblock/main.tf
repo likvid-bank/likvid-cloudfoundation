@@ -71,20 +71,24 @@ name: Deploy
 on:
   push:
     branches:
-      - "main"
+      - "${github_repository_environment_deployment_policy.sandbox.branch_pattern}"
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       id-token: write
       contents: write
+    environment:
+      name: ${github_repository_environment_deployment_policy.sandbox.environment}
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v2
         with:
             terraform_version: "1.5.5"      
       - run: terraform init
+      - run: terraform plan
 
 EOT
 }
