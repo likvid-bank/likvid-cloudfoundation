@@ -78,7 +78,7 @@ on:
 # See https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#argument-reference
 env:
   ARM_USE_OIDC: "true"
-  ARM_CLIENT_ID "${azurerm_user_assigned_identity.ghactions.client_id}"
+  ARM_CLIENT_ID: "${azurerm_user_assigned_identity.ghactions.client_id}"
 
 jobs:
   deploy:
