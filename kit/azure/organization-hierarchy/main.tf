@@ -1,3 +1,8 @@
+locals {
+  # we use the first value of var.locations as the primary location where the policy lives.
+  default_location = var.locations[0]
+}
+
 # location restriction
 resource "azurerm_management_group" "parent" {
   display_name = var.parentManagementGroup
@@ -9,10 +14,11 @@ module "policy_root" {
 
   policy_path         = "${path.module}/lib"
   management_group_id = azurerm_management_group.parent.id
-  location            = var.location
+  location            = local.default_location
 
   template_file_variables = {
-    default_location          = "${var.location}"
+    allowed_locations_json    = jsonencode(var.locations)
+    default_location          = local.default_location
     current_scope_resource_id = azurerm_management_group.parent.id
     root_scope_resource_id    = azurerm_management_group.parent.id
   }
@@ -62,4 +68,3 @@ resource "azurerm_management_group" "management" {
 #   management_group_id = azurerm_management_group.management.id
 #   subscription_id     = data.azurerm_subscription.current.id
 # }
-
