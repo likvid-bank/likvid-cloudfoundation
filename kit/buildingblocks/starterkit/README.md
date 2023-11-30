@@ -31,9 +31,14 @@ GitHub organization and the ability to [create and install a private GitHub App]
   - ` Read and write access to actions, administration, code, secrets, and workflows`
 - Repository access: `All repositories`
 
-You will also need to generate a private key `.PEM` file for the app to be used by the [github terraform provider](https://registry.terraform.io/providers/integrations/github/latest/docs#github-app-installation).
+You will also need to generate a private key `.PEM` file for the app to be used by the [github terraform provider](https://registry.terraform.io/providers/integrations/github/latest/docs#github-app-installation) when deploying instances of the `buildingblock/` module.
 
-### 
+
+### Template Repository
+
+You will also need a template repository that contains code and GitHub actions pipelines. The "official example"
+that we use for testing is [likvid-bank/starterkit-template-azure-static-website](https://github.com/likvid-bank/starterkit-template-azure-static-website).
+This template sets up an Azure Static Website including a PR workflow for terraform and code.
 
 ## Structure of this Kit module
 
