@@ -3,10 +3,10 @@ name: Starter Kits
 summary: |
   Offers templates for application teams to get started quickly with deploying their applications on the cloud while following best practices.
 compliance:
-- control: compliance/cfmm/service-ecosystem/managed-devops-toolchain
+- control: cfmm/service-ecosystem/managed-devops-toolchain
   statement: |
     Provides a GitHub repository set up to deploy against Azure Subscriptions using Workload Identity Federation.
-- control: compliance/cfmm/iam/service-account-management
+- control: cfmm/iam/service-account-management
   statement:  |
     Automatically manages service principals for CI/CD pipelines using Workload Identity Federation.
 ---
@@ -18,6 +18,22 @@ This is an implementation of "Cloud Starter Kits" that provides application team
 - a GitHub repository, seeded with an application starter kit
 - a GitHub actions pipeline
 - a service account solution that enables the GitHub actions pipeline to deploy to their Azure Subscription
+
+## Prerequisites
+
+### GitHub App
+
+Apart from an Azure Landing Zone (we recommend using starter kits only with Sandbox Landing Zones) you will need a 
+GitHub organization and the ability to [create and install a private GitHub App](https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app) on the organization. This app will need the following permissions
+
+- Permissions
+  -  `Read access to metadata and organization administration`
+  - ` Read and write access to actions, administration, code, secrets, and workflows`
+- Repository access: `All repositories`
+
+You will also need to generate a private key `.PEM` file for the app to be used by the [github terraform provider](https://registry.terraform.io/providers/integrations/github/latest/docs#github-app-installation).
+
+### 
 
 ## Structure of this Kit module
 
@@ -141,3 +157,10 @@ flowchart TD
   linkStyle 0 stroke:#ff3,stroke-width:4px;
 
 ```
+
+## Creating Custom Starter Kits
+
+Using this kit module as a template, you can quickly develop similar starter kits. 
+You will typically only need to customize the template repository with code and GitHub Actions workflows.
+
+For advanced use cases, you can of course also want to customize the `buildingblock/` terraform module itself or even the backplane terraform module.

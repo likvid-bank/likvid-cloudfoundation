@@ -48,4 +48,8 @@ inputs = {
   service_principal_name = "devops-toolchain-starterkit"
   location               = "germanywestcentral"
   scope                  = dependency.sandbox.outputs.management_group_id
+
+  github_app_id              = "654209"
+  github_app_installation_id = "44437049"
+  github_org                 = "likvid-bank"
 }
