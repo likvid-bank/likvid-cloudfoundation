@@ -28,11 +28,12 @@ EOF
 
 inputs = {
   # todo: set input variables
+  locations             = ["germanywestcentral", "westeurope"]
+  
   connectivity          = "likvid-connectivity"
   corp                  = "likvid-corp"
   identity              = "likvid-identity"
   landingzones          = "likvid-landingzones"
-  location              = "germanywestcentral"
   management            = "likvid-management"
   online                = "likvid-online"
   parentManagementGroup = "likvid-foundation"

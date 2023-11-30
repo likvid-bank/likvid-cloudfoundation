@@ -31,8 +31,8 @@ variable "management" {
   default = "lv-management"
 }
 
-variable "location" {
-  type        = string
-  description = "The Azure location where this policy assignment should exist, required when an Identity is assigned."
-  default     = "germanywestcentral"
+variable "locations" {
+  type        = list(string)
+  description = "This is for the Azure Allowed locations. Additionally, we use the first added locations where this policy assignment should exist, which is required when an identity is assigned."
+  default     = ["germanywestcentral"]
 }
