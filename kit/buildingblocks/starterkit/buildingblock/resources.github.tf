@@ -37,10 +37,13 @@ resource "github_repository_environment" "sandbox" {
   }
 }
 
-resource "github_repository_environment_deployment_policy" "sandbox" {
+# we currently don't set up a separate prod/non-prod enviornment on GitHub as that would require giving the UAMI
+# two sets of permissions as well - this would be great for production use cases but complicates this starter kit
+# Azure/static-web-apps-deploy@v1 implements proper staging for PR previews
+resource "github_repository_environment_deployment_policy" "sandbox_all" {
   repository     = github_repository.repository.name
   environment    = github_repository_environment.sandbox.environment
-  branch_pattern = "main"
+  branch_pattern = "*"
 }
 
 #
@@ -63,7 +66,6 @@ resource "github_repository_file" "provider_tf" {
   commit_author  = local.commit_author
   commit_email   = local.commit_email
 
-  file    = "provider.tf"
   file    = "infra/provider.tf"
   content = <<-EOT
 provider "azurerm" {
@@ -86,7 +88,6 @@ resource "github_repository_file" "backend_tf" {
   commit_author  = local.commit_author
   commit_email   = local.commit_email
 
-  file    = "backend.tf"
   file    = "infra/backend.tf"
   content = <<-EOT
 terraform {
