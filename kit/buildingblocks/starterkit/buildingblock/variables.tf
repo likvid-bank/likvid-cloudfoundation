@@ -30,5 +30,5 @@ variable "subscription_id" {
 
 variable "location" {
   type    = string
-  default = "germanywestcentral"
+  default = "westeurope"
 }

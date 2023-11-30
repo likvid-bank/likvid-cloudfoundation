@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "app" {
-  depends_on = [ azurerm_role_assignment.starterkit_deploy ]
-  
+  depends_on = [azurerm_role_assignment.starterkit_deploy]
+
   name     = "app"
   location = var.location
 }
@@ -25,4 +25,10 @@ resource "azurerm_role_definition" "ghactions" {
     ]
     not_actions = []
   }
+}
+
+resource "azurerm_role_assignment" "ghactions_app" {
+  role_definition_id = azurerm_role_definition.ghactions.role_definition_resource_id
+  scope              = azurerm_resource_group.app.id
+  principal_id       = azurerm_user_assigned_identity.ghactions.principal_id
 }
