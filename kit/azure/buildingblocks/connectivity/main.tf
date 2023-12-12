@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "spoke_rg" {
 
 resource "azurerm_virtual_network" "spoke_vnet" {
   provider            = azurerm.spoke
-  name                = "managed-vnet"
+  name                = "${var.name}-vnet"
   location            = azurerm_resource_group.spoke_rg.location
   resource_group_name = azurerm_resource_group.spoke_rg.name
   address_space       = var.address_space
