@@ -1,0 +1,29 @@
+include "platform" {
+  path   = find_in_parent_folders("platform.hcl")
+  expose = true
+}
+
+// this is not a standard platform module that uses a kit module, instead we call this a "tenant module"
+// that contains its own terraform code and just pulls in plain terraform modules (building blocks) for reusable modules
+terraform {
+  source = "./"
+}
+
+dependency "bootstrap" {
+  config_path = "../../bootstrap"
+}
+
+generate "provider" {
+  path      = "provider.tf"
+  if_exists = "overwrite"
+  contents  = <<EOF
+provider "azurerm" {
+  features {}
+  skip_provider_registration = true
+  tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
+  subscription_id = "3904c89d-ab40-4448-b9fc-4fa6b0a55ced"
+  client_id       = "${dependency.bootstrap.outputs.client_id}"
+  client_secret   = "${dependency.bootstrap.outputs.client_secret}"
+}
+EOF
+}
