@@ -13,6 +13,10 @@ dependency "bootstrap" {
   config_path = "../../bootstrap"
 }
 
+dependency "networking" {
+  config_path = "../../networking"
+}
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
@@ -22,6 +26,15 @@ provider "azurerm" {
   skip_provider_registration = true
   tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
   subscription_id = "3904c89d-ab40-4448-b9fc-4fa6b0a55ced"
+  client_id       = "${dependency.bootstrap.outputs.client_id}"
+  client_secret   = "${dependency.bootstrap.outputs.client_secret}"
+}
+
+provider "azurerm" {
+  features {}
+  alias           = "hub"
+  tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
+  subscription_id = "${dependency.networking.outputs.hub_subscription}"
   client_id       = "${dependency.bootstrap.outputs.client_id}"
   client_secret   = "${dependency.bootstrap.outputs.client_secret}"
 }
