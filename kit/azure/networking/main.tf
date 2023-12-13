@@ -8,7 +8,7 @@ data "azurerm_subscription" "current" {
 # }
 
 resource "azurerm_management_group_subscription_association" "this" {
-  subscription_id = data.azurerm_subscription.current.id
+  subscription_id     = data.azurerm_subscription.current.id
   management_group_id = var.parent_management_group_id
 }
 

@@ -1,12 +1,10 @@
 ---
 name: Azure Networking
 summary: |
-  deploys new cloud foundation infrastructure.
-  Add a concise description of the module's purpose here.
-# optional: add additional metadata about implemented security controls
+  Starting point for a hub and spoke networking model.
 ---
 
 # Azure Networking
 
-This documentation is intended as a reference documentation for cloud foundation or platform engineers using this module.
-    
+This is a simple hub example. It deploys a hub vnet to demonstrate vnet peering with spokes. 
+There is no connection to an on-premise environment.

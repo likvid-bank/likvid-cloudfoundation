@@ -9,7 +9,7 @@ Upon request, we will peer a VNet in your subscription with the hub.
 We currently have assigned
 
 |Application|Range|
-|Glaskubel|10.1.0.0/24|
+|Glaskugel|10.1.0.0/24|
 
 Next free entry: 10.1.0.1/24
 EOF
