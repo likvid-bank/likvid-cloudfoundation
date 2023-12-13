@@ -25,7 +25,7 @@ provider "azurerm" {
   features {}
   skip_provider_registration = true
   tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
-  subscription_id = "3904c89d-ab40-4448-b9fc-4fa6b0a55ced"
+  subscription_id = "670095a3-3c3b-42a8-a190-b8503113fa05"
   client_id       = "${dependency.bootstrap.outputs.client_id}"
   client_secret   = "${dependency.bootstrap.outputs.client_secret}"
 }
