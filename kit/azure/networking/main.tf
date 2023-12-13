@@ -30,14 +30,10 @@ resource "azurerm_role_assignment" "cloudfoundation_tfdeploy" {
   role_definition_id = azurerm_role_definition.cloudfoundation_tfdeploy.role_definition_resource_id
 }
 
-data "azurerm_role_definition" "network_contributor" {
-  name = "Network Contributor"
-}
-
 resource "azurerm_role_assignment" "network_contributor" {
-  principal_id       = var.cloudfoundation_deploy_principal_id
-  scope              = data.azurerm_subscription.current.id
-  role_definition_id = data.azurerm_role_definition.network_contributor.id
+  principal_id         = var.cloudfoundation_deploy_principal_id
+  scope                = data.azurerm_subscription.current.id
+  role_definition_name = "Network Contributor"
 }
 
 # Resources
