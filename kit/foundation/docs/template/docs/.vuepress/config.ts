@@ -1,11 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
-import {
-  DefaultThemeOptions,
-  defineUserConfig,
-  ViteBundlerOptions,
-} from "vuepress-vite";
+import { defineUserConfig } from "vuepress-vite";
 import type { SidebarConfig, NavbarConfig } from "@vuepress/theme-default";
+import { defaultTheme } from "@vuepress/theme-default";
 
 const navbar: NavbarConfig = [
   { text: "Foundation", link: "/" },
@@ -80,7 +77,7 @@ export const sidebar: SidebarConfig = {
   ],
 };
 
-export default defineUserConfig<DefaultThemeOptions, ViteBundlerOptions>({
+export default defineUserConfig({
   // site-level locales config
   base: "/likvid-cloudfoundation/",
   locales: {
@@ -91,22 +88,11 @@ export default defineUserConfig<DefaultThemeOptions, ViteBundlerOptions>({
     },
   },
 
-  themeConfig: {
-    locales: {
-      "/": {
-        navbar: navbar,
-        sidebar: sidebar,
-      },
+  theme: defaultTheme({
+    navbar: navbar,
+    sidebar: sidebar,
+    themePlugins: {
+      git: true,
     },
-  },
-  plugins: [
-    [
-      "@vuepress/plugin-git",
-      {
-        createdTime: false,
-        updateTime: true,
-        contributors: false,
-      },
-    ],
-  ],
+  }),
 });
