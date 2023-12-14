@@ -17,11 +17,18 @@ The cloud is generally available to all applications that meet a minimum of regu
 In order to support compliance while at the same time enabling fast iteration and development of new applications,
 the cloud onboarding process works as follow
 
+::: tip
+New to the cloud? Check out our [🚀 Starter Kits](https://panel.demo.meshcloud.io/#/landing-page/marketplace/catalog?searchTerm=Starter&sort=name,asc).
+When ordering a starter kit, simply create a new Workspace and Project using the landing zone family `Sandbox` and select
+confidentiality `public`.
+:::
+
 1. Product owners onboard their application and team members by creating a **Workspace** in our self-service
 portal (meshStack). 
 2. Product owners now have access to create **Projects** in self-service that have access to *development and sandbox landing zones*.
 3. Product owners complete the "Regulatory Onboarding - Cloud" process in the "Likvid Bank Compliance Tool". As part of this, you will receive a `RegulatoryOnboardingId` and can link your existing Workspace in our self-service Portal (meshStack). 
 4. Depending on the compliance classification of your application, you will now have access to create projects using *production landing zones*.
+
 
 ## Cloud Providers
 
@@ -113,7 +120,7 @@ Because this landing zone does not connect to on-prem, this landing zone is a po
 | **Network controls**                                | X                    |                      |                    |
 | **Connectivity towards on-prem**                    |                      | *via building block* |                    |
 
-### Sanbox Landing Zone
+### Sandbox Landing Zone
 
 Sandboxes are specifically designed for learning and experimentation. Sandboxes are strictly treated as **ephemeral** environments that must be torn down after an experiment has concluded. Sandboxes follow the "cloud native landing zone with internet connection"
 model. They can place additional restrictions on available services to make the environments suitable for experimentation
