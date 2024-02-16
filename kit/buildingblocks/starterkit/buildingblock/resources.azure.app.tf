@@ -14,7 +14,7 @@ resource "azurerm_resource_group" "app" {
 # See https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/secure/best-practices/secure-devops for a good 
 # overview to customize to your individual needs.
 resource "azurerm_role_definition" "ghactions" {
-  name              = "github-action-deployment"
+  name              = "${data.azurerm_subscription.current.id}-github-action-deployment"
   description       = "Permissions for the ${azurerm_user_assigned_identity.ghactions.name} UAMI to create/modify/delete resources in this resource group"
   scope             = azurerm_resource_group.app.id
   assignable_scopes = [azurerm_resource_group.app.id]
