@@ -1,10 +1,10 @@
 output "documentation_md" {
-  value  = <<EOF
+  value = <<EOF
 # Networking
 
 Connection to the hub is the pre-requisite for getting access to th on-prem network.
 
-The hub itself has the following address space `${join(",",var.address_space)}`.
+The hub itself has the following address space `${join(",", var.address_space)}`.
 
 Upon request, we will peer a VNet in your subscription with the hub.
 

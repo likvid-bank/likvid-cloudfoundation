@@ -1,5 +1,5 @@
 output "documentation_md" {
-  value  = <<EOF
+  value = <<EOF
 # Cloud-Native Landing Zone
 
 This landing zone is intended for cloud-native workloads. Application teams using this landing zones are responsible

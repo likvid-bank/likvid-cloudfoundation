@@ -9,3 +9,6 @@
 .collie
 **.collie.json
 **.meta.json
+
+generated-backend.tf
+generated-provider.tf

@@ -9,7 +9,7 @@ resource "azurerm_subscription" "logging" {
 }
 
 resource "azurerm_management_group_subscription_association" "logging" {
-  subscription_id = data.azurerm_subscription.current.id
+  subscription_id     = data.azurerm_subscription.current.id
   management_group_id = var.parent_management_group_id
 }
 
@@ -87,7 +87,7 @@ resource "azurerm_role_assignment" "logging" {
 # creates group and permissions for security admins
 resource "azuread_group" "security_admins" {
   display_name     = var.security_admin_group
-  description = "Privileged Cloud Foundation group. Members have full access to Azure Security Center, Policies and Audit Logs."
+  description      = "Privileged Cloud Foundation group. Members have full access to Azure Security Center, Policies and Audit Logs."
   security_enabled = true
 }
 
@@ -106,7 +106,7 @@ resource "azurerm_role_assignment" "security_admins" {
 # creates group and permissions for security auditors
 resource "azuread_group" "security_auditors" {
   display_name     = var.security_auditor_group
-  description = "Privileged Cloud Foundation group. Members have read-only access to Azure Security Center, Policies and Audit Logs."
+  description      = "Privileged Cloud Foundation group. Members have read-only access to Azure Security Center, Policies and Audit Logs."
   security_enabled = true
 }
 
