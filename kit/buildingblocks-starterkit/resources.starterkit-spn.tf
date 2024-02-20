@@ -26,11 +26,11 @@ data "azuread_service_principal" "msgraph" {
 
 # allow reading the groups and users
 resource "azuread_app_role_assignment" "starterkit-directory" {
-  app_role_id         = data.azuread_service_principal.msgraph.app_role_ids["Directory.Read.All"]
-  resource_object_id  = data.azuread_service_principal.msgraph.object_id
-  
+  app_role_id        = data.azuread_service_principal.msgraph.app_role_ids["Directory.Read.All"]
+  resource_object_id = data.azuread_service_principal.msgraph.object_id
+
   principal_object_id = azuread_service_principal.starterkit.object_id
-} 
+}
 
 # note this rotation technique requires the terraform to be run regularly
 resource "time_rotating" "key_rotation" {

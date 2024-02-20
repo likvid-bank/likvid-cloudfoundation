@@ -19,16 +19,16 @@ variable "scope" {
 # outside of terraform an inject result as vars
 
 variable "github_app_id" {
-  type = number
+  type        = number
   description = "id of your GitHub App"
 }
 
 variable "github_app_installation_id" {
-  type = number
+  type        = number
   description = "id of your GitHub App installation as it appears in URLs on GitHub.com"
 }
 
 variable "github_org" {
-  type = string
+  type        = string
   description = "id of your GitHub organization as it appears in URLs on GitHub.com"
 }

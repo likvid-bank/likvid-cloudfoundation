@@ -8,7 +8,7 @@ module "subscription" {
 }
 
 module "connectivity" {
-  source   = "github.com/likvid-bank/likvid-cloudfoundation/kit/azure/buildingblocks/connectivity"
+  source = "github.com/likvid-bank/likvid-cloudfoundation/kit/azure/buildingblocks/connectivity"
   # Use local sources for testing
   # source   = "../../../../../../../../../kit/azure/buildingblocks/connectivity"
 

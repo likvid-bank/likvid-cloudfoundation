@@ -56,7 +56,7 @@ resource "azurerm_role_assignment" "cloudfoundation_tfdeploy_lz" {
 
 resource "azurerm_role_assignment" "network_contributor_lz" {
   principal_id         = var.cloudfoundation_deploy_principal_id
-  scope                =  var.scope
+  scope                = var.scope
   role_definition_name = "Network Contributor"
 }
 

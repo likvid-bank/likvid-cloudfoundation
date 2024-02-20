@@ -9,26 +9,26 @@
 
 # fetch desired members for all groups
 data "azuread_group" "pam_desired_groups" {
-  for_each = toset([for g in var.pam_group_members: g.group_object_id])
+  for_each = toset([for g in var.pam_group_members : g.group_object_id])
 
-  object_id = each.key
+  object_id        = each.key
   security_enabled = true
 }
 
 # fetch desired members for all groups
 data "azuread_user" "pam_desired_users" {
-  for_each = toset(flatten([for g in var.pam_group_members : g.members_by_mail ]))
+  for_each = toset(flatten([for g in var.pam_group_members : g.members_by_mail]))
 
   mail = each.key
 }
 
-locals {  
+locals {
   memberships = merge(
     [
-      for g in var.pam_group_members: {
+      for g in var.pam_group_members : {
         # we format entries with a "human readable key" so that they render nicely in terraform plan diffs
-        for m in g.members_by_mail: "${data.azuread_group.pam_desired_groups[g.group_object_id].display_name}->${m}" => {
-          group = g.group_object_id, 
+        for m in g.members_by_mail : "${data.azuread_group.pam_desired_groups[g.group_object_id].display_name}->${m}" => {
+          group  = g.group_object_id,
           member = data.azuread_user.pam_desired_users[m].object_id
         }
       }

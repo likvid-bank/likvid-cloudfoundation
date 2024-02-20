@@ -126,13 +126,20 @@ resource "azuread_app_role_assignment" "cloudfoundation_deploy-approle" {
   resource_object_id  = data.azuread_service_principal.msgraph.object_id
 }
 
+# This permission has added so other dependant kits can create Entra ID Applications
+resource "azuread_app_role_assignment" "cloudfoundation_deploy-apps" {
+  app_role_id         = data.azuread_service_principal.msgraph.app_role_ids["Application.ReadWrite.All"]
+  principal_object_id = azuread_service_principal.cloudfoundation_deploy.object_id
+  resource_object_id  = data.azuread_service_principal.msgraph.object_id
+}
+
 # note this requires the terraform to be run regularly
 resource "time_rotating" "key_rotation" {
   rotation_days = 365
 }
 
 resource "azuread_application_password" "cloudfoundation_deploy" {
-    application_id = azuread_application.cloudfoundation_deploy.id
+  application_id = azuread_application.cloudfoundation_deploy.id
   rotate_when_changed = {
     rotation = time_rotating.key_rotation.id
   }
