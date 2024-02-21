@@ -15,7 +15,7 @@ pkgs.mkShell {
 
     # cloud provider clis
     pkgs.azure-cli
-    
+
     # we currently don't have these managed by this collie repo, but will need it soon
     # pkgs.awscli2
     # pkgs.google-cloud-sdk

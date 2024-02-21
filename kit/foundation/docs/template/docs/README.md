@@ -1,7 +1,7 @@
 # Welcome to Likvid Bank Cloud Foundation
 
 Welcome to Likvid Bank Cloud Foundation. Our team's job is to help you get your applications to the cloud.
-This is our Team: 
+This is our Team:
 
 | Name       | Role                 |
 |------------|----------------------|
@@ -24,9 +24,9 @@ confidentiality `public`.
 :::
 
 1. Product owners onboard their application and team members by creating a **Workspace** in our self-service
-portal (meshStack). 
+portal (meshStack).
 2. Product owners now have access to create **Projects** in self-service that have access to *development and sandbox landing zones*.
-3. Product owners complete the "Regulatory Onboarding - Cloud" process in the "Likvid Bank Compliance Tool". As part of this, you will receive a `RegulatoryOnboardingId` and can link your existing Workspace in our self-service Portal (meshStack). 
+3. Product owners complete the "Regulatory Onboarding - Cloud" process in the "Likvid Bank Compliance Tool". As part of this, you will receive a `RegulatoryOnboardingId` and can link your existing Workspace in our self-service Portal (meshStack).
 4. Depending on the compliance classification of your application, you will now have access to create projects using *production landing zones*.
 
 

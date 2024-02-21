@@ -41,7 +41,7 @@ EOF
 inputs = {
   # todo: set input variables
   cloudfoundation_deploy_principal_id = "${dependency.bootstrap.outputs.client_principal_id}"
-  parent_management_group_id = "${dependency.organization-hierarchy.outputs.connectivity_id}"
-  address_space       = [ "10.0.0.0/16" ]
-  location            = "germanywestcentral"
+  parent_management_group_id          = "${dependency.organization-hierarchy.outputs.connectivity_id}"
+  address_space                       = ["10.0.0.0/16"]
+  location                            = "germanywestcentral"
 }

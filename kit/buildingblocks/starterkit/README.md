@@ -23,7 +23,7 @@ This is an implementation of "Cloud Starter Kits" that provides application team
 
 ### GitHub App
 
-Apart from an Azure Landing Zone (we recommend using starter kits only with Sandbox Landing Zones) you will need a 
+Apart from an Azure Landing Zone (we recommend using starter kits only with Sandbox Landing Zones) you will need a
 GitHub organization and the ability to [create and install a private GitHub App](https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app) on the organization. This app will need the following permissions
 
 - Permissions
@@ -42,7 +42,7 @@ This template sets up an Azure Static Website including a PR workflow for terraf
 
 ## Structure of this Kit module
 
-This kit module comes with three components, each responsible for enabling deployment of the next 
+This kit module comes with three components, each responsible for enabling deployment of the next
 
 - the kit module itself, acting as the building block's "backplane" that sets up all required infrastructure for deploying starterkits for application teams
 - a terraform module that forms the definition for each "building block", i.e. the instance of the starterkit deployed for a particular application team including a GitHub repo and GitHub actions pipeline
@@ -71,19 +71,19 @@ flowchart TD
 
     end
   end
-      
+
   BB((Starter Kit<br>Building Block))
 
   BB --> github
   BB --> Azure
   bbspn --Storage Blob Owner--> bbsubtfstate
-  
-  
+
+
 ```
 
 ### Deployment of a Building Block
 
-Now that we the backplane deployed, we can use the backplane to deploy an instance of the [buildingblock](./buildingblock/) terraform module into a sandbox subscription supplied by the application team. 
+Now that we the backplane deployed, we can use the backplane to deploy an instance of the [buildingblock](./buildingblock/) terraform module into a sandbox subscription supplied by the application team.
 The easiest way to do this is to create a building block definition from the `buildingblock` terraform module in meshStack and configure it with the `config_tf` file produced by the backplane module.
 
 The chart below shows the interaction of cloud resources when deploying a new building block using the backplane:
@@ -113,7 +113,7 @@ flowchart TD
       end
     end
   end
-      
+
   BB((Starter Kit Building Block))
 
   ghapp -.deploys.-> ghrepo
@@ -123,10 +123,10 @@ flowchart TD
   BB -.via azurerm provider.-> bbspn
   ghrepotemplate -.from template.-> ghrepo
   ghactionsuami --Storage Blob Owner--> sbsubtfstate
-  ghpipeline --Workload Identity Federation--> ghactionsuami 
+  ghpipeline --Workload Identity Federation--> ghactionsuami
   bbspn --Storage Blob Owner--> bbsubtfstate
   ghactionsuami --Owner--> rgapp
-  
+
   linkStyle 0,1,2,3,4,5 stroke:#ff3,stroke-width:4px;
 ```
 
@@ -152,20 +152,75 @@ flowchart TD
       end
     end
   end
-      
+
   ghactionsuami -.deploys.-> staticwebsite
-  
+
   ghactionsuami --Storage Blob Owner--> sbsubtfstate
-  ghpipeline --Workload Identity Federation--> ghactionsuami 
+  ghpipeline --Workload Identity Federation--> ghactionsuami
   ghactionsuami --Owner--> rgapp
-  
+
   linkStyle 0 stroke:#ff3,stroke-width:4px;
 
 ```
 
 ## Creating Custom Starter Kits
 
-Using this kit module as a template, you can quickly develop similar starter kits. 
+Using this kit module as a template, you can quickly develop similar starter kits.
 You will typically only need to customize the template repository with code and GitHub Actions workflows.
 
 For advanced use cases, you can of course also want to customize the `buildingblock/` terraform module itself or even the backplane terraform module.
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 2.46.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.71.0 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | ~> 5.42.0 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azuread_app_role_assignment.starterkit-directory](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/app_role_assignment) | resource |
+| [azuread_application.starterkit](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application) | resource |
+| [azuread_service_principal.starterkit](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal) | resource |
+| [azuread_service_principal_password.starterkit](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal_password) | resource |
+| [azurerm_resource_group.tfstates](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
+| [azurerm_role_assignment.starterkit_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.terraform_state](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_definition.starterkit_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_definition) | resource |
+| [azurerm_role_definition.starterkit_deploy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_definition) | resource |
+| [azurerm_storage_account.tfstates](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
+| [azurerm_storage_container.tfstates](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
+| [github_repository.staticwebsite_template](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository) | resource |
+| [random_string.resource_code](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
+| [time_rotating.key_rotation](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/rotating) | resource |
+| [azuread_application_published_app_ids.well_known](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/application_published_app_ids) | data source |
+| [azuread_group.project_admins](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
+| [azuread_service_principal.msgraph](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/service_principal) | data source |
+| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_github_app_id"></a> [github\_app\_id](#input\_github\_app\_id) | id of your GitHub App | `number` | n/a | yes |
+| <a name="input_github_app_installation_id"></a> [github\_app\_installation\_id](#input\_github\_app\_installation\_id) | id of your GitHub App installation as it appears in URLs on GitHub.com | `number` | n/a | yes |
+| <a name="input_github_org"></a> [github\_org](#input\_github\_org) | id of your GitHub organization as it appears in URLs on GitHub.com | `string` | n/a | yes |
+| <a name="input_location"></a> [location](#input\_location) | Azure location for deploying the building block terraform state storage account | `string` | n/a | yes |
+| <a name="input_scope"></a> [scope](#input\_scope) | Scope where the building block should be deployable, typically a Sandbox Landing Zone Management Group | `string` | n/a | yes |
+| <a name="input_service_principal_name"></a> [service\_principal\_name](#input\_service\_principal\_name) | name of the Service Principal used to perform all deployments of this building block | `string` | n/a | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_config_tf"></a> [config\_tf](#output\_config\_tf) | Generates a config.tf that can be dropped into meshStack's BuildingBlockDefinition as an encrypted file input to configure this building block. |
+| <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
+<!-- END_TF_DOCS -->

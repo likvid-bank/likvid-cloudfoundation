@@ -40,7 +40,7 @@ locals {
     "fzieger@meshcloud.io",
   ]
 
-  # Likvid Bank's AAD used in this demo is a "workload AAD tenant" that doesn't have its own users, 
+  # Likvid Bank's AAD used in this demo is a "workload AAD tenant" that doesn't have its own users,
   # so we need to invite all users via AAD B2B
   platform_engineers_members = [
     for x in local.platform_engineers_emails : {
@@ -64,11 +64,11 @@ terraform {
 }
 
 inputs = {
-  aad_tenant_id = include.platform.locals.platform.azure.aadTenantId
+  aad_tenant_id              = include.platform.locals.platform.azure.aadTenantId
   platform_engineers_members = local.platform_engineers_members
 
-  service_principal_name = "likvid_foundation_tf_deploy_user"
-  documentation_uami_name  = "likvid_foundation_tf_docs_user"
+  service_principal_name  = "likvid_foundation_tf_deploy_user"
+  documentation_uami_name = "likvid_foundation_tf_docs_user"
 
   terraform_state_storage = {
     name             = "${include.platform.locals.cloudfoundation.name}"

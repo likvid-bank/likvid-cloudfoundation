@@ -23,7 +23,7 @@ provider "github" {
   app_auth {
     id              = "${var.github_app_id}"
     installation_id = "${var.github_app_installation_id}"
-    
+
     # TODO: ensure the pem file exists on disk in the BB execution environment (with meshStack: secret file input)
     pem_file = file("./likvid-bank-devops-toolchain-team.private-key.pem")
   }
@@ -31,7 +31,7 @@ provider "github" {
 
 provider "azurerm" {
   features {}
-  
+
   skip_provider_registration = false
   storage_use_azuread        = true
 
