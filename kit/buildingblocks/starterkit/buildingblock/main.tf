@@ -21,7 +21,7 @@ data "azuread_group" "project_admins" {
   display_name = "${var.workspace_identifier}.${var.project_identifier}-admin"
 }
 
-# rationale: normal uses with "Project User" role should only deploy code via the pipeline and therefore don't need 
+# rationale: normal uses with "Project User" role should only deploy code via the pipeline and therefore don't need
 # access to terraform state, but users wotj "Project Admin" role should be able to debug terraform issues and therefore
 # work with the state directly
 resource "azurerm_role_assignment" "project_admins_blobs" {

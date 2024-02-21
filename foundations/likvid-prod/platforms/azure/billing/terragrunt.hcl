@@ -45,6 +45,6 @@ inputs = {
   }]
   contact_mails = ["jrudolph@meshcloud.io"]
 
-  billing_admin_group = "likvid-cloudfoundation-billing-admins"
+  billing_admin_group  = "likvid-cloudfoundation-billing-admins"
   billing_reader_group = "likvid-cloudfoundation-billing-readers"
 }

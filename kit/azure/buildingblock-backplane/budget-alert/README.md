@@ -13,12 +13,20 @@ This kit will generate the backplane configuration required to deploy the follow
 ## Instruction
 Please add backend and provider output of this module as an input for your buildingblock definition.
 
+Note: If the buildingblock module already includes provider and/or backend configuration, you should either remove them or ensure that these variables are passed with higher priority.
+
+Note: Please make sure there wouldn't be a duplication in the file names.
+
 ## Dependency:
 azure/buildingblock-backplane/storage-account
 
 ## Output:
-- backend.tf
-- provider.tf
+To generate the following files please set the **generate_local_files** value to "1".
+
+Default Path: "${foundation}/${platform}/buildingblock-backplane/monitoring/budget-alert/outputs/
+
+- generated-backend.tf
+- generated-provider.tf
 
 **Note**: To export the outputs as file, please uncomment the file resource on the main-backend.tf and main-provider.tf
 <!-- BEGIN_TF_DOCS -->
@@ -29,15 +37,6 @@ azure/buildingblock-backplane/storage-account
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | >= 2.45.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >= 3.79.0 |
-
-## Providers
-
-| Name | Version |
-|------|---------|
-| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | >= 2.45.0 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | >= 3.79.0 |
-| <a name="provider_local"></a> [local](#provider\_local) | n/a |
-| <a name="provider_time"></a> [time](#provider\_time) | n/a |
 
 ## Modules
 

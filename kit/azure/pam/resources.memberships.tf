@@ -1,7 +1,7 @@
 # NOTE: if you don't want to manage group membership via terraform, you can simply remove this whole file
 # NOTE: this membership management does not prevent side-administration, e.g. you can still have more members in these groups
 #  managed outside of terraform
-# 
+#
 # USAGE: Your will need to run terraform apply 2x in order to create a new membership and make it appear in the output.
 #  There are workarounds to this but they push # a lot of additional complexity into an already complex terraform module.
 #   For production use, cloud foundation teams should strongly consider not managing group membership via this module

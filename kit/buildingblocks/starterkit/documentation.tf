@@ -3,7 +3,7 @@ output "documentation_md" {
 # Starter Kit Building Blocks
 
 The Likvid Bank DevOps Toolchain team maintains a set of starter kits to help application teams get started
-on the cloud quickly. 
+on the cloud quickly.
 
 "Cloud Starter Kits" provide application teams with
 

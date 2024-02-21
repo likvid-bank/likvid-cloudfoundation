@@ -38,15 +38,15 @@ EOF
 }
 
 inputs = {
-  scope                               = "${dependency.organization-hierarchy.outputs.parent_id}"
+  scope = "${dependency.organization-hierarchy.outputs.parent_id}"
 
   cloudfoundation_deploy_principal_id = "${dependency.bootstrap.outputs.client_principal_id}"
   cloudfoundation                     = "${include.platform.locals.cloudfoundation.name}"
 
-  location                            = "germanywestcentral"
-  log_retention_in_days               = 180
+  location              = "germanywestcentral"
+  log_retention_in_days = 180
 
   parent_management_group_id = "${dependency.organization-hierarchy.outputs.management_id}"
-  security_admin_group = "likvid-cloudfoundation-security-admins"
-  security_auditor_group = "likvid-cloudfoundation-security-auditors"
+  security_admin_group       = "likvid-cloudfoundation-security-admins"
+  security_auditor_group     = "likvid-cloudfoundation-security-auditors"
 }

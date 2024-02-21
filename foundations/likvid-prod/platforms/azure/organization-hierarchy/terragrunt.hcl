@@ -28,8 +28,8 @@ EOF
 
 inputs = {
   # todo: set input variables
-  locations             = ["germanywestcentral", "westeurope"]
-  
+  locations = ["germanywestcentral", "westeurope"]
+
   connectivity          = "likvid-connectivity"
   corp                  = "likvid-corp"
   identity              = "likvid-identity"

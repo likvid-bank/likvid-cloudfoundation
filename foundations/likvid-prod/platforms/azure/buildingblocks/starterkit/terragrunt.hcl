@@ -30,10 +30,10 @@ provider "azuread" {
 
 provider "azurerm" {
   features {}
-  
+
   skip_provider_registration = false
   storage_use_azuread        = true
-  
+
   subscription_id = "76a68a1d-674b-401b-976a-8b251d535f8c"
 }
 
