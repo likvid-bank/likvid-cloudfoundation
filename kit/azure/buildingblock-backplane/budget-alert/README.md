@@ -13,12 +13,20 @@ This kit will generate the backplane configuration required to deploy the follow
 ## Instruction
 Please add backend and provider output of this module as an input for your buildingblock definition.
 
+Note: If the buildingblock module already includes provider and/or backend configuration, you should either remove them or ensure that these variables are passed with higher priority.
+
+Note: Please make sure there wouldn't be a duplication in the file names.
+
 ## Dependency:
 azure/buildingblock-backplane/storage-account
 
 ## Output:
-- backend.tf
-- provider.tf
+To generate the following files please set the **generate_local_files** value to "1".
+
+Default Path: "${foundation}/${platform}/buildingblock-backplane/monitoring/budget-alert/outputs/
+
+- generated-backend.tf
+- generated-provider.tf
 
 **Note**: To export the outputs as file, please uncomment the file resource on the main-backend.tf and main-provider.tf
 <!-- BEGIN_TF_DOCS -->
