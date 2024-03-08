@@ -23,7 +23,7 @@ variable "monthly_budget_amount" {
 variable "actual_threshold_percent" {
   type        = number
   description = "The precise percentage of the monthly budget at which you wish to activate the alert upon reaching. E.g. '15' for 15% or '120' for 120%"
-  default   = 80
+  default     = 80
 }
 
 variable "forcasted_threshold_percent" {

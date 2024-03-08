@@ -1,17 +1,17 @@
 variable "name" {
-  type = string
-  nullable = false
-  default = "budget-alert"
+  type        = string
+  nullable    = false
+  default     = "budget-alert"
   description = "name of the building block, used for naming resources"
   validation {
-    condition = can(regex("^[-a-z0-9]+$", var.name))
+    condition     = can(regex("^[-a-z0-9]+$", var.name))
     error_message = "Only alphanumeric lowercase characters and dashes are allowed"
-    }
+  }
 }
 
 variable "service_principal_name" {
   type        = string
-  nullable = false
+  nullable    = false
   description = "name of the Service Principal used to perform all deployments of this building block"
 }
 

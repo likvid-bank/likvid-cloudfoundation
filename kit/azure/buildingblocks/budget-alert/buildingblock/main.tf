@@ -1,6 +1,6 @@
 locals {
   # azure requires a startdate in the current month
-  start_date              = formatdate("YYYY-MM-01'T'hh:mm:ssZ", timestamp())
+  start_date = formatdate("YYYY-MM-01'T'hh:mm:ssZ", timestamp())
 }
 
 data "azurerm_subscription" "subscription" {
@@ -9,11 +9,11 @@ data "azurerm_subscription" "subscription" {
 
 resource "azurerm_resource_provider_registration" "providers" {
   name = "Microsoft.Consumption"
-  
+
 }
 
 resource "azurerm_consumption_budget_subscription" "subscription_budget" {
-  depends_on = [ azurerm_resource_provider_registration.providers ]
+  depends_on = [azurerm_resource_provider_registration.providers]
 
   name            = var.budget_name
   subscription_id = data.azurerm_subscription.subscription.id

@@ -10,7 +10,7 @@ resource "azurerm_role_assignment" "terraform_state" {
   scope                = azurerm_storage_container.tfstates.resource_manager_id
 }
 
-# DESIGN: this is a very simple building block, which means we let the SPN have access to deploy budget alerts 
+# DESIGN: this is a very simple building block, which means we let the SPN have access to deploy budget alerts
 # across all subscriptions.
 resource "azurerm_role_definition" "buildingblock_deploy" {
   name        = "${azuread_service_principal.buildingblock.display_name}-deploy"
@@ -19,13 +19,13 @@ resource "azurerm_role_definition" "buildingblock_deploy" {
 
   permissions {
     actions = [
-        "Microsoft.Consumption/budgets/*",
+      "Microsoft.Consumption/budgets/*",
     ]
   }
 }
 
 resource "azurerm_role_assignment" "buildingblock_deploy" {
-  role_definition_id   = azurerm_role_definition.buildingblock_deploy.role_definition_resource_id
-  principal_id         = azuread_service_principal.buildingblock.object_id
-  scope                = var.scope
+  role_definition_id = azurerm_role_definition.buildingblock_deploy.role_definition_resource_id
+  principal_id       = azuread_service_principal.buildingblock.object_id
+  scope              = var.scope
 }
