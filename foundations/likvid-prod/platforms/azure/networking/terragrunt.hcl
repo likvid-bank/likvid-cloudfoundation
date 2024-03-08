@@ -120,16 +120,16 @@ inputs = {
   # Typically operate at the network level, allowing access to specific services like NTP (Network Time Protocol)
   # over UDP port 123, for example.
 
-  #  firewall_network_rules = [
-  #    {
-  #      name                  = "ntp"
-  #      action                = "Allow"
-  #      source_addresses      = ["10.0.0.0/8"]
-  #      destination_ports     = ["123"]
-  #      destination_addresses = ["*"]
-  #      protocols             = ["UDP"]
-  #    },
-  #  ]
+  firewall_network_rules = [
+    {
+      name                  = "ntp"
+      action                = "Allow"
+      source_addresses      = ["10.0.0.0/8"]
+      destination_ports     = ["123"]
+      destination_addresses = ["*"]
+      protocols             = ["UDP"]
+    },
+  ]
 
   # NAT Rules (Network Address Translation):
   # Control the translation of IP addresses and ports in network traffic.
