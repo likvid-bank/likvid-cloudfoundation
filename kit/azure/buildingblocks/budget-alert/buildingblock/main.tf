@@ -2,7 +2,7 @@ locals {
   # azure requires a startdate in the current month
   start_date = formatdate("YYYY-MM-01'T'hh:mm:ssZ", timestamp())
   contact_emails_list = [
-    for x in split(",", var.contact_emails) : trim(x)
+    for x in split(",", var.contact_emails) : trimspace(x)
   ]
 }
 
