@@ -31,7 +31,9 @@ resource "azurerm_consumption_budget_subscription" "subscription_budget" {
     threshold = var.actual_threshold_percent
     operator  = "EqualTo"
 
-    contact_emails = var.contact_emails
+    contact_emails = [
+      for x in split(",", var.contact_emails) : trim(x)
+    ]
   }
 
   notification {
