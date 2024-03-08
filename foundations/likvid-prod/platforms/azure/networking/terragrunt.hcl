@@ -130,7 +130,6 @@ inputs = {
       protocols             = ["UDP"]
     },
   ]
-
   # NAT Rules (Network Address Translation):
   # Control the translation of IP addresses and ports in network traffic.
   # These rules facilitate the redirection of inbound or outbound traffic by modifying source or destination
