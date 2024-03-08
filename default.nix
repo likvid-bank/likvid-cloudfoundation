@@ -22,5 +22,7 @@ pkgs.mkShell {
 
     # node / typescript for docs
     pkgs.nodejs
+
+    pkgs.pre-commit
   ];
 }
