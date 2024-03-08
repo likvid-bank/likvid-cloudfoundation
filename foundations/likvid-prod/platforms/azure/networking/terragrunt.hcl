@@ -124,7 +124,7 @@ inputs = {
     {
       name                  = "ntp"
       action                = "Allow"
-      source_addresses      = ["10.0.0.0/8"]
+      source_addresses      = ["10.0.0.0/24"]
       destination_ports     = ["123"]
       destination_addresses = ["*"]
       protocols             = ["UDP"]
