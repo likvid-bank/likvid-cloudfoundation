@@ -10,8 +10,8 @@ variable "subscription_id" {
 }
 
 variable "contact_emails" {
-  type        = list(string)
-  description = "List of emails of the users who should receive the Budget alert. e.g. ['foo@example.com', 'bar@example.com']"
+  type        = string
+  description = "Comma-separated list of emails of the users who should receive the Budget alert. e.g. 'foo@example.com, bar@example.com'"
 }
 
 variable "monthly_budget_amount" {
