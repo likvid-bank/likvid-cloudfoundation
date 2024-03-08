@@ -1,6 +1,9 @@
 locals {
   # azure requires a startdate in the current month
   start_date = formatdate("YYYY-MM-01'T'hh:mm:ssZ", timestamp())
+  contact_emails_list = [
+    for x in split(",", var.contact_emails) : trim(x)
+  ]
 }
 
 data "azurerm_subscription" "subscription" {
@@ -31,9 +34,7 @@ resource "azurerm_consumption_budget_subscription" "subscription_budget" {
     threshold = var.actual_threshold_percent
     operator  = "EqualTo"
 
-    contact_emails = [
-      for x in split(",", var.contact_emails) : trim(x)
-    ]
+    contact_emails = local.contact_emails_list
   }
 
   notification {
@@ -42,6 +43,6 @@ resource "azurerm_consumption_budget_subscription" "subscription_budget" {
     operator       = "GreaterThan"
     threshold_type = "Forecasted"
 
-    contact_emails = var.contact_emails
+    contact_emails = local.contact_emails_list
   }
 }
