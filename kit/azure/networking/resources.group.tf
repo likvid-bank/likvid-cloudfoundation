@@ -1,25 +1,37 @@
-data "azurerm_subscription" "current" {
+# creates group and permissions for network admins
+resource "azuread_group" "network_admins" {
+  display_name     = var.network_admin_group
+  description      = "Privileged Cloud Foundation group. Members have access to Azure network resources Logs."
+  security_enabled = true
 }
 
-#TODO setting the name doesn't work. Azure says alias is already in use. Importing fails because I can't figure out which alias to use for that.
-# resource "azurerm_subscription" "networking" {
-#   subscription_id   = data.azurerm_subscription.current.subscription_id
-#   subscription_name = "hub"
-# }
-
-resource "azurerm_management_group_subscription_association" "this" {
-  subscription_id     = data.azurerm_subscription.current.id
-  management_group_id = var.parent_management_group_id
+resource "azurerm_role_assignment" "network_admins_dns" {
+  role_definition_name = "DNS Zone Contributor"
+  principal_id         = azuread_group.network_admins.object_id
+  scope                = var.connectivity_scope
 }
 
-# Permissions for deploy user on hub subscription
+resource "azurerm_role_assignment" "network_admins" {
+  role_definition_name = "Network Contributor"
+  principal_id         = azuread_group.network_admins.object_id
+  scope                = var.connectivity_scope
+}
+
+# Set up permissions for deploy user
 resource "azurerm_role_definition" "cloudfoundation_tfdeploy" {
-  name  = "hub_networking" #TODO definition names are unique per tenant. make it configurable
+  name  = "${var.cloudfoundation}_network"
   scope = data.azurerm_subscription.current.id
   permissions {
     actions = [
       "Microsoft.Resources/subscriptions/resourceGroups/write",
       "Microsoft.Resources/subscriptions/resourceGroups/delete",
+      # Permissions for network for the connectivity mg
+      "Microsoft.Network/publicIPPrefixes/*",
+      "Microsoft.Network/virtualNetworks/*",
+      "Microsoft.Network/networkWatchers/*",
+      "Microsoft.Network/networkSecurityGroups/*",
+      "Microsoft.Network/routeTables/*",
+
     ]
   }
 }
@@ -38,11 +50,17 @@ resource "azurerm_role_assignment" "network_contributor" {
 
 # Permissions for deploy user on subscription in landing zones management groups
 resource "azurerm_role_definition" "cloudfoundation_tfdeploy_lz" {
-  name  = "landing_zone_networking" #TODO definition names are unique per tenant. make it configurable
-  scope = var.scope
+  name  = var.lz_networking_deploy
+  scope = var.landingzone_scope
   permissions {
     actions = [
       "Microsoft.Resources/subscriptions/resourceGroups/write",
+      "Microsoft.Resources/subscriptions/resourceGroups/delete",
+      # Permissions for network for the landingzones
+      "Microsoft.Network/publicIPPrefixes/*",
+      "Microsoft.Network/virtualNetworks/*",
+      "Microsoft.Network/networkWatchers/*",
+      "Microsoft.Network/networkSecurityGroups/*",
       "Microsoft.Resources/subscriptions/resourceGroups/delete",
     ]
   }
@@ -50,25 +68,12 @@ resource "azurerm_role_definition" "cloudfoundation_tfdeploy_lz" {
 
 resource "azurerm_role_assignment" "cloudfoundation_tfdeploy_lz" {
   principal_id       = var.cloudfoundation_deploy_principal_id
-  scope              = var.scope
+  scope              = var.landingzone_scope
   role_definition_id = azurerm_role_definition.cloudfoundation_tfdeploy_lz.role_definition_resource_id
 }
 
 resource "azurerm_role_assignment" "network_contributor_lz" {
   principal_id         = var.cloudfoundation_deploy_principal_id
-  scope                = var.scope
+  scope                = var.landingzone_scope
   role_definition_name = "Network Contributor"
-}
-
-# Resources
-resource "azurerm_resource_group" "this" {
-  name     = "hub-vnet-rg"
-  location = var.location
-}
-
-resource "azurerm_virtual_network" "this" {
-  name                = "hub-vnet"
-  location            = var.location
-  resource_group_name = azurerm_resource_group.this.name
-  address_space       = var.address_space
 }
