@@ -20,7 +20,7 @@ terraform {
 provider "azurerm" {
   features {}
 
-  skip_provider_registration = true
+  skip_provider_registration = false
   storage_use_azuread        = true
 
   tenant_id       = "${data.azurerm_subscription.current.tenant_id}"

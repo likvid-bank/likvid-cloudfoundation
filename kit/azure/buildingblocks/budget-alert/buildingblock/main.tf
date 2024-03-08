@@ -10,14 +10,7 @@ data "azurerm_subscription" "subscription" {
   subscription_id = var.subscription_id
 }
 
-resource "azurerm_resource_provider_registration" "providers" {
-  name = "Microsoft.Consumption"
-
-}
-
 resource "azurerm_consumption_budget_subscription" "subscription_budget" {
-  depends_on = [azurerm_resource_provider_registration.providers]
-
   name            = var.budget_name
   subscription_id = data.azurerm_subscription.subscription.id
 
