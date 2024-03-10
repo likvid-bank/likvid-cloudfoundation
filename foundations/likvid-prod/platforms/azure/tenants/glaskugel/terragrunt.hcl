@@ -17,6 +17,10 @@ dependency "networking" {
   config_path = "../../networking"
 }
 
+dependency "networking" {
+  config_path = "../../networking"
+}
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
@@ -35,4 +39,9 @@ provider "azurerm" {
   subscription_id = "${dependency.networking.outputs.hub_subscription}"
 }
 EOF
+}
+
+inputs = {
+  hub_rg = dependency.networking.outputs.hub_rg
+  hub_vnet = dependency.networking.outputs.hub_vnet
 }

@@ -1,16 +1,16 @@
 module "subscription" {
-  source = "github.com/likvid-bank/likvid-cloudfoundation/kit/azure/buildingblocks/subscription"
+  # source = "github.com/likvid-bank/likvid-cloudfoundation/kit/azure/buildingblocks/subscription"
   # Use local sources for testing
-  # source = "../../../../../../../../../kit/azure/buildingblocks/subscription"
+  source = "../../../../../../../../../kit/azure/buildingblocks/subscription"
 
   subscription_name       = "glaskugel"
   parent_management_group = "likvid-corp"
 }
 
 module "connectivity" {
-  source = "github.com/likvid-bank/likvid-cloudfoundation/kit/azure/buildingblocks/connectivity"
+  # source = "github.com/likvid-bank/likvid-cloudfoundation/kit/azure/buildingblocks/connectivity"
   # Use local sources for testing
-  # source   = "../../../../../../../../../kit/azure/buildingblocks/connectivity"
+  source   = "../../../../../../../../../kit/azure/buildingblocks/connectivity"
 
   providers = {
     azurerm.spoke = azurerm
@@ -18,10 +18,9 @@ module "connectivity" {
   }
 
   location = "germanywestcentral"
-  hub_rg   = "likvid-hub-vnet-rg"
-  hub_vnet = "hub-vnet"
+  hub_rg   = var.hub_rg
+  hub_vnet = var.hub_vnet
 
   name          = "glaskugel"
   address_space = ["10.1.0.0/24"]
 }
-
