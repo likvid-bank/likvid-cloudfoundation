@@ -12,7 +12,6 @@ dependency "glaskugel" {
   config_path = "../../tenants/glaskugel"
 }
 
-
 # generate a config.tf file for automating building block deployments via meshStack
 generate "config" {
   path      = "config.tf"
@@ -56,5 +55,4 @@ terraform {
 
 inputs = {
   subscription_id = dependency.glaskugel.outputs.subscription_id
-  contact_emails  = "foo@example.com, bar@example.com"
 }
