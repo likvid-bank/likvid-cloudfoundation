@@ -116,11 +116,11 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
-| <a name="output_firewall_name"></a> [firewall\_name](#output\_firewall\_name) | Name of hub vnet |
+| <a name="output_firewall_name"></a> [firewall\_name](#output\_firewall\_name) | Name of Hub VNet firewall |
 | <a name="output_hub_location"></a> [hub\_location](#output\_hub\_location) | Location of hub vnet |
-| <a name="output_hub_rg"></a> [hub\_rg](#output\_hub\_rg) | Resource Group of hub vnet |
+| <a name="output_hub_rg"></a> [hub\_rg](#output\_hub\_rg) | Hub Resource Group name |
 | <a name="output_hub_subscription"></a> [hub\_subscription](#output\_hub\_subscription) | Subscription of hub vnet |
-| <a name="output_hub_vnet"></a> [hub\_vnet](#output\_hub\_vnet) | Name of hub vnet |
+| <a name="output_hub_vnet"></a> [hub\_vnet](#output\_hub\_vnet) | Hub VNet name |
 | <a name="output_network_admins_azuread_group_id"></a> [network\_admins\_azuread\_group\_id](#output\_network\_admins\_azuread\_group\_id) | n/a |
 <!-- END_TF_DOCS -->
 

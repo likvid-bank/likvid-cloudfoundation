@@ -1,5 +1,5 @@
 include "platform" {
-  path = find_in_parent_folders("platform.hcl")
+  path   = find_in_parent_folders("platform.hcl")
   expose = true
 }
 
@@ -23,6 +23,6 @@ terraform {
 }
 
 inputs = {
-  location = "germanywestcentral"
+  location               = "germanywestcentral"
   service_principal_name = "likvid_foundation_tf_buildingblock_user"
 }

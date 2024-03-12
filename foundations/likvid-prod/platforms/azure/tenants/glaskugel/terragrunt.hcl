@@ -42,6 +42,6 @@ EOF
 }
 
 inputs = {
-  hub_rg = dependency.networking.outputs.hub_rg
+  hub_rg   = dependency.networking.outputs.hub_rg
   hub_vnet = dependency.networking.outputs.hub_vnet
 }

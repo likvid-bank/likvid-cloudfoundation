@@ -1,5 +1,5 @@
 output "documentation_md" {
-  value  = <<EOF
+  value = <<EOF
 
 EOF
 }

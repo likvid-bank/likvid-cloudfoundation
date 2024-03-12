@@ -15,7 +15,7 @@ dependency "glaskugel" {
 
 # generate a config.tf file for automating building block deployments via meshStack
 generate "config" {
-  path = "config.tf"
+  path      = "config.tf"
   if_exists = "overwrite"
   contents  = <<EOF
 terraform {
@@ -40,10 +40,10 @@ provider "azurerm" {
   storage_use_azuread        = true
 
   tenant_id       = "${dependency.automation.outputs.tenant_id}"
-  
+
   # this var will be injected by the buildingblock runner
-  subscription_id = var.subscription_id 
-  
+  subscription_id = var.subscription_id
+
   client_id             = "${dependency.automation.outputs.client_id}"
   client_secret         = "${dependency.automation.outputs.client_secret}"
 }
@@ -56,5 +56,5 @@ terraform {
 
 inputs = {
   subscription_id = dependency.glaskugel.outputs.subscription_id
-  contact_emails = "foo@example.com, bar@example.com"
+  contact_emails  = "foo@example.com, bar@example.com"
 }

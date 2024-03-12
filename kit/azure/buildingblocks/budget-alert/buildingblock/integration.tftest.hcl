@@ -3,12 +3,12 @@
 
 run "verify" {
   variables {
-    contact_emails = "foo@example.com, bar@example.com"
+    contact_emails        = "foo@example.com, bar@example.com"
     monthly_budget_amount = 100
   }
 
   assert {
-    condition = output.budget_amount == 100
+    condition     = output.budget_amount == 100
     error_message = "did not produce the correct budget_amount output"
   }
 
@@ -16,7 +16,7 @@ run "verify" {
     # have to do some type conversion magic here to fix issues of tups vs. lists vs. sets
     condition = jsonencode(
       distinct([
-        for x in azurerm_consumption_budget_subscription.subscription_budget.notification : x.contact_emails 
+        for x in azurerm_consumption_budget_subscription.subscription_budget.notification : x.contact_emails
       ])
     ) == jsonencode([["foo@example.com", "bar@example.com"]])
     error_message = "incorrect alert recipients"

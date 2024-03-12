@@ -5,6 +5,6 @@ variable "location" {
 }
 
 variable "service_principal_name" {
-  type = string
-  default     = null
+  type    = string
+  default = null
 }

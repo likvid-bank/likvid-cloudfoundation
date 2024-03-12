@@ -1,5 +1,5 @@
 output "tenant_id" {
-  value = data.azurerm_subscription.current.tenant_id  
+  value = data.azurerm_subscription.current.tenant_id
 }
 
 output "subscription_id" {
@@ -19,7 +19,7 @@ output "container_name" {
 }
 
 output "principal_id" {
-  value = azuread_service_principal.buildingblock.id  
+  value = azuread_service_principal.buildingblock.id
 }
 
 output "client_id" {
@@ -27,6 +27,6 @@ output "client_id" {
 }
 
 output "client_secret" {
-  value = azuread_service_principal_password.buildingblock.value  
+  value     = azuread_service_principal_password.buildingblock.value
   sensitive = true
 }

@@ -39,6 +39,6 @@ variable "documentation_uami" {
 }
 
 variable "buildingblock_spn_name" {
-  type = string
-  default     = null
+  type    = string
+  default = null
 }

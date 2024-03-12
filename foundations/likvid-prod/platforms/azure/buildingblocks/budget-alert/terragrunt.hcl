@@ -36,14 +36,14 @@ terraform {
 }
 
 inputs = {
-  name                   = "budget-alert"
-  scope                  = dependency.organization-hierarchy.outputs.landingzones_id
-  principal_ids          = toset([dependency.automation.outputs.principal_id])
+  name          = "budget-alert"
+  scope         = dependency.organization-hierarchy.outputs.landingzones_id
+  principal_ids = toset([dependency.automation.outputs.principal_id])
 }
 
 # generate a config.tf file for automating building block deployments via meshStack
 generate "config" {
-  path = "${get_terragrunt_dir()}/../budget-alert.test/config.tf"
+  path      = "${get_terragrunt_dir()}/../budget-alert.test/config.tf"
   if_exists = "overwrite"
   contents  = <<EOF
 terraform {
@@ -68,10 +68,10 @@ provider "azurerm" {
   storage_use_azuread        = true
 
   tenant_id       = "${dependency.automation.outputs.tenant_id}"
-  
+
   # this var will be injected by the buildingblock runner
-  subscription_id = var.subscription_id 
-  
+  subscription_id = var.subscription_id
+
   client_id             = "${dependency.automation.outputs.client_id}"
   client_secret         = "${dependency.automation.outputs.client_secret}"
 }
