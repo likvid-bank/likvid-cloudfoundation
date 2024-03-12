@@ -18,7 +18,7 @@ module "connectivity" {
   }
 
   location = "germanywestcentral"
-  hub_rg   = "hub-vnet-rg"
+  hub_rg   = "likvid-hub-vnet-rg"
   hub_vnet = "hub-vnet"
 
   name          = "glaskugel"
