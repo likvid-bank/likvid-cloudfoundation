@@ -37,3 +37,8 @@ variable "documentation_uami" {
   description = "read-only UAMI with access to terraform states to host the documentation or activate a drift detection pipeline"
   default     = null
 }
+
+variable "buildingblock_spn_name" {
+  type = string
+  default     = null
+}
