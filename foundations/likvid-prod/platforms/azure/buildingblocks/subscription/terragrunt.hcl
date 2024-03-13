@@ -11,11 +11,7 @@ dependency "organization-hierarchy" {
   config_path = "../../organization-hierarchy"
 }
 
-dependency "automation" {
-  config_path = "../automation"
-}
-
-# we deploy to the management subscription here, as budget alerts are central to all LZs
+# we deploy to the management subscription here, as the subscription building block is central to all LZs
 # we also deploy the backplane like all other platform modules with azure-cli auth
 generate "provider" {
   path      = "provider.tf"
@@ -32,14 +28,11 @@ EOF
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/azure/buildingblocks/budget-alert"
+  source = "${get_repo_root()}//kit/azure/buildingblocks/subscription"
 }
 
 inputs = {
-  name  = "budget-alert"
-  scope = dependency.organization-hierarchy.outputs.landingzones_id
-  principal_ids = toset([
-    dependency.bootstrap.outputs.platform_engineers_azuread_group_id,
-    dependency.automation.outputs.principal_id
-  ])
+  name          = "subscription"
+  principal_ids = toset([dependency.bootstrap.outputs.platform_engineers_azuread_group_id])
+  scope         = dependency.organization-hierarchy.outputs.landingzones_id
 }

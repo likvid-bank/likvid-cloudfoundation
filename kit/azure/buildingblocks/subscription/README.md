@@ -1,16 +1,16 @@
 ---
-name: Azure Building Block - Subscription Budget Alert
+name: Azure Building Block - Subscription Baseline
 summary: |
-  Building block module for adding a simple monthly budget alert to a subscription.
+  Baseline for all subscriptions managed by the Likvid Bank Cloud Foundation Team.
 ---
 
-# Azure Subscription Budget Alert
+# Azure Subscription Baseline
 
 This documentation is intended as a reference documentation for cloud foundation or platform engineers using this module.
 
 ## Permissions
 
-This is a very simple building block backplane, which means it sets up permission to deploy the building block
+This is a very simple building block, which means we let the SPN have access to deploy budget alerts
 across all subscriptions underneath a management group (typically the top-level management group for landing zones).
 
 <!-- BEGIN_TF_DOCS -->

@@ -1,7 +1,7 @@
 module "subscription" {
   # source = "github.com/likvid-bank/likvid-cloudfoundation/kit/azure/buildingblocks/subscription"
   # Use local sources for testing
-  source = "../../../../../../../../../kit/azure/buildingblocks/subscription"
+  source = "../../../../../../../../../kit/azure/buildingblocks/subscription/buildingblock"
 
   subscription_name       = "glaskugel"
   parent_management_group = "likvid-corp"
