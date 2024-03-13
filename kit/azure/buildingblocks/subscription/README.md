@@ -10,7 +10,7 @@ This documentation is intended as a reference documentation for cloud foundation
 
 ## Permissions
 
-This is a very simple building block, which means we let the SPN have access to deploy budget alerts
+This is a very simple building block backplane, which means it sets up permission to deploy the building block
 across all subscriptions underneath a management group (typically the top-level management group for landing zones).
 
 <!-- BEGIN_TF_DOCS -->

@@ -107,7 +107,6 @@ collie foundation deploy --bootstrap -- destroy
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_aad_tenant_id"></a> [aad\_tenant\_id](#input\_aad\_tenant\_id) | Id of the AAD Tenant. This is also the simultaneously the id of the root management group. | `string` | n/a | yes |
-| <a name="input_buildingblock_spn_name"></a> [buildingblock\_spn\_name](#input\_buildingblock\_spn\_name) | n/a | `string` | `null` | no |
 | <a name="input_documentation_uami"></a> [documentation\_uami](#input\_documentation\_uami) | read-only UAMI with access to terraform states to host the documentation or activate a drift detection pipeline | <pre>object({<br>    name = string<br>    # note: it seems wildcards are not supported yet, see https://github.com/Azure/azure-workload-identity/issues/373<br>    oidc_subject = string<br>  })</pre> | `null` | no |
 | <a name="input_platform_engineers_group"></a> [platform\_engineers\_group](#input\_platform\_engineers\_group) | the name of the cloud foundation platform engineers group | `string` | `"cloudfoundation-platform-engineers"` | no |
 | <a name="input_platform_engineers_members"></a> [platform\_engineers\_members](#input\_platform\_engineers\_members) | Set up a group of platform engineers. If enabled, this group will receive access to terraform\_state\_storage | <pre>list(object({<br>    email = string,<br>    upn   = string,<br>  }))</pre> | n/a | yes |

@@ -1,47 +1,96 @@
-resource "azurerm_resource_group" "spoke_rg" {
-  provider = azurerm.spoke
-  name     = "connectivity-rg"
-  location = var.location
+data "azurerm_subscription" "current" {
 }
 
-resource "azurerm_virtual_network" "spoke_vnet" {
-  provider            = azurerm.spoke
-  name                = "${var.name}-vnet"
-  location            = azurerm_resource_group.spoke_rg.location
-  resource_group_name = azurerm_resource_group.spoke_rg.name
-  address_space       = var.address_space
+# set up roles that we will need at the top of the management group hierarchy
+
+#
+# Access Role
+#
+resource "azurerm_role_definition" "buildingblock_access_spoke" {
+  name              = "buildingblock-${var.name}-access"
+  description       = "Allow self-assignment of a deployment role on an application team's subscription that in turn enables provisioning of building block resources."
+  scope             = var.scope
+  assignable_scopes = [var.scope]
+
+  permissions {
+    actions = [
+      "Microsoft.Authorization/roleAssignments/*"
+    ]
+  }
 }
 
-data "azurerm_resource_group" "hub_rg" {
-  provider = azurerm.hub
-  name     = var.hub_rg
+resource "azurerm_role_assignment" "buildingblock_access_spoke" {
+  for_each = var.principal_ids
+
+  role_definition_id = azurerm_role_definition.buildingblock_access_spoke.role_definition_resource_id
+  description        = azurerm_role_definition.buildingblock_access_spoke.description
+  principal_id       = each.key
+  scope              = var.scope
+
+  condition_version = "2.0"
+
+  # what this does: if the request is a roleAssignment write or a delete, check that it only contains the expected deploy role
+  # this ensures that we can only deploy that role
+  condition = <<-EOT
+(
+  !(ActionMatches{'Microsoft.Authorization/roleAssignments/write'})
+  AND
+  !(ActionMatches{'Microsoft.Authorization/roleAssignments/delete'})
+)
+OR
+(
+  @Request[Microsoft.Authorization/roleAssignments:RoleDefinitionId] ForAnyOfAnyValues:GuidEquals {${azurerm_role_definition.buildingblock_deploy_spoke.role_definition_id}}
+  AND
+  @Request[Microsoft.Authorization/roleAssignments:PrincipalId] ForAnyOfAnyValues:GuidEquals {${each.key}}
+)
+EOT
 }
 
-data "azurerm_virtual_network" "hub_vnet" {
-  provider            = azurerm.hub
-  name                = var.hub_vnet
-  resource_group_name = data.azurerm_resource_group.hub_rg.name
+#
+# Deploy Roles
+#
+
+# note: this role will be assigned using the access role above
+resource "azurerm_role_definition" "buildingblock_deploy_spoke" {
+  name        = "buildingblock-${var.name}-deploy-spoke"
+  description = "Enables deployment of the ${var.name} building block spoke to subscriptions."
+  scope       = data.azurerm_subscription.current.id # assume we are running in the spoke subscription anyway
+
+  permissions {
+    actions = [
+      "Microsoft.Resources/subscriptions/resourceGroups/*",
+      "Microsoft.Network/virtualNetworks/read",
+      "Microsoft.Network/virtualNetworks/write",
+      "Microsoft.Network/virtualNetworks/delete",
+      "Microsoft.Network/virtualNetworks/subnets/*",
+      "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/*"
+    ]
+  }
 }
 
-resource "azurerm_virtual_network_peering" "spoke_hub_peer" {
-  provider                  = azurerm.spoke
-  name                      = var.name
-  resource_group_name       = azurerm_resource_group.spoke_rg.name
-  virtual_network_name      = azurerm_virtual_network.spoke_vnet.name
-  remote_virtual_network_id = data.azurerm_virtual_network.hub_vnet.id
+resource "azurerm_role_definition" "buildingblock_deploy_hub" {
+  name        = "buildingblock-${var.name}-deploy-hub"
+  description = "Enables deployment of the ${var.name} building block to the hub"
+  scope       = data.azurerm_subscription.current.id # assume we are running in the spoke subscription anyway
 
-  depends_on = [azurerm_virtual_network.spoke_vnet]
+  permissions {
+    actions = [
+      "Microsoft.Resources/subscriptions/resourceGroups/*",
+      "Microsoft.Network/virtualNetworks/read",
+      "Microsoft.Network/virtualNetworks/write",
+      "Microsoft.Network/virtualNetworks/delete",
+      "Microsoft.Network/virtualNetworks/subnets/*",
+      "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/*"
+    ]
+  }
 }
 
 
-resource "azurerm_virtual_network_peering" "hub_spoke_peer" {
-  provider = azurerm.hub
+resource "azurerm_role_assignment" "buildingblock_deploy_spoke" {
+  for_each = var.principal_ids
 
-  name                      = var.name
-  resource_group_name       = data.azurerm_resource_group.hub_rg.name
-  virtual_network_name      = data.azurerm_virtual_network.hub_vnet.name
-  remote_virtual_network_id = azurerm_virtual_network.spoke_vnet.id
-
-  depends_on = [azurerm_virtual_network.spoke_vnet]
+  role_definition_id = azurerm_role_definition.buildingblock_deploy_hub.role_definition_resource_id
+  description        = azurerm_role_definition.buildingblock_deploy_hub.description
+  principal_id       = each.key
+  scope              = data.azurerm_subscription.current.id # assume we are running in the spoke subscription anyway
 }
-
