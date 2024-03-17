@@ -19,4 +19,3 @@ variable "principal_ids" {
   nullable    = false
   description = "set of principal ids that will be granted permissions to deploy the building block"
 }
-

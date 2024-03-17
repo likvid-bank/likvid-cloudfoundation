@@ -64,15 +64,6 @@ provider "azurerm" {
   client_id             = "${dependency.automation.outputs.client_id}"
   client_secret         = "${dependency.automation.outputs.client_secret}"
 }
-
-# This building block additionally needs a few locals directly injected into the terraform module.
-# This way we avoid needing to provide them as inputs via meshStack for a quicker integration experience.
-# however, they should arguably be static inputs
-
-locals {
-  principal_id = "${dependency.automation.outputs.principal_id}"
-  access_role_definition_id = "${dependency.buildingblock.outputs.access_role_definition_id}"
-}
 EOF
 }
 

@@ -1,29 +1,27 @@
 #
-# 1. Gain access to the subscription for deploying a resource group
+# 1. deploy the resource group and assign permission to deploy network
 #
-resource "azurerm_role_assignment" "spoke_subscription" {
+data "azurerm_client_config" "spoke" {
   provider = azurerm.spoke
-
-  role_definition_id = local.access_role_definition_id
-  principal_id       = local.principal_id
-  scope              = azurerm_resource_group.spoke_rg.id
 }
-#
-# 2. deploy the resource group and assign permission to deploy network
-#
 
 resource "azurerm_resource_group" "spoke_rg" {
   provider = azurerm.spoke
 
-  name     = "connectivity-rg"
+  name     = "connectivity"
   location = var.location
 }
 
 resource "azurerm_role_assignment" "spoke_rg" {
   provider = azurerm.spoke
+  lifecycle {
+    # the owner assignment is required because it contains the permission required to destroy the RG
+    # it will be gone with the RG anyway
+    prevent_destroy = true
+  }
 
-  role_definition_name = "Network Contributor"
-  principal_id         = local.principal_id
+  role_definition_name = "Owner"
+  principal_id         = data.azurerm_client_config.spoke.object_id
   scope                = azurerm_resource_group.spoke_rg.id
 }
 
@@ -51,29 +49,31 @@ data "azurerm_resource_group" "hub_rg" {
 
 data "azurerm_virtual_network" "hub_vnet" {
   provider            = azurerm.hub
+
   name                = var.hub_vnet
   resource_group_name = data.azurerm_resource_group.hub_rg.name
 }
 
 resource "azurerm_virtual_network_peering" "spoke_hub_peer" {
   provider                  = azurerm.spoke
+  depends_on = [azurerm_virtual_network.spoke_vnet]
+
   name                      = var.name
   resource_group_name       = azurerm_resource_group.spoke_rg.name
   virtual_network_name      = azurerm_virtual_network.spoke_vnet.name
   remote_virtual_network_id = data.azurerm_virtual_network.hub_vnet.id
 
-  depends_on = [azurerm_virtual_network.spoke_vnet]
 }
 
 
 resource "azurerm_virtual_network_peering" "hub_spoke_peer" {
   provider = azurerm.hub
+  depends_on = [azurerm_virtual_network.spoke_vnet]
 
   name                      = var.name
   resource_group_name       = data.azurerm_resource_group.hub_rg.name
   virtual_network_name      = data.azurerm_virtual_network.hub_vnet.name
   remote_virtual_network_id = azurerm_virtual_network.spoke_vnet.id
 
-  depends_on = [azurerm_virtual_network.spoke_vnet]
 }
 
