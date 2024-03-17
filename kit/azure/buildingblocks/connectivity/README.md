@@ -11,8 +11,12 @@ This documentation is intended as a reference documentation for cloud foundation
 ## Permissions
 
 This is a complex building block backplane that requires permission across the central network hub as well as into the
-target subscription for creating a spoke network. This backplane thus needs to set up multiple providers and carefully
-add required permission on the target subscription before proceeding with the actual deployment.
+target subscription for creating a spoke network. This backplane thus needs to work with multiple `azurerm` terraform providers.
+
+We establish a clear shared responsibility boundary in the target subscription by
+deploying a `connectivity` resource group to target subscription. This resource group is exclusively owned by the connectivity building block backplane SPN.
+
+An Azure Policy confines the access of the SPN to that resource group.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
