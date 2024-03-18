@@ -4,5 +4,4 @@ name: likvid-dev
 
 # likvid-dev
 
-Welcome to your cloud foundation. 
-  
+Welcome to your cloud foundation.
