@@ -29,5 +29,5 @@ terraform {
 inputs = {
   location               = "germanywestcentral"
   service_principal_name = "likvid_foundation_tf_buildingblock_user"
-  scope = dependency.organization-hierarchy.outputs.landingzones_id
+  scope                  = dependency.organization-hierarchy.outputs.landingzones_id
 }

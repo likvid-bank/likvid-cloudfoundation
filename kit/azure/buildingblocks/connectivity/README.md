@@ -34,11 +34,8 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azurerm_role_assignment.buildingblock_access_spoke](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.buildingblock_deploy_spoke](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_definition.buildingblock_access_spoke](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_definition) | resource |
+| [azurerm_role_assignment.buildingblock_deploy_hub](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_definition.buildingblock_deploy_hub](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_definition) | resource |
-| [azurerm_role_definition.buildingblock_deploy_spoke](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_definition) | resource |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 
 ## Inputs
@@ -53,6 +50,5 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_access_role_definition_id"></a> [access\_role\_definition\_id](#output\_access\_role\_definition\_id) | n/a |
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
 <!-- END_TF_DOCS -->

@@ -5,11 +5,11 @@ variable "location" {
 }
 
 variable "service_principal_name" {
-  type    = string
+  type     = string
   nullable = false
 }
 
 variable "scope" {
-  type    = string
+  type     = string
   nullable = false
 }

@@ -6,8 +6,17 @@ resource "azurerm_role_assignment" "tfstates_engineers" {
   scope                = azurerm_storage_container.tfstates.resource_manager_id
 }
 
-# the BB Automation SPN needs some default permissions in order to be able to deploy building blocks that require
-# "controlled privilege escalation"
+# DESIGN: the BB Automation SPN needs some default permissions in order to be able to deploy building blocks that
+# require access to deploy resources in target subscriptions.
+#
+# We therefore grant two very powerful permissions: manage all RoleAssignments and manage all ResourceGroups.
+# However, we take great care to limit those permissions via policy so that the principal can only use them on
+# specifically whitelisted resource groups.
+
+locals {
+  managedResourceGroups = ["connectivity"]
+}
+
 resource "azurerm_role_definition" "buildingblock_plan" {
   name        = "${var.service_principal_name}-plan"
   description = "Enables read only access in order to plan building block deployments"
@@ -20,12 +29,17 @@ resource "azurerm_role_definition" "buildingblock_plan" {
       "Microsoft.Management/managementGroups/descendants/read",
       "Microsoft.Management/managementgroups/subscriptions/read",
       "Microsoft.Resources/tags/read",
-      
+
       # Note: these will be restricted by policy
       "Microsoft.Authorization/roleAssignments/*",
+
+      # These are very powerful permissions, we
+      # i.e. the SPN can delete every resource group(!)
+      # TODO: https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effects#denyaction seems to offer a way out here
       "Microsoft.Resources/subscriptions/resourceGroups/read",
-      "Microsoft.Resources/subscriptions/resourceGroups/write", # note: access to deleting an RG is granted by making the SPN an owner on the RG
-      
+      "Microsoft.Resources/subscriptions/resourceGroups/write",
+      "Microsoft.Resources/subscriptions/resourceGroups/delete",
+
       # Permission we need to activate/register required Resource Providers
       "Microsoft.Resources/subscriptions/providers/read",
       "*/register/action",
@@ -37,42 +51,37 @@ resource "azurerm_role_assignment" "buildingblock_deploy" {
   role_definition_id = azurerm_role_definition.buildingblock_plan.role_definition_resource_id
   principal_id       = azuread_service_principal.buildingblock.id
   scope              = var.scope
+
 }
 
-
 resource "azurerm_policy_definition" "buildingblock_access" {
-  name = "${var.service_principal_name}-deploy"
-  display_name = "${var.service_principal_name}-deploy"
-  description = "Restricts access of automation operations to specific resource groups"
-  policy_type = "Custom"
-  mode = "All"
+  name         = "${var.service_principal_name}_rbac"
+  display_name = "Restrict ${var.service_principal_name} role assignments"
+  description  = "Restrict building block automations to manage role assignments only on exclusively owned resource groups"
+  policy_type  = "Custom"
+  mode         = "All"
 
   management_group_id = var.scope
 
-    # "allowedResourceGroup": {
-    #     "type": "String",
-    #     "metadata": {
-    #         "displayName": "Allowed Resource Group Name",
-    #         "description": "Name of the allowed resource group"
-    #     }
-    # },
   parameters = <<EOF
   {
-    "allowedPrincipalIds": {
-        "type": "Array",
-        "metadata": {
-            "displayName": "Allowed PrinfipalIds",
-            "description": "The allowed resource group naming convention. Use # for a number, ? for a letter, or . for any character. Or specify specific characters to use."
-        }
+    "managedResourceGroups": {
+      "type": "Array",
+      "metadata": {
+          "displayName": "Managed Resource Group Names",
+          "description": "Name of the resource groups exclusively managed by this automation"
+      }
+    },
+    "principalId": {
+      "type": "String",
+      "metadata": {
+          "displayName": "Principal Id",
+          "description": "Id of the automation principal allowed to access the managedResourceGroups"
+      }
     }
   }
   EOF
 
-  # TODO: use connectivity name as parameter
-  # TODO: right now does not prevent the automation SPN from adding any other RGs. The good news is that the SPN has no delete RG rights via the subscription.
-  # TODO: right now this policy will prevent assigning any other role to this principal, it may thus be better kept at the buildingblocks/automation level
-  # this is a limitation of Azure not offering sufficiently powerful conditions, e.g. resource based Policys can't detect this
-  # and Azure ABAC does not contain sufficiently powerful expressions
   policy_rule = <<EOF
   {
     "if": {
@@ -83,17 +92,11 @@ resource "azurerm_policy_definition" "buildingblock_access" {
         },
         {
           "field": "Microsoft.Authorization/roleAssignments/principalId",
-          "in": "[parameters('allowedPrincipalIds')]"
+          "equals": "[parameters('principalId')]"
         },
         {
-          "not": {
-            "anyOf": [
-              {
-                "value": "[resourceGroup().name]",
-                "equals": "connectivity"
-              }
-            ]
-          }
+          "value": "[resourceGroup().name]",
+          "notIn": "[parameters('managedResourceGroups')]"
         }
       ]
     },
@@ -105,13 +108,86 @@ resource "azurerm_policy_definition" "buildingblock_access" {
 }
 
 resource "azurerm_management_group_policy_assignment" "buildingblock_access" {
-  name = "restrict-bb-automation" # we can only have 24 characters in the name...
-  display_name = "Restrict building block automations to exclusively owned resource groups"
-  management_group_id = var.scope
+  name                 = "restrict-bb-rbac" # we can only have 24 characters in the name...
+  display_name         = azurerm_policy_definition.buildingblock_access.display_name
+  description          = azurerm_policy_definition.buildingblock_access.description
   policy_definition_id = azurerm_policy_definition.buildingblock_access.id
-  
+  management_group_id  = var.scope
+
   parameters = jsonencode({
-    allowedPrincipalIds: {value = [azuread_service_principal.buildingblock.id]}
-    #allowedResourceGroup: {value = local.connectivity_rg_name}
+    principalId           = { value = azuread_service_principal.buildingblock.id }
+    managedResourceGroups = { value = local.managedResourceGroups }
   })
 }
+
+resource "azurerm_policy_definition" "buildingblock_rgdelete" {
+  name         = "${var.service_principal_name}_rgdelete"
+  display_name = "Restrict ${var.service_principal_name} resource group deletion"
+  description  = "Restrict building block automations to only delete exclusively owned resource groups"
+  policy_type  = "Custom"
+  mode         = "All"
+
+  management_group_id = var.scope
+
+  parameters = <<EOF
+  {
+    "managedResourceGroups": {
+      "type": "Array",
+      "metadata": {
+          "displayName": "Managed Resource Group Names",
+          "description": "Name of the resource groups exclusively managed by this automation"
+      }
+    },
+    "principalId": {
+      "type": "String",
+      "metadata": {
+          "displayName": "Principal Id",
+          "description": "Id of the automation principal allowed to access the managedResourceGroups"
+      }
+    }
+  }
+  EOF
+
+  policy_rule = <<EOF
+  {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Resources/resourceGroups"
+        },
+        {
+          "field": "principalId",
+          "equals": "[parameters('principalId')]"
+        },
+        {
+          "value": "[resourceGroup().name]",
+          "notIn": "[parameters('managedResourceGroups')]"
+        }
+      ]
+    },
+    "then": {
+      "effect": "denyAction",
+      "details": {
+        "actionNames": [
+          "delete"
+        ]
+      }
+    }
+  }
+  EOF
+}
+
+resource "azurerm_management_group_policy_assignment" "buildingblock_rgdelete" {
+  name                 = "restrict-bb-rgdelete" # we can only have 24 characters in the name...
+  display_name         = azurerm_policy_definition.buildingblock_rgdelete.display_name
+  description          = azurerm_policy_definition.buildingblock_rgdelete.description
+  policy_definition_id = azurerm_policy_definition.buildingblock_rgdelete.id
+  management_group_id  = var.scope
+
+  parameters = jsonencode({
+    principalId           = { value = azuread_service_principal.buildingblock.id }
+    managedResourceGroups = { value = local.managedResourceGroups }
+  })
+}
+
