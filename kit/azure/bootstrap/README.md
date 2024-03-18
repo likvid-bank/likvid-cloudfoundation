@@ -54,6 +54,23 @@ upn_domain = "#EXT#@devmeshithesheep.onmicrosoft.com"
 }
 ```
 
+## Remove Bootstrap (Unbootstraping)
+
+The following sequence must be followed in order to remove the boostrap
+
+>Delete the tfstates-config file. The platform.hcl is using the local backend
+```bash
+rm foundations/<foundationname>/platforms/<platformname>/tfstates-config.yml
+```
+>Migrate the state from the Storage account back to your local machine
+```bash
+collie foundation deploy --bootstrap -- init -migrate-state
+```
+>Destroy the bootsrap
+```bash
+collie foundation deploy --bootstrap -- destroy
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -73,24 +90,12 @@ upn_domain = "#EXT#@devmeshithesheep.onmicrosoft.com"
 
 | Name | Type |
 |------|------|
-| [azuread_app_role_assignment.cloudfoundation_deploy-approle](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/app_role_assignment) | resource |
-| [azuread_app_role_assignment.cloudfoundation_deploy-apps](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/app_role_assignment) | resource |
-| [azuread_app_role_assignment.cloudfoundation_deploy-directory](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/app_role_assignment) | resource |
-| [azuread_app_role_assignment.cloudfoundation_deploy-group](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/app_role_assignment) | resource |
-| [azuread_application.cloudfoundation_deploy](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application) | resource |
-| [azuread_application_password.cloudfoundation_deploy](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application_password) | resource |
 | [azuread_group.platform_engineers](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/group) | resource |
-| [azuread_service_principal.cloudfoundation_deploy](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal) | resource |
-| [azurerm_federated_identity_credential.docs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
 | [azurerm_role_assignment.cloudfoundation_deploy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.docs_tfstate](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.tfstates_engineers](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_definition.cloudfoundation_deploy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_definition) | resource |
-| [azurerm_user_assigned_identity.docs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
-| [time_rotating.key_rotation](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/rotating) | resource |
 | [azuread_application_published_app_ids.well_known](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/application_published_app_ids) | data source |
 | [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/client_config) | data source |
-| [azuread_service_principal.msgraph](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/service_principal) | data source |
 | [azuread_users.platform_engineers_members](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/users) | data source |
 | [azurerm_management_group.root](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/management_group) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
@@ -100,21 +105,19 @@ upn_domain = "#EXT#@devmeshithesheep.onmicrosoft.com"
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_aad_tenant_id"></a> [aad\_tenant\_id](#input\_aad\_tenant\_id) | Id of the AAD Tenant. This is also the simultaneously the id of the root management group. | `string` | n/a | yes |
-| <a name="input_documentation_uami_name"></a> [documentation\_uami\_name](#input\_documentation\_uami\_name) | name of the Service Principal used to perform documentation and validation tasks | `string` | `"cloudfoundation_tf_docs_user"` | no |
 | <a name="input_platform_engineers_group"></a> [platform\_engineers\_group](#input\_platform\_engineers\_group) | the name of the cloud foundation platform engineers group | `string` | `"cloudfoundation-platform-engineers"` | no |
 | <a name="input_platform_engineers_members"></a> [platform\_engineers\_members](#input\_platform\_engineers\_members) | Set up a group of platform engineers. If enabled, this group will receive access to terraform\_state\_storage | <pre>list(object({<br>    email = string,<br>    upn   = string,<br>  }))</pre> | n/a | yes |
-| <a name="input_service_principal_name"></a> [service\_principal\_name](#input\_service\_principal\_name) | name of the Service Principal used to perform all deployments in this platform | `string` | `"cloudfoundation_tf_deploy_user"` | no |
 | <a name="input_terraform_state_storage"></a> [terraform\_state\_storage](#input\_terraform\_state\_storage) | Configure this object to enable setting up a terraform state store in Azure Storage. | <pre>object({<br>    location         = string,<br>    name             = string,<br>    config_file_path = string<br>  })</pre> | `null` | no |
+| <a name="input_uami_documentation_issuer"></a> [uami\_documentation\_issuer](#input\_uami\_documentation\_issuer) | Specifies the subject for this Federated Identity Credential, for example a github action pipeline | `string` | `"https://token.actions.githubusercontent.com"` | no |
+| <a name="input_uami_documentation_name"></a> [uami\_documentation\_name](#input\_uami\_documentation\_name) | name of the Service Principal used to perform documentation and validation tasks | `string` | `"cloudfoundation_tf_docs_user"` | no |
+| <a name="input_uami_documentation_spn"></a> [uami\_documentation\_spn](#input\_uami\_documentation\_spn) | read-only user for the states to host the documentation or activate a drift detection pipeline | `bool` | `false` | no |
+| <a name="input_uami_documentation_subject"></a> [uami\_documentation\_subject](#input\_uami\_documentation\_subject) | Specifies the subject for this Federated Identity Credential, for example a github action pipeline | `string` | `null` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_client_id"></a> [client\_id](#output\_client\_id) | n/a |
-| <a name="output_client_principal_id"></a> [client\_principal\_id](#output\_client\_principal\_id) | n/a |
-| <a name="output_client_secret"></a> [client\_secret](#output\_client\_secret) | n/a |
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
-| <a name="output_documentation_uami_client_id"></a> [documentation\_uami\_client\_id](#output\_documentation\_uami\_client\_id) | n/a |
 | <a name="output_module_storage_account_resource_id"></a> [module\_storage\_account\_resource\_id](#output\_module\_storage\_account\_resource\_id) | n/a |
 | <a name="output_platform_engineers_azuread_group_displayname"></a> [platform\_engineers\_azuread\_group\_displayname](#output\_platform\_engineers\_azuread\_group\_displayname) | n/a |
 | <a name="output_platform_engineers_azuread_group_id"></a> [platform\_engineers\_azuread\_group\_id](#output\_platform\_engineers\_azuread\_group\_id) | n/a |
