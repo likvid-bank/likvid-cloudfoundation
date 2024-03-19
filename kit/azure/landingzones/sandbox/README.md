@@ -18,7 +18,37 @@ compliance:
 This kit provides a Terraform configuration for setting a sandbox landing zone management group and suitable default policies.
 
 <!-- BEGIN_TF_DOCS -->
-location                   = ""
-name                       = "sandbox"
-parent_management_group_id = ""
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.71.0 |
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_policy_sandbox"></a> [policy\_sandbox](#module\_policy\_sandbox) | github.com/meshcloud/collie-hub//kit/azure/util/azure-policies | ef06c8d |
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azurerm_management_group.sandbox](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/management_group) | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_location"></a> [location](#input\_location) | The Azure location used for creating policy assignments establishing this landing zone's guardrails. | `string` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | name of the landing zone's management group | `string` | `"sandbox"` | no |
+| <a name="input_parent_management_group_id"></a> [parent\_management\_group\_id](#input\_parent\_management\_group\_id) | id of the parent management group for the landing zone's management group | `any` | n/a | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
+| <a name="output_management_id"></a> [management\_id](#output\_management\_id) | n/a |
 <!-- END_TF_DOCS -->

@@ -36,11 +36,11 @@ EOF
 
 inputs = {
   # todo: set input variables
-  parent_management_group_id          = "${dependency.organization-hierarchy.outputs.management_id}"
-  scope                               = "${dependency.organization-hierarchy.outputs.parent_id}"
-  cloudfoundation                     = "${include.platform.locals.cloudfoundation.name}"
-  security_auditor_group              = "likvid-dev-cloudfoundation-security-auditors"
-  security_admin_group                = "likvid-dev-cloudfoundation-security-admin"
-  location                            = "germanywestcentral"
-  log_retention_in_days               = 30
+  parent_management_group_id = "${dependency.organization-hierarchy.outputs.management_id}"
+  scope                      = "${dependency.organization-hierarchy.outputs.parent_id}"
+  cloudfoundation            = "${include.platform.locals.cloudfoundation.name}"
+  security_auditor_group     = "likvid-dev-cloudfoundation-security-auditors"
+  security_admin_group       = "likvid-dev-cloudfoundation-security-admin"
+  location                   = "germanywestcentral"
+  log_retention_in_days      = 30
 }
