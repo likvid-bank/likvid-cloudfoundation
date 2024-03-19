@@ -1,3 +1,8 @@
+variable "management_subscription_name" {
+  type        = string
+  default     = "management"
+  description = "Name of your management subscription"
+}
 
 variable "parentManagementGroup" {
   default = "lv-foundation"
@@ -5,14 +10,6 @@ variable "parentManagementGroup" {
 
 variable "landingzones" {
   default = "lv-landingzones"
-}
-
-variable "corp" {
-  default = "lv-corp"
-}
-
-variable "online" {
-  default = "lv-online"
 }
 
 variable "platform" {
