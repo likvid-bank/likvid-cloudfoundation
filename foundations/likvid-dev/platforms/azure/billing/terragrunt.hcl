@@ -37,7 +37,9 @@ inputs = {
   scope = "${dependency.organization-hierarchy.outputs.parent_id}"
   # todo: azure will throw an error if date is in a past month
   budget_time_period = [{
-    start = "2023-11-01T00:00:00Z"
+    start = "2024-04-01T00:00:00Z"
   }]
-  contact_mails = ["billingmeshi@meshithesheep.io"]
+  contact_mails = ["fnowarre@meshcloud.io"]
+  billing_admin_group = "likvid-dev-cloudfoundation-billing-admins"
+  billing_reader_group = "likvid-dev-cloudfoundation-billing-readers"
 }

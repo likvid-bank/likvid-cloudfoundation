@@ -1,4 +1,4 @@
-output "management_group_id" {
+output "management_id" {
   value = azurerm_management_group.sandbox.id
 }
 

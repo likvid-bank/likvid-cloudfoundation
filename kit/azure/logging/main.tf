@@ -26,36 +26,8 @@ module "policy_law" {
   }
 }
 
-# Set up permissions for deploy user
-resource "azurerm_role_definition" "cloudfoundation_tfdeploy" {
-  name  = "${var.cloudfoundation}_log_workspace"
-  scope = data.azurerm_subscription.current.id
-  permissions {
-    actions = [
-      "Microsoft.Resources/subscriptions/resourceGroups/write",
-      "Microsoft.Resources/subscriptions/resourceGroups/delete",
-      # Permissions for log workspaces
-      "Microsoft.OperationalInsights/workspaces/*",
-      "Microsoft.OperationalInsights/workspaces/linkedServices/*",
-      # Permissions for log workspace solution
-      "Microsoft.OperationsManagement/solutions/*",
-      # Permissions for automation accounts
-      "Microsoft.Automation/automationAccounts/*"
-    ]
-  }
-}
-
-resource "azurerm_role_assignment" "cloudfoundation_tfdeploy" {
-  principal_id       = var.cloudfoundation_deploy_principal_id
-  scope              = data.azurerm_subscription.current.id
-  role_definition_id = azurerm_role_definition.cloudfoundation_tfdeploy.role_definition_resource_id
-}
-
 ## Creates a RG for LAW
 resource "azurerm_resource_group" "law_rg" {
-  depends_on = [
-    azurerm_role_assignment.cloudfoundation_tfdeploy
-  ]
   name     = "law-rg-${var.cloudfoundation}"
   location = var.location
 }
@@ -84,8 +56,8 @@ resource "azurerm_role_assignment" "logging" {
   scope                = var.scope
 }
 
+
 # enables logging on management_group level
-# https://github.com/torivara/public/blob/master/terraform/eventhub_diagsettings/main.tf
 resource "azapi_resource" "diag-setting-management-group" {
   type                    = "Microsoft.Insights/diagnosticSettings@2021-05-01-preview"
   name                    = "toLogAnalyticsWorkspace"
@@ -115,7 +87,6 @@ resource "azapi_resource" "diag-setting-management-group" {
     }
   })
 }
-
 
 # creates group and permissions for security admins
 resource "azuread_group" "security_admins" {
