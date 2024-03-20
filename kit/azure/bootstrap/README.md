@@ -120,6 +120,7 @@ collie foundation deploy --bootstrap -- destroy
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
 | <a name="output_documentation_uami_client_id"></a> [documentation\_uami\_client\_id](#output\_documentation\_uami\_client\_id) | n/a |
 | <a name="output_module_storage_account_resource_id"></a> [module\_storage\_account\_resource\_id](#output\_module\_storage\_account\_resource\_id) | n/a |
+| <a name="output_parent_management_group"></a> [parent\_management\_group](#output\_parent\_management\_group) | n/a |
 | <a name="output_platform_engineers_azuread_group_displayname"></a> [platform\_engineers\_azuread\_group\_displayname](#output\_platform\_engineers\_azuread\_group\_displayname) | n/a |
 | <a name="output_platform_engineers_azuread_group_id"></a> [platform\_engineers\_azuread\_group\_id](#output\_platform\_engineers\_azuread\_group\_id) | n/a |
 | <a name="output_platform_engineers_members"></a> [platform\_engineers\_members](#output\_platform\_engineers\_members) | n/a |

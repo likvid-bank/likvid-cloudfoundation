@@ -13,3 +13,7 @@ output "platform_engineers_members" {
 output "module_storage_account_resource_id" {
   value = module.terraform_state[0].storage_account_resource_id
 }
+
+output "parent_management_group" {
+  value = data.azurerm_management_group.parent.name
+}

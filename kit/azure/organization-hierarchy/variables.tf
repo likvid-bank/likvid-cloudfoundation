@@ -5,27 +5,27 @@ variable "management_subscription_name" {
 }
 
 variable "parentManagementGroup" {
-  default = "lv-foundation"
+  default = "foundation"
 }
 
 variable "landingzones" {
-  default = "lv-landingzones"
+  default = "landingzones"
 }
 
 variable "platform" {
-  default = "lv-platform"
+  default = "platform"
 }
 
 variable "connectivity" {
-  default = "lv-connectivity"
+  default = "connectivity"
 }
 
 variable "identity" {
-  default = "lv-identity"
+  default = "identity"
 }
 
 variable "management" {
-  default = "lv-management"
+  default = "management"
 }
 
 variable "locations" {
