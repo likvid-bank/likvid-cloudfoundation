@@ -1,18 +1,8 @@
 #
-# 1. deploy the resource group and assign permission to deploy network
+# 1. deploy the resource group 
 #
 data "azurerm_client_config" "spoke" {
   provider = azurerm.spoke
-}
-
-locals {
-  # we assume we will only ever be executed as the SPN
-  principal_id = data.azurerm_client_config.spoke.object_id
-}
-
-resource "azurerm_role_assignment" "spoke_access" {
-  principal_id         = data.azurerm_client_config.spoke.object_id
-
 }
 
 resource "azurerm_resource_group" "spoke_rg" {
@@ -22,13 +12,11 @@ resource "azurerm_resource_group" "spoke_rg" {
   location = var.location
 }
 
+#
+# 2.assign permission to deploy resource in that specific RG
+#
 resource "azurerm_role_assignment" "spoke_rg" {
   provider = azurerm.spoke
-  lifecycle {
-    # The owner assignment is required because it contains the permission required to destroy the RG
-    # It will be gone with the RG anyway, so no extra steps necessary
-    prevent_destroy = true
-  }
 
   role_definition_name = "Owner"
   principal_id         = data.azurerm_client_config.spoke.object_id
@@ -51,7 +39,6 @@ resource "azurerm_virtual_network" "spoke_vnet" {
 #
 # 4. establish the peering
 #
-
 data "azurerm_resource_group" "hub_rg" {
   provider = azurerm.hub
   name     = var.hub_rg
@@ -82,6 +69,4 @@ resource "azurerm_virtual_network_peering" "hub_spoke_peer" {
   resource_group_name       = data.azurerm_resource_group.hub_rg.name
   virtual_network_name      = data.azurerm_virtual_network.hub_vnet.name
   remote_virtual_network_id = azurerm_virtual_network.spoke_vnet.id
-
 }
-

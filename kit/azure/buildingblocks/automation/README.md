@@ -9,12 +9,19 @@ summary: |
 
 This documentation is intended as a reference documentation for cloud foundation or platform engineers using this module.
 
+The biggest problem is resource group deletion. We need to be able to CRUD exclusively owned RGs in customer subscriptions.
+That means we need delete RG permission. But that allows deleting every resource.
 
-Approaches that don't work
+Approaches that don't work to limit them
 
 - restrict deletion with `denyAction` unfortunately a dead end since Policy Definitions can't filter on principal ids, so the policy would deny deletion of all RGs
 - assigning only create RG permission on MG, then assign Owner role on created RG to allow deletion. Problem is that `terraform destroy` will first destroy the role assignment, then attempt to delete the RG (which is now missing permission). terraform `prevent_destroy` on the role assignment does not work because this fails terraform plans invoked with `terraform destroy`.
 - 
+
+The only alternatives I see
+
+- customers must supply the RGs, so that the SPN does not have to own their lifecycle and does not need the delete RG permission
+- Azure Policy/ABAC becomes powerful enough one day to restrict this (especially: denyAction)
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
