@@ -19,7 +19,11 @@ resource "azurerm_role_definition" "buildingblock_deploy_hub" {
       "Microsoft.Network/virtualNetworks/delete",
       "Microsoft.Network/virtualNetworks/subnets/*",
       "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/*",
-      "Microsoft.Network/virtualNetworks/peer/action"
+      "Microsoft.Network/virtualNetworks/peer/action",
+
+      # Permission we need to activate/register required Resource Providers
+      "Microsoft.Resources/subscriptions/providers/read",
+      "*/register/action",
     ]
   }
 }
