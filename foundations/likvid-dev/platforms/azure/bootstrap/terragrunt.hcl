@@ -66,6 +66,9 @@ locals {
 inputs = {
   aad_tenant_id              = include.platform.locals.platform.azure.aadTenantId
   platform_engineers_members = local.platform_engineers_members
+  uami_documentation_spn     = true
+  uami_documentation_subject = "repo:likvid-bank/likvid-cloudfoundation:environment:github-pages"
+  uami_documentation_name    = "likvid_dev_foundation_tf_docs_user"
 
   #service_principal_name   = "likvid_foundation_tf_deploy_user"
   platform_engineers_group = "likvid-dev-cloudfoundation-platform-engineers"
