@@ -1,7 +1,7 @@
 run "verify" {
   variables {
     name          = "terraform-test"
-    address_space = ["10.123.123.0/24"]
+    address_space = "10.123.123.0/24"
   }
 
   assert {

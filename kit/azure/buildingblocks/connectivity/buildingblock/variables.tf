@@ -11,7 +11,7 @@ variable "name" {
 }
 
 variable "address_space" {
-  type = list(string)
+  type = string
 }
 
 variable "subscription_id" {

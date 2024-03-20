@@ -22,6 +22,6 @@ module "connectivity" {
   hub_vnet = "hub-vnet"
 
   name          = "glaskugel"
-  address_space = ["10.1.0.0/24"]
+  address_space = "10.1.0.0/24"
 }
 
