@@ -33,7 +33,7 @@ resource "azurerm_virtual_network" "spoke_vnet" {
   name                = "${var.name}-vnet"
   location            = azurerm_resource_group.spoke_rg.location
   resource_group_name = azurerm_resource_group.spoke_rg.name
-  address_space       = var.address_space
+  address_space       = [var.address_space]
 }
 
 #
@@ -62,8 +62,7 @@ resource "azurerm_virtual_network_peering" "spoke_hub_peer" {
 
 resource "azurerm_virtual_network_peering" "hub_spoke_peer" {
   provider   = azurerm.hub
-  depends_on = [azurerm_virtual_network.spoke_vnet]
-
+  
   name                      = var.name
   resource_group_name       = data.azurerm_resource_group.hub_rg.name
   virtual_network_name      = data.azurerm_virtual_network.hub_vnet.name
