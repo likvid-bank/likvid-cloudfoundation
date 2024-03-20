@@ -5,6 +5,16 @@ data "azurerm_client_config" "spoke" {
   provider = azurerm.spoke
 }
 
+locals {
+  # we assume we will only ever be executed as the SPN
+  principal_id = data.azurerm_client_config.spoke.object_id
+}
+
+resource "azurerm_role_assignment" "spoke_access" {
+  principal_id         = data.azurerm_client_config.spoke.object_id
+
+}
+
 resource "azurerm_resource_group" "spoke_rg" {
   provider = azurerm.spoke
 

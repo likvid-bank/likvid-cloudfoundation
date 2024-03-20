@@ -9,6 +9,13 @@ summary: |
 
 This documentation is intended as a reference documentation for cloud foundation or platform engineers using this module.
 
+
+Approaches that don't work
+
+- restrict deletion with `denyAction` unfortunately a dead end since Policy Definitions can't filter on principal ids, so the policy would deny deletion of all RGs
+- assigning only create RG permission on MG, then assign Owner role on created RG to allow deletion. Problem is that `terraform destroy` will first destroy the role assignment, then attempt to delete the RG (which is now missing permission). terraform `prevent_destroy` on the role assignment does not work because this fails terraform plans invoked with `terraform destroy`.
+- 
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
