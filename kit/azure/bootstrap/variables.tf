@@ -1,15 +1,3 @@
-variable "service_principal_name" {
-  type        = string
-  description = "name of the Service Principal used to perform all deployments in this platform"
-  default     = "cloudfoundation_tf_deploy_user"
-}
-
-variable "documentation_uami_name" {
-  type        = string
-  description = "name of the Service Principal used to perform documentation and validation tasks"
-  default     = "cloudfoundation_tf_docs_user"
-}
-
 variable "aad_tenant_id" {
   type        = string
   description = "Id of the AAD Tenant. This is also the simultaneously the id of the root management group."
@@ -38,4 +26,14 @@ variable "platform_engineers_group" {
   type        = string
   default     = "cloudfoundation-platform-engineers"
   description = "the name of the cloud foundation platform engineers group"
+}
+
+variable "documentation_uami" {
+  type = object({
+    name = string
+    # note: it seems wildcards are not supported yet, see https://github.com/Azure/azure-workload-identity/issues/373
+    oidc_subject = string
+  })
+  description = "read-only UAMI with access to terraform states to host the documentation or activate a drift detection pipeline"
+  default     = null
 }

@@ -3,9 +3,6 @@ output "documentation_md" {
 
 # Cloud Foundation Deployment
 
-We are using an Azure Service Principal to deploy all cloudfoundation infrastructure.
-The service principal is named `${var.service_principal_name}`.
-
 %{if var.terraform_state_storage != null}
 ## Terraform State Management
 
@@ -13,6 +10,13 @@ Terraform state for the cloud foundation repository is stored in an Azure Blob S
 This container is located in the subscription `${data.azurerm_subscription.current.display_name}`.
 
 Access to terraform state is restricted to members of the `${azuread_group.platform_engineers.display_name}` group.
+%{endif}
+
+%{if var.documentation_uami != null}
+## Automation
+
+The UAMI `${azurerm_user_assigned_identity.docs[0].name}` has been set up for the automated creation of
+collie docs via a GitHub actions pipeline. This UAMI has read-only access to terraform state.
 %{endif}
 
 ## Platform Engineer Access Management

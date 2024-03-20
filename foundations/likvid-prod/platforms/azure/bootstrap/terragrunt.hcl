@@ -69,7 +69,10 @@ inputs = {
 
   service_principal_name   = "likvid_foundation_tf_deploy_user"
   platform_engineers_group = "likvid-cloudfoundation-platform-engineers"
-  documentation_uami_name  = "likvid_foundation_tf_docs_user"
+  documentation_uami = {
+    name         = "likvid_foundation_tf_docs_user"
+    oidc_subject = "repo:likvid-bank/likvid-cloudfoundation:environment:github-pages"
+  }
 
   terraform_state_storage = {
     name             = "${include.platform.locals.cloudfoundation.name}"
