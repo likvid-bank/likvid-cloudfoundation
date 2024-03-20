@@ -4,7 +4,7 @@ locals {
 }
 
 # location restriction
-resource "azurerm_management_group" "parent" {
+data "azurerm_management_group" "parent" {
   display_name = var.parentManagementGroup
   name         = var.parentManagementGroup
 }

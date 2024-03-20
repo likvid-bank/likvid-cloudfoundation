@@ -2,8 +2,8 @@ data "azuread_client_config" "current" {}
 
 data "azurerm_subscription" "current" {}
 
-data "azurerm_management_group" "root" {
-  name = data.azurerm_subscription.current.tenant_id
+data "azurerm_management_group" "parent" {
+  name = var.parent_management_group_name
 }
 
 module "terraform_state" {
@@ -26,7 +26,7 @@ resource "azurerm_role_assignment" "tfstates_engineers" {
 
 resource "azurerm_role_definition" "cloudfoundation_deploy" {
   name        = var.platform_engineers_group
-  scope       = data.azurerm_management_group.root.id
+  scope       = data.azurerm_management_group.parent.id
   description = "Permissions required to deploy the cloudfoundation"
 
   permissions {
@@ -67,12 +67,12 @@ resource "azurerm_role_definition" "cloudfoundation_deploy" {
   }
 
   assignable_scopes = [
-    data.azurerm_management_group.root.id
+    data.azurerm_management_group.parent.id
   ]
 }
 
 resource "azurerm_role_assignment" "cloudfoundation_deploy" {
-  scope              = data.azurerm_management_group.root.id
+  scope              = data.azurerm_management_group.parent.id
   role_definition_id = azurerm_role_definition.cloudfoundation_deploy.role_definition_resource_id
   principal_id       = azuread_group.platform_engineers.id
 }

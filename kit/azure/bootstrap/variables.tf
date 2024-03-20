@@ -3,6 +3,11 @@ variable "aad_tenant_id" {
   description = "Id of the AAD Tenant. This is also the simultaneously the id of the root management group."
 }
 
+variable "parent_management_group_name" {
+  type        = string
+  description = "Name of the management group you want to use as parent for your foundation."
+}
+
 variable "terraform_state_storage" {
   type = object({
     location         = string,
