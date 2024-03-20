@@ -7,16 +7,28 @@ module "subscription" {
   parent_management_group = "likvid-corp"
 }
 
+data "azurerm_subscription" "current" {}
+  
+module "budget_alert" {
+  source = "../../../../../../../../../kit/azure/buildingblocks/budget-alert/buildingblock"
+
+  subscription_id = data.azurerm_subscription.current.subscription_id
+  contact_emails = "fnowarre@meshcloud.io,jrudolph@meshcloud.io"
+  monthly_budget_amount = 10
+}
+
+
 module "connectivity" {
   # source = "github.com/likvid-bank/likvid-cloudfoundation/kit/azure/buildingblocks/connectivity"
   # Use local sources for testing
-  source = "../../../../../../../../../kit/azure/buildingblocks/connectivity"
+  source = "../../../../../../../../../kit/azure/buildingblocks/connectivity/buildingblock"
 
   providers = {
     azurerm.spoke = azurerm
     azurerm.hub   = azurerm.hub
   }
 
+  subscription_id = data.azurerm_subscription.current.subscription_id
   location = "germanywestcentral"
   hub_rg   = var.hub_rg
   hub_vnet = var.hub_vnet

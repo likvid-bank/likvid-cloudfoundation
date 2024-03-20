@@ -17,10 +17,6 @@ dependency "networking" {
   config_path = "../../networking"
 }
 
-dependency "networking" {
-  config_path = "../../networking"
-}
-
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
