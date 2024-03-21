@@ -5,6 +5,11 @@ variable "location" {
 }
 
 variable "service_principal_name" {
-  type    = string
-  default = null
+  type     = string
+  nullable = false
+}
+
+variable "scope" {
+  type     = string
+  nullable = false
 }
