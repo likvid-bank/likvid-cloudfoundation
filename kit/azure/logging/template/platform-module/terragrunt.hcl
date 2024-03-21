@@ -23,8 +23,6 @@ provider "azurerm" {
   features {}
   skip_provider_registration = true
   tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
-  client_id       = "${dependency.bootstrap.outputs.client_id}"
-  client_secret   = "${dependency.bootstrap.outputs.client_secret}"
 
   # recommended: use a separate subscription to archive logs
   subscription_id = "the-id-of-your-logging-subscription"
@@ -32,18 +30,15 @@ provider "azurerm" {
 
 provider "azuread" {
   tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
-  client_id       = "${dependency.bootstrap.outputs.client_id}"
-  client_secret   = "${dependency.bootstrap.outputs.client_secret}"
 }
 EOF
 }
 
 inputs = {
   # todo: set input variables
-  parent_management_group_id          = "${dependency.organization-hierarchy.outputs.management_id}"
-  scope                               = "${dependency.organization-hierarchy.outputs.parent_id}"
-  cloudfoundation_deploy_principal_id = "${dependency.bootstrap.outputs.client_principal_id}"
-  cloudfoundation                     = "${include.platform.locals.cloudfoundation.name}"
-  location                            = "germanywestcentral"
-  log_retention_in_days               = 30
+  parent_management_group_id = "${dependency.organization-hierarchy.outputs.management_id}"
+  scope                      = "${dependency.organization-hierarchy.outputs.parent_id}"
+  cloudfoundation            = "${include.platform.locals.cloudfoundation.name}"
+  location                   = "germanywestcentral"
+  log_retention_in_days      = 30
 }

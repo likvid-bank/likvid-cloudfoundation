@@ -50,5 +50,5 @@ This kit provides a Terraform configuration for setting a sandbox landing zone m
 | Name | Description |
 |------|-------------|
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
-| <a name="output_management_group_id"></a> [management\_group\_id](#output\_management\_group\_id) | n/a |
+| <a name="output_management_id"></a> [management\_id](#output\_management\_id) | n/a |
 <!-- END_TF_DOCS -->

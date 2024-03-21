@@ -11,14 +11,11 @@ The management group hierarchy allows us to selectively apply policies.
 The main hierarchy looks like this
 
 ```md
-`${resource.azurerm_management_group.parent.display_name}` this is the root of the hierarchy
+`${data.azurerm_management_group.parent.display_name}` this is the root of the hierarchy
 ├──  `${resource.azurerm_management_group.landingzones.display_name}` landing zones for application teams
-│  ├── `${resource.azurerm_management_group.online.display_name}` landing zones with internet access
-│  └── `${resource.azurerm_management_group.corp.display_name}` landing zones with on-prem network access
 └── `${resource.azurerm_management_group.platform.display_name}` landing zones for platform-level workloads, restriced access only for cloud foundation team
 ```
 
-Landing zones for application teams are placed under either `${resource.azurerm_management_group.corp.display_name}` or `${resource.azurerm_management_group.online.display_name}`.
 See [Application Landing Zones](#application-landing-zones) below.
 
 > TODO: link to individual landing zone documentation deployed in your foundations from here.
@@ -27,7 +24,7 @@ See [Application Landing Zones](#application-landing-zones) below.
 
 This table describes global policies consistently enforced for all workloads running on Azure.
 
-These policies are assigned to the `${resource.azurerm_management_group.parent.display_name}` management group.
+These policies are assigned to the `${data.azurerm_management_group.parent.display_name}` management group.
 
 ### Activity Logs
 
@@ -53,7 +50,7 @@ These policies help ensure Azure resources are deployed in secure configurations
 
 |Policy|Effect|Description|Rationale|
 |-|-|-|-|
-|[${module.policy_root.policy_assignments["Audit-Subnet-Without-Nsg"].display_name}](https://www.azadvertizer.net/azpolicyadvertizer/Deny-Subnet-Without-Nsg.html)|Deny|${module.policy_root.policy_assignments["Audit-Subnet-Without-Nsg"].description}|We do allow creation of custom subnets in some landing zones. Requiring explicit configuration of NSGs ensures application teams take explicit responsibility for securing subnet traffic.|
+|[${module.policy_root.policy_assignments["Audit-Subnet-Without-Nsg"].display_name}](https://www.azadvertizer.net/azpolicyadvertizer/Deny-Subnet-Without-Nsg.html)|Audit|${module.policy_root.policy_assignments["Audit-Subnet-Without-Nsg"].description}|We do allow creation of custom subnets in some landing zones. Requiring explicit configuration of NSGs ensures application teams take explicit responsibility for securing subnet traffic.|
 |[${module.policy_root.policy_assignments["Audit-Resource-Locations"].display_name}](https://www.azadvertizer.net/azpolicyadvertizer/0a914e76-4921-4c19-b460-a2d36003525a.html)|Audit|${module.policy_root.policy_assignments["Audit-Resource-Locations"].description}|Diverging resource group and resource locations can create unintended availability risks for deploying and updating resources in case of outages of the resource group location. We monitor and surface this to application teams to make sure they are consciously considering this risk.|
 |[${module.policy_root.policy_assignments["Enforce-GR-KeyVault"].display_name}](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Enforce-Guardrails-KeyVault.html)|Deny, Audit|${module.policy_root.policy_assignments["Enforce-GR-KeyVault"].description}|KeyVaults are critical infrastructure component for secret management used for applications and a variety of Azure Services. Centrally enforcing best-practices guardrails helps us maintain a better security posture for managing secrets.|
 |[${module.policy_root.policy_assignments["Enforce-TLS-SSL"].display_name}](https://www.azadvertizer.net/azpolicyinitiativesadvertizer/Enforce-EncryptTransit.html)|Deny, Audit, DeployIfNotExists, Append|${module.policy_root.policy_assignments["Enforce-TLS-SSL"].description}|Many Azure Services like App Services or Azure Database support minimum required TLS and SSL versions. This policy allows us to monitor compliance to our organization's crypto policies.|
@@ -86,7 +83,7 @@ The platform-level management group is further subdivided into the following man
 This subdivision does currently not affect any policies and is merely used for access control inside the cloud foundation team.
 
 ```md
-`${resource.azurerm_management_group.parent.display_name}` this is the root of the hierarchy
+`${data.azurerm_management_group.parent.display_name}` this is the root of the hierarchy
 └── `${resource.azurerm_management_group.platform.display_name}` platform-level workloads, restriced access only for cloud foundation team
    ├── `${resource.azurerm_management_group.connectivity.display_name}` connectivity solutions like on-prem connection network hub
    ├── `${resource.azurerm_management_group.identity.display_name}` identity management solutions

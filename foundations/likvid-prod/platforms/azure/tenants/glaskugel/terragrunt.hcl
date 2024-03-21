@@ -26,8 +26,6 @@ provider "azurerm" {
   skip_provider_registration = true
   tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
   subscription_id = "670095a3-3c3b-42a8-a190-b8503113fa05"
-  client_id       = "${dependency.bootstrap.outputs.client_id}"
-  client_secret   = "${dependency.bootstrap.outputs.client_secret}"
 }
 
 provider "azurerm" {
@@ -35,8 +33,6 @@ provider "azurerm" {
   alias           = "hub"
   tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
   subscription_id = "${dependency.networking.outputs.hub_subscription}"
-  client_id       = "${dependency.bootstrap.outputs.client_id}"
-  client_secret   = "${dependency.bootstrap.outputs.client_secret}"
 }
 EOF
 }

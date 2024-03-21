@@ -3,6 +3,11 @@ variable "aad_tenant_id" {
   description = "Id of the AAD Tenant. This is also the simultaneously the id of the root management group."
 }
 
+variable "parent_management_group_name" {
+  type        = string
+  description = "Name of the management group you want to use as parent for your foundation."
+}
+
 variable "terraform_state_storage" {
   type = object({
     location         = string,
@@ -28,26 +33,12 @@ variable "platform_engineers_group" {
   description = "the name of the cloud foundation platform engineers group"
 }
 
-variable "uami_documentation_spn" {
-  type        = bool
-  description = "read-only user for the states to host the documentation or activate a drift detection pipeline"
-  default     = false
-}
-
-variable "uami_documentation_name" {
-  type        = string
-  description = "name of the Service Principal used to perform documentation and validation tasks"
-  default     = "cloudfoundation_tf_docs_user"
-}
-
-variable "uami_documentation_issuer" {
-  type        = string
-  description = "Specifies the subject for this Federated Identity Credential, for example a github action pipeline"
-  default     = "https://token.actions.githubusercontent.com"
-}
-
-variable "uami_documentation_subject" {
-  type        = string
-  description = "Specifies the subject for this Federated Identity Credential, for example a github action pipeline"
+variable "documentation_uami" {
+  type = object({
+    name = string
+    # note: it seems wildcards are not supported yet, see https://github.com/Azure/azure-workload-identity/issues/373
+    oidc_subject = string
+  })
+  description = "read-only UAMI with access to terraform states to host the documentation or activate a drift detection pipeline"
   default     = null
 }

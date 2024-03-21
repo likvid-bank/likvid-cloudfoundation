@@ -24,25 +24,20 @@ provider "azurerm" {
   skip_provider_registration = true
   tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
   subscription_id = "${include.platform.locals.platform.azure.subscriptionId}"
-  client_id       = "${dependency.bootstrap.outputs.client_id}"
-  client_secret   = "${dependency.bootstrap.outputs.client_secret}"
 }
 
 provider "azuread" {
   tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
-  client_id       = "${dependency.bootstrap.outputs.client_id}"
-  client_secret   = "${dependency.bootstrap.outputs.client_secret}"
 }
 EOF
 }
 
-
 inputs = {
   # todo: set input variables
   scope = "${dependency.organization-hierarchy.outputs.parent_id}"
+  # todo: azure will throw an error if date is in a past month
   budget_time_period = [{
-    start = "2022-06-01T00:00:00Z",
-    end   = "2022-07-01T00:00:00Z"
+    start = "2023-11-01T00:00:00Z"
   }]
   contact_mails = ["billingmeshi@meshithesheep.io"]
 }
