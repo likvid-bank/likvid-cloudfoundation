@@ -13,6 +13,10 @@ module "terraform_state" {
   location                         = var.terraform_state_storage.location
   cloudfoundation                  = var.terraform_state_storage.name
   terraform_state_config_file_path = var.terraform_state_storage.config_file_path
+  uami_documentation_spn           = var.uami_documentation_spn
+  uami_documentation_issuer        = var.uami_documentation_issuer
+  uami_documentation_name          = var.uami_documentation_name
+  uami_documentation_subject       = var.uami_documentation_subject
 }
 
 # Set permissions on the blob store

@@ -39,7 +39,7 @@ inputs = {
   budget_time_period = [{
     start = "2024-04-01T00:00:00Z"
   }]
-  contact_mails        = ["fnowarre@meshcloud.io"]
-  billing_admin_group  = "likvid-dev-cloudfoundation-billing-admins"
+  contact_mails = ["fnowarre@meshcloud.io"]
+  billing_admin_group = "likvid-dev-cloudfoundation-billing-admins"
   billing_reader_group = "likvid-dev-cloudfoundation-billing-readers"
 }

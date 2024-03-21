@@ -24,7 +24,7 @@ terraform {
   %{if try(get_env("ACTIONS_ID_TOKEN_REQUEST_URL"), null) != null}
     # if you are using
     use_oidc              = true
-    client_id             = "b2b1a17f-df61-4f33-adb3-a576258afb54"
+    client_id             = "58054e6c-60b2-415b-94d3-d6a8a83da8d1"
     %{endif}
     use_azuread_auth      = true
     tenant_id             = "${local.platform.azure.aadTenantId}"
