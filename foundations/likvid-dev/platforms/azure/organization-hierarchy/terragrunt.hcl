@@ -30,6 +30,7 @@ locals {
 
 inputs = {
   # todo: set input variables
+  management_subscription_name = "${local.management_group_prefix}-management"
   connectivity          = "${local.management_group_prefix}-connectivity"
   identity              = "${local.management_group_prefix}-identity"
   landingzones          = "${local.management_group_prefix}-landingzones"

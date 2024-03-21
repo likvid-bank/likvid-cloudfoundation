@@ -58,7 +58,7 @@ resource "azurerm_role_assignment" "logging" {
 
 
 # enables logging on management_group level
-resource "azapi_resource" "diag-setting-management-group" {
+resource "azapi_resource" "diag_setting_management_group" {
   type                    = "Microsoft.Insights/diagnosticSettings@2021-05-01-preview"
   name                    = "toLogAnalyticsWorkspace"
   parent_id               = var.scope
