@@ -1,0 +1,28 @@
+include "platform" {
+  path   = find_in_parent_folders("platform.hcl")
+  expose = true
+}
+
+generate "provider" {
+  path      = "provider.tf"
+  if_exists = "overwrite"
+  contents  = <<EOF
+provider "azurerm" {
+  features {}
+  skip_provider_registration = true
+  storage_use_azuread        = true
+
+  tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
+  subscription_id = "${include.platform.locals.platform.azure.subscriptionId}"
+}
+EOF
+}
+
+terraform {
+  source = "${get_repo_root()}//kit/azure/buildingblocks/automation"
+}
+
+inputs = {
+  location               = "germanywestcentral"
+  service_principal_name = "likvid_foundation_tf_buildingblock_user"
+}
