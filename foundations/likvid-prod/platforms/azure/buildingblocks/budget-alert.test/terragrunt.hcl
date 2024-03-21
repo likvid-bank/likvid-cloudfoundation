@@ -8,9 +8,6 @@ dependency "automation" {
   config_path = "../automation"
 }
 
-dependency "glaskugel" {
-  config_path = "../../tenants/glaskugel"
-}
 
 # generate a config.tf file for automating building block deployments via meshStack
 generate "config" {
@@ -54,5 +51,5 @@ terraform {
 }
 
 inputs = {
-  subscription_id = dependency.glaskugel.outputs.subscription_id
+  subscription_id = "c4a1f7bc-9a89-4a8d-a03f-3df5c639bd5d"
 }
