@@ -15,12 +15,12 @@ jobs:
     tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
     subscription-id: 9809209b-869e-4f5c-8d86-c8b71294153f
   secrets: inherit
-docs_dev:
-  if: github.ref == 'refs/heads/develop'
-  uses: ./.github/workflows/docs-workflow.yml
-  with:
-    foundation: likvid-dev
-    client-id: b2b1a17f-df61-4f33-adb3-a576258afb54 # see azure/bootstrap output
-    tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
-    subscription-id: d2882536-7b9b-4537-ac9a-840d116388a0
-  secrets: inherit
+# docs_dev:
+#   if: github.ref == 'refs/heads/develop'
+#   uses: ./.github/workflows/docs-workflow.yml
+#   with:
+#     foundation: likvid-dev
+#     client-id: b2b1a17f-df61-4f33-adb3-a576258afb54 # see azure/bootstrap output
+#     tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
+#     subscription-id: d2882536-7b9b-4537-ac9a-840d116388a0
+#   secrets: inherit

@@ -1,0 +1,44 @@
+name: terraform
+on:
+  push:
+    branches:
+      - "prod"
+      - "dev"
+      - "feature/*"
+
+    paths:
+    - 'foundations/*/**'
+    - 'kit/*/**'
+
+  pull_request:
+    branches: [ prod ]
+  merge_group:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: create terraform cache
+        # sadly the "runner" context is only available in steps and not in job.env, so
+        run: |
+          dir=${{ runner.temp }}/.terraform.d/plugin-cache
+          mkdir -p $dir # create terraform plugin cache
+          echo "TF_PLUGIN_CACHE_DIR=$dir" >> $GITHUB_ENV
+      - uses: actions/checkout@v3
+
+      - uses: cachix/install-nix-action@v18
+        with:
+          nix_path: nixpkgs=channel:nixos-23.05:nixpkgs-unstable=channel:nixos-unstable
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+      - uses: rrbutani/use-nix-shell-action@v1
+        with:
+          file: default.nix
+
+      - uses: meshcloud/setup-collie@main
+      - name: collie info # this is useful for debugging
+        run: collie info
+
+      - name: pre-commit hooks
+        run: pre-commit run --all-files --show-diff-on-failure
+

@@ -56,7 +56,7 @@ AzureActivity
 
 | Name | Type |
 |------|------|
-| [azapi_resource.diag-setting-management-group](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/resource) | resource |
+| [azapi_resource.diag_setting_management_group](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/resource) | resource |
 | [azuread_group.security_admins](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/group) | resource |
 | [azuread_group.security_auditors](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/group) | resource |
 | [azurerm_log_analytics_workspace.law](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) | resource |

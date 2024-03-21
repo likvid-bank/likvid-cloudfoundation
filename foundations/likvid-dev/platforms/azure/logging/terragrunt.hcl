@@ -36,7 +36,7 @@ EOF
 
 inputs = {
   # todo: set input variables
-  logging_subscription_name  =  "${include.platform.locals.cloudfoundation.name}-logging"
+  logging_subscription_name  = "${include.platform.locals.cloudfoundation.name}-logging"
   parent_management_group_id = "${dependency.organization-hierarchy.outputs.management_id}"
   scope                      = "${dependency.organization-hierarchy.outputs.parent_id}"
   cloudfoundation            = "${include.platform.locals.cloudfoundation.name}"

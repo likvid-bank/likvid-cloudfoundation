@@ -31,11 +31,11 @@ locals {
 inputs = {
   # todo: set input variables
   management_subscription_name = "${local.management_group_prefix}-management"
-  connectivity          = "${local.management_group_prefix}-connectivity"
-  identity              = "${local.management_group_prefix}-identity"
-  landingzones          = "${local.management_group_prefix}-landingzones"
-  locations             = ["germanywestcentral"]
-  management            = "${local.management_group_prefix}-management"
-  parentManagementGroup = dependency.bootstrap.outputs.parent_management_group
-  platform              = "${local.management_group_prefix}-platform"
+  connectivity                 = "${local.management_group_prefix}-connectivity"
+  identity                     = "${local.management_group_prefix}-identity"
+  landingzones                 = "${local.management_group_prefix}-landingzones"
+  locations                    = ["germanywestcentral"]
+  management                   = "${local.management_group_prefix}-management"
+  parentManagementGroup        = dependency.bootstrap.outputs.parent_management_group
+  platform                     = "${local.management_group_prefix}-platform"
 }
