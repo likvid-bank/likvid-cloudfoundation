@@ -1,22 +1,37 @@
 data "azurerm_subscription" "current" {
 }
 
-// set name, tags
-resource "azurerm_subscription" "this" {
-  subscription_id   = data.azurerm_subscription.current.subscription_id
-  subscription_name = var.subscription_name
+resource "azurerm_role_definition" "buildingblock_deploy" {
+  name        = "${var.name}-deploy"
+  description = "Enables deployment of the ${var.name} building block to subscriptions"
+  scope       = var.scope
+
+  permissions {
+    actions = [
+      # Reading management groups
+      "Microsoft.Management/managementGroups/read",
+      "Microsoft.Management/managementGroups/descendants/read",
+
+      # Permissions to move subscriptions between management groups
+      "Microsoft.Management/managementgroups/subscriptions/delete",
+      "Microsoft.Management/managementgroups/subscriptions/write",
+
+      # Rename a subscription
+      "Microsoft.Subscription/rename/action",
+
+      # Permissions for reading and writing tags
+      "Microsoft.Resources/tags/*",
+
+      # Permission we need to activate/register required Resource Providers
+      "*/register/action",
+    ]
+  }
 }
 
-// Select the parent management group.
-// We simply put in a data reference lookup here instead of using a terragrunt dependency since this is faster to
-// execute (no tf state lookup to fetch the output), less complexity (less code to get the same value).
-// Also tenants are arguably a different "level" of deployments separate from core infrastructure
-data "azurerm_management_group" "lz" {
-  display_name = var.parent_management_group
-}
+resource "azurerm_role_assignment" "buildingblock_deploy" {
+  for_each = var.principal_ids
 
-// control placement in the LZ hierarchy
-resource "azurerm_management_group_subscription_association" "lz" {
-  management_group_id = data.azurerm_management_group.lz.id
-  subscription_id     = data.azurerm_subscription.current.id
+  role_definition_id = azurerm_role_definition.buildingblock_deploy.role_definition_resource_id
+  principal_id       = each.value
+  scope              = var.scope
 }

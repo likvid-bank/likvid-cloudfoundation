@@ -34,6 +34,7 @@ provider "azurerm" {
   skip_provider_registration = false
   storage_use_azuread        = true
 
+  # this subscription is managed via meshStack, we hence do not track it as a tenant in this repo
   subscription_id = "76a68a1d-674b-401b-976a-8b251d535f8c"
 }
 
