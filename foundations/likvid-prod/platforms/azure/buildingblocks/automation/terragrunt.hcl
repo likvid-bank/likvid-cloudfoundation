@@ -3,6 +3,10 @@ include "platform" {
   expose = true
 }
 
+dependency "organization-hierarchy" {
+  config_path = "../../organization-hierarchy"
+}
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
@@ -25,4 +29,5 @@ terraform {
 inputs = {
   location               = "germanywestcentral"
   service_principal_name = "likvid_foundation_tf_buildingblock_user"
+  scope                  = dependency.organization-hierarchy.outputs.landingzones_id
 }

@@ -9,6 +9,20 @@ summary: |
 
 This documentation is intended as a reference documentation for cloud foundation or platform engineers using this module.
 
+The biggest problem is resource group deletion. We need to be able to CRUD exclusively owned RGs in customer subscriptions.
+That means we need delete RG permission. But that allows deleting every resource.
+
+Approaches that don't work to limit them
+
+- restrict deletion with `denyAction` unfortunately a dead end since Policy Definitions can't filter on principal ids, so the policy would deny deletion of all RGs
+- assigning only create RG permission on MG, then assign Owner role on created RG to allow deletion. Problem is that `terraform destroy` will first destroy the role assignment, then attempt to delete the RG (which is now missing permission). terraform `prevent_destroy` on the role assignment does not work because this fails terraform plans invoked with `terraform destroy`.
+- 
+
+The only alternatives I see
+
+- customers must supply the RGs, so that the SPN does not have to own their lifecycle and does not need the delete RG permission
+- Azure Policy/ABAC becomes powerful enough one day to restrict this (especially: denyAction)
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -26,8 +40,14 @@ No modules.
 | [azuread_application.buildingblock](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application) | resource |
 | [azuread_service_principal.buildingblock](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal) | resource |
 | [azuread_service_principal_password.buildingblock](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal_password) | resource |
+| [azurerm_management_group_policy_assignment.buildingblock_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/management_group_policy_assignment) | resource |
+| [azurerm_management_group_policy_assignment.buildingblock_rgdelete](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/management_group_policy_assignment) | resource |
+| [azurerm_policy_definition.buildingblock_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
+| [azurerm_policy_definition.buildingblock_rgdelete](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
 | [azurerm_resource_group.tfstates](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
+| [azurerm_role_assignment.buildingblock_deploy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.tfstates_engineers](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_definition.buildingblock_plan](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_definition) | resource |
 | [azurerm_storage_account.tfstates](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
 | [azurerm_storage_container.tfstates](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [random_string.resource_code](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
@@ -41,7 +61,8 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_location"></a> [location](#input\_location) | Azure location for deploying the storage account | `string` | n/a | yes |
-| <a name="input_service_principal_name"></a> [service\_principal\_name](#input\_service\_principal\_name) | n/a | `string` | `null` | no |
+| <a name="input_scope"></a> [scope](#input\_scope) | n/a | `string` | n/a | yes |
+| <a name="input_service_principal_name"></a> [service\_principal\_name](#input\_service\_principal\_name) | n/a | `string` | n/a | yes |
 
 ## Outputs
 
