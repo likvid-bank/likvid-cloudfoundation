@@ -17,7 +17,6 @@ variable "contact_emails" {
 variable "monthly_budget_amount" {
   type        = number
   description = "Set the monthly budget for this subscription in the billing currency."
-  default     = 100
 }
 
 variable "actual_threshold_percent" {

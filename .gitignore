@@ -10,5 +10,5 @@
 **.collie.json
 **.meta.json
 
-generated-backend.tf
-generated-provider.tf
+# generated config.tf files for building blocks
+config.tf
