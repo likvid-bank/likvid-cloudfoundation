@@ -120,4 +120,3 @@ resource "azurerm_management_group_policy_assignment" "buildingblock_access" {
     managedResourceGroups = { value = local.managedResourceGroups }
   })
 }
- 
