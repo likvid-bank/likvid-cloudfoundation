@@ -16,7 +16,7 @@ Approaches that don't work to limit them
 
 - restrict deletion with `denyAction` unfortunately a dead end since Policy Definitions can't filter on principal ids, so the policy would deny deletion of all RGs
 - assigning only create RG permission on MG, then assign Owner role on created RG to allow deletion. Problem is that `terraform destroy` will first destroy the role assignment, then attempt to delete the RG (which is now missing permission). terraform `prevent_destroy` on the role assignment does not work because this fails terraform plans invoked with `terraform destroy`.
-- 
+-
 
 The only alternatives I see
 
@@ -41,9 +41,7 @@ No modules.
 | [azuread_service_principal.buildingblock](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal) | resource |
 | [azuread_service_principal_password.buildingblock](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal_password) | resource |
 | [azurerm_management_group_policy_assignment.buildingblock_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/management_group_policy_assignment) | resource |
-| [azurerm_management_group_policy_assignment.buildingblock_rgdelete](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/management_group_policy_assignment) | resource |
 | [azurerm_policy_definition.buildingblock_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
-| [azurerm_policy_definition.buildingblock_rgdelete](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
 | [azurerm_resource_group.tfstates](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_role_assignment.buildingblock_deploy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.tfstates_engineers](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |

@@ -2,7 +2,11 @@ name: docs
 on:
   push:
     branches:
-      - prod
+      - main
+  pull_request:
+    branches:
+      - main
+  merge_group:
 
 jobs:
   docs:
@@ -38,25 +42,23 @@ jobs:
         env:
           NIXPKGS_ALLOW_UNFREE: 1
 
+      - name: create terraform cache
+        run: |
+          dir=${{ runner.temp }}/.terraform.d/plugin-cache
+          mkdir -p $dir # create terraform plugin cache
+          echo "TF_PLUGIN_CACHE_DIR=$dir" >> $GITHUB_ENV
+
       - name: collie info
         run: collie info
 
-      - name: Run Tests
+      - name: ensure all pre-commit hooks pass
+        run: pre-commit run --all-files --show-diff-on-failure
+
+      - name: terraform plan
+        run: |
+          TF_IN_AUTOMATION=true
+          collie foundation deploy likvid-prod -- plan -lock=false -detailed-exitcode
+
+      - name: run tests
         run: |
           collie foundation test likvid-prod
-
-      - name: Build and Update Documentation
-        run: |
-          collie foundation docs likvid-prod --update --build --verbose --debug
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: "foundations/likvid-prod/.docs/docs/.vuepress/dist"
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
