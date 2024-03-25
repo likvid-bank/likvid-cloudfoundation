@@ -42,7 +42,7 @@ resource "azurerm_role_assignment" "docs_reader" {
   role_definition_name = "Reader"
 
   principal_id = azurerm_user_assigned_identity.docs[0].principal_id
-  scope        = data.azurerm_management_group.root.id
+  scope        = data.azurerm_management_group.parent.id
 }
 
 output "documentation_uami_client_id" {

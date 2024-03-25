@@ -5,7 +5,7 @@ resource "random_string" "resource_code" {
 }
 
 resource "azurerm_resource_group" "tfstates" {
-  name     = "cloudfoundation-tfstates"
+  name     = "cf-${var.cloudfoundation}-tfstates"
   location = var.location
 }
 
@@ -23,14 +23,17 @@ resource "azurerm_storage_account" "tfstates" {
     versioning_enabled = true
     # we simply enable versioning to keep _every_ version without any expiration, you should reconsider this at scale
   }
-
-
 }
 
 resource "azurerm_storage_container" "tfstates" {
   name                  = "tfstates"
   storage_account_name  = azurerm_storage_account.tfstates.name
   container_access_type = "private"
+
+  lifecycle {
+    # set to false only if you really know what you're doing, you might kill tfstates for your entire cloud foundation
+    prevent_destroy = true
+  }
 }
 
 resource "local_file" "tfstates_yaml" {

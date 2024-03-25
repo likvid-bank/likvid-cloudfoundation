@@ -6,7 +6,7 @@
 .docs
 
 # collie cache
-.collie
+.collie/hub
 **.collie.json
 **.meta.json
 
