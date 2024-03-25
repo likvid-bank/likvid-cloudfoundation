@@ -1,4 +1,4 @@
-name: docs
+name: build
 on:
   push:
     branches:
@@ -9,7 +9,7 @@ on:
   merge_group:
 
 jobs:
-  docs:
+  build:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
