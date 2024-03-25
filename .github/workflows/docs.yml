@@ -7,7 +7,7 @@ on:
 
 jobs:
   docs_prod:
-    if: ${{ github.base_ref == 'prod' }}
+    if: ${{ github.ref == 'refs/heads/prod' }}
     uses: ./.github/workflows/docs-workflow.yml
     with:
       foundation: likvid-prod
@@ -16,7 +16,7 @@ jobs:
       subscription-id: 9809209b-869e-4f5c-8d86-c8b71294153f
     secrets: inherit
   docs_dev:
-    if: ${{ github.base_ref == 'dev' }}
+    if: ${{ github.ref == 'refs/heads/dev' }}
     uses: ./.github/workflows/docs-workflow.yml
     with:
       foundation: likvid-dev
