@@ -20,6 +20,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      TERRAGRUNT_TFPATH: tofu
     permissions:
       id-token: write
       contents: read
