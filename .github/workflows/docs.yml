@@ -41,6 +41,10 @@ jobs:
       - name: collie info
         run: collie info
 
+      - name: Run Tests
+        run: |
+          collie foundation test likvid-prod
+
       - name: Build and Update Documentation
         run: |
           collie foundation docs likvid-prod --update --build --verbose --debug

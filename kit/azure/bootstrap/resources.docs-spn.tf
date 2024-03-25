@@ -29,8 +29,7 @@ resource "azurerm_role_assignment" "docs_tfstate" {
   # allow reading terraform state
 
   # important caveat: the current, simplified design of the bootstrap module means that this the docs UAMI can read
-  # the deploy SPN client id/secret and use this to execute the other modules. This is an important shortcomming because
-  # it means that even though the UAMI is read-only, it can read-write execute non-bootstrap terraform modules
+  # the BB automation SPN client id/secret and use this to buildingblocks
   role_definition_name = "Storage Blob Data Reader"
 
   principal_id = azurerm_user_assigned_identity.docs[0].principal_id
