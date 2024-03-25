@@ -4,13 +4,13 @@ on:
     branches:
     - prod
     - dev
-  
+
 jobs:
   build_prod:
     if: ${{ github.base_ref == 'prod' }}
     uses: ./.github/workflows/build-workflow.yml
     secrets: inherit
-    with:   
+    with:
       foundation: likvid-prod
       client-id: 11a89d3c-4fe7-4d94-bcee-c257f7a33009 # see azure/bootstrap output
       tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
@@ -19,7 +19,7 @@ jobs:
     if: ${{ github.base_ref == 'dev' }}
     uses: ./.github/workflows/build-workflow.yml
     secrets: inherit
-    with:   
+    with:
       foundation: likvid-dev
       client-id: 58054e6c-60b2-415b-94d3-d6a8a83da8d1 # see azure/bootstrap output
       tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
