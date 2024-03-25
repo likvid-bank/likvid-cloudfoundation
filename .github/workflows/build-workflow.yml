@@ -45,8 +45,6 @@ jobs:
       - uses: rrbutani/use-nix-shell-action@v1
         with:
           file: default.nix
-        env:
-          NIXPKGS_ALLOW_UNFREE: 1
 
       - name: create terraform cache
         run: |

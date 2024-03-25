@@ -1,23 +1,21 @@
-# This file is maintained automatically by "terraform init".
+# This file is maintained automatically by "tofu init".
 # Manual edits may be lost in future updates.
 
-provider "registry.terraform.io/hashicorp/azurerm" {
-  version = "3.96.0"
+provider "registry.opentofu.org/hashicorp/azurerm" {
+  version = "3.97.1"
   hashes = [
-    "h1:SJmniidGZj2RfXwrWBPOtNEq8RhHK2ONz5GRpQhTuEY=",
-    "h1:o1BGLLHL33WaMjlUYSCr6zo7nuw4mKrpcLee14fSLc0=",
-    "h1:p81ospFjXO6UGMCct9mDXgjMNqtc9YKeRE2hXjefhUM=",
-    "zh:2fb3f3c309bc8b040cd63f3a5711d4a6fc107e653a760063ec3ee6417912d14d",
-    "zh:45b83f492bd371c837df6d68e96ee3ab89faa00f740bca915187b344fd795ae3",
-    "zh:4a8b9f31da14ae824b2358fe772bb03ee79283d3294985f2acb48a0d4cd950bb",
-    "zh:4ab3c38b6141a0bd52d9216383d256771c0bfdc1869dccf52f414ed04290ed35",
-    "zh:6772d182dde23ff3fe10497f104a866cfc1cb848988f830100247363f9dd9ef7",
-    "zh:85875de128bc2d119c63f16116773594345ad5d0e8a3b464f7612479900df640",
-    "zh:9cd696005f4cfab4662d7db81039a64fc4c66d6eeedddf0808f2e97bc8af25f4",
-    "zh:bdc8921161253d3bff8f951cbf63f73f856bbda0ee2e9f51af60d74464059d21",
-    "zh:d7320767f7cde3796906f453a99ba80284fe8479ce127a4703ecf45dd9ef1321",
-    "zh:e0c28b79c0bf5004a9d094a68ec0c887c7df307f2cedeed2cbbef567c61443c6",
-    "zh:f069aa8e951508ea812cb8fef73f79594212864014eb85db39cdea2c648f69ee",
-    "zh:f569b65999264a9416862bca5cd2a6177d94ccb0424f3a4ef424428912b9cb3c",
+    "h1:3dkdNcbivRDtA7eAj9If1xwpP2VFrmDJUL4vdaob4Z0=",
+    "h1:EbpDNSFv5h3YqP74+XjS0Umo/4xWNLeEWW9vw5z6ahs=",
+    "h1:kMmdAHx0H6QtET/ItFyIlTDXP+ogEXfcdVuek7vzI0g=",
+    "zh:48235181f6dd20b258625b8bbab58271a23a1be55f1568e1e674394e4cca0956",
+    "zh:4e85e74ec0a484fa4dbc4c9416c022c3c48c7961e8c36d67e956ad40bb017eea",
+    "zh:61b1a86518c41beea596fd49ec1d40def3a05f145550848aac8e12e2c51c1dea",
+    "zh:6eee44eb01803e25b3845c502f0f92da7cbf59f31ca203e610046a80eb19cbff",
+    "zh:764f3d8bfc7aee697568d85a8414fa8b900c35dc1eb95cfa6d2b251e422ca425",
+    "zh:8726586f45abe9789739c4bd2ebbed37d85ad91e27ee70324efe634d4e3a60cf",
+    "zh:ba64ba0c0f14baadd2ea9089aba3879c1cd61651458cfd4259dbedf1925b02a0",
+    "zh:eb99392a50960caaabb2bb0c5b9e90469ce2a4273ddf9861745a8b4b16991e1e",
+    "zh:edddd5f9bf87cf01aec09432f43d250575d01bc2a95328e9c250bebd14f14970",
+    "zh:eff5a3dae993681b72f007a95f4213cc776438babded81183d0ed799c9095646",
   ]
 }

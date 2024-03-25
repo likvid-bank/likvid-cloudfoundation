@@ -45,8 +45,12 @@ jobs:
       - uses: rrbutani/use-nix-shell-action@v1
         with:
           file: default.nix
-        env:
-          NIXPKGS_ALLOW_UNFREE: 1 # todo: replace terraform with opentofu
+
+      - name: create terraform cache
+        run: |
+          dir=${{ runner.temp }}/.terraform.d/plugin-cache
+          mkdir -p $dir # create terraform plugin cache
+          echo "TF_PLUGIN_CACHE_DIR=$dir" >> $GITHUB_ENV
 
       - name: collie info
         run: collie info
