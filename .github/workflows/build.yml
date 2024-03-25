@@ -1,44 +1,27 @@
-name: terraform
+name: build
 on:
-  push:
-    branches:
-      - "prod"
-      - "dev"
-      - "feature/*"
-
-    paths:
-    - 'foundations/*/**'
-    - 'kit/*/**'
-
   pull_request:
-    branches: [ prod ]
+    branches:
+    - prod
+    - dev
   merge_group:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: create terraform cache
-        # sadly the "runner" context is only available in steps and not in job.env, so
-        run: |
-          dir=${{ runner.temp }}/.terraform.d/plugin-cache
-          mkdir -p $dir # create terraform plugin cache
-          echo "TF_PLUGIN_CACHE_DIR=$dir" >> $GITHUB_ENV
-      - uses: actions/checkout@v3
-
-      - uses: cachix/install-nix-action@v18
-        with:
-          nix_path: nixpkgs=channel:nixos-23.05:nixpkgs-unstable=channel:nixos-unstable
-          extra_nix_config: |
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-      - uses: rrbutani/use-nix-shell-action@v1
-        with:
-          file: default.nix
-
-      - uses: meshcloud/setup-collie@main
-      - name: collie info # this is useful for debugging
-        run: collie info
-
-      - name: pre-commit hooks
-        run: pre-commit run --all-files --show-diff-on-failure
-
+  build_prod:
+    if: github.ref == 'refs/heads/prod'
+      uses: ./.github/workflows/docs-workflow.yml
+      secrets: inherit
+      with:   
+        foundation: likvid-prod
+        client-id: 11a89d3c-4fe7-4d94-bcee-c257f7a33009 # see azure/bootstrap output
+        tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
+        subscription-id: 9809209b-869e-4f5c-8d86-c8b71294153f
+  build_dev:
+    if: github.ref == 'refs/heads/dev'
+      uses: ./.github/workflows/docs-workflow.yml
+      secrets: inherit
+      with:   
+        foundation: likvid-dev
+        client-id: 58054e6c-60b2-415b-94d3-d6a8a83da8d1 # see azure/bootstrap output
+        tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
+        subscription-id: d2882536-7b9b-4537-ac9a-840d116388a0
