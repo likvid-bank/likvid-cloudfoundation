@@ -43,6 +43,6 @@ EOF
 
 inputs = {
   corp_management_group = dependency.corp_online.outputs.corp_id
-  hub_rg   = dependency.networking.outputs.hub_rg
-  hub_vnet = dependency.networking.outputs.hub_vnet
+  hub_rg                = dependency.networking.outputs.hub_rg
+  hub_vnet              = dependency.networking.outputs.hub_vnet
 }
