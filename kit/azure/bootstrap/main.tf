@@ -57,11 +57,18 @@ resource "azurerm_role_definition" "cloudfoundation_deploy" {
       # Permissions for reading and writing tags
       "Microsoft.Resources/tags/*",
 
+      # rename subscriptions",
+      "Microsoft.Subscription/rename/action",
+      "Microsoft.Subscription/aliases/read",
+      "Microsoft.Subscription/aliases/write",
+      "Microsoft.Subscription/aliases/delete",
+
       # Permission we need to activate/register required Resource Providers
       "*/register/action",
 
       # Deployment Permissions
       # Permissions to create storage account and containers
+      # TODO: should these rather be assigned on individual subscriptions?
       "Microsoft.Storage/storageAccounts/*",
       "Microsoft.Storage/storageAccounts/blobServices/containers/*"
     ]

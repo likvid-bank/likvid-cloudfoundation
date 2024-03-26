@@ -48,7 +48,10 @@ resource "azurerm_role_definition" "cloudfoundation_plan" {
       "*/read",
 
       # required by the azurerm_subscription resource, even for terraform plans
-      "Microsoft.Subscription/aliases/*"
+      # https://github.com/hashicorp/terraform-provider-azurerm/issues/23014 still exists as an issue though
+      "Microsoft.Subscription/aliases/read",
+      "Microsoft.Subscription/aliases/write",
+      "Microsoft.Subscription/aliases/delete"
     ]
   }
 
