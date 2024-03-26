@@ -36,6 +36,6 @@ inputs = {
   landingzones                 = "${local.management_group_prefix}-landingzones"
   locations                    = ["germanywestcentral"]
   management                   = "${local.management_group_prefix}-management"
-  parentManagementGroup        = dependency.bootstrap.outputs.parent_management_group
+  parent_management_group_name = dependency.bootstrap.outputs.parent_management_group
   platform                     = "${local.management_group_prefix}-platform"
 }

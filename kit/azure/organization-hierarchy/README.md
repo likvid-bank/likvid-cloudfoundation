@@ -90,7 +90,7 @@ After deploying this module, you should probably deploy the following kit module
 | <a name="input_locations"></a> [locations](#input\_locations) | This is for the Azure Allowed locations. Additionally, we use the first added locations where this policy assignment should exist, which is required when an identity is assigned. | `list(string)` | <pre>[<br>  "germanywestcentral"<br>]</pre> | no |
 | <a name="input_management"></a> [management](#input\_management) | n/a | `string` | `"management"` | no |
 | <a name="input_management_subscription_name"></a> [management\_subscription\_name](#input\_management\_subscription\_name) | Name of your management subscription | `string` | `"management"` | no |
-| <a name="input_parentManagementGroup"></a> [parentManagementGroup](#input\_parentManagementGroup) | n/a | `string` | `"foundation"` | no |
+| <a name="input_parent_management_group_name"></a> [parent\_management\_group\_name](#input\_parent\_management\_group\_name) | n/a | `string` | `"foundation"` | no |
 | <a name="input_platform"></a> [platform](#input\_platform) | n/a | `string` | `"platform"` | no |
 
 ## Outputs
