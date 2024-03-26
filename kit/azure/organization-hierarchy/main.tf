@@ -53,6 +53,7 @@ data "azurerm_subscription" "current" {
 }
 
 resource "azurerm_subscription" "management" {
+  # note: by specifying a subscription_id the terraform provider will "adopt" the existing subscription
   subscription_id   = data.azurerm_subscription.current.subscription_id
   subscription_name = var.management_subscription_name
 }

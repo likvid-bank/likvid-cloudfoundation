@@ -2,7 +2,7 @@ module "subscription" {
   source = "../../../../../../../../../kit/azure/buildingblocks/subscription/buildingblock"
 
   subscription_name       = "glaskugel"
-  parent_management_group = "likvid-corp"
+  parent_management_group = var.corp_management_group
 }
 
 data "azurerm_subscription" "current" {}
