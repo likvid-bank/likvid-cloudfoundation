@@ -1,4 +1,21 @@
-{ pkgs ? import <nixpkgs> { }, unstable ? import <nixpkgs-unstable> { } }:
+{ pkgs ? import <nixpkgs> { } }:
+
+let
+  # fake opentofu as terraform so that tools like terraform-docs pre-commit hook (which doesn't have tofu support)
+  # fall back to tofu
+  tofu_terraform =
+    pkgs.stdenv.mkDerivation {
+      name = "tofu-terraform";
+      phases = ["installPhase"];
+      installPhase = ''
+        mkdir -p $out/bin
+        echo "#!/usr/bin/env sh" > $out/bin/terraform
+        echo "tofu" > $out/bin/terraform
+        chmod +x $out/bin/terraform
+      '';
+    };
+
+in
 
 pkgs.mkShell {
   NIX_SHELL = "likvid-cloudfoundation";
@@ -12,6 +29,9 @@ pkgs.mkShell {
     pkgs.terragrunt
     pkgs.tflint
     pkgs.terraform-docs
+
+    # fake tofu as terraform
+    tofu_terraform
 
     # cloud provider clis
     pkgs.azure-cli
