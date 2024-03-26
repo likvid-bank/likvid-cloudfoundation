@@ -6,7 +6,7 @@ on:
     - dev
 
 jobs:
-  build_prod:
+  prod:
     if: ${{ github.base_ref == 'prod' }}
     uses: ./.github/workflows/build-workflow.yml
     secrets: inherit
@@ -15,7 +15,7 @@ jobs:
       client-id: 11a89d3c-4fe7-4d94-bcee-c257f7a33009 # see azure/bootstrap output
       tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
       subscription-id: 9809209b-869e-4f5c-8d86-c8b71294153f
-  build_dev:
+  dev:
     if: ${{ github.base_ref == 'dev' }}
     uses: ./.github/workflows/build-workflow.yml
     secrets: inherit

@@ -6,7 +6,7 @@ on:
       - dev
 
 jobs:
-  docs_prod:
+  prod:
     if: ${{ github.ref == 'refs/heads/prod' }}
     uses: ./.github/workflows/docs-workflow.yml
     with:
