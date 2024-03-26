@@ -29,11 +29,9 @@ inputs = {
   locations = ["germanywestcentral", "westeurope"]
 
   connectivity          = "likvid-connectivity"
-  corp                  = "likvid-corp"
   identity              = "likvid-identity"
   landingzones          = "likvid-landingzones"
   management            = "likvid-management"
-  online                = "likvid-online"
   parentManagementGroup = "likvid-foundation"
   platform              = "likvid-platform"
 
