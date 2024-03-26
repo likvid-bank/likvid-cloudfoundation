@@ -112,7 +112,7 @@ collie foundation deploy --bootstrap -- destroy
 | <a name="input_parent_management_group_name"></a> [parent\_management\_group\_name](#input\_parent\_management\_group\_name) | Name of the management group you want to use as parent for your foundation. | `string` | n/a | yes |
 | <a name="input_platform_engineers_group"></a> [platform\_engineers\_group](#input\_platform\_engineers\_group) | the name of the cloud foundation platform engineers group | `string` | `"cloudfoundation-platform-engineers"` | no |
 | <a name="input_platform_engineers_members"></a> [platform\_engineers\_members](#input\_platform\_engineers\_members) | Set up a group of platform engineers. If enabled, this group will receive access to terraform\_state\_storage | <pre>list(object({<br>    email = string,<br>    upn   = string,<br>  }))</pre> | n/a | yes |
-| <a name="input_terraform_state_storage"></a> [terraform\_state\_storage](#input\_terraform\_state\_storage) | Configure this object to enable setting up a terraform state store in Azure Storage. | <pre>object({<br>    location         = string,<br>    name             = string,<br>    config_file_path = string<br>  })</pre> | `null` | no |
+| <a name="input_terraform_state_storage"></a> [terraform\_state\_storage](#input\_terraform\_state\_storage) | Configure this object to enable setting up a terraform state store in Azure Storage. | <pre>object({<br>    location            = string,<br>    name                = string,<br>    config_file_path    = string,<br>    resource_group_name = optional(string)<br>  })</pre> | `null` | no |
 
 ## Outputs
 

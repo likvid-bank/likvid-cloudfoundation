@@ -10,9 +10,10 @@ variable "parent_management_group_name" {
 
 variable "terraform_state_storage" {
   type = object({
-    location         = string,
-    name             = string,
-    config_file_path = string
+    location            = string,
+    name                = string,
+    config_file_path    = string,
+    resource_group_name = optional(string)
   })
   nullable    = true
   default     = null

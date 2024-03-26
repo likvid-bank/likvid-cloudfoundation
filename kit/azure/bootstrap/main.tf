@@ -13,6 +13,7 @@ module "terraform_state" {
   location                         = var.terraform_state_storage.location
   cloudfoundation                  = var.terraform_state_storage.name
   terraform_state_config_file_path = var.terraform_state_storage.config_file_path
+  resource_group_name              = var.terraform_state_storage.resource_group_name
 }
 
 # Set permissions on the blob store

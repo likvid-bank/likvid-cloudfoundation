@@ -64,7 +64,9 @@ terraform {
 }
 
 inputs = {
-  aad_tenant_id              = include.platform.locals.platform.azure.aadTenantId
+  aad_tenant_id                = include.platform.locals.platform.azure.aadTenantId
+  parent_management_group_name = "likvid-foundation"
+
   platform_engineers_members = local.platform_engineers_members
   platform_engineers_group   = "likvid-cloudfoundation-platform-engineers"
 
@@ -74,9 +76,10 @@ inputs = {
   }
 
   terraform_state_storage = {
-    name             = "${include.platform.locals.cloudfoundation.name}"
-    location         = "germanywestcentral"                                     #TODO change, the azure location of the resource group and storage account
-    config_file_path = include.platform.locals.terraform_state_config_file_path # platform.hcl expects state configuration output in this location, do not change
+    name                = "${include.platform.locals.cloudfoundation.name}"
+    location            = "germanywestcentral"                                     #TODO change, the azure location of the resource group and storage account
+    config_file_path    = include.platform.locals.terraform_state_config_file_path # platform.hcl expects state configuration output in this location, do not change
+    resource_group_name = "cloudfoundation-tfstates"
   }
 
 }
