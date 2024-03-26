@@ -61,7 +61,7 @@ pkgs.mkShell {
   (
     # install the following tools only when not running in CI, because they are already preinstalled/expensive
     if (builtins.getEnv "CI" == "true")
-    then 
+    then
       [ ]
     else
       [
