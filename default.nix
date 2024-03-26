@@ -9,8 +9,8 @@ let
       phases = ["installPhase"];
       installPhase = ''
         mkdir -p $out/bin
-        echo "#!/usr/bin/env sh" > $out/bin/terraform
-        echo "tofu" > $out/bin/terraform
+        echo '#!/usr/bin/env sh' > $out/bin/terraform
+        echo 'tofu $@' > $out/bin/terraform
         chmod +x $out/bin/terraform
       '';
     };
