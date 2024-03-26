@@ -31,7 +31,7 @@ locals {
 inputs = {
   # todo: set input variables
   parent_management_group_name = "${local.management_group_prefix}-foundation"
-  locations             = ["germanywestcentral"]
+  locations                    = ["germanywestcentral"]
 
   management   = "${local.management_group_prefix}-management"
   connectivity = "${local.management_group_prefix}-connectivity"
