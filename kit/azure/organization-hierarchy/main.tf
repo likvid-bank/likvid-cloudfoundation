@@ -52,8 +52,8 @@ resource "azurerm_management_group" "management" {
 data "azurerm_subscription" "current" {
 }
 
-
-resource "null_resource" "management_subscription_name" {
+# workaround for https://github.com/hashicorp/terraform-provider-azurerm/issues/23014
+resource "terraform_data" "management_subscription_name" {
   # note: we assume we are running azure CLI with CLI authentication, which should hopefully also work in CI
   provisioner "local-exec" {
     when    = create

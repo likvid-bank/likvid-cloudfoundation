@@ -1,11 +1,14 @@
 data "azurerm_subscription" "current" {
 }
 
-// set name, tags
-resource "azurerm_subscription" "this" {
-  subscription_id   = data.azurerm_subscription.current.subscription_id
-  subscription_name = var.subscription_name
+# workaround for https://github.com/hashicorp/terraform-provider-azurerm/issues/23014
+resource "terraform_data" "subscription_name" {
+  provisioner "local-exec" {
+    when    = create
+    command = "az account subscription rename --id ${data.azurerm_subscription.current.subscription_id} --name ${var.subscription_name}"
+  }
 }
+
 
 // control placement in the LZ hierarchy
 resource "azurerm_management_group_subscription_association" "lz" {
