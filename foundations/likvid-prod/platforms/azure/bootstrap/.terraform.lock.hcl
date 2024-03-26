@@ -6,6 +6,8 @@ provider "registry.opentofu.org/aztfmod/azurecaf" {
   constraints = "~> 1.2.26"
   hashes = [
     "h1:RVsdmzqbjnTGKahU5vpC/qPklRWdSweUKPp+0A/6c60=",
+    "h1:mYyiClMYdRE6pIWgmRlvOVL58CC2yZOo1BiHuMjJap0=",
+    "h1:nN8fopM4x2M3uGYonAoMO5oR4m7pUgDi6UHLyxutub0=",
     "zh:1429bb7a873cdd69e324eaa96a3847ee9363d69ce360126b47b56e419863b024",
     "zh:29fe1eedb502e887b543c425b6fc9cb2cb5d3d1e69f830b6a4781dbe79d61ef1",
     "zh:340dd7ffebf3e3c5fd1d978166902c4544396a22853b6007f371aead8c92cbb3",
@@ -26,6 +28,8 @@ provider "registry.opentofu.org/hashicorp/azuread" {
   version     = "2.46.0"
   constraints = "~> 2.46.0"
   hashes = [
+    "h1:EfmwatI6o3pjmxFq5jCMQMFC2KFYSirBOiE3JogzISc=",
+    "h1:hhHtr7PrC9bov2HU9k5HYtSokEFGl2W6cwLOLSdFepk=",
     "h1:z3807L5BQfiD07tz1gr6pWBGmLaTzUSSbEuH7pGbld8=",
     "zh:106199c931d8576f915be2d8061c4d2600c87feb590d6232947ccab10a5f11c4",
     "zh:5377261644a456cb473a8c4e51d0bf5656f7263acf3d85ac6145eb49812debd0",
@@ -45,6 +49,8 @@ provider "registry.opentofu.org/hashicorp/azurerm" {
   constraints = "~> 3.81.0"
   hashes = [
     "h1:CxTUEoaGZSxtYIrvNOISK6IwS/01MtSiSA9dEfODxYs=",
+    "h1:Sp73xf4EJedTW9WHVLMZ592ru1TWXtpQKbogvJcCwyI=",
+    "h1:qARrK4O1rqwkA1XBaGfjHRoEu1lUJ1S/fUtEWLl5laI=",
     "zh:18fc741b7045f3972e3c3d189e69910a88820fa3167008447645910d1953a523",
     "zh:1a6d085397f3dc924c617e9327bbb151c46a87b4a58448fa95415f76d2c88320",
     "zh:23ca9b247abb712060a240816f939762393a2f71bd67d0f5cabc8211a61f5d83",
@@ -62,6 +68,8 @@ provider "registry.opentofu.org/hashicorp/local" {
   version = "2.5.1"
   hashes = [
     "h1:87L+rpGao062xifb1VuG9YVFwp9vbDP6G2fgfYxUkQs=",
+    "h1:GgW5qncKu4KnXLE1ZYv5iwmhSYtTNzsOvJAOQIyFR7E=",
+    "h1:Ur9dG6cz1z2yHLkkWmpCwL1naYYBB6nvnOdGJBADAG0=",
     "zh:031c2c2070672b7e78e0aa15560839278dc57fe7cf1e58a617ac13c67b31d5fb",
     "zh:1ef64ea4f8382cd538a76f3d319f405d18130dc3280f1c16d6aaa52a188ecaa4",
     "zh:422ce45691b2f384dbd4596fdc8209d95cb43d85a82aaa0173089d38976d6e96",
@@ -78,7 +86,9 @@ provider "registry.opentofu.org/hashicorp/local" {
 provider "registry.opentofu.org/hashicorp/random" {
   version = "3.6.0"
   hashes = [
+    "h1:/xwPFz7kMERBIEk8i6UJt2fTvgzMFbwKlcyCvRJO8Ok=",
     "h1:6QMZ6JACl+V2t8daN5GTlw22EtG7nhc3BbkbJDw2a5M=",
+    "h1:dMz6mC37wIEfyrB0VA8gzPx/tsCQJuQmjpoxUgwwEqU=",
     "zh:486a1c921eab5c51a480f2eb0ad85173f207c9b7bb215f3893e58bc38d3b7c75",
     "zh:6901b3afa4607d1e31934ba91ed2625215ada42b3518c3a9adeeac7a5f656dc3",
     "zh:7e93752c9de710e417191353ad1a41b5a60432ab7ef4f8b556bf248297ec5e23",
