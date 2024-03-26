@@ -34,36 +34,10 @@ resource "azurerm_role_assignment" "docs_tfstate" {
   scope        = module.terraform_state[0].container_id
 }
 
-
-resource "azurerm_role_definition" "cloudfoundation_plan" {
-  count = var.terraform_state_storage != null && var.documentation_uami != null ? 1 : 0
-
-  name        = azurerm_user_assigned_identity.docs[0].name
-  scope       = data.azurerm_management_group.parent.id
-  description = "Permissions required to plan deployments of the cloudfoundation"
-
-  permissions {
-    actions = [
-      # equivalent to the global reader role, this is an easy way to enable the SPN to run terraform plans and detect drift
-      "*/read",
-
-      # required by the azurerm_subscription resource, even for terraform plans
-      # https://github.com/hashicorp/terraform-provider-azurerm/issues/23014 still exists as an issue though
-      "Microsoft.Subscription/aliases/read",
-      "Microsoft.Subscription/aliases/write",
-      "Microsoft.Subscription/aliases/delete"
-    ]
-  }
-
-  assignable_scopes = [
-    data.azurerm_management_group.parent.id
-  ]
-}
-
 resource "azurerm_role_assignment" "docs_reader" {
   count = var.terraform_state_storage != null && var.documentation_uami != null ? 1 : 0
 
-  scope              = data.azurerm_management_group.parent.id
-  role_definition_id = azurerm_role_definition.cloudfoundation_plan[0].role_definition_resource_id
-  principal_id       = azurerm_user_assigned_identity.docs[0].principal_id
+  scope                = data.azurerm_management_group.parent.id
+  role_definition_name = "Reader"
+  principal_id         = azurerm_user_assigned_identity.docs[0].principal_id
 }
