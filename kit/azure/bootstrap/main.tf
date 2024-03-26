@@ -64,13 +64,7 @@ resource "azurerm_role_definition" "cloudfoundation_deploy" {
       "Microsoft.Subscription/aliases/delete",
 
       # Permission we need to activate/register required Resource Providers
-      "*/register/action",
-
-      # Deployment Permissions
-      # Permissions to create storage account and containers
-      # TODO: should these rather be assigned on individual subscriptions?
-      "Microsoft.Storage/storageAccounts/*",
-      "Microsoft.Storage/storageAccounts/blobServices/containers/*"
+      "*/register/action"
     ]
   }
 
