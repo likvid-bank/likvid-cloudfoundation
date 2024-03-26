@@ -17,3 +17,7 @@ output "module_storage_account_resource_id" {
 output "parent_management_group" {
   value = data.azurerm_management_group.parent.name
 }
+
+output "documentation_uami_client_id" {
+  value = length(azurerm_user_assigned_identity.docs) > 0 ? azurerm_user_assigned_identity.docs[0].client_id : null
+}
