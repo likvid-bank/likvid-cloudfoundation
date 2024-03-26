@@ -7,8 +7,8 @@ dependency "bootstrap" {
   config_path = "${path_relative_from_include()}/bootstrap"
 }
 
-dependency "organization-hierarchy" {
-  config_path = "${path_relative_from_include()}/organization-hierarchy"
+dependency "corp_online" {
+  config_path = "${path_relative_from_include()}/landingzones/corp-online"
 }
 
 terraform {
@@ -48,5 +48,5 @@ EOF
 
 inputs = {
   name                       = "cloudnative"
-  parent_management_group_id = dependency.organization-hierarchy.outputs.online_id
+  parent_management_group_id = dependency.corp_online.outputs.online_id
 }
