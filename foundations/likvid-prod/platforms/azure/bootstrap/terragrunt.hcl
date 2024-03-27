@@ -15,11 +15,6 @@ provider "azurerm" {
   tenant_id                  = "${include.platform.locals.platform.azure.aadTenantId}"
   subscription_id            = "${include.platform.locals.platform.azure.subscriptionId}"
   storage_use_azuread        = true
-
-  %{if try(get_env("ACTIONS_ID_TOKEN_REQUEST_URL"), null) != null}
-  use_oidc              = true
-  client_id             = "11a89d3c-4fe7-4d94-bcee-c257f7a33009"
-  %{endif}
 }
 
 provider "azuread" {
