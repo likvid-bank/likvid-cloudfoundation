@@ -41,3 +41,14 @@ resource "azurerm_role_assignment" "docs_reader" {
   role_definition_name = "Reader"
   principal_id         = azurerm_user_assigned_identity.docs[0].principal_id
 }
+
+resource "azuread_directory_role" "readers" {
+  display_name = "Directory Readers"
+}
+
+resource "azuread_directory_role_assignment" "docs_reader" {
+  count = var.terraform_state_storage != null && var.documentation_uami != null ? 1 : 0
+
+  role_id             = azuread_directory_role.readers.template_id
+  principal_object_id = azurerm_user_assigned_identity.docs[0].principal_id
+}
