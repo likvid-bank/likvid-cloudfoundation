@@ -3,12 +3,16 @@ include "platform" {
   expose = true
 }
 
-dependency "bootstrap" {
-  config_path = "${path_relative_from_include()}/bootstrap"
+terraform {
+  source = "${get_repo_root()}//kit/azure/landingzones/corp-online"
 }
 
-terraform {
-  source = "${get_repo_root()}//kit/azure/organization-hierarchy"
+dependency "bootstrap" {
+  config_path = "../../bootstrap"
+}
+
+dependency "organization-hierarchy" {
+  config_path = "../../organization-hierarchy"
 }
 
 generate "provider" {
@@ -20,18 +24,13 @@ provider "azurerm" {
   skip_provider_registration = true
   tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
   subscription_id = "${include.platform.locals.platform.azure.subscriptionId}"
-  }
+}
 EOF
 }
 
 inputs = {
-  parent_management_group_name = "likvid-foundation"
-  locations                    = ["germanywestcentral", "westeurope"]
-
-  connectivity = "likvid-connectivity"
-  identity     = "likvid-identity"
-  landingzones = "likvid-landingzones"
-  management   = "likvid-management"
-  platform     = "likvid-platform"
-
+  # todo: set input variables
+  cloudfoundation            = "${include.platform.locals.cloudfoundation.name}"
+  parent_management_group_id = "${dependency.organization-hierarchy.outputs.landingzones_id}"
+  location                   = "germanywestcentral"
 }

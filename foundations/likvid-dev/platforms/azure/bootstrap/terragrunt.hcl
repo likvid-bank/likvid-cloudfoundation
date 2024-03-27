@@ -63,6 +63,11 @@ inputs = {
     oidc_subject = "repo:likvid-bank/likvid-cloudfoundation:environment:github-pages"
   }
 
+  validation_uami = {
+    name         = "likvid_dev_foundation_tf_validation_user"
+    oidc_subject = "repo:likvid-bank/likvid-cloudfoundation:environment:likvid-dev"
+  }
+
   platform_engineers_group = "likvid-dev-cloudfoundation-platform-engineers"
   terraform_state_storage = {
     name             = "${include.platform.locals.cloudfoundation.name}"

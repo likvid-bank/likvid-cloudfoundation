@@ -7,8 +7,8 @@ dependency "networking" {
   config_path = "../../networking"
 }
 
-dependency "organization-hierarchy" {
-  config_path = "../../organization-hierarchy"
+dependency "corp_online" {
+  config_path = "../../landingzones/corp-online"
 }
 
 dependency "automation" {
@@ -36,7 +36,7 @@ terraform {
 
 inputs = {
   name  = "connectivity"
-  scope = dependency.organization-hierarchy.outputs.corp_id
+  scope = dependency.corp_online.outputs.corp_id
 
   principal_ids = toset([
     dependency.networking.outputs.network_admins_azuread_group_id,

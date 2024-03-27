@@ -16,12 +16,22 @@ dependency "sandbox" {
 }
 
 # For GitHub we use github cli authentication see https://registry.terraform.io/providers/integrations/github/latest/docs#github-cli
+# Unless we run in CI, where we need to use app authentication. For convenience we reuse the same app we use for
+# automating BB deploys.
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
   contents  = <<EOF
 provider "github" {
   owner = "likvid-bank"
+
+  %{if try(get_env("CI"), null) != null}
+  app_auth {
+    id              = var.github_app_id
+    installation_id = var.github_app_installation_id
+    # pem_file sourced from env var GITHUB_APP_PEM_FILE
+  }
+  %{endif}
 }
 
 provider "azuread" {
@@ -47,7 +57,7 @@ terraform {
 inputs = {
   service_principal_name = "devops-toolchain-starterkit"
   location               = "germanywestcentral"
-  scope                  = dependency.sandbox.outputs.management_group_id
+  scope                  = dependency.sandbox.outputs.sandbox_id
 
   github_app_id              = "654209"
   github_app_installation_id = "44437049"

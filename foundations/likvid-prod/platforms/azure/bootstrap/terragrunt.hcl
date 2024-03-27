@@ -15,11 +15,6 @@ provider "azurerm" {
   tenant_id                  = "${include.platform.locals.platform.azure.aadTenantId}"
   subscription_id            = "${include.platform.locals.platform.azure.subscriptionId}"
   storage_use_azuread        = true
-
-  %{if try(get_env("ACTIONS_ID_TOKEN_REQUEST_URL"), null) != null}
-  use_oidc              = true
-  client_id             = "11a89d3c-4fe7-4d94-bcee-c257f7a33009"
-  %{endif}
 }
 
 provider "azuread" {
@@ -64,7 +59,9 @@ terraform {
 }
 
 inputs = {
-  aad_tenant_id              = include.platform.locals.platform.azure.aadTenantId
+  aad_tenant_id                = include.platform.locals.platform.azure.aadTenantId
+  parent_management_group_name = "likvid-foundation"
+
   platform_engineers_members = local.platform_engineers_members
   platform_engineers_group   = "likvid-cloudfoundation-platform-engineers"
 
@@ -73,10 +70,15 @@ inputs = {
     oidc_subject = "repo:likvid-bank/likvid-cloudfoundation:environment:github-pages"
   }
 
-  terraform_state_storage = {
-    name             = "${include.platform.locals.cloudfoundation.name}"
-    location         = "germanywestcentral"                                     #TODO change, the azure location of the resource group and storage account
-    config_file_path = include.platform.locals.terraform_state_config_file_path # platform.hcl expects state configuration output in this location, do not change
+  validation_uami = {
+    name         = "likvid_foundation_tf_validation_user"
+    oidc_subject = "repo:likvid-bank/likvid-cloudfoundation:environment:likvid-prod"
   }
 
+  terraform_state_storage = {
+    name                = "${include.platform.locals.cloudfoundation.name}"
+    location            = "germanywestcentral"                                     #TODO change, the azure location of the resource group and storage account
+    config_file_path    = include.platform.locals.terraform_state_config_file_path # platform.hcl expects state configuration output in this location, do not change
+    resource_group_name = "cloudfoundation-tfstates"
+  }
 }

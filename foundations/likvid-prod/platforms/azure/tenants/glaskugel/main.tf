@@ -2,7 +2,7 @@ module "subscription" {
   source = "../../../../../../../../../kit/azure/buildingblocks/subscription/buildingblock"
 
   subscription_name       = "glaskugel"
-  parent_management_group = "likvid-corp"
+  parent_management_group = var.corp_management_group
 }
 
 data "azurerm_subscription" "current" {}
@@ -24,10 +24,11 @@ module "connectivity" {
     azurerm.hub   = azurerm.hub
   }
 
-  subscription_id = data.azurerm_subscription.current.subscription_id
-  location        = "germanywestcentral"
-  hub_rg          = var.hub_rg
-  hub_vnet        = var.hub_vnet
+  subscription_id          = data.azurerm_subscription.current.subscription_id
+  location                 = "germanywestcentral"
+  hub_rg                   = var.hub_rg
+  hub_vnet                 = var.hub_vnet
+  spoke_owner_principal_id = var.spoke_owner_principal_id
 
   name          = "glaskugel"
   address_space = "10.1.0.0/24"

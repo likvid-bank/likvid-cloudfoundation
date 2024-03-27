@@ -5,7 +5,8 @@ resource "random_string" "resource_code" {
 }
 
 resource "azurerm_resource_group" "tfstates" {
-  name     = "cf-${var.cloudfoundation}-tfstates"
+  # for legacy reasons, we have to support this old name because we started deploying before the kit went live
+  name     = coalesce(var.resource_group_name, "cf-${var.cloudfoundation}-tfstates")
   location = var.location
 }
 

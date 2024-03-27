@@ -19,7 +19,7 @@ resource "azurerm_role_assignment" "spoke_rg" {
   provider = azurerm.spoke
 
   role_definition_name = "Owner"
-  principal_id         = data.azurerm_client_config.spoke.object_id
+  principal_id         = coalesce(var.spoke_owner_principal_id, data.azurerm_client_config.spoke.object_id)
   scope                = azurerm_resource_group.spoke_rg.id
 }
 

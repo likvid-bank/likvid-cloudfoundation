@@ -4,24 +4,23 @@ on:
     branches:
     - prod
     - dev
-  merge_group:
 
 jobs:
-  build_prod:
-    if: github.ref == 'refs/heads/prod'
-      uses: ./.github/workflows/docs-workflow.yml
-      secrets: inherit
-      with:   
-        foundation: likvid-prod
-        client-id: 11a89d3c-4fe7-4d94-bcee-c257f7a33009 # see azure/bootstrap output
-        tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
-        subscription-id: 9809209b-869e-4f5c-8d86-c8b71294153f
-  build_dev:
-    if: github.ref == 'refs/heads/dev'
-      uses: ./.github/workflows/docs-workflow.yml
-      secrets: inherit
-      with:   
-        foundation: likvid-dev
-        client-id: 58054e6c-60b2-415b-94d3-d6a8a83da8d1 # see azure/bootstrap output
-        tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
-        subscription-id: d2882536-7b9b-4537-ac9a-840d116388a0
+  prod:
+    if: ${{ github.base_ref == 'prod' }}
+    uses: ./.github/workflows/build-workflow.yml
+    secrets: inherit
+    with:
+      foundation: likvid-prod
+      client-id: d009bc1c-9076-4e4e-8cdf-967bc25f5dcf # see azure/bootstrap output
+      tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
+      subscription-id: 9809209b-869e-4f5c-8d86-c8b71294153f
+  dev:
+    if: ${{ github.base_ref == 'dev' }}
+    uses: ./.github/workflows/build-workflow.yml
+    secrets: inherit
+    with:
+      foundation: likvid-dev
+      client-id: 9db76cb2-5586-48cf-bdfc-6db6732338b5 # see azure/bootstrap output
+      tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
+      subscription-id: d2882536-7b9b-4537-ac9a-840d116388a0

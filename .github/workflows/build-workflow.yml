@@ -18,21 +18,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      name: ${{ inputs.foundation }}
+    env:
+      TERRAGRUNT_TFPATH: tofu
+      ARM_CLIENT_ID: ${{ inputs.client-id }} # export this for platform.hcl
+      ARM_USE_OIDC: true
+      GITHUB_APP_PEM_FILE: ${{ secrets.LIVKID_GITHUB_APP_PEM_FILE }} # note: this environment secret must be set up manually on the github repo
     permissions:
       id-token: write
       contents: read
-      pages: write
+
     steps:
       - name: Setup az login
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           client-id: ${{ inputs.client-id }}
           tenant-id: ${{ inputs.tenant-id }}
           subscription-id: ${{ inputs.subscription-id }}
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: meshcloud/setup-collie@main
 
@@ -45,8 +49,6 @@ jobs:
       - uses: rrbutani/use-nix-shell-action@v1
         with:
           file: default.nix
-        env:
-          NIXPKGS_ALLOW_UNFREE: 1
 
       - name: create terraform cache
         run: |

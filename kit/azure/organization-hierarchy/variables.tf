@@ -4,7 +4,7 @@ variable "management_subscription_name" {
   description = "Name of your management subscription"
 }
 
-variable "parentManagementGroup" {
+variable "parent_management_group_name" {
   default = "foundation"
 }
 

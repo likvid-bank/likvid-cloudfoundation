@@ -13,5 +13,11 @@ variable "terraform_state_config_file_path" {
 variable "cloudfoundation" {
   type        = string
   nullable    = false
-  description = "tfstate resource group for the statefiles"
+  description = "cloudfoundation name to infer resource group for the statefiles"
+}
+
+variable "resource_group_name" {
+  type        = string
+  nullable    = true
+  description = "explicitly override default resource_group_name (useful for migrating from legacy versions of this kit module)"
 }

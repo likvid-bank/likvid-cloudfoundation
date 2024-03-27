@@ -11,13 +11,29 @@ resource "azurerm_role_assignment" "network_admins_dns" {
   scope                = var.connectivity_scope
 }
 
-resource "azurerm_role_assignment" "network_admins" {
+resource "azurerm_role_assignment" "network_admins_connectivity" {
   role_definition_name = "Network Contributor"
+  description          = "grant permission for network admins to manage all centrally managed networks"
   principal_id         = azuread_group.network_admins.object_id
   scope                = var.connectivity_scope
 }
 
-# Set up permissions for deploy user
+resource "azurerm_role_assignment" "network_admins_landingzone" {
+  role_definition_name = "Network Contributor"
+  description          = "grant permission for network admins to manage networks for all landingzones"
+  principal_id         = azuread_group.network_admins.object_id
+  scope                = var.landingzone_scope
+}
+
+resource "azurerm_role_assignment" "network_admins" {
+  role_definition_name = "Storage Blob Data Reader"
+  description          = "grant permission for network admins to read flow logs"
+  principal_id         = azuread_group.network_admins.object_id
+  scope                = data.azurerm_subscription.current.id
+}
+
+
+# Set up permissions for deploying to this subscription
 resource "azurerm_role_definition" "cloudfoundation_tfdeploy" {
   name  = "${var.cloudfoundation}_network"
   scope = data.azurerm_subscription.current.id
@@ -31,7 +47,6 @@ resource "azurerm_role_definition" "cloudfoundation_tfdeploy" {
       "Microsoft.Network/networkWatchers/*",
       "Microsoft.Network/networkSecurityGroups/*",
       "Microsoft.Network/routeTables/*",
-
     ]
   }
 }
@@ -40,40 +55,4 @@ resource "azurerm_role_assignment" "cloudfoundation_tfdeploy" {
   principal_id       = var.cloudfoundation_deploy_principal_id
   scope              = data.azurerm_subscription.current.id
   role_definition_id = azurerm_role_definition.cloudfoundation_tfdeploy.role_definition_resource_id
-}
-
-resource "azurerm_role_assignment" "network_contributor" {
-  principal_id         = var.cloudfoundation_deploy_principal_id
-  scope                = data.azurerm_subscription.current.id
-  role_definition_name = "Network Contributor"
-}
-
-# Permissions for deploy user on subscription in landing zones management groups
-resource "azurerm_role_definition" "cloudfoundation_tfdeploy_lz" {
-  name  = var.lz_networking_deploy
-  scope = var.landingzone_scope
-  permissions {
-    actions = [
-      "Microsoft.Resources/subscriptions/resourceGroups/write",
-      "Microsoft.Resources/subscriptions/resourceGroups/delete",
-      # Permissions for network for the landingzones
-      "Microsoft.Network/publicIPPrefixes/*",
-      "Microsoft.Network/virtualNetworks/*",
-      "Microsoft.Network/networkWatchers/*",
-      "Microsoft.Network/networkSecurityGroups/*",
-      "Microsoft.Resources/subscriptions/resourceGroups/delete",
-    ]
-  }
-}
-
-resource "azurerm_role_assignment" "cloudfoundation_tfdeploy_lz" {
-  principal_id       = var.cloudfoundation_deploy_principal_id
-  scope              = var.landingzone_scope
-  role_definition_id = azurerm_role_definition.cloudfoundation_tfdeploy_lz.role_definition_resource_id
-}
-
-resource "azurerm_role_assignment" "network_contributor_lz" {
-  principal_id         = var.cloudfoundation_deploy_principal_id
-  scope                = var.landingzone_scope
-  role_definition_name = "Network Contributor"
 }
