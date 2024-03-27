@@ -23,10 +23,11 @@ jobs:
       TERRAGRUNT_TFPATH: tofu
       ARM_CLIENT_ID: ${{ inputs.client-id }} # export this for platform.hcl
       ARM_USE_OIDC: true
+      GITHUB_APP_PEM_FILE: ${{ secrets.LIVKID_GITHUB_APP_PEM_FILE }} # note: this environment secret must be set up manually on the github repo
     permissions:
       id-token: write
       contents: read
-      pages: write
+
     steps:
       - name: Setup az login
         uses: azure/login@v2
