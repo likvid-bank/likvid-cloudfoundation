@@ -31,6 +31,12 @@ provider "azurerm" {
 provider "azuread" {
   tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
 }
+
+provider "azapi" {
+  tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
+  subscription_id = "9d1bf77a-19c2-451f-8a7a-fca410190236"
+}
+
 EOF
 }
 
