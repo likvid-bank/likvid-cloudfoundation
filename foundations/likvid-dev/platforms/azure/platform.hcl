@@ -21,10 +21,9 @@ generate "backend" {
 terraform {
   %{if local.tfstateconfig != null}
   backend "azurerm" {
-  %{if try(get_env("ACTIONS_ID_TOKEN_REQUEST_URL"), null) != null}
-    # if you are using
+    %{if try(get_env("ACTIONS_ID_TOKEN_REQUEST_URL"), null) != null}
     use_oidc              = true
-    client_id             = "58054e6c-60b2-415b-94d3-d6a8a83da8d1"
+    client_id             = ${get_env("ARM_CLIENT_ID")}
     %{endif}
     use_azuread_auth      = true
     tenant_id             = "${local.platform.azure.aadTenantId}"

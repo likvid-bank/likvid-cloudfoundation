@@ -75,11 +75,15 @@ inputs = {
     oidc_subject = "repo:likvid-bank/likvid-cloudfoundation:environment:github-pages"
   }
 
+  validation_uami = {
+    name         = "likvid_foundation_tf_validation_user"
+    oidc_subject = "repo:likvid-bank/likvid-cloudfoundation:environment:likvid-prod"
+  }
+
   terraform_state_storage = {
     name                = "${include.platform.locals.cloudfoundation.name}"
     location            = "germanywestcentral"                                     #TODO change, the azure location of the resource group and storage account
     config_file_path    = include.platform.locals.terraform_state_config_file_path # platform.hcl expects state configuration output in this location, do not change
     resource_group_name = "cloudfoundation-tfstates"
   }
-
 }

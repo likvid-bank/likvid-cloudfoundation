@@ -22,6 +22,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     env:
       TERRAGRUNT_TFPATH: tofu
+      ARM_CLIENT_ID: ${{ inputs.client-id }} # export this for platform.hcl
     permissions:
       id-token: write
       contents: read

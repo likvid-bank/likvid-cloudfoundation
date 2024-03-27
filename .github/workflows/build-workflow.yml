@@ -18,10 +18,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      name: ${{ inputs.foundation }}
     env:
       TERRAGRUNT_TFPATH: tofu
+      ARM_CLIENT_ID: ${{ inputs.client-id }} # export this for platform.hcl
     permissions:
       id-token: write
       contents: read
