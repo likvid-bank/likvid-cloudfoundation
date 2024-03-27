@@ -7,8 +7,6 @@ data "azurerm_management_group" "parent" {
 }
 
 module "terraform_state" {
-  count = var.terraform_state_storage != null ? 1 : 0
-
   source                           = "./terraform-state"
   location                         = var.terraform_state_storage.location
   cloudfoundation                  = var.terraform_state_storage.name
@@ -16,13 +14,16 @@ module "terraform_state" {
   resource_group_name              = var.terraform_state_storage.resource_group_name
 }
 
+moved {
+  from = module.terraform_state[0]
+  to   = module.terraform_state
+}
+
 # Set permissions on the blob store
 resource "azurerm_role_assignment" "tfstates_engineers" {
-  count = var.terraform_state_storage != null ? 1 : 0
-
   role_definition_name = "Storage Blob Data Owner"
   principal_id         = azuread_group.platform_engineers.object_id
-  scope                = module.terraform_state[0].container_id
+  scope                = module.terraform_state.container_id
 }
 
 resource "azurerm_role_definition" "cloudfoundation_deploy" {
@@ -64,13 +65,7 @@ resource "azurerm_role_definition" "cloudfoundation_deploy" {
       "Microsoft.Subscription/aliases/delete",
 
       # Permission we need to activate/register required Resource Providers
-      "*/register/action",
-
-      # Deployment Permissions
-      # Permissions to create storage account and containers
-      # TODO: should these rather be assigned on individual subscriptions?
-      "Microsoft.Storage/storageAccounts/*",
-      "Microsoft.Storage/storageAccounts/blobServices/containers/*"
+      "*/register/action"
     ]
   }
 

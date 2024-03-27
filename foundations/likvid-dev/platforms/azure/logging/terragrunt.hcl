@@ -31,17 +31,23 @@ provider "azurerm" {
 provider "azuread" {
   tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
 }
+
+provider "azapi" {
+  tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
+  subscription_id = "9d1bf77a-19c2-451f-8a7a-fca410190236"
+}
+
 EOF
 }
 
 inputs = {
-  # todo: set input variables
-  logging_subscription_name  = "${include.platform.locals.cloudfoundation.name}-logging"
-  parent_management_group_id = "${dependency.organization-hierarchy.outputs.management_id}"
-  scope                      = "${dependency.organization-hierarchy.outputs.parent_id}"
-  cloudfoundation            = "${include.platform.locals.cloudfoundation.name}"
-  security_auditor_group     = "likvid-dev-cloudfoundation-security-auditors"
-  security_admin_group       = "likvid-dev-cloudfoundation-security-admin"
-  location                   = "germanywestcentral"
-  log_retention_in_days      = 30
+  logging_subscription_name           = "${include.platform.locals.cloudfoundation.name}-logging"
+  parent_management_group_id          = "${dependency.organization-hierarchy.outputs.management_id}"
+  cloudfoundation_deploy_principal_id = dependency.bootstrap.outputs.platform_engineers_azuread_group_id
+  scope                               = "${dependency.organization-hierarchy.outputs.parent_id}"
+  cloudfoundation                     = "${include.platform.locals.cloudfoundation.name}"
+  security_auditor_group              = "likvid-dev-cloudfoundation-security-auditors"
+  security_admin_group                = "likvid-dev-cloudfoundation-security-admin"
+  location                            = "germanywestcentral"
+  log_retention_in_days               = 30
 }

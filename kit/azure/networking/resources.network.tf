@@ -15,6 +15,8 @@ resource "azurerm_management_group_subscription_association" "vnet" {
 }
 
 resource "azurerm_resource_group" "hub_resource_group" {
+  depends_on = [azurerm_role_assignment.cloudfoundation_tfdeploy]
+
   name     = var.hub_resource_group
   location = var.location
 }

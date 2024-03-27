@@ -3,9 +3,8 @@ locals {
   default_location = var.locations[0]
 }
 
-# location restriction
 data "azurerm_management_group" "parent" {
-  display_name = var.parentManagementGroup
+  name = var.parent_management_group_name
 }
 
 module "policy_root" {

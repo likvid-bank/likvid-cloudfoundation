@@ -15,8 +15,7 @@ variable "terraform_state_storage" {
     config_file_path    = string,
     resource_group_name = optional(string)
   })
-  nullable    = true
-  default     = null
+  nullable    = false
   description = "Configure this object to enable setting up a terraform state store in Azure Storage."
 }
 
@@ -40,6 +39,17 @@ variable "documentation_uami" {
     # note: it seems wildcards are not supported yet, see https://github.com/Azure/azure-workload-identity/issues/373
     oidc_subject = string
   })
-  description = "read-only UAMI with access to terraform states to host the documentation or activate a drift detection pipeline"
+  description = "read-only UAMI with access to terraform states to generate documentation in CI pipelines"
+  default     = null
+}
+
+
+variable "validation_uami" {
+  type = object({
+    name = string
+    # note: it seems wildcards are not supported yet, see https://github.com/Azure/azure-workload-identity/issues/373
+    oidc_subject = string
+  })
+  description = "read-only UAMI with access to terraform states and read-only access on the landingzone architecture for validation of the deployment in CI pipelines"
   default     = null
 }

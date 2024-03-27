@@ -77,6 +77,7 @@ AzureActivity
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cloudfoundation"></a> [cloudfoundation](#input\_cloudfoundation) | this is the name of your cloud foundation | `string` | n/a | yes |
+| <a name="input_cloudfoundation_deploy_principal_id"></a> [cloudfoundation\_deploy\_principal\_id](#input\_cloudfoundation\_deploy\_principal\_id) | Principal ID authorized for deploying Cloud Foundation resources | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | location of the resources created for logging | `string` | n/a | yes |
 | <a name="input_log_retention_in_days"></a> [log\_retention\_in\_days](#input\_log\_retention\_in\_days) | amount of time of log retention | `number` | `30` | no |
 | <a name="input_logging_subscription_name"></a> [logging\_subscription\_name](#input\_logging\_subscription\_name) | Name of your logging subscription | `string` | `"logging"` | no |

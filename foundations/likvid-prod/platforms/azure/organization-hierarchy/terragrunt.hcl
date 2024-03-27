@@ -25,14 +25,13 @@ EOF
 }
 
 inputs = {
-  # todo: set input variables
-  locations = ["germanywestcentral", "westeurope"]
+  parent_management_group_name = "likvid-foundation"
+  locations                    = ["germanywestcentral", "westeurope"]
 
-  connectivity          = "likvid-connectivity"
-  identity              = "likvid-identity"
-  landingzones          = "likvid-landingzones"
-  management            = "likvid-management"
-  parentManagementGroup = "likvid-foundation"
-  platform              = "likvid-platform"
+  connectivity = "likvid-connectivity"
+  identity     = "likvid-identity"
+  landingzones = "likvid-landingzones"
+  management   = "likvid-management"
+  platform     = "likvid-platform"
 
 }

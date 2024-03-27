@@ -11,7 +11,6 @@ locals {
 # terragrunt does not support azure remote_state, so we use a traditional generate block
 
 # see https://developer.hashicorp.com/terraform/language/settings/backends/azurerm for config options
-# ACTIONS_ID_TOKEN_REQUEST_URL is set by GitHub actions runtime
 generate "backend" {
   path      = "backend.tf"
   if_exists = "overwrite"
@@ -19,10 +18,6 @@ generate "backend" {
 terraform {
   %{if local.tfstateconfig != null}
   backend "azurerm" {
-    %{if try(get_env("ACTIONS_ID_TOKEN_REQUEST_URL"), null) != null}
-    use_oidc              = true
-    client_id             = "11a89d3c-4fe7-4d94-bcee-c257f7a33009"
-    %{endif}
     use_azuread_auth      = true
     tenant_id             = "${local.platform.azure.aadTenantId}"
     subscription_id       = "${local.platform.azure.subscriptionId}"
