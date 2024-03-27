@@ -12,6 +12,10 @@ dependency "buildingblock" {
   config_path = "../subscription"
 }
 
+dependency "corp_online" {
+  config_path = "../../landingzones/corp-online"
+}
+
 # configure a provider to use our "buildingblock test" subscription
 generate "config" {
   path      = "config.tf"
@@ -31,4 +35,9 @@ EOF
 
 terraform {
   source = "${get_repo_root()}//kit/azure/buildingblocks/subscription/buildingblock"
+}
+
+inputs = {
+  subscription_name       = "likvid-prod-buildingblock-test"
+  parent_management_group = dependency.corp_online.outputs.corp_id # note: the subscription needs to live in likvid-corp because we use it also for connectivity scenario tests
 }

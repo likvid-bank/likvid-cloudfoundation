@@ -22,4 +22,5 @@ variable "subscription_id" {
 variable "spoke_owner_principal_id" {
   type        = string
   description = "Principal id that will become owner of the spokes. Defaults to the client_id of the spoke azurerm provider."
+  default     = null
 }
