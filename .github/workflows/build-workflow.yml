@@ -22,6 +22,7 @@ jobs:
     env:
       TERRAGRUNT_TFPATH: tofu
       ARM_CLIENT_ID: ${{ inputs.client-id }} # export this for platform.hcl
+      ARM_USE_OIDC: true
     permissions:
       id-token: write
       contents: read

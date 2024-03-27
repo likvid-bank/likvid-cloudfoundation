@@ -10,10 +10,6 @@ locals {
 
 # terragrunt does not support azure remote_state, so we use a traditional generate block
 
-# The `if` trigger `ACTIONS_ID_TOKEN_REQUEST_URL` is for running Terraform over a
-# pipeline in that case as a GitHub Actions pipeline. The created `client_id` is an
-# output of the bootstrap module.
-
 generate "backend" {
   path      = "backend.tf"
   if_exists = "overwrite"
@@ -21,10 +17,6 @@ generate "backend" {
 terraform {
   %{if local.tfstateconfig != null}
   backend "azurerm" {
-    %{if try(get_env("ACTIONS_ID_TOKEN_REQUEST_URL"), null) != null}
-    use_oidc              = true
-    client_id             = "${get_env("ARM_CLIENT_ID")}"
-    %{endif}
     use_azuread_auth      = true
     tenant_id             = "${local.platform.azure.aadTenantId}"
     subscription_id       = "${local.platform.azure.subscriptionId}"
