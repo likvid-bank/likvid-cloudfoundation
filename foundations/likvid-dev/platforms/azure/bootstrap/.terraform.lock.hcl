@@ -25,8 +25,7 @@ provider "registry.opentofu.org/aztfmod/azurecaf" {
 }
 
 provider "registry.opentofu.org/hashicorp/azuread" {
-  version     = "2.46.0"
-  constraints = "~> 2.46.0"
+  version = "2.46.0"
   hashes = [
     "h1:EfmwatI6o3pjmxFq5jCMQMFC2KFYSirBOiE3JogzISc=",
     "h1:hhHtr7PrC9bov2HU9k5HYtSokEFGl2W6cwLOLSdFepk=",
@@ -45,8 +44,7 @@ provider "registry.opentofu.org/hashicorp/azuread" {
 }
 
 provider "registry.opentofu.org/hashicorp/azurerm" {
-  version     = "3.81.0"
-  constraints = "~> 3.81.0"
+  version = "3.81.0"
   hashes = [
     "h1:CxTUEoaGZSxtYIrvNOISK6IwS/01MtSiSA9dEfODxYs=",
     "h1:Sp73xf4EJedTW9WHVLMZ592ru1TWXtpQKbogvJcCwyI=",
