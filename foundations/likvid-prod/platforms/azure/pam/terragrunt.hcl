@@ -15,6 +15,10 @@ dependency "billing" {
   config_path = "${path_relative_from_include()}/billing"
 }
 
+dependency "networking" {
+  config_path = "${path_relative_from_include()}/networking"
+}
+
 terraform {
   source = "${get_repo_root()}//kit/azure/pam"
 }
@@ -44,6 +48,7 @@ inputs = {
     dependency.billing.outputs.billing_readers_azuread_group_id,
     dependency.logging.outputs.security_admins_azuread_group_id,
     dependency.logging.outputs.security_auditors_azuread_group_id,
+    dependency.networking.outputs.network_admins_azuread_group_id,
   ]
 
   # optional, manage members direcly via terraform
@@ -55,8 +60,11 @@ inputs = {
     {
       group_object_id = dependency.logging.outputs.security_admins_azuread_group_id,
       members_by_mail = ["jrudolph@meshcloud.io", "ckraus@meshcloud.io", "fnowarre@meshcloud.io"]
+    },
+    {
+      group_object_id = dependency.networking.outputs.network_admins_azuread_group_id,
+      members_by_mail = ["jrudolph@meshcloud.io", "fnowarre@meshcloud.io"]
     }
-
     # note: platform_engineers members are managed via bootstrap module right now
   ]
 }

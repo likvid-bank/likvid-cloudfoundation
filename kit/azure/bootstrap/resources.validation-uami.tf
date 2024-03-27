@@ -32,12 +32,29 @@ resource "azurerm_role_assignment" "validation_tfstate" {
   scope        = module.terraform_state.container_id
 }
 
+resource "azurerm_role_definition" "validation_reader" {
+  count = var.validation_uami != null ? 1 : 0
+
+  name        = var.validation_uami.name
+  scope       = data.azurerm_management_group.parent.id
+  description = "grants permission to validate the deployment of the landing zone architecture (terraform apply)"
+
+  permissions {
+    actions = [
+      "*/read", # read everything
+
+      # required for terraform plan on azurerm_storage_account resource
+      "Microsoft.Storage/storageAccounts/listKeys/action"
+    ]
+  }
+}
+
 resource "azurerm_role_assignment" "validation_reader" {
   count = var.validation_uami != null ? 1 : 0
 
-  scope                = data.azurerm_management_group.parent.id
-  role_definition_name = "Reader"
-  principal_id         = azurerm_user_assigned_identity.validation[0].principal_id
+  scope              = data.azurerm_management_group.parent.id
+  role_definition_id = azurerm_role_definition.validation_reader[0].role_definition_resource_id
+  principal_id       = azurerm_user_assigned_identity.validation[0].principal_id
 }
 
 resource "azuread_directory_role" "readers" {
