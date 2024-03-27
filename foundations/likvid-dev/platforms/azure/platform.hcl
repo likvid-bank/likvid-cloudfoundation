@@ -23,6 +23,7 @@ terraform {
   backend "azurerm" {
     %{if try(get_env("ACTIONS_ID_TOKEN_REQUEST_URL"), null) != null}
     use_oidc              = true
+    client_id             = "${get_env("ARM_CLIENT_ID")}"
     %{endif}
     use_azuread_auth      = true
     tenant_id             = "${local.platform.azure.aadTenantId}"
