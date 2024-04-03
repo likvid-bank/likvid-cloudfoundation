@@ -1,42 +1,37 @@
+name: pr-in-collie-hub
+
 on:
   push:
     branches:
       - prod
 
-name: pr-in-collie-hub
-
 jobs:
   send-pull-requests:
     runs-on: ubuntu-latest
     steps:
-      - id: create_token
-        uses: tibdex/github-app-token@v2
-        with:
-          app_id: ${{ secrets.MESHCLOUD_ORG_GH_APP_ID }}
-          private_key: ${{ secrets.MESHCLOUD_ORG_GH_APP_ID }}
-
-     - name: Checkout collie-hub repo
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Checkout collie-hub repo
         uses: actions/checkout@v4
         with:
+          path: hub
           repository: meshcloud/collie-hub
-          token: ${{ steps.create_token.outputs.token }}
+          ssh-key: ${{ secrets.COLLIE_HUB_KEY }}
 
-      - name: copy kits azure
+      - name: Copy kits from likvid-cloudfoundation to collie-hub
         run: |
-          cp -r likvid-cloudfoundation/kit/azure kit/azure
-
-      - name: Create Pull Request in collie-hub repo
-        uses: peter-evans/create-pull-request@v6
+          rsync -av --exclude='*.tftest.hcl' kit/azure hub/kit/azure
+          ls hub/kit/azure
+          cd hub
+          git add * 
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -a -m "feature: Latest changes from likvid-cloudfoundation prod branch"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
         with:
-          token: ${{ steps.create_token.outputs.token }}
-          commit-message: "feature: update azure kits from latest prod build"
-          committer: GitHub Actions <github-actions@meshcloud.io>
-          signoff: false
-          branch: feature/update-collie-kits
-          base: main
-          delete-branch: true
-          title: "[latest likvid kits] update latest kits from likvid-cloudfoundation"
-          body: |
-            The latest kits from likvid-cloudfoundation builds on the prod branch.
-            - This PR is updated automatically with changes, until merged
-          draft: false
+          force: true
+          directory: hub
+          ssh: true
+          repository: meshcloud/collie-hub
+          branch: "feature/auto-backporting"
