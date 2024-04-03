@@ -3,7 +3,8 @@
 # these will be provided by the platform implementations using this kit module.
 
 module "meshplatform" {
-  source = "git::https://github.com/meshcloud/terraform-azure-meshplatform.git?ref=21bd961"
+  source  = "registry.terraform.io/meshcloud/meshplatform/azure"
+  version = "0.5.0"
 
   metering_enabled                      = var.metering_enabled
   metering_service_principal_name       = var.metering_service_principal_name
