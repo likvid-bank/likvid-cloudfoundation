@@ -14,11 +14,6 @@ module "terraform_state" {
   resource_group_name              = var.terraform_state_storage.resource_group_name
 }
 
-moved {
-  from = module.terraform_state[0]
-  to   = module.terraform_state
-}
-
 # Set permissions on the blob store
 resource "azurerm_role_assignment" "tfstates_engineers" {
   role_definition_name = "Storage Blob Data Owner"
