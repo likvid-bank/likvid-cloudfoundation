@@ -1,5 +1,4 @@
 name: pr-in-collie-hub
-
 on:
   push:
     branches:
@@ -21,7 +20,7 @@ jobs:
       # TODO: its only for azure yet but it will be a similar workflow for AWS/GCP
       - name: Copy kits from likvid-cloudfoundation to collie-hub
         run: |
-          rsync -av --exclude='*.tftest.hcl' kit/azure hub/kit/azure
+          rsync -av --exclude='*.tftest.hcl' kit/azure hub/kit/
           ls hub/kit/azure
           cd hub
           git add *
