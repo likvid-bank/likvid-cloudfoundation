@@ -33,6 +33,7 @@ locals {
     "mkazemi@meshcloud.io",
     "malhussan@meshcloud.io",
     "fzieger@meshcloud.io",
+    "hdettmer@meshcloud.io",
   ]
 
   # Likvid Bank's AAD used in this demo is a "workload AAD tenant" that doesn't have its own users,

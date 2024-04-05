@@ -31,7 +31,6 @@ This kit module forms the core of your [Azure Landing Zone architecture](https:/
 modules, see [related kit modules](#related-kit-modules) below.
 
 ## Overview
-
 The Terraform configuration in this repository establishes a hierarchical structure of management groups to organize and govern Azure resources effectively.
 
 This kit module provides a good starting point with many commonly deployed policies.
