@@ -1,5 +1,4 @@
 name: pr-in-collie-hub
-
 on:
   pull_request:
     branches:
