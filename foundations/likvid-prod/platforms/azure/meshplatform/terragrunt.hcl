@@ -37,4 +37,10 @@ inputs = {
   metering_assignment_scopes   = ["${dependency.bootstrap.outputs.parent_management_group}"]
   replicator_assignment_scopes = ["${dependency.bootstrap.outputs.parent_management_group}"]
   additional_permissions       = ["Microsoft.Subscription/rename/action"]
+
+  workload_identity_federation = {
+    issuer             = "https://container.googleapis.com/v1/projects/meshcloud-meshcloud--bc0/locations/europe-west1/clusters/meshstacks-ha"
+    replicator_subject = "system:serviceaccount:meshcloud-demo:replicator"
+    kraken_subject     = "system:serviceaccount:meshcloud-demo:kraken-worker"
+  }
 }
