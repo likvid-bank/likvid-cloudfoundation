@@ -1,6 +1,6 @@
 name: pr-in-collie-hub
 on:
-  pull_request:
+  push:
     branches:
       - prod
 
