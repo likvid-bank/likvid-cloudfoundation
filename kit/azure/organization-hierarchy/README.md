@@ -24,7 +24,6 @@ compliance:
 ---
 
 # Azure Organization Hierarchy
-# this is also a test
 
 
 This repository provides a Terraform configuration for setting up Azure Management Groups in alignment with the Azure Enterprise Scale Cloud Adoption Framework (CAF). The management groups enable efficient management, access control, and policy enforcement across multiple Azure subscriptions.
