@@ -13,7 +13,7 @@ This is our Team:
 
 ## Your way to the cloud
 
-The cloud is generally available to all applications that meet a minimum of regulatory copmliance requirements.
+The cloud is generally available to all applications that meet a minimum of regulatory compliance requirements.
 In order to support compliance while at the same time enabling fast iteration and development of new applications,
 the cloud onboarding process works as follow
 
