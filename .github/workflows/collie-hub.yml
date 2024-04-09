@@ -17,6 +17,7 @@ jobs:
           repository: meshcloud/collie-hub
           ssh-key: ${{ secrets.COLLIE_HUB_KEY }}
 
+      # TODO: its only for azure yet but it will be a similar workflow for AWS/GCP
       - name: Copy kits from likvid-cloudfoundation to collie-hub
         run: |
           rsync -av --exclude='*.tftest.hcl' kit/azure hub/kit/
