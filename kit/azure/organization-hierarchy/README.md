@@ -25,6 +25,7 @@ compliance:
 
 # Azure Organization Hierarchy
 
+
 This repository provides a Terraform configuration for setting up Azure Management Groups in alignment with the Azure Enterprise Scale Cloud Adoption Framework (CAF). The management groups enable efficient management, access control, and policy enforcement across multiple Azure subscriptions.
 
 This kit module forms the core of your [Azure Landing Zone architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/#azure-landing-zone-architecture). You can build on this with other kit
