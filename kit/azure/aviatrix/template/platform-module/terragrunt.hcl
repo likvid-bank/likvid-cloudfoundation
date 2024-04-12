@@ -34,7 +34,7 @@ EOF
 
 inputs = {
   # todo: set input variables
-  parent_management_group = "${dependency.organization-hierarchy.outputs.landingzones}"
+  parent_management_group = "${dependency.organization-hierarchy.outputs.landingzones_id}"
   # todo: azure will throw an error if date is in a past month
 
   }
