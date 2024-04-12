@@ -23,7 +23,7 @@ resource "azurerm_role_definition" "aviatrix_deploy" {
       "Microsoft.Resources/deployments/*",
       "Microsoft.Resources/tags/*",
       "Microsoft.Resources/marketplace/purchase/action",
-      "Microsoft.Resources/subscriptions/resourceGroups/*"    
+      "Microsoft.Resources/subscriptions/resourceGroups/*"
     ]
   }
 

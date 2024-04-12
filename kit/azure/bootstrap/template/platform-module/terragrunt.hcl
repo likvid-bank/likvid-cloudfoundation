@@ -51,4 +51,10 @@ inputs = {
       upn   = "meshi@meshithesheep.onmicrosoft.com" #TODO change, enter PLATFORM ENGINEERS UPN here
     }
   ]
+  key_vault = {
+    name                = "likvid-cloudfoundation-kv"
+    resource_group_name = "likvid-cloudfoundation-keyvault"
+  }
+
+
 }

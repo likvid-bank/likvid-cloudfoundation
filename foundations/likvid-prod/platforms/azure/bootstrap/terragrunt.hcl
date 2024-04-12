@@ -77,8 +77,8 @@ inputs = {
   }
 
   key_vault = {
-    name = "cloudfoundation-keyvault" 
-    resource_group_name = "cloudfoundation-keyvault" 
+    name                = "likvid-cloudfoundation-kv"
+    resource_group_name = "likvid-cloudfoundation-keyvault"
   }
 
   terraform_state_storage = {
@@ -87,5 +87,5 @@ inputs = {
     config_file_path    = include.platform.locals.terraform_state_config_file_path # platform.hcl expects state configuration output in this location, do not change
     resource_group_name = "cloudfoundation-tfstates"
   }
-  
+
 }

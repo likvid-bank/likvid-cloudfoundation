@@ -37,4 +37,4 @@ inputs = {
   parent_management_group = "${dependency.organization-hierarchy.outputs.landingzones}"
   # todo: azure will throw an error if date is in a past month
 
-  }
+}
