@@ -1,0 +1,24 @@
+{
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2022-06-01",
+  "name": "Deny-Nw-Resource-Change",
+  "dependsOn": [],
+  "properties": {
+    "displayName": "Deny Network changes for Application teams in the Landingzone",
+    "description": "This policy assignment allows only autohrized groups to changing network resources.",
+    "policyDefinitionId": "${current_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/Deny-Network-Resource-Changes",
+    "enforcementMode": "Default",
+    "parameters": {
+      "allowedUserGroupObjectId": {
+        "value": ${allowed_user_group_id}
+      }
+    },
+    "scope": "${current_scope_resource_id}",
+    "notScopes": [],
+    "location": "${default_location}"
+    
+  },
+  "identity": {
+      "type": "None"
+    }
+}

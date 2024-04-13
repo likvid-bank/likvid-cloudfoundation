@@ -77,8 +77,8 @@ inputs = {
   }
 
   key_vault = {
-    name                = "likvid-cloudfoundation-kv"
-    resource_group_name = "likvid-cloudfoundation-keyvault"
+    name                = "likvid-cf-kv"
+    resource_group_name = "likvid-cf-rg-kv"
   }
 
   terraform_state_storage = {

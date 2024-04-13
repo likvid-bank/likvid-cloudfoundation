@@ -26,7 +26,9 @@ Aviatrix
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_policy_aviatrix"></a> [policy\_aviatrix](#module\_policy\_aviatrix) | github.com/meshcloud/collie-hub//kit/azure/util/azure-policies | ef06c8d |
 
 ## Resources
 
@@ -48,6 +50,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_allowed_user_group_id"></a> [allowed\_user\_group\_id](#input\_allowed\_user\_group\_id) | id of the authorized id which can do changes | `list(string)` | n/a | yes |
+| <a name="input_location"></a> [location](#input\_location) | The Azure location used for creating policy assignments establishing this landing zone's guardrails. | `string` | n/a | yes |
 | <a name="input_parent_management_group"></a> [parent\_management\_group](#input\_parent\_management\_group) | id of the tenant management group | `string` | n/a | yes |
 | <a name="input_service_principal_name"></a> [service\_principal\_name](#input\_service\_principal\_name) | id of the tenant management group | `string` | `"avaitrix_deploy_spn"` | no |
 

@@ -1,0 +1,38 @@
+{
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2022-06-01",
+  "name": "Deny-Network-Resource-Changes",
+  "properties": {
+    "displayName": "Deny VNet Creation",
+    "description": "This policy denies the creation networks services, except for specific groups.",
+    "mode": "All",
+    "parameters": {
+      "allowedUserGroupObjectId": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed User Group Object ID",
+          "description": "The Object ID of the allowed user group."
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Authorization/roleAssignments/principalId",
+              "in": "[parameters('allowedUserGroupObjectId')]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    }
+  }
+}
