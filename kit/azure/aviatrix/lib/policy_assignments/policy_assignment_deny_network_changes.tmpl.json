@@ -16,7 +16,7 @@
     "scope": "${current_scope_resource_id}",
     "notScopes": [],
     "location": "${default_location}"
-    
+
   },
   "identity": {
       "type": "None"

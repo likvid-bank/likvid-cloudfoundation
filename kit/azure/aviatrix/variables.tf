@@ -21,3 +21,8 @@ variable "location" {
   type        = string
   description = "The Azure location used for creating policy assignments establishing this landing zone's guardrails."
 }
+
+variable "key_vault_id" {
+  type = string
+}
+
