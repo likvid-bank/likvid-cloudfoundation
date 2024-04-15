@@ -102,11 +102,11 @@ resource "azuread_app_role_assignment" "aviatrix_deploy-directory" {
 # This azuread_app_role_assignment is necessary if you want to manage groups through Terraform.
 # Productive use in a cloud foundation should probably manage groups not via Terraform but
 # via existing IAM processes, but this is a good lean start.
-resource "azuread_app_role_assignment" "aviatrix_deploy-group" {
-  app_role_id         = data.azuread_service_principal.msgraph.app_role_ids["Group.ReadWrite.All"]
-  principal_object_id = azuread_service_principal.aviatrix_deploy.object_id
-  resource_object_id  = data.azuread_service_principal.msgraph.object_id
-}
+# resource "azuread_app_role_assignment" "aviatrix_deploy-group" {
+#   app_role_id         = data.azuread_service_principal.msgraph.app_role_ids["Group.ReadWrite.All"]
+#   principal_object_id = azuread_service_principal.aviatrix_deploy.object_id
+#   resource_object_id  = data.azuread_service_principal.msgraph.object_id
+# }
 
 resource "azuread_app_role_assignment" "aviatrix_deploy-approle" {
   app_role_id         = data.azuread_service_principal.msgraph.app_role_ids["AppRoleAssignment.ReadWrite.All"]

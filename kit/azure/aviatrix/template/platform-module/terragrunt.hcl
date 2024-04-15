@@ -35,6 +35,6 @@ EOF
 inputs = {
   # todo: set input variables
   parent_management_group = "${dependency.organization-hierarchy.outputs.landingzones_id}"
-  # todo: azure will throw an error if date is in a past month
-
+  allowed_user_group_id   = ["${dependency.bootstrap.outputs.platform_engineers_azuread_group_id}"]
+  location                = "${try(include.platform.locals.tfstateconfig.location, "could not read location from stateconfig. configure it explicitly")}"
 }
