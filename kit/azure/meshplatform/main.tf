@@ -3,8 +3,10 @@
 # these will be provided by the platform implementations using this kit module.
 
 module "meshplatform" {
-  source  = "registry.terraform.io/meshcloud/meshplatform/azure"
-  version = "0.5.0"
+  # todo: switch back to an official version once its released
+  # source  = "registry.terraform.io/meshcloud/meshplatform/azure"
+  # version = "0.5.0"
+  source = "git::https://github.com/meshcloud/terraform-azure-meshplatform.git?ref=c48c8a9"
 
   metering_enabled                      = var.metering_enabled
   metering_service_principal_name       = var.metering_service_principal_name
@@ -19,4 +21,5 @@ module "meshplatform" {
   additional_required_resource_accesses = var.additional_required_resource_accesses
   create_passwords                      = var.create_passwords
   workload_identity_federation          = var.workload_identity_federation
+  can_cancel_subscriptions_in_scopes    = var.can_cancel_subscriptions_in_scopes
 }
