@@ -23,6 +23,7 @@ resource "azurerm_key_vault" "key_vault" {
       "Create",
       "Delete",
       "Get",
+      "List",
       "Purge",
       "Recover",
       "Update",
