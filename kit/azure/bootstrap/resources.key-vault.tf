@@ -25,10 +25,3 @@ resource "azurerm_role_assignment" "cloudfoundation_tfdeploy" {
   scope                = azurerm_key_vault.key_vault.id
   role_definition_name = data.azurerm_role_definition.keyvault.name
 }
-
-# example for creating a secret in the key vault
-resource "azurerm_key_vault_secret" "best_sauce" {
-  name         = "secret-sauce"
-  value        = "szechuan"
-  key_vault_id = azurerm_key_vault.key_vault.id
-}
