@@ -17,7 +17,7 @@ resource "azurerm_key_vault" "key_vault" {
 }
 
 data "azurerm_role_definition" "keyvault" {
-  name = "Key Vault Secrets Officer"
+  name = "Key Vault Administrator"
 }
 
 resource "azurerm_role_assignment" "cloudfoundation_tfdeploy" {
@@ -26,27 +26,13 @@ resource "azurerm_role_assignment" "cloudfoundation_tfdeploy" {
   role_definition_name = data.azurerm_role_definition.keyvault.name
 }
 
-resource "azurerm_key_vault_key" "generated" {
-  name         = "generated-certificate"
+# example for creating a secret in the key vault
+resource "azurerm_key_vault_secret" "example" {
+  name         = "secret-sauce"
+  value        = "szechuan"
   key_vault_id = azurerm_key_vault.key_vault.id
-  key_type     = "RSA"
-  key_size     = 4096
 
-  key_opts = [
-    "decrypt",
-    "encrypt",
-    "sign",
-    "unwrapKey",
-    "verify",
-    "wrapKey",
-  ]
-
-  rotation_policy {
-    automatic {
-      time_before_expiry = "P30D"
-    }
-
-    expire_after         = "P90D"
-    notify_before_expiry = "P29D"
+  tags = {
+    environment = "Production"
   }
 }
