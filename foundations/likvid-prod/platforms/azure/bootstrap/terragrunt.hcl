@@ -82,4 +82,8 @@ inputs = {
     config_file_path    = include.platform.locals.terraform_state_config_file_path # platform.hcl expects state configuration output in this location, do not change
     resource_group_name = "cloudfoundation-tfstates"
   }
+  key_vault = {
+    name                = "likvid-cf-kv"
+    resource_group_name = "likvid-cf-rg-kv"
+  }
 }

@@ -5,6 +5,7 @@ provider "registry.opentofu.org/aztfmod/azurecaf" {
   version     = "1.2.28"
   constraints = "~> 1.2.26"
   hashes = [
+    "h1:RVsdmzqbjnTGKahU5vpC/qPklRWdSweUKPp+0A/6c60=",
     "h1:mYyiClMYdRE6pIWgmRlvOVL58CC2yZOo1BiHuMjJap0=",
     "zh:1429bb7a873cdd69e324eaa96a3847ee9363d69ce360126b47b56e419863b024",
     "zh:29fe1eedb502e887b543c425b6fc9cb2cb5d3d1e69f830b6a4781dbe79d61ef1",
