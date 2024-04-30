@@ -97,7 +97,7 @@ resource "azurerm_virtual_network_peering" "hub_spoke_peer" {
 resource "azurerm_role_definition" "buildingblock_deploy_hub" {
   name        = "buildingblock-${var.name}-deploy-hub"
   description = "Enables deployment of the ${var.name} building block to the hub"
-  scope       = azurerm_resource_group.spoke_rg.name ## assume we are running in the hub subscription anyway
+  scope       = azurerm_resource_group.spoke_rg.id ## assume we are running in the hub subscription anyway
 
   permissions {
     actions = [
@@ -118,5 +118,5 @@ resource "azurerm_role_assignment" "buildingblock_network_admin" {
   role_definition_id = azurerm_role_definition.buildingblock_deploy_hub.role_definition_resource_id
   description        = azurerm_role_definition.buildingblock_deploy_hub.description
   principal_id       = azuread_group.subscription_network_admins.object_id
-  scope              = azurerm_resource_group.spoke_rg.name # assume we are running in the spoke subscription anyway
+  scope              = azurerm_resource_group.spoke_rg.id ## assume we are running in the spoke subscription anyway 
 }
