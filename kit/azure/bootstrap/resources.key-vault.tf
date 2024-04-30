@@ -13,50 +13,22 @@ resource "azurerm_key_vault" "key_vault" {
   sku_name                   = "standard"
   soft_delete_retention_days = 7
   purge_protection_enabled   = true
-  #enable_rbac_authorization       = true
-
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = data.azurerm_client_config.current.object_id
-
-    key_permissions = [
-      "Create",
-      "Delete",
-      "Get",
-      "Purge",
-      "Recover",
-      "Update",
-      "GetRotationPolicy",
-      "SetRotationPolicy"
-    ]
-
-    secret_permissions = [
-      "Set",
-    ]
-  }
+  enable_rbac_authorization  = true
 }
 
-resource "azurerm_key_vault_key" "generated" {
-  name         = "generated-certificate"
+data "azurerm_role_definition" "keyvault" {
+  name = "Key Vault Administrator"
+}
+
+resource "azurerm_role_assignment" "cloudfoundation_tfdeploy" {
+  principal_id         = azuread_group.platform_engineers.id
+  scope                = azurerm_key_vault.key_vault.id
+  role_definition_name = data.azurerm_role_definition.keyvault.name
+}
+
+# example for creating a secret in the key vault
+resource "azurerm_key_vault_secret" "best_sauce" {
+  name         = "secret-sauce"
+  value        = "szechuan"
   key_vault_id = azurerm_key_vault.key_vault.id
-  key_type     = "RSA"
-  key_size     = 4096
-
-  key_opts = [
-    "decrypt",
-    "encrypt",
-    "sign",
-    "unwrapKey",
-    "verify",
-    "wrapKey",
-  ]
-
-  rotation_policy {
-    automatic {
-      time_before_expiry = "P30D"
-    }
-
-    expire_after         = "P90D"
-    notify_before_expiry = "P29D"
-  }
 }

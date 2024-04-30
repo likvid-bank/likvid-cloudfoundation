@@ -26,9 +26,7 @@ Aviatrix
 
 ## Modules
 
-| Name | Source | Version |
-|------|--------|---------|
-| <a name="module_policy_aviatrix"></a> [policy\_aviatrix](#module\_policy\_aviatrix) | github.com/meshcloud/collie-hub//kit/azure/util/azure-policies | ef06c8d |
+No modules.
 
 ## Resources
 

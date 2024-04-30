@@ -76,11 +76,6 @@ inputs = {
     oidc_subject = "repo:likvid-bank/likvid-cloudfoundation:environment:likvid-prod"
   }
 
-  key_vault = {
-    name                = "likvid-cf-kv"
-    resource_group_name = "likvid-cf-rg-kv"
-  }
-
   terraform_state_storage = {
     name                = "${include.platform.locals.cloudfoundation.name}"
     location            = "germanywestcentral"                                     #TODO change, the azure location of the resource group and storage account
@@ -88,4 +83,8 @@ inputs = {
     resource_group_name = "cloudfoundation-tfstates"
   }
 
+  key_vault = {
+    name                = "likvid-cf-kv"
+    resource_group_name = "likvid-cf-rg-kv"
+  }
 }
