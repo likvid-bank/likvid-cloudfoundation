@@ -38,6 +38,7 @@ EOF
 
 inputs = {
   # todo: set input variables
+  service_principal_name  = "likvid_avaitrix_deploy_spn"
   parent_management_group = dependency.organization-hierarchy.outputs.landingzones_id
   allowed_user_group_id   = ["${dependency.bootstrap.outputs.platform_engineers_azuread_group_id}", "${dependency.automation.outputs.principal_id}"]
   location                = "${try(include.platform.locals.tfstateconfig.location, "could not read location from stateconfig. configure it explicitly")}"
