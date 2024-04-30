@@ -120,3 +120,11 @@ resource "azurerm_role_assignment" "buildingblock_network_admin" {
   principal_id       = azuread_group.subscription_network_admins.object_id
   scope              = azurerm_resource_group.spoke_rg.id ## assume we are running in the spoke subscription anyway 
 }
+
+// i need a resource lock to prevent accidental deletion of the spoke vnet 
+resource "azurerm_management_lock" "spoke_vnet_lock" {
+  name       = "spoke-vnet-lock"
+  scope      = azurerm_virtual_network.spoke_vnet.id
+  lock_level = "CanNotDelete"
+}
+
