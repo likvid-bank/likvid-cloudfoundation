@@ -92,39 +92,3 @@ resource "azurerm_virtual_network_peering" "hub_spoke_peer" {
   virtual_network_name      = data.azurerm_virtual_network.hub_vnet.name
   remote_virtual_network_id = azurerm_virtual_network.spoke_vnet.id
 }
-
-# note: this role will be assigned using the access role above
-resource "azurerm_role_definition" "buildingblock_deploy_hub" {
-  name        = "buildingblock-${var.name}-deploy-hub"
-  description = "Enables deployment of the ${var.name} building block to the hub"
-  scope       = azurerm_resource_group.spoke_rg.id ## assume we are running in the hub subscription anyway
-
-  permissions {
-    actions = [
-      "Microsoft.Network/virtualNetworks/read",
-      "Microsoft.Network/virtualNetworks/write",
-      "Microsoft.Network/virtualNetworks/subnets/*",
-    ]
-  }
-}
-
-resource "azuread_group" "subscription_network_admins" {
-  display_name     = "buildingblock-${var.name}-tf-network-admins"
-  description      = "Privileged Cloud Foundation group. Members can manage network resources in the ${var.name} subscription."
-  security_enabled = true
-}
-
-resource "azurerm_role_assignment" "buildingblock_network_admin" {
-  role_definition_id = azurerm_role_definition.buildingblock_deploy_hub.role_definition_resource_id
-  description        = azurerm_role_definition.buildingblock_deploy_hub.description
-  principal_id       = azuread_group.subscription_network_admins.object_id
-  scope              = azurerm_resource_group.spoke_rg.id ## assume we are running in the spoke subscription anyway 
-}
-
-// i need a resource lock to prevent accidental deletion of the spoke vnet 
-resource "azurerm_management_lock" "spoke_vnet_lock" {
-  name       = "spoke-vnet-lock"
-  scope      = azurerm_virtual_network.spoke_vnet.id
-  lock_level = "CanNotDelete"
-}
-

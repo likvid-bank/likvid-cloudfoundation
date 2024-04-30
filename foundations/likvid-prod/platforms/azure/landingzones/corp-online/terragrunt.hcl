@@ -15,6 +15,10 @@ dependency "organization-hierarchy" {
   config_path = "../../organization-hierarchy"
 }
 
+dependency "networking" {
+  config_path = "../../networking"
+}
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
@@ -30,6 +34,7 @@ EOF
 
 inputs = {
   # todo: set input variables
+  vnet_address_space_id      = "${dependency.networking.outputs.hub_vnet_id}"
   cloudfoundation            = "${include.platform.locals.cloudfoundation.name}"
   parent_management_group_id = "${dependency.organization-hierarchy.outputs.landingzones_id}"
   location                   = "germanywestcentral"
