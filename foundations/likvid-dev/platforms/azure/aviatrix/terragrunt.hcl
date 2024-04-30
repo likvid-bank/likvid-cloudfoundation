@@ -4,19 +4,15 @@ include "platform" {
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/azure/landingzones/corp-online"
+  source = "${get_repo_root()}//kit/azure/aviatrix"
 }
 
 dependency "bootstrap" {
-  config_path = "../../bootstrap"
+  config_path = "../bootstrap"
 }
 
 dependency "organization-hierarchy" {
-  config_path = "../../organization-hierarchy"
-}
-
-dependency "networking" {
-  config_path = "../../networking"
+  config_path = "../organization-hierarchy"
 }
 
 generate "provider" {
@@ -29,13 +25,16 @@ provider "azurerm" {
   tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
   subscription_id = "${include.platform.locals.platform.azure.subscriptionId}"
 }
+
+provider "azuread" {
+  tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
+}
 EOF
 }
 
 inputs = {
   # todo: set input variables
-  vnet_address_space_id      = "${dependency.networking.outputs.hub_vnet_id}"
-  cloudfoundation            = "${include.platform.locals.cloudfoundation.name}"
-  parent_management_group_id = "${dependency.organization-hierarchy.outputs.landingzones_id}"
-  location                   = "germanywestcentral"
+  parent_management_group = "${dependency.organization-hierarchy.outputs.landingzones}"
+  # todo: azure will throw an error if date is in a past month
+
 }
