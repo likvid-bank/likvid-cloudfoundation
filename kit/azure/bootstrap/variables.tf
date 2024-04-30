@@ -24,8 +24,8 @@ variable "key_vault" {
     name                = string,
     resource_group_name = string
   })
-  nullable    = false
-  
+  nullable = false
+
   description = "This object contains configuration details for setting up a key vault."
   default = {
     name                = "cloudfoundation-kv"
