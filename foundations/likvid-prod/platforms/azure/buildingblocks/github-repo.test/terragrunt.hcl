@@ -7,7 +7,7 @@ dependency "automation" {
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/buildingblocks/github/buildingblock"
+  source = "${get_repo_root()}//kit/azure/buildingblocks/github-repo/buildingblock"
 }
 
 # generate a config.tf file for automating building block deployments via meshStack

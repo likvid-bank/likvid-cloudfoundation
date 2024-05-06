@@ -33,14 +33,17 @@ terraform {
 }
 
 inputs = {
-  key_vault_name           = dependency.bootstrap.outputs.azurerm_key_vault.name
-  github_token_secret_name = "github-token"
-  github_token_owner       = "github-token-owner"
+  key_vault = {
+    name                = dependency.bootstrap.outputs.azurerm_key_vault.name
+    resource_group_name = dependency.bootstrap.outputs.azurerm_key_vault_rg_name
+  }
+  github_owner             = "likvid-bank"
+  github_token_secret_name = "likvid-github"
   repo_name                = "likvid-github-repo"
   create_new               = true
   visibility               = "private"
   use_template             = false
-  template_owner           = "fnowarre@meshcloud.io"
+  template_owner           = "meshi@meshithesheep.io"
 }
 
 # generate a config.tf file for automating building block deployments via meshStack

@@ -29,7 +29,7 @@ dependency "automation" {
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/buildingblocks/github/buildingblock"
+  source = "${get_repo_root()}//kit/azure/buildingblocks/github-repo/buildingblock"
 }
 
 inputs = {
