@@ -7,6 +7,10 @@ dependency "organization-hierarchy" {
   config_path = "../../organization-hierarchy"
 }
 
+dependency "bootstrap" {
+  config_path = "../../bootstrap"
+}
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
@@ -29,5 +33,12 @@ terraform {
 inputs = {
   location               = "germanywestcentral"
   service_principal_name = "likvid_foundation_tf_buildingblock_user"
-  scope                  = dependency.organization-hierarchy.outputs.landingzones_id
+  key_vault = {
+    name                = dependency.bootstrap.outputs.azurerm_key_vault.name
+    resource_group_name = dependency.bootstrap.outputs.azurerm_key_vault_rg_name
+  }
+  scope = dependency.organization-hierarchy.outputs.landingzones_id
+
 }
+
+
