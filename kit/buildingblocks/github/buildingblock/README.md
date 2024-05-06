@@ -7,7 +7,7 @@ It can be used as a Building Block inside of meshStack.
 
 https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository
 
-## How to use this Building Block in meshStack 
+## How to use this Building Block in meshStack
 
 1. Go to your meshStack admin area and click on "Building Blocks" from the left pane
 2. Click on "Create Building Block"
@@ -30,3 +30,47 @@ https://registry.terraform.io/providers/integrations/github/latest/docs
 
 ## Backend configuration
 Here you can find an example of how to create a backend.tf file on this [Wiki Page](https://github.com/meshcloud/building-blocks/wiki/%5BUser-Guide%5D-Setting-up-the-Backend-for-terraform-state#how-to-configure-backendtf-file-for-these-providers)
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.81.0 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | 5.34.0 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [github_repository.repository](https://registry.terraform.io/providers/integrations/github/5.34.0/docs/resources/repository) | resource |
+| [azurerm_key_vault.cloudfoundation_keyvault](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault) | data source |
+| [azurerm_key_vault_secret.github_token](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_create_new"></a> [create\_new](#input\_create\_new) | n/a | `bool` | n/a | yes |
+| <a name="input_description"></a> [description](#input\_description) | n/a | `string` | `"created by github-repo-building-block"` | no |
+| <a name="input_github_owner"></a> [github\_owner](#input\_github\_owner) | n/a | `string` | n/a | yes |
+| <a name="input_github_token_secret_name"></a> [github\_token\_secret\_name](#input\_github\_token\_secret\_name) | n/a | `string` | n/a | yes |
+| <a name="input_key_vault"></a> [key\_vault](#input\_key\_vault) | Key Vault configuration | <pre>object({<br>    name                = string<br>    resource_group_name = string<br>  })</pre> | n/a | yes |
+| <a name="input_repo_name"></a> [repo\_name](#input\_repo\_name) | Name of the GitHub repository | `string` | `"github-repo"` | no |
+| <a name="input_template_owner"></a> [template\_owner](#input\_template\_owner) | n/a | `string` | n/a | yes |
+| <a name="input_template_repo"></a> [template\_repo](#input\_template\_repo) | n/a | `string` | `"github-repo"` | no |
+| <a name="input_use_template"></a> [use\_template](#input\_use\_template) | Set it to 'True' if you want to create a repo based on a Template Repository | `bool` | `false` | no |
+| <a name="input_visibility"></a> [visibility](#input\_visibility) | n/a | `string` | `"private"` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_repo_full_name"></a> [repo\_full\_name](#output\_repo\_full\_name) | n/a |
+| <a name="output_repo_git_clone_url"></a> [repo\_git\_clone\_url](#output\_repo\_git\_clone\_url) | n/a |
+| <a name="output_repo_html_url"></a> [repo\_html\_url](#output\_repo\_html\_url) | n/a |
+| <a name="output_repo_name"></a> [repo\_name](#output\_repo\_name) | n/a |
+<!-- END_TF_DOCS -->

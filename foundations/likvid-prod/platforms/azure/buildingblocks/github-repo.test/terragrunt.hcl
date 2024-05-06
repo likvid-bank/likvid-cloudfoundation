@@ -1,25 +1,3 @@
-include "platform" {
-  path   = find_in_parent_folders("platform.hcl")
-  expose = true
-}
-
-# we deploy to the management subscription here, as budget alerts are central to all LZs
-# we also deploy the backplane like all other platform modules with azure-cli auth
-generate "provider" {
-  path      = "provider.tf"
-  if_exists = "overwrite"
-  contents  = <<EOF
-
-provider "azurerm" {
-  features {}
-  skip_provider_registration = true
-  tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
-  subscription_id = "${include.platform.locals.platform.azure.subscriptionId}"
-  storage_use_azuread = true
-}
-EOF
-}
-
 dependency "bootstrap" {
   config_path = "../../bootstrap"
 }
@@ -32,20 +10,9 @@ terraform {
   source = "${get_repo_root()}//kit/buildingblocks/github/buildingblock"
 }
 
-inputs = {
-  key_vault_name           = dependency.bootstrap.outputs.azurerm_key_vault.name
-  github_token_secret_name = "github-token"
-  github_token_owner       = "github-token-owner"
-  repo_name                = "likvid-github-repo"
-  create_new               = true
-  visibility               = "private"
-  use_template             = false
-  template_owner           = "fnowarre@meshcloud.io"
-}
-
 # generate a config.tf file for automating building block deployments via meshStack
 generate "config" {
-  path      = "${get_terragrunt_dir()}/../github-repo.test/config.tf"
+  path      = "config.tf"
   if_exists = "overwrite"
   contents  = <<EOF
 terraform {
@@ -62,5 +29,33 @@ terraform {
     client_secret         = "${dependency.automation.outputs.client_secret}"
   }
 }
+
+provider "azurerm" {
+  features {}
+  skip_provider_registration = true
+  tenant_id       = "${dependency.automation.outputs.tenant_id}"
+  subscription_id = "${dependency.automation.outputs.subscription_id}"
+  storage_use_azuread = true
+
+  client_id             = "${dependency.automation.outputs.client_id}"
+  client_secret         = "${dependency.automation.outputs.client_secret}"
+}
 EOF
 }
+
+inputs = {
+  key_vault = {
+    name                = dependency.bootstrap.outputs.azurerm_key_vault.name
+    resource_group_name = dependency.bootstrap.outputs.azurerm_key_vault_rg_name
+  }
+  github_owner             = "likvid-bank"
+  github_token_secret_name = "likvid-github"
+  github_token_owner       = "github-token-owner"
+  repo_name                = "likvid-github-repo-test"
+  create_new               = true
+  visibility               = "private"
+  use_template             = false
+  template_owner           = "fnowarre@meshcloud.io"
+}
+
+

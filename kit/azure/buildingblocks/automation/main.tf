@@ -19,7 +19,7 @@ data "azurerm_key_vault" "cf_key_vault" {
 }
 
 data "azurerm_role_definition" "keyvault_reader" {
-  name = "Key Vault Reader"
+  name = "Key Vault Administrator"
 }
 
 resource "azurerm_role_assignment" "keyvault_reader" {

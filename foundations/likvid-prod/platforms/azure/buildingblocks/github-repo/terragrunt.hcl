@@ -39,7 +39,6 @@ inputs = {
   }
   github_owner             = "likvid-bank"
   github_token_secret_name = "likvid-github"
-  github_token_owner       = "github-token-owner"
   repo_name                = "likvid-github-repo"
   create_new               = true
   visibility               = "private"

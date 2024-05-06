@@ -3,23 +3,11 @@
 
 run "verify" {
   variables {
-    repository_name = "integrationtest"
-    private         = true
-    has_issues      = true
+    private = true
   }
 
   assert {
-    condition     = output.repository_name == "integrationtest"
+    condition     = output.repo_name == "likvid-github-repo-test"
     error_message = "did not produce the correct repository_name output"
-  }
-
-  assert {
-    condition     = output.private == true
-    error_message = "Repository should be private"
-  }
-
-  assert {
-    condition     = output.has_issues == true
-    error_message = "Issues should be enabled for the repository"
   }
 }

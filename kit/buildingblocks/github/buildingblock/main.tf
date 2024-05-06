@@ -10,7 +10,7 @@ data "azurerm_key_vault_secret" "github_token" {
 
 provider "github" {
   token = data.azurerm_key_vault_secret.github_token.value
-  owner = var.github_owner 
+  owner = var.github_owner
 }
 
 resource "github_repository" "repository" {
