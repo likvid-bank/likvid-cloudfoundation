@@ -1,35 +1,31 @@
-# github-repo-building-block
+---
+name: Azure Building Block - GitHub Repository
+summary: |
+  Building block module for creating a GitHub repository.
+---
 
-Module that creates a github.com repository. This repository can be based on a template repo.
-It can be used as a Building Block inside of meshStack.
+# Azure GitHub Repository
 
-* If you want to have a github action enabled repository, It is mandatory that create this github repo based on a template repository which already has the "./github/workflows/" path.
+This documentation is intended as a reference for cloud foundation or platform engineers using this module.
 
-https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository
+## Permissions
 
-## How to use this Building Block in meshStack
+This building block requires a service principal with permissions to manage GitHub repositories. The service principal should have a GitHub App installed with the necessary permissions to create repositories.
 
-1. Go to your meshStack admin area and click on "Building Blocks" from the left pane
-2. Click on "Create Building Block"
-3. Fill out the general information and click next
-4. Select any of the platforms as your supported platform to attach this building block to.
-5. Select "Terraform" in Implementation Type and put in the Terraform version
-6. Copy the repository HTTPS address to the "Git Repository URL" field (if its a private repo, add your SSH key) click next
-7. For the inputs do the following
-    - Backend configuration:
-        - Select "File" as input type and upload the backend.tf file.
-        - Add related environment variables based on your backend configuration (e.g. client_id and client_secret for azure, SA_ID and SA_EMAIL for GCS)
-    - add other Variables:
-        - github_token and github_owner variable is the required credentials for the github provider
-    - add rest of the variables in variables.tf as you desired
-8. On the next page, add the outputs from outputs.tf file and click on Create Building Block
-9. Now users can add this building block to their tenants
-### Env vars needed for provider
+The private key of the GitHub App should be stored in Azure Key Vault and the service principal should have permissions to read this secret.
 
-https://registry.terraform.io/providers/integrations/github/latest/docs
+The service principal also needs permissions to assign the "Key Vault Reader" role to itself for the Key Vault where the GitHub App's private key is stored.
 
-## Backend configuration
-Here you can find an example of how to create a backend.tf file on this [Wiki Page](https://github.com/meshcloud/building-blocks/wiki/%5BUser-Guide%5D-Setting-up-the-Backend-for-terraform-state#how-to-configure-backendtf-file-for-these-providers)
+## Usage
+
+This building block creates a GitHub repository with the specified name, description, and visibility. It also supports creating a repository based on a template repository.
+
+You can specify the name of the GitHub organization, the name of the repository, whether to create a new repository or use a template, the owner and name of the template repository, and the visibility of the repository.
+
+The GitHub token is retrieved from Azure Key Vault and used to authenticate with the GitHub API.
+
+The building block outputs the name, description, and visibility of the created repository.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -54,16 +50,18 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_create_new"></a> [create\_new](#input\_create\_new) | n/a | `bool` | n/a | yes |
-| <a name="input_description"></a> [description](#input\_description) | n/a | `string` | `"created by github-repo-building-block"` | no |
-| <a name="input_github_owner"></a> [github\_owner](#input\_github\_owner) | n/a | `string` | n/a | yes |
-| <a name="input_github_token_secret_name"></a> [github\_token\_secret\_name](#input\_github\_token\_secret\_name) | n/a | `string` | n/a | yes |
+| <a name="input_create_new"></a> [create\_new](#input\_create\_new) | Flag to indicate whether to create a new repository | `bool` | n/a | yes |
+| <a name="input_description"></a> [description](#input\_description) | Description of the GitHub repository | `string` | `"created by github-repo-building-block"` | no |
+| <a name="input_github_app_id"></a> [github\_app\_id](#input\_github\_app\_id) | ID of the GitHub App | `string` | n/a | yes |
+| <a name="input_github_app_installation_id"></a> [github\_app\_installation\_id](#input\_github\_app\_installation\_id) | Installation ID of the GitHub App | `string` | n/a | yes |
+| <a name="input_github_org"></a> [github\_org](#input\_github\_org) | Name of the GitHub organization | `string` | n/a | yes |
+| <a name="input_github_token_secret_name"></a> [github\_token\_secret\_name](#input\_github\_token\_secret\_name) | Name of the secret in Key Vault that holds the GitHub token | `string` | n/a | yes |
 | <a name="input_key_vault"></a> [key\_vault](#input\_key\_vault) | Key Vault configuration | <pre>object({<br>    name                = string<br>    resource_group_name = string<br>  })</pre> | n/a | yes |
 | <a name="input_repo_name"></a> [repo\_name](#input\_repo\_name) | Name of the GitHub repository | `string` | `"github-repo"` | no |
-| <a name="input_template_owner"></a> [template\_owner](#input\_template\_owner) | n/a | `string` | n/a | yes |
-| <a name="input_template_repo"></a> [template\_repo](#input\_template\_repo) | n/a | `string` | `"github-repo"` | no |
-| <a name="input_use_template"></a> [use\_template](#input\_use\_template) | Set it to 'True' if you want to create a repo based on a Template Repository | `bool` | `false` | no |
-| <a name="input_visibility"></a> [visibility](#input\_visibility) | n/a | `string` | `"private"` | no |
+| <a name="input_template_owner"></a> [template\_owner](#input\_template\_owner) | Owner of the template repository | `string` | n/a | yes |
+| <a name="input_template_repo"></a> [template\_repo](#input\_template\_repo) | Name of the template repository | `string` | `"github-repo"` | no |
+| <a name="input_use_template"></a> [use\_template](#input\_use\_template) | Flag to indicate whether to create a repo based on a Template Repository | `bool` | `false` | no |
+| <a name="input_visibility"></a> [visibility](#input\_visibility) | Visibility of the GitHub repository | `string` | `"private"` | no |
 
 ## Outputs
 
