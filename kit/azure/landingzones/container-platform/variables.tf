@@ -1,11 +1,11 @@
 variable "parent_management_group_id" {
   description = "The tenant management group of your cloud foundation"
-  default     = "lv-foundation"
+  default     = "foundation"
 }
 
 variable "landingzones" {
   description = "The parent_management_group where your landingzones are"
-  default     = "lv-landingzones"
+  default     = "landingzones"
 }
 
 variable "lz-container-platform" {
