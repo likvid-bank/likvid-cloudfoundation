@@ -123,7 +123,7 @@ Because this landing zone does not connect to on-prem, this landing zone is a po
 
 ### Container Platform Landing Zone
 
-Use this landing zone if you want to run containerized workloads at scale. This landing zone is optimized for running container 
+Use this landing zone if you want to run containerized workloads at scale. This landing zone is optimized for running container
 workloads using services like Azure Kubernetes Service (AKS) and Azure Container Instances (ACI).
 
 |                                                     | application team     | cloud foundation     | cloud provider     |
