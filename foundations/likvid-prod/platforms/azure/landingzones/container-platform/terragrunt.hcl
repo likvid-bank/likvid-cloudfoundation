@@ -11,6 +11,10 @@ dependency "organization-hierarchy" {
   config_path = "${path_relative_from_include()}/organization-hierarchy"
 }
 
+dependency "logging" {
+  config_path = "../../logging"
+}
+
 terraform {
   source = "${get_repo_root()}//kit/azure/landingzones/container-platform"
 }
@@ -32,4 +36,5 @@ inputs = {
   # todo: set input variables
   parent_management_group_id = "${dependency.organization-hierarchy.outputs.landingzones_id}"
   location                   = "${try(include.platform.locals.tfstateconfig.location, "could not read location from stateconfig. configure it explicitly")}"
+  law_workspace_id           = "${dependency.logging.outputs.law_workspace_id}"
 }

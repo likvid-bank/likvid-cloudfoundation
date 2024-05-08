@@ -32,13 +32,19 @@ The Container Platform Landing Zone is a pre-configured environment designed to 
 | Name | Type |
 |------|------|
 | [azurerm_management_group.container_platform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/management_group) | resource |
+| [azurerm_monitor_action_group.k8s_monitoring_action_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
+| [azurerm_monitor_scheduled_query_rules_alert.k8s_baseline_alert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_scheduled_query_rules_alert) | resource |
+| [azurerm_resource_group.k8s_monitoring](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_email_receiver"></a> [email\_receiver](#input\_email\_receiver) | The email address of the receiver | `string` | `"meshi@meshithesheep.io"` | no |
+| <a name="input_k8s_monitoring_rg_name"></a> [k8s\_monitoring\_rg\_name](#input\_k8s\_monitoring\_rg\_name) | The name of the resource group for the monitoring | `string` | `"k8s-monitoring-rg"` | no |
 | <a name="input_landingzones"></a> [landingzones](#input\_landingzones) | The parent\_management\_group where your landingzones are | `string` | `"landingzones"` | no |
 | <a name="input_location"></a> [location](#input\_location) | The Azure location where this policy assignment should exist, required when an Identity is assigned. | `string` | `"germanywestcentral"` | no |
+| <a name="input_log_analytics_id"></a> [log\_analytics\_id](#input\_log\_analytics\_id) | The id of the log analytics workspace | `string` | n/a | yes |
 | <a name="input_lz-container-platform"></a> [lz-container-platform](#input\_lz-container-platform) | n/a | `string` | `"container-platform"` | no |
 | <a name="input_parent_management_group_id"></a> [parent\_management\_group\_id](#input\_parent\_management\_group\_id) | The tenant management group of your cloud foundation | `string` | `"foundation"` | no |
 
