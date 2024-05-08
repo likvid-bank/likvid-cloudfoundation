@@ -4,7 +4,7 @@ output "documentation_md" {
 
 A Container Platform Landing Zone is a pre-configured infrastructure setup designed to support the deployment of containerized serverless applications. This landing zone is designed to provide a secure and compliant environment for running containerized workloads on Azure Kubernetes Service (AKS).
 
-- **${resource.azurerm_management_group.container_platform.display_name}** - this is the severless management group
+- **${resource.azurerm_management_group.container_platform.display_name}** - this is the Container Platform management group
 
 ### Active Policies
 
