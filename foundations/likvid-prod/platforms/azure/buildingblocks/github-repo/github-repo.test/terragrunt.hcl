@@ -1,5 +1,5 @@
 dependency "bootstrap" {
-  config_path = "../../bootstrap"
+  config_path = "../../../bootstrap"
 }
 
 dependency "automation" {
@@ -44,10 +44,9 @@ EOF
 }
 
 inputs = {
-  key_vault = {
-    name                = dependency.bootstrap.outputs.azurerm_key_vault.name
-    resource_group_name = dependency.bootstrap.outputs.azurerm_key_vault_rg_name
-  }
+
+  key_vault_name             = dependency.bootstrap.outputs.azurerm_key_vault.name
+  key_vault_rg               = dependency.bootstrap.outputs.azurerm_key_vault_rg_name
   github_app_id              = "654209"
   github_app_installation_id = "44437049"
   github_org                 = "likvid-bank"

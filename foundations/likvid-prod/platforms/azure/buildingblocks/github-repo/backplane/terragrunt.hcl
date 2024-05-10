@@ -53,23 +53,20 @@ generate "config" {
 EOF
 }
 
-# generate a config.tfvars file for automating building block deployments via meshStack
+# generate a terraform.tfvars fire for automating building block deployments via meshStack
 generate "tfvars" {
-  path      = "${get_terragrunt_dir()}/../github-repo.test/config.tfvars"
+  path      = "${get_terragrunt_dir()}/../github-repo.test/terrafrom.tfvars"
   if_exists = "overwrite"
   contents  = <<EOF
-  key_vault = {
-    name                = ${dependency.bootstrap.outputs.azurerm_key_vault.name}
-    resource_group_name = ${dependency.bootstrap.outputs.azurerm_key_vault_rg_name}
-  }
+
+  key_vault_name = dependency.bootstrap.outputs.azurerm_key_vault.name
+  key_vault_rg   = dependency.bootstrap.outputs.azurerm_key_vault_rg_name
 EOF
 }
 
 inputs = {
-  key_vault = {
-    name                = dependency.bootstrap.outputs.azurerm_key_vault.name
-    resource_group_name = dependency.bootstrap.outputs.azurerm_key_vault_rg_name
-  }
+  key_vault_name           = dependency.bootstrap.outputs.azurerm_key_vault.name
+  key_vault_rg             = dependency.bootstrap.outputs.azurerm_key_vault_rg_name
   github_token_secret_name = "likvid-bank-devops-toolchain-team"
 }
 

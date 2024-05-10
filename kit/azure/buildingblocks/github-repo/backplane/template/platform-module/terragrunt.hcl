@@ -67,9 +67,9 @@ terraform {
 }
 EOF
 
-# generate a config.tfvars file for automating building block deployments via meshStack
+# generate a terraform.tfvars file for automating building block deployments via meshStack
 generate "tfvars" {
-  path      = "${get_terragrunt_dir()}/../github-repo.test/config.tfvars"
+  path      = "${get_terragrunt_dir()}/../github-repo.test/terraform.tfvars"
   if_exists = "overwrite"
   contents  = <<EOF
   key_vault = {
