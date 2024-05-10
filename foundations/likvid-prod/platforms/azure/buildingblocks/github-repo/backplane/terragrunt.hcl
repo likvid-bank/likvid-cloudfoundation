@@ -59,8 +59,8 @@ generate "tfvars" {
   if_exists = "overwrite"
   contents  = <<EOF
 
-  key_vault_name = dependency.bootstrap.outputs.azurerm_key_vault.name
-  key_vault_rg   = dependency.bootstrap.outputs.azurerm_key_vault_rg_name
+  key_vault_name = ${dependency.bootstrap.outputs.azurerm_key_vault.name}
+  key_vault_rg   = ${dependency.bootstrap.outputs.azurerm_key_vault_rg_name}
 EOF
 }
 
