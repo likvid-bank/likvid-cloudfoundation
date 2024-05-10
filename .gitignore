@@ -12,3 +12,4 @@
 
 # generated config.tf files for building blocks
 config.tf
+config.tfvars
