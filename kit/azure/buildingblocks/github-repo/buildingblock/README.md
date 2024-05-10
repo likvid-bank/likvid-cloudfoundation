@@ -58,7 +58,7 @@ No modules.
 | <a name="input_github_token_secret_name"></a> [github\_token\_secret\_name](#input\_github\_token\_secret\_name) | Name of the secret in Key Vault that holds the GitHub token | `string` | n/a | yes |
 | <a name="input_key_vault"></a> [key\_vault](#input\_key\_vault) | Key Vault configuration | <pre>object({<br>    name                = string<br>    resource_group_name = string<br>  })</pre> | n/a | yes |
 | <a name="input_repo_name"></a> [repo\_name](#input\_repo\_name) | Name of the GitHub repository | `string` | `"github-repo"` | no |
-| <a name="input_template_owner"></a> [template\_owner](#input\_template\_owner) | Owner of the template repository | `string` | n/a | yes |
+| <a name="input_template_owner"></a> [template\_owner](#input\_template\_owner) | Owner of the template repository | `string` | `"template-owner"` | no |
 | <a name="input_template_repo"></a> [template\_repo](#input\_template\_repo) | Name of the template repository | `string` | `"github-repo"` | no |
 | <a name="input_use_template"></a> [use\_template](#input\_use\_template) | Flag to indicate whether to create a repo based on a Template Repository | `bool` | `false` | no |
 | <a name="input_visibility"></a> [visibility](#input\_visibility) | Visibility of the GitHub repository | `string` | `"private"` | no |

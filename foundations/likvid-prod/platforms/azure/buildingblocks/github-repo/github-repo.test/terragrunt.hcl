@@ -3,7 +3,7 @@ dependency "bootstrap" {
 }
 
 dependency "automation" {
-  config_path = "../automation"
+  config_path = "../../automation"
 }
 
 terraform {
@@ -58,5 +58,3 @@ inputs = {
   use_template               = false
   template_owner             = "fnowarre@meshcloud.io"
 }
-
-

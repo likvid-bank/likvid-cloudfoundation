@@ -29,7 +29,7 @@ dependency "automation" {
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/buildingblocks/github"
+  source = "${get_repo_root()}//kit/buildingblocks/github-repo/buildingblock"
 }
 
 inputs = {
@@ -63,6 +63,18 @@ terraform {
 
     client_id             = "${dependency.automation.outputs.client_id}"
     client_secret         = "${dependency.automation.outputs.client_secret}"
+  }
+}
+EOF
+
+# generate a config.tfvars file for automating building block deployments via meshStack
+generate "tfvars" {
+  path      = "${get_terragrunt_dir()}/../github-repo.test/config.tfvars"
+  if_exists = "overwrite"
+  contents  = <<EOF
+  key_vault = {
+    name                = ${dependency.bootstrap.outputs.azurerm_key_vault.name}
+    resource_group_name = ${dependency.bootstrap.outputs.azurerm_key_vault_rg_name}
   }
 }
 EOF

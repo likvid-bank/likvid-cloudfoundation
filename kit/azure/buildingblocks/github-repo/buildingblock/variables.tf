@@ -47,6 +47,7 @@ variable "use_template" {
 
 variable "template_owner" {
   type        = string
+  default     = "template-owner"
   description = "Owner of the template repository"
 }
 
