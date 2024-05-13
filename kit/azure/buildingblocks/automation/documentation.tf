@@ -4,7 +4,7 @@ output "documentation_md" {
 
 The Automation Infrastructure Building Block configures the basic infrastructure for deploying a Building Block in a subscription. For this, we use a
 Service Principal to manage the resources in the subscription. This Service Principal is also used by meshStack.
-
+´´´mermaid
 graph LR
     A[${azuread_application.buildingblock.display_name}]
     C[meshStack]
@@ -13,6 +13,6 @@ graph LR
     A -->|Configures| E
     E -->|Deployed in| D
     C -->|Uses| A
-
+´´´
 EOF
 }
