@@ -4,6 +4,7 @@ import { defineUserConfig } from "vuepress";
 import type { SidebarConfig, NavbarConfig } from "@vuepress/theme-default";
 import { viteBundler } from '@vuepress/bundler-vite';
 import { defaultTheme } from "@vuepress/theme-default";
+import mermaidjs from 'vuepress-plugin-mermaidjs';
 
 const navbar: NavbarConfig = [
   { text: "Foundation", link: "/" },
@@ -82,8 +83,8 @@ export const sidebar: SidebarConfig = {
 
 export default defineUserConfig({
   // site-level locales config
+  bundler: viteBundler(), 
   base: "/likvid-cloudfoundation/",
-  bundler: viteBundler(),
   locales: {
     "/": {
       lang: "en-US",
@@ -99,4 +100,7 @@ export default defineUserConfig({
       git: true,
     },
   }),
+  plugins: [
+    "mermaidjs",
+  ],
 });
