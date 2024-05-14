@@ -4,7 +4,7 @@ import { defineUserConfig } from "vuepress";
 import type { SidebarConfig, NavbarConfig } from "@vuepress/theme-default";
 import { viteBundler } from '@vuepress/bundler-vite';
 import { defaultTheme } from "@vuepress/theme-default";
-import mermaidjs from 'vuepress-plugin-mermaidjs';
+import pluginMermaid from './plugins/mermaid';
 
 const navbar: NavbarConfig = [
   { text: "Foundation", link: "/" },
@@ -93,6 +93,10 @@ export default defineUserConfig({
     },
   },
 
+  plugins: [
+    pluginMermaid,
+  ],
+
   theme: defaultTheme({
     navbar: navbar,
     sidebar: sidebar,
@@ -100,7 +104,4 @@ export default defineUserConfig({
       git: true,
     },
   }),
-  plugins: [
-    "mermaidjs",
-  ],
 });
