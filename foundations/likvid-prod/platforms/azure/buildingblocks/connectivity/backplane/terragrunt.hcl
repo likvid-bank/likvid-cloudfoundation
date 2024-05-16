@@ -4,15 +4,15 @@ include "platform" {
 }
 
 dependency "networking" {
-  config_path = "../../networking"
+  config_path = "../../../networking"
 }
 
 dependency "corp_online" {
-  config_path = "../../landingzones/corp-online"
+  config_path = "../../../landingzones/corp-online"
 }
 
 dependency "automation" {
-  config_path = "../automation"
+  config_path = "../../automation"
 }
 
 # deploy to the hub subscription
@@ -31,7 +31,7 @@ EOF
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/azure/buildingblocks/connectivity"
+  source = "${get_repo_root()}//kit/azure/buildingblocks/connectivity/backplane"
 }
 
 inputs = {

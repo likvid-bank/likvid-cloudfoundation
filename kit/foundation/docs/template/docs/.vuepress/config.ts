@@ -16,6 +16,10 @@ const navbar: NavbarConfig = [
     link: "/kit/",
   },
   {
+    text: "Building Blocks",
+    link: "/buildingblocks/",
+  },
+  {
     text: "Compliance",
     link: "/compliance/",
   },
@@ -70,6 +74,13 @@ export const sidebar: SidebarConfig = {
       children: [...getMarkdownFiles("docs/kit")],
     },
     ...getTree("docs/kit"),
+  ],
+  "/buildingblocks/": [
+    {
+      text: "buildingblocks",
+      children: [...getMarkdownFiles("docs/buildingblocks")],
+    },
+    ...getTree("docs/buildingblocks"),
   ],
   "/compliance/": [
     {

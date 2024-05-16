@@ -31,7 +31,7 @@ EOF
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/azure/buildingblocks/connectivity"
+  source = "${get_repo_root()}//kit/azure/buildingblocks/connectivity/backplane"
 }
 
 inputs = {
