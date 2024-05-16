@@ -9,11 +9,11 @@ include "platform" {
 }
 
 dependency "buildingblock" {
-  config_path = "../subscription"
+  config_path = "../backplane"
 }
 
 dependency "corp_online" {
-  config_path = "../../landingzones/corp-online"
+  config_path = "../../../landingzones/corp-online"
 }
 
 # configure a provider to use our "buildingblock test" subscription

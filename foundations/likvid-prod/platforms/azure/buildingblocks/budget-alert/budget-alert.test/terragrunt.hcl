@@ -1,11 +1,11 @@
 # this is a test for a meshStack building block
 # hence it's using config.tf, and not collie-style composition (maybe we should align the two and let collie use config_tf style as well)
 dependency "buildingblock" {
-  config_path = "../budget-alert"
+  config_path = "../backplane"
 }
 
 dependency "automation" {
-  config_path = "../automation"
+  config_path = "../../automation"
 }
 
 
