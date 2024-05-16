@@ -13,7 +13,7 @@ This module automates the deployment of a Connectivity building block within Azu
 
 | Name | ID |
 | --- | --- |
-| `${azurerm_role_definition.buildingblock_deploy_hub.name}` | `${azurerm_role_definition.buildingblock_deploy_hub.id}` |
+| ${azurerm_role_definition.buildingblock_deploy_hub.name} | ${azurerm_role_definition.buildingblock_deploy_hub.id} |
 
 ## 📝 Role Assignments
 

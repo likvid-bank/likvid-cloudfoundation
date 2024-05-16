@@ -17,7 +17,7 @@ This module automates the deployment of a Budget Alert building block within Azu
 
 | Name | ID |
 | --- | --- |
-| `${azurerm_role_definition.buildingblock_deploy.name}` | `${azurerm_role_definition.buildingblock_deploy.id}` |
+| ${azurerm_role_definition.buildingblock_deploy.name} | ${azurerm_role_definition.buildingblock_deploy.id} |
 
 ## 📝 Role Assignments
 
