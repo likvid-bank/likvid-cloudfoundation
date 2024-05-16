@@ -20,19 +20,19 @@ EOF
 }
 
 dependency "bootstrap" {
-  config_path = "../../bootstrap"
+  config_path = "../../../bootstrap"
 }
 
 dependency "organization-hierarchy" {
-  config_path = "../../organization-hierarchy"
+  config_path = "../../../organization-hierarchy"
 }
 
 dependency "automation" {
-  config_path = "../automation"
+  config_path = "../../automation"
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/azure/buildingblocks/budget-alert"
+  source = "${get_repo_root()}//kit/azure/buildingblocks/budget-alert/backplane"
 }
 
 inputs = {
