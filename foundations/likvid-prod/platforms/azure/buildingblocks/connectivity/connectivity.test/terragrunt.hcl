@@ -1,15 +1,15 @@
 # this is a test for a meshStack building block
 # hence it's using config.tf, and not collie-style composition (maybe we should align the two and let collie use config_tf style as well)
 dependency "buildingblock" {
-  config_path = "../connectivity"
+  config_path = "../backplane"
 }
 
 dependency "automation" {
-  config_path = "../automation"
+  config_path = "../../automation"
 }
 
 dependency "networking" {
-  config_path = "../../networking"
+  config_path = "../../../networking"
 }
 
 # generate a config.tf file for automating building block deployments via meshStack

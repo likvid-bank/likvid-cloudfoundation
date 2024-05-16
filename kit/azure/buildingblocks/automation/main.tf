@@ -18,13 +18,13 @@ data "azurerm_key_vault" "cf_key_vault" {
   resource_group_name = var.key_vault.resource_group_name
 }
 
-data "azurerm_role_definition" "keyvault_reader" {
+data "azurerm_role_definition" "keyvault_administrator" {
   name = "Key Vault Administrator"
 }
 
-resource "azurerm_role_assignment" "keyvault_reader" {
+resource "azurerm_role_assignment" "keyvault_administrator" {
   scope                = data.azurerm_key_vault.cf_key_vault.id
-  role_definition_name = data.azurerm_role_definition.keyvault_reader.name
+  role_definition_name = data.azurerm_role_definition.keyvault_administrator.name
   principal_id         = azuread_service_principal.buildingblock.id
 }
 
