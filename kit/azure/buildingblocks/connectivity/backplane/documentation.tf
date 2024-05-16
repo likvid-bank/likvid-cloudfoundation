@@ -11,18 +11,23 @@ This module automates the deployment of a Connectivity building block within Azu
 
 ## 🛠️ Role Definition 
 
-- **NAME**: `${azurerm_role_definition.buildingblock_deploy_hub.name}`
-- **ID**: `${azurerm_role_definition.buildingblock_deploy_hub.id}`
+| Name | ID |
+| --- | --- |
+| `${azurerm_role_definition.buildingblock_deploy_hub.name}` | `${azurerm_role_definition.buildingblock_deploy_hub.id}` |
 
 ## 📝 Role Assignments
 
-- **IDs**: `${join(", ", [for assignment in azurerm_role_assignment.buildingblock_deploy_hub : assignment.id])}`
-- **Principal IDs**: `${join(", ", [for assignment in azurerm_role_assignment.buildingblock_deploy_hub : assignment.principal_id])}`
+| Principal ID |
+| --- |
+| ${join(",\n", [for assignment in azurerm_role_assignment.buildingblock_deploy_hub : assignment.principal_id])} |
 
+
+  
 ## 🎯 Scope
 
-- **Scope**: `${data.azurerm_subscription.current.id}`
+- **Scope**: `${var.scope}`
 
 EOF
+  description = "Markdown documentation with information about the Connectivity building block backplane"
 }
 

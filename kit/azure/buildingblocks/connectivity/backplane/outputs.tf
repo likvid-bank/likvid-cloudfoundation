@@ -1,11 +1,11 @@
 output "role_definition_id" {
   value       = azurerm_role_definition.buildingblock_deploy_hub.id
-  description = "The ID of the role definition that enables deployment of the building block to the hub."
+  description = "The ID of the role definition that enables deployment of the Connectivity building block to the hub."
 }
 
 output "role_definition_name" {
   value       = azurerm_role_definition.buildingblock_deploy_hub.name
-  description = "The name of the role definition that enables deployment of the building block to the hub."
+  description = "The name of the role definition that enables deployment of the Connectivity building block to the hub."
 }
 
 output "role_assignment_ids" {

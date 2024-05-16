@@ -28,7 +28,7 @@ EOF
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/azure/buildingblocks/subscription"
+  source = "${get_repo_root()}//kit/azure/buildingblocks/subscription/backplane"
 }
 
 inputs = {
