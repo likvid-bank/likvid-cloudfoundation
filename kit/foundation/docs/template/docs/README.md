@@ -120,6 +120,21 @@ Because this landing zone does not connect to on-prem, this landing zone is a po
 | **Network controls**                                | X                    |                      |                    |
 | **Connectivity towards on-prem**                    |                      | *via building block* |                    |
 
+
+### Container Platform Landing Zone
+
+Use this landing zone if you want to run containerized workloads at scale. This landing zone is optimized for running container
+workloads using services like Azure Kubernetes Service (AKS) and Azure Container Instances (ACI).
+
+|                                                     | application team     | cloud foundation     | cloud provider     |
+|:---------------------------------------------------:|:--------------------:|:--------------------:|:------------------:|
+| **Development and operations of your application**  | X                    |                      |                    |
+| **Identities and Accounts within your application** | X                    |                      |                    |
+| **Information and data within your application**    | X                    |                      |                    |
+| **Securing all endpoints of your application**      | X                    |                      |                    |
+| **Operating system**                                |                      |                      | X                  |
+| **Network controls**                                | x                    |                      |                    |
+
 ### Sandbox Landing Zone
 
 Sandboxes are specifically designed for learning and experimentation. Sandboxes are strictly treated as **ephemeral** environments that must be torn down after an experiment has concluded. Sandboxes follow the "cloud native landing zone with internet connection"
