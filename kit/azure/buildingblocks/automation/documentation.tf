@@ -7,15 +7,16 @@ This module automates the deployment of building blocks within Azure. It utilize
 
 ## 🛠️ Service Principal 
 
-- **NAME**: `${azuread_service_principal.buildingblock.display_name}`
-- **ID**: `${azuread_service_principal.buildingblock.id}`
-- **Client ID**: `${azuread_service_principal.buildingblock.client_id}`
+| Name | ID | Client ID |
+| --- | --- | --- |
+| `${azuread_service_principal.buildingblock.display_name}` | `${azuread_service_principal.buildingblock.id}` | `${azuread_service_principal.buildingblock.client_id}` |
 
 ## 🗃️ Storage Account
 
-- **RESOURCE GROUP**: `${azurerm_resource_group.tfstates.name}`  
-- **Name**: `${azurerm_storage_account.tfstates.name}`
-- **Container Name**: `${azurerm_storage_container.tfstates.name}`
+| Resource Group | Name | Container Name |
+| --- | --- | --- |
+| `${azurerm_resource_group.tfstates.name}` | `${azurerm_storage_account.tfstates.name}` | `${azurerm_storage_container.tfstates.name}` |
 
 EOF
 }
+
