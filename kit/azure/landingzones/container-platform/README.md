@@ -25,7 +25,7 @@ The Container Platform Landing Zone is a pre-configured environment designed to 
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_policy_container_platform"></a> [policy\_container\_platform](#module\_policy\_container\_platform) | github.com/meshcloud/collie-hub//kit/azure/util/azure-policies | 2f2ab85c3c9530df416bb427c711979fbb7c12d6 |
+| <a name="module_policy_container_platform"></a> [policy\_container\_platform](#module\_policy\_container\_platform) | github.com/meshcloud/collie-hub//kit/azure/util/azure-policies | 7c356a7 |
 
 ## Resources
 

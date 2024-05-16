@@ -1,5 +1,5 @@
 output "documentation_md" {
-  value = <<EOF
+  value       = <<EOF
 # Building Block - Subscription Budget Alert
 
 The Budget Alert Building block configures a simple monthly budget alert for subscriptions.
@@ -13,7 +13,7 @@ specific needs of their application and infrastructure.
 
 This module automates the deployment of a Budget Alert building block within Azure. It utilizes service principles for automation. The states of these resources are maintained in a designated storage account.
 
-## 🛠️ Role Definition 
+## 🛠️ Role Definition
 
 | Name | ID |
 | --- | --- |

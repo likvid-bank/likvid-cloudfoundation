@@ -5,7 +5,7 @@ output "documentation_md" {
 
 This module automates the deployment of building blocks within Azure. It utilizes service principles for automation. The states of these resources are maintained in a designated storage account.
 
-## 🛠️ Service Principal 
+## 🛠️ Service Principal
 
 | Name | ID | Client ID |
 | --- | --- | --- |

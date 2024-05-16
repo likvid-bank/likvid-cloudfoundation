@@ -1,5 +1,5 @@
 output "documentation_md" {
-  value = <<EOF
+  value       = <<EOF
 # Building Block - Subscription
 
 This building block deploys default configuration for a subscription.
@@ -11,7 +11,7 @@ This building block deploys default configuration for a subscription.
 
 This module automates the deployment of a Subscription building block within Azure. It utilizes service principles for automation. The states of these resources are maintained in a designated storage account.
 
-## 🛠️ Role Definition 
+## 🛠️ Role Definition
 
 | Name | ID |
 | --- | --- |
@@ -23,7 +23,7 @@ This module automates the deployment of a Subscription building block within Azu
 | --- |
 | ${join("\n", [for assignment in azurerm_role_assignment.buildingblock_deploy : assignment.principal_id])} |
 
-  
+
 ## 🎯 Scope
 
 - **Scope**: `${var.scope}`

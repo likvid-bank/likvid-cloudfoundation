@@ -1,5 +1,5 @@
 output "documentation_md" {
-  value = <<EOF
+  value       = <<EOF
 # Building Block - Connectivity
 
 The Connectivity building block deploys a managed VNet that's connected to Likvid Bank's network hub.
@@ -9,7 +9,7 @@ This enables on-premise connectivity.
 
 This module automates the deployment of a Connectivity building block within Azure. It utilizes service principles for automation. The states of these resources are maintained in a designated storage account.
 
-## 🛠️ Role Definition 
+## 🛠️ Role Definition
 
 | Name | ID |
 | --- | --- |
@@ -21,7 +21,7 @@ This module automates the deployment of a Connectivity building block within Azu
 | --- |
 | ${join(",\n", [for assignment in azurerm_role_assignment.buildingblock_deploy_hub : assignment.principal_id])} |
 
-  
+
 ## 🎯 Scope
 
 - **Scope**: `${var.scope}`
