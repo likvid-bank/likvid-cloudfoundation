@@ -19,7 +19,7 @@ This module automates the deployment of a Connectivity building block within Azu
 
 | Principal ID |
 | --- |
-| ${join(",\n", [for assignment in azurerm_role_assignment.buildingblock_deploy_hub : assignment.principal_id])} |
+| ${join("\n", [for assignment in azurerm_role_assignment.buildingblock_deploy_hub : assignment.principal_id])} |
 
 
 ## 🎯 Scope
