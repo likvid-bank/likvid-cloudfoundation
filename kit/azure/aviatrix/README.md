@@ -48,7 +48,6 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_allowed_user_group_id"></a> [allowed\_user\_group\_id](#input\_allowed\_user\_group\_id) | id of the authorized id which can do changes | `list(string)` | n/a | yes |
-| <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id) | n/a | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | The Azure location used for creating policy assignments establishing this landing zone's guardrails. | `string` | n/a | yes |
 | <a name="input_parent_management_group"></a> [parent\_management\_group](#input\_parent\_management\_group) | id of the tenant management group | `string` | n/a | yes |
 | <a name="input_service_principal_name"></a> [service\_principal\_name](#input\_service\_principal\_name) | id of the tenant management group | `string` | `"avaitrix_deploy_spn"` | no |

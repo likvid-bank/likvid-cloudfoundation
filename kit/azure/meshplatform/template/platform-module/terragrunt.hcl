@@ -11,8 +11,6 @@ dependency "organization_hierarchy" {
   config_path = "../organization-hierarchy"
 }
 
-# todo: setup providers as needed by your kit module, typically referencing outputs of the bootstrap module
-# note: this block is generated as a fallback, since the kit module provided no explicit terragrunt.hcl template
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
@@ -31,24 +29,10 @@ terraform {
 }
 
 inputs = {
-  sso_enabled           = false
-  replicator_rg_enabled = true
-
-  replicator_service_principal_name = "replicator.likvid.meshcloud.io"
-  metering_service_principal_name   = "metering.likvid.meshcloud.io"
-
   replicator_custom_role_scope = dependency.bootstrap.outputs.parent_management_group
   metering_assignment_scopes   = [dependency.bootstrap.outputs.parent_management_group]
   replicator_assignment_scopes = [dependency.bootstrap.outputs.parent_management_group]
-  additional_permissions       = ["Microsoft.Subscription/rename/action"]
-
   can_cancel_subscriptions_in_scopes = [
     dependency.organization_hierarchy.outputs.landingzones_id
   ]
-
-  workload_identity_federation = {
-    issuer             = "https://container.googleapis.com/v1/projects/meshcloud-meshcloud--bc0/locations/europe-west1/clusters/meshstacks-ha"
-    replicator_subject = "system:serviceaccount:meshcloud-demo:replicator"
-    kraken_subject     = "system:serviceaccount:meshcloud-demo:kraken-worker"
-  }
 }
