@@ -19,7 +19,7 @@ No requirements.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_meshplatform"></a> [meshplatform](#module\_meshplatform) | git::https://github.com/meshcloud/terraform-azure-meshplatform.git | c48c8a9 |
+| <a name="module_meshplatform"></a> [meshplatform](#module\_meshplatform) | registry.terraform.io/meshcloud/meshplatform/azure | 0.6.0 |
 
 ## Resources
 
