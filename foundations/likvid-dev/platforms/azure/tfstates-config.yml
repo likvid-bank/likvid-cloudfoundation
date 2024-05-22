@@ -1,4 +1,0 @@
-storage_account_name: tfstates3tk4q
-container_name: tfstates
-location: germanywestcentral
-resource_group_name: cf-likvid-dev-tfstates
