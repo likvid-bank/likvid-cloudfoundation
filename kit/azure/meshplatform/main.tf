@@ -5,7 +5,7 @@
 module "meshplatform" {
   source  = "registry.terraform.io/meshcloud/meshplatform/azure"
   version = "0.6.0"
-  
+
   metering_enabled                      = var.metering_enabled
   metering_service_principal_name       = var.metering_service_principal_name
   metering_assignment_scopes            = var.metering_assignment_scopes
