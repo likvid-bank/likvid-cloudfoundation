@@ -6,7 +6,7 @@ on:
 
 jobs:
   prod:
-    if: ${{ github.base_ref == 'prod' }}
+    if: ${{ github.base_ref == 'main' }}
     uses: ./.github/workflows/build-workflow.yml
     secrets: inherit
     with:
