@@ -6,7 +6,7 @@ on:
 
 jobs:
   prod:
-    if: ${{ github.ref == 'refs/heads/prod' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     uses: ./.github/workflows/docs-workflow.yml
     with:
       foundation: likvid-prod
