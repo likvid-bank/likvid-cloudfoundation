@@ -2,7 +2,7 @@ name: pr-in-collie-hub
 on:
   push:
     branches:
-      - prod
+      - main 
 
 jobs:
   send-pull-requests:
