@@ -12,6 +12,13 @@ Upon request, we will peer a VNet in your subscription with the hub.
 All Firewall related logs are in the Log Anlytics Workspace
   - `${local.parsed_diag.log_analytics_id}`
 
+## Hub and spoke vnet-peering
+| name | adress_sapce | description |
+|-|-|-|
+glaskugel| 10.1.0.0/24 | Project Palantíri, stackholder Saruman |
+ 
+
+
 ## Subnets
 | name | prefixes | description |
 |-|-|-|
