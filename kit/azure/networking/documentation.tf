@@ -17,13 +17,10 @@ All Firewall related logs are in the Log Anlytics Workspace
 |-|-|-|
 glaskugel| 10.1.0.0/24 | Project Palantíri, stackholder Saruman |
  
-
-
 ## Subnets
 | name | prefixes |
 |-|-|
-${var.deploy_firewall ?
-  "| ${azurerm_subnet.firewall[0].name} | ${join(", ", azurerm_subnet.firewall[0].address_prefixes)} |" : ""}
+${var.deploy_firewall ? "| ${azurerm_subnet.firewall[0].name} | ${join(", ", azurerm_subnet.firewall[0].address_prefixes)} |\n" : "\n"}
 | ${azurerm_subnet.mgmt.name} | ${join(", ", azurerm_subnet.mgmt.address_prefixes)} | 
 | ${azurerm_subnet.gateway.name} | ${join(", ", azurerm_subnet.gateway.address_prefixes)} |
 
