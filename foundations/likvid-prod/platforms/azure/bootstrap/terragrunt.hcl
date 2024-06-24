@@ -30,7 +30,6 @@ locals {
     "fnowarre@meshcloud.io",
     "pmoore@meshcloud.io",
     "jdburger@meshcloud.io",
-    "mkazemi@meshcloud.io",
     "malhussan@meshcloud.io",
     "fzieger@meshcloud.io",
     "hdettmer@meshcloud.io",
