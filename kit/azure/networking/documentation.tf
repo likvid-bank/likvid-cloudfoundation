@@ -15,7 +15,7 @@ All Firewall related logs are in the Log Anlytics Workspace
 ## Hub and spoke vnet-peering
 | name | address_space | description |
 |-|-|-|
-glaskugel| 10.1.0.0/24 | Project Palantíri, stackholder Saruman |
+| glaskugel | 10.1.0.0/24 | Project Palantíri, stackholder Saruman |
  
 ## Subnets
 | name | prefixes |
