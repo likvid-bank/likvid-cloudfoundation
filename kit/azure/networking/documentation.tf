@@ -16,7 +16,7 @@ All Firewall related logs are in the Log Anlytics Workspace
 | name | address_space | description |
 |-|-|-|
 | glaskugel | 10.1.0.0/24 | Project Palantíri, stackholder Saruman |
- 
+
 ## Subnets
 | name | prefixes |
 |-|-|
