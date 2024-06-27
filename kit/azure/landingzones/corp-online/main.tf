@@ -5,7 +5,7 @@ resource "azurerm_management_group" "corp" {
 }
 
 resource "azurerm_management_group" "prod" {
-  display_name               = "${var.corp}-prod" 
+  display_name               = "${var.corp}-prod"
   parent_management_group_id = azurerm_management_group.corp.id
 }
 
