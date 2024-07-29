@@ -3,6 +3,7 @@ data "aws_s3_bucket" "s3_bucket" {
   bucket = var.bucket_name
 }
 
+# user referenced in building block definition
 resource "aws_iam_user" "user" {
   name = var.building_block_backend_account_service_user_name
 }
@@ -11,12 +12,11 @@ resource "aws_iam_access_key" "users_access_key" {
   user = aws_iam_user.user.name
 }
 
+# access terraform states in s3 bucket
 resource "aws_iam_user_policy" "bucket_access" {
   name = "access-s3-bucket-access"
   user = aws_iam_user.user.name
 
-  # Terraform's "jsonencode" function converts a
-  # Terraform expression result to valid JSON syntax.
   policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -30,26 +30,9 @@ resource "aws_iam_user_policy" "bucket_access" {
           "s3:DeleteObject",
         ],
         "Resource" : [
-          "*" #TODO Scope to bucket
+          data.aws_s3_bucket.s3_bucket.arn,
+          "${data.aws_s3_bucket.s3_bucket.arn}/*"
         ]
-      }
-    ]
-  })
-}
-
-resource "aws_iam_user_policy" "assume_roles" {
-  name = "assume-roles"
-  user = aws_iam_user.user.name
-
-  # Terraform's "jsonencode" function converts a
-  # Terraform expression result to valid JSON syntax.
-  policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
-      {
-        "Effect" : "Allow",
-        "Action" : "sts:AssumeRole",
-        "Resource" : "*"
       }
     ]
   })
@@ -57,6 +40,7 @@ resource "aws_iam_user_policy" "assume_roles" {
 
 data "aws_partition" "current" {}
 
+# access building block service role in target accounts
 data "aws_iam_policy_document" "building_block_service" {
   version = "2012-10-17"
   statement {
@@ -67,3 +51,8 @@ data "aws_iam_policy_document" "building_block_service" {
   }
 }
 
+resource "aws_iam_user_policy" "assume_roles" {
+  name   = "assume-roles"
+  user   = aws_iam_user.user.name
+  policy = data.aws_iam_policy_document.building_block_service.json
+}

@@ -14,6 +14,6 @@ variable "building_block_backend_account_id" {
 
 variable "building_block_target_account_access_role_name" {
   type        = string
-  default     = "MeshstackAccountAccessRole"
+  default     = "BuildingBlockAccessRole"
   description = "Account access role used by building-block-service."
 }
