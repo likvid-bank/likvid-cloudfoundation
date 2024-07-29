@@ -35,13 +35,18 @@ No modules.
 | [aws_iam_user.user](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user) | resource |
 | [aws_iam_user_policy.assume_roles](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy) | resource |
 | [aws_iam_user_policy.bucket_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy) | resource |
-| [aws_s3_bucket.s3_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
+| [aws_iam_policy_document.building_block_service](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_partition.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/partition) | data source |
+| [aws_s3_bucket.s3_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/s3_bucket) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_foundation_name"></a> [foundation\_name](#input\_foundation\_name) | included in AWS S3 storage bucket name | `string` | n/a | yes |
+| <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | Name of the S3 bucket | `any` | n/a | yes |
+| <a name="input_building_block_backend_account_id"></a> [building\_block\_backend\_account\_id](#input\_building\_block\_backend\_account\_id) | The ID of the meshcloud AWS Account | `string` | n/a | yes |
+| <a name="input_building_block_backend_account_service_user_name"></a> [building\_block\_backend\_account\_service\_user\_name](#input\_building\_block\_backend\_account\_service\_user\_name) | Name of the building-block-service user. | `string` | n/a | yes |
+| <a name="input_building_block_target_account_access_role_name"></a> [building\_block\_target\_account\_access\_role\_name](#input\_building\_block\_target\_account\_access\_role\_name) | Account access role used by building-block-service. | `string` | `"MeshstackAccountAccessRole"` | no |
 
 ## Outputs
 

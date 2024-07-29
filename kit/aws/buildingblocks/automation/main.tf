@@ -1,10 +1,10 @@
-resource "aws_s3_bucket" "s3_bucket" {
-  bucket        = "${var.foundation_name}.bb-tf-backend"
-  force_destroy = true
+# terragrunt bootstraps and manages our buvcket, so we only reference it here for generating outputs
+data "aws_s3_bucket" "s3_bucket" {
+  bucket = var.bucket_name
 }
 
 resource "aws_iam_user" "user" {
-  name = "buildingblock-cf-deploy"
+  name = var.building_block_backend_account_service_user_name
 }
 
 resource "aws_iam_access_key" "users_access_key" {
@@ -30,7 +30,7 @@ resource "aws_iam_user_policy" "bucket_access" {
           "s3:DeleteObject",
         ],
         "Resource" : [
-          "*"
+          "*" #TODO Scope to bucket
         ]
       }
     ]
@@ -54,3 +54,16 @@ resource "aws_iam_user_policy" "assume_roles" {
     ]
   })
 }
+
+data "aws_partition" "current" {}
+
+data "aws_iam_policy_document" "building_block_service" {
+  version = "2012-10-17"
+  statement {
+    sid       = "StsAccessMemberAccount"
+    effect    = "Allow"
+    actions   = ["sts:AssumeRole"]
+    resources = ["arn:${data.aws_partition.current.partition}:iam::*:role/${var.building_block_target_account_access_role_name}"]
+  }
+}
+

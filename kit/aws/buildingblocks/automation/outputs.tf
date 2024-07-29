@@ -1,16 +1,17 @@
 output "bucket_arn" {
-  value = aws_s3_bucket.s3_bucket.arn
+  value = data.aws_s3_bucket.s3_bucket.arn
 }
 
 output "bucket_id" {
-  value = aws_s3_bucket.s3_bucket.id
+  value = data.aws_s3_bucket.s3_bucket.id
 }
 
 output "bucket_region" {
-  value = aws_s3_bucket.s3_bucket.region
+  value = data.aws_s3_bucket.s3_bucket.region
 }
+
 output "bucket_name" {
-  value = aws_s3_bucket.s3_bucket.bucket
+  value = data.aws_s3_bucket.s3_bucket.bucket
 }
 
 output "aws_iam_access_key" {

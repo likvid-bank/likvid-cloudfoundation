@@ -13,3 +13,7 @@ variable "user_path" {
   default     = "/system/"
 }
 
+variable "account_id" {
+  description = "The ID of the AWS Account in which to create the user"
+}
+

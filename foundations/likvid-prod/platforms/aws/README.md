@@ -1,11 +1,11 @@
-<!-- --- -->
-<!-- aws: -->
-<!--   accountId: "702461728527" -->
-<!--   accountAccessRole: "OrganizationAccountAccessRole" -->
-<!-- cli: -->
-<!--   aws: -->
-<!--     AWS_PROFILE: likvid-prod                # required -->
-<!-- --- -->
+---
+aws:
+  accountId: "702461728527"
+  accountAccessRole: "OrganizationAccountAccessRole"
+cli:
+  aws:
+    AWS_PROFILE: likvid-prod                # required
+---
 <!---->
 <!-- # meshstack-dev -->
 <!---->
