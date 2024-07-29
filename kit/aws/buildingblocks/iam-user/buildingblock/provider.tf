@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket = "likvid.bb-tf-backend" # Must match what's configured in automation backend
-    key    = "terraform/buildingblock-backplane/terraform.tfstate"
+    key    = "terraform/iam-user"
     region = "eu-central-1"
   }
 }
