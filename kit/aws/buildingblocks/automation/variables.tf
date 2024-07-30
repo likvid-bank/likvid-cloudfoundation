@@ -13,7 +13,7 @@ variable "building_block_backend_account_id" {
 }
 
 variable "building_block_target_ou_ids" {
-  type        = list(string)
+  type        = set(string)
   description = "List of OUs to deploy the building block service role to"
 }
 
