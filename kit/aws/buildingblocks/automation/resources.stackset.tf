@@ -17,7 +17,7 @@ resource "aws_cloudformation_stack_set" "permissions_in_target_accounts" {
               {
                 Effect = "Allow",
                 Principal = {
-                  AWS = "arn:aws:iam::${var.building_block_backend_account_id}:root"
+                  AWS = "arn:${data.aws_partition.current.partition}:iam::${var.building_block_backend_account_id}:user/${var.building_block_backend_account_service_user_name}"
                 },
                 Action = "sts:AssumeRole"
               }
@@ -50,7 +50,7 @@ data "aws_organizations_organization" "main" {}
 
 resource "aws_cloudformation_stack_set_instance" "permissions_in_target_accounts" {
   deployment_targets {
-    organizational_unit_ids = [data.aws_organizations_organization.main.roots[0].id] #TODO scope permissions on landing zone OUs
+    organizational_unit_ids = var.building_block_target_ou_ids
   }
 
   region         = "eu-central-1"

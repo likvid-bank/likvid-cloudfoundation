@@ -1,6 +1,6 @@
 # terragrunt bootstraps and manages our bucket, so we only reference it here for generating outputs
 data "aws_s3_bucket" "s3_bucket" {
-  bucket = var.bucket_name
+  bucket = var.building_block_backend_bucket_name
 }
 
 # user referenced in building block definition

@@ -40,11 +40,10 @@ EOF
 }
 
 inputs = {
-  bucket_name = "likvid.bb-tf-backend" # Matches the terragrunt managed bucket
-
-  region                                           = "eu-central-1"
+  building_block_backend_bucket_name               = "likvid.bb-tf-backend" # Matches the terragrunt managed bucket
   building_block_backend_account_service_user_name = "likvid-buildingblock-cf-deploy"
   building_block_backend_account_id                = "702461728527"
 
+  building_block_target_ou_ids                   = ["ou-rpqz-ysvbxywo", "ou-rpqz-iq2j0zhi"]
   building_block_target_account_access_role_name = "LikvidBuildingBlockServiceRole"
 }
