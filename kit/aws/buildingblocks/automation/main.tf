@@ -1,4 +1,4 @@
-# terragrunt bootstraps and manages our buvcket, so we only reference it here for generating outputs
+# terragrunt bootstraps and manages our bucket, so we only reference it here for generating outputs
 data "aws_s3_bucket" "s3_bucket" {
   bucket = var.bucket_name
 }
@@ -44,7 +44,6 @@ data "aws_partition" "current" {}
 data "aws_iam_policy_document" "building_block_service" {
   version = "2012-10-17"
   statement {
-    sid       = "StsAccessMemberAccount"
     effect    = "Allow"
     actions   = ["sts:AssumeRole"]
     resources = ["arn:${data.aws_partition.current.partition}:iam::*:role/${var.building_block_target_account_access_role_name}"]

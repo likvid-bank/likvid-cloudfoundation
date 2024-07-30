@@ -46,7 +46,5 @@ inputs = {
   building_block_backend_account_service_user_name = "likvid-buildingblock-cf-deploy"
   building_block_backend_account_id                = "702461728527"
 
-  # We allow the user to assume the role deployed by meshstack in every accoutn it manages. This roles has broad access into the account.
-  # We could also deploy an additional role into target accounts instead, which would allow us more fine-granular acccess control.
-  building_block_target_account_access_role_name = "BuildingBlockServiceRole" # This is also configured on the AWS platform config in likvid-prod.
+  building_block_target_account_access_role_name = "LikvidBuildingBlockServiceRole"
 }

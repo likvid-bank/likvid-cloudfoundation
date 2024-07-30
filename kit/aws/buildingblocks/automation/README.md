@@ -31,12 +31,14 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_cloudformation_stack_set.building_block_service_permissions](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudformation_stack_set) | resource |
+| [aws_cloudformation_stack_set.permissions_in_target_accounts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudformation_stack_set) | resource |
+| [aws_cloudformation_stack_set_instance.permissions_in_target_accounts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudformation_stack_set_instance) | resource |
 | [aws_iam_access_key.users_access_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_access_key) | resource |
 | [aws_iam_user.user](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user) | resource |
 | [aws_iam_user_policy.assume_roles](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy) | resource |
 | [aws_iam_user_policy.bucket_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy) | resource |
 | [aws_iam_policy_document.building_block_service](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_organizations_organization.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/organizations_organization) | data source |
 | [aws_partition.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/partition) | data source |
 | [aws_s3_bucket.s3_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/s3_bucket) | data source |
 
@@ -45,9 +47,9 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | Name of the S3 bucket | `any` | n/a | yes |
-| <a name="input_building_block_backend_account_id"></a> [building\_block\_backend\_account\_id](#input\_building\_block\_backend\_account\_id) | The ID of the meshcloud AWS Account | `string` | n/a | yes |
-| <a name="input_building_block_backend_account_service_user_name"></a> [building\_block\_backend\_account\_service\_user\_name](#input\_building\_block\_backend\_account\_service\_user\_name) | Name of the building-block-service user. | `string` | n/a | yes |
-| <a name="input_building_block_target_account_access_role_name"></a> [building\_block\_target\_account\_access\_role\_name](#input\_building\_block\_target\_account\_access\_role\_name) | Account access role used by building-block-service. | `string` | `"BuildingBlockAccessRole"` | no |
+| <a name="input_building_block_backend_account_id"></a> [building\_block\_backend\_account\_id](#input\_building\_block\_backend\_account\_id) | The ID of the backend AWS Account | `string` | n/a | yes |
+| <a name="input_building_block_backend_account_service_user_name"></a> [building\_block\_backend\_account\_service\_user\_name](#input\_building\_block\_backend\_account\_service\_user\_name) | Name of the IAM user that meshStack will use to manage building block resources | `string` | n/a | yes |
+| <a name="input_building_block_target_account_access_role_name"></a> [building\_block\_target\_account\_access\_role\_name](#input\_building\_block\_target\_account\_access\_role\_name) | Account access role used by building-block-service. | `string` | `"BuildingBlockServiceRole"` | no |
 
 ## Outputs
 
