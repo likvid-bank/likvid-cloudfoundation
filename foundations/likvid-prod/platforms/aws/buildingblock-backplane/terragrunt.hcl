@@ -48,6 +48,5 @@ inputs = {
 
   # We allow the user to assume the role deployed by meshstack in every accoutn it manages. This roles has broad access into the account.
   # We could also deploy an additional role into target accounts instead, which would allow us more fine-granular acccess control.
-  management_account_service_role_name           = "BuildingBlockServiceRole"   # The meshStackAccountAccessRole can be assumed from the management account, hence we deploy a role there.
-  building_block_target_account_access_role_name = "MeshstackAccountAccessRole" # This is also configured on the AWS platform config in likvid-prod.
+  building_block_target_account_access_role_name = "BuildingBlockServiceRole" # This is also configured on the AWS platform config in likvid-prod.
 }
