@@ -1,7 +1,14 @@
 resource "aws_cloudformation_stack_set" "permissions_in_target_accounts" {
   name             = "${var.building_block_target_account_access_role_name}Permissons"
   permission_model = "SERVICE_MANAGED"
-  auto_deployment { enabled = true }
+  auto_deployment {
+    enabled                          = true
+    retain_stacks_on_account_removal = false
+  }
+  operation_preferences {
+    failure_tolerance_count = 50
+    max_concurrent_count    = 50
+  }
 
   template_body = jsonencode({
     AWSTemplateFormatVersion = "2010-09-09",
