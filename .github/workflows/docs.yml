@@ -4,6 +4,8 @@ on:
     branches:
       - main
   workflow_dispatch: 
+    branches:
+      - main
 
 jobs:
   prod:
