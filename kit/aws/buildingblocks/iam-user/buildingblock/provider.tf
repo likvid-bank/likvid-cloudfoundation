@@ -10,7 +10,7 @@ provider "aws" {
   region = "eu-central-1"
 
   assume_role {
-    role_arn = "arn:aws:iam::${var.account_id}:role/building_block_service_role"
+    role_arn = "arn:aws:iam::${var.account_id}:role/LikvidBuildingBlockServiceRole" # Must match what's configured in automation backend
   }
 }
 
