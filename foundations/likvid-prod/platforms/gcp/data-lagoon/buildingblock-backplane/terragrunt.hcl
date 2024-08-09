@@ -1,3 +1,8 @@
+include "platform" {
+  path   = find_in_parent_folders("platform.hcl")
+  expose = true
+}
+
 remote_state {
   backend = "gcs"
   generate = {
@@ -21,7 +26,7 @@ EOF
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/gcp/buildingblocks/automation"
+  source = "${get_repo_root()}//kit/gcp/data-lagoon/data-lagoon"
 }
 
 inputs = {
