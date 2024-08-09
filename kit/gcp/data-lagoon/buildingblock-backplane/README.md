@@ -23,7 +23,8 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [google_folder_iam_binding.backend](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/folder_iam_binding) | resource |
+| [google_folder_iam_binding.servicemanagement](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/folder_iam_binding) | resource |
+| [google_folder_iam_binding.serviceusage](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/folder_iam_binding) | resource |
 | [google_project_iam_binding.backend](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_binding) | resource |
 | [google_service_account.backend](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account) | resource |
 | [google_service_account_key.backend](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_key) | resource |
