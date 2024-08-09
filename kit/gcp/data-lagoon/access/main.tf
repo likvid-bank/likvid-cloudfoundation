@@ -11,9 +11,16 @@ provider "google" {
   project = var.project_id
 }
 
-resource "google_project_service" "project" {
-  project            = var.project_id
-  service            = "bigquery.googleapis.com"
-  disable_on_destroy = true
+resource "google_project_service" "serviceusage" {
+  project                    = var.project_id
+  service                    = "serviceusage.googleapis.com"
+  disable_dependent_services = true
+}
+
+resource "google_project_service" "bigquery" {
+  project                    = var.project_id
+  service                    = "bigquery.googleapis.com"
+  disable_on_destroy         = true
+  disable_dependent_services = true
 }
 
