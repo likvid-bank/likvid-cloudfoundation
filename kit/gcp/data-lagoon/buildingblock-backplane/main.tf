@@ -24,9 +24,18 @@ resource "google_project_iam_binding" "backend" {
 }
 
 # Access to target projects
-resource "google_folder_iam_binding" "backend" {
+resource "google_folder_iam_binding" "servicemanagement" {
   folder = var.folder_id
   role   = "roles/servicemanagement.admin"
+
+  members = [
+    "serviceAccount:${google_service_account.backend.email}",
+  ]
+}
+
+resource "google_folder_iam_binding" "serviceusage" {
+  folder = var.folder_id
+  role   = "roles/serviceusage.serviceUsageAdmin"
 
   members = [
     "serviceAccount:${google_service_account.backend.email}",
