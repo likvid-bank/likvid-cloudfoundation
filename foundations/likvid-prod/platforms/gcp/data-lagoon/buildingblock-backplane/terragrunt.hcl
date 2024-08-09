@@ -26,9 +26,9 @@ EOF
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/gcp/data-lagoon/data-lagoon"
+  source = "${get_repo_root()}//kit/gcp/data-lagoon/buildingblock-backplane"
 }
 
 inputs = {
-
+  folder_id = "981198366660"
 }
