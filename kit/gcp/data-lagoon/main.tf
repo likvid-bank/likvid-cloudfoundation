@@ -11,6 +11,11 @@ provider "google" {
   # Configuration options
 }
 
+resource "google_folder" "data_lagoon" {
+  display_name = "Data Lagoon"
+  parent       = var.parent_folder_id
+}
+
 # We use a quick-start template from Google for our Data Warehouse
 module "data_warehouse" {
   source                     = "terraform-google-modules/bigquery/google//modules/data_warehouse"

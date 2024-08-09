@@ -32,5 +32,6 @@ terraform {
 }
 
 inputs = {
-  project_id = "data-lagoon-prod-45o"
+  project_id       = "data-lagoon-prod-45o"
+  parent_folder_id = "folders/493343334220" # TODO read from organizational hierarchy kit module output
 }
