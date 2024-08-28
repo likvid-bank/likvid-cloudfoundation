@@ -1,23 +1,8 @@
-resource "aws_organizations_organization" "org" {
-  aws_service_access_principals = [
-    # "cloudtrail.amazonaws.com",
-    "config.amazonaws.com",
-    "controltower.amazonaws.com",
-    "member.org.stacksets.cloudformation.amazonaws.com",
-    "ram.amazonaws.com",
-    "sso.amazonaws.com",
-    "account.amazonaws.com",
-    "resource-explorer-2.amazonaws.com",
-    "ssm.amazonaws.com",
-  ]
-  enabled_policy_types = [
-    "SERVICE_CONTROL_POLICY"
-  ]
-  feature_set = "ALL"
+data "aws_organizations_organization" "org" {
 }
 
 locals {
-  org_root = aws_organizations_organization.org.roots[0].id
+  org_root = data.aws_organizations_organization.org.roots[0].id
 }
 
 
@@ -65,6 +50,6 @@ resource "aws_organizations_organizational_unit" "parent" {
 # }
 
 resource "aws_organizations_organizational_unit" "landingzones" {
-  name      = "landingzones"
+  name      = "${var.parent_ou_name}-landingzones"
   parent_id = aws_organizations_organizational_unit.parent.id
 }

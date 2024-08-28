@@ -24,9 +24,9 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_organizations_organization.org](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_organization) | resource |
 | [aws_organizations_organizational_unit.landingzones](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_organizational_unit) | resource |
 | [aws_organizations_organizational_unit.parent](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_organizational_unit) | resource |
+| [aws_organizations_organization.org](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/organizations_organization) | data source |
 
 ## Inputs
 
@@ -41,7 +41,6 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_admin_ou_id"></a> [admin\_ou\_id](#output\_admin\_ou\_id) | id of the admin organizational unit |
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
 | <a name="output_landingzones_ou_id"></a> [landingzones\_ou\_id](#output\_landingzones\_ou\_id) | id of the landingzones organizational unit |
 | <a name="output_org_id"></a> [org\_id](#output\_org\_id) | organiztion id |

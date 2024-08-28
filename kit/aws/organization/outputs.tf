@@ -1,5 +1,5 @@
 output "org_id" {
-  value       = aws_organizations_organization.org.id
+  value       = data.aws_organizations_organization.org.id
   description = "organiztion id"
 }
 
@@ -13,10 +13,10 @@ output "parent_ou_id" {
   value       = aws_organizations_organizational_unit.parent.id
 }
 
-output "admin_ou_id" {
-  value       = aws_organizations_organizational_unit.admin.id
-  description = "id of the admin organizational unit"
-}
+# output "admin_ou_id" {
+#   value       = aws_organizations_organizational_unit.admin.id
+#   description = "id of the admin organizational unit"
+# }
 
 output "landingzones_ou_id" {
   value       = aws_organizations_organizational_unit.landingzones.id
