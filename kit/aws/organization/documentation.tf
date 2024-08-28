@@ -7,7 +7,8 @@ The AWS Organization is owned by master account `${data.aws_organizations_organi
 This module sets up a basic organizational structure with administrative accounts
 
 platform
-  - landingzones
+  - ${aws_organizations_organizational_unit.landingzones.id}
+  - likvid-m25-platform
 
 The administrative accounts are configured in separate kit modules.
 EOF
