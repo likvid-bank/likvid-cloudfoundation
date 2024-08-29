@@ -70,10 +70,10 @@ resource "github_repository_file" "provider_tf" {
   content = <<-EOT
 provider "azurerm" {
   features {}
-  skip_provider_registration = false
-  tenant_id                  = "${data.azurerm_subscription.current.tenant_id}"
-  subscription_id            = "${data.azurerm_subscription.current.subscription_id}"
-  storage_use_azuread        = true
+  resource_provider_registrations = "core"
+  tenant_id                       = "${data.azurerm_subscription.current.tenant_id}"
+  subscription_id                 = "${data.azurerm_subscription.current.subscription_id}"
+  storage_use_azuread             = true
 }
 
 provider "azuread" {
