@@ -2,6 +2,7 @@
 # parent dir, this needs to provided in the BB execution enviornment
 
 resource "github_repository" "repository" {
+  depends_on  = [azurerm_role_assignment.ghaction_tfstate] # Wait with creating the Repo until the UAMI has the right permissions to execute the pipeline
   name        = var.repo_name
   description = "Created from a Likvid Bank DevOps Toolchain starter kit for ${var.workspace_identifier}.${var.project_identifier}"
   visibility  = var.visibility
