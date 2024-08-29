@@ -1,0 +1,28 @@
+name: 'Setup nix shell'
+inputs:
+  prepare_terraform:
+    description: prepare a terraform execution environment with cache and backend authentication
+    default: false
+    required: false
+outputs: {}
+runs:
+  using: "composite"
+  steps:
+    - uses: nixbuild/nix-quick-install-action@v26
+      with:
+        # gh actions runners have 16 GiB of memory by default, we happily trade some of that for a significant speedup
+        # of nix install (empirically this cut install times from from 75s to 30s when introduced)
+        nix_on_tmpfs: true
+
+    - uses: rrbutani/use-nix-shell-action@v1
+      with:
+        devShell: .#github_actions # use a special github actions shell
+
+    - name: create terraform cache
+      if: ${{ inputs.prepare_terraform }}
+      shell: bash
+      run: |
+        dir=${{ runner.temp }}/.terraform.d/plugin-cache
+        mkdir -p $dir # create terraform plugin cache
+        echo "TF_PLUGIN_CACHE_DIR=$dir" >> $GITHUB_ENV
+

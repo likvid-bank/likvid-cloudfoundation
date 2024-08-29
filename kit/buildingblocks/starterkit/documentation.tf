@@ -1,6 +1,6 @@
 output "documentation_md" {
   value = <<EOF
-# Starter Kit Building Blocks
+# Starter Kit Building Block
 
 The Likvid Bank DevOps Toolchain team maintains a set of starter kits to help application teams get started
 on the cloud quickly.

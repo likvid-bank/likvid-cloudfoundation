@@ -1,0 +1,22 @@
+name: check
+on:
+  # check only needs to run on PRs
+  pull_request:
+    branches: [ main ]
+
+  merge_group:
+
+jobs:
+  check:
+    name: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup environment
+        uses: ./.github/actions/setup-nix-shell
+
+      - name: pre-commit hooks
+        run: pre-commit run --all-files --show-diff-on-failure

@@ -14,6 +14,12 @@ repos:
           - --args=-platform=darwin_arm64
           - --args=-platform=darwin_amd64
           - --args=-platform=linux_amd64
+      - id: terraform_tflint
+        files: ^kit/
+        stages:
+          - manual # for now, we only run this on demand until we fixed all errors
+        args:
+          - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl # share a single tflint config file for all modules
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0  # Use the ref you want to point at
     hooks:

@@ -4,6 +4,7 @@
 
 # collie generated docs
 .docs
+.docs-v2
 
 # collie cache
 .collie/hub

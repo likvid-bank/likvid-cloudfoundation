@@ -4,73 +4,55 @@ on:
       foundation:
         required: true
         type: string
-      client-id:
-        required: true
-        type: string
-      tenant-id:
-        required: true
-        type: string
-      subscription-id:
-        required: true
-        type: string
 
 jobs:
   docs:
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    env:
-      TERRAGRUNT_TFPATH: tofu
-      ARM_CLIENT_ID: ${{ inputs.client-id }} # export this for platform.hcl
-      ARM_USE_OIDC: true
+      name: ${{ inputs.foundation }}
     permissions:
       id-token: write
       contents: read
-      pages: write
-    steps:
-      - name: Setup az login
-        uses: azure/login@v2
-        with:
-          client-id: ${{ inputs.client-id }}
-          tenant-id: ${{ inputs.tenant-id }}
-          subscription-id: ${{ inputs.subscription-id }}
+    env:
+      TERRAGRUNT_TFPATH: tofu
+      TF_IN_AUTOMATION: true
 
+      # required for azurerm state backend
+      ARM_CLIENT_ID: ${{ vars.azure_client_id }}
+      ARM_USE_OIDC: true
+    steps:
       - uses: actions/checkout@v4
+
+      - name: Setup environment
+        uses: ./.github/actions/setup-nix-shell
+        with:
+          prepare_terraform: true
+
+      # we use the convenience of GHA to cache node_modules etc.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18.x # matches nix shell
+          cache: npm
+          cache-dependency-path: foundations/${{ inputs.foundation }}/docs/vuepress/package-lock.json
 
       - uses: meshcloud/setup-collie@main
 
-      - uses: cachix/install-nix-action@v18
+      # authenticate with azure using Workflow Identity Federation, this enables us to access the tfstate for platforms/azure
+      # and perform terraform plan against platform/azure
+      - name: Setup az login
+        uses: azure/login@v2
         with:
-          nix_path: nixpkgs=channel:nixos-23.11:nixpkgs-unstable=channel:nixos-unstable
-          extra_nix_config: |
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+          client-id: ${{ vars.azure_client_id }}
+          tenant-id: ${{ vars.azure_tenant_id }}
+          subscription-id: ${{ vars.azure_subscription_id }}
 
-      - uses: rrbutani/use-nix-shell-action@v1
-        with:
-          file: default.nix
-
-      - name: create terraform cache
+      - name: update docs v2
+        working-directory: foundations/${{ inputs.foundation }}/docs
         run: |
-          dir=${{ runner.temp }}/.terraform.d/plugin-cache
-          mkdir -p $dir # create terraform plugin cache
-          echo "TF_PLUGIN_CACHE_DIR=$dir" >> $GITHUB_ENV
+          collie foundation docs ${{ inputs.foundation }} --build
 
-      - name: collie info
-        run: collie info
-
-      - name: Build and Update Documentation
-        run: |
-          collie foundation docs ${{ inputs.foundation }} --update --build --verbose --debug
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: upload docs artifact
+        uses: actions/upload-artifact@v4
         with:
-          path: "foundations/${{ inputs.foundation }}/.docs/docs/.vuepress/dist"
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          name: docs-${{ inputs.foundation }}
+          path: foundations/${{ inputs.foundation }}/.docs-v2/docs/.vuepress/dist

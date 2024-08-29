@@ -2,7 +2,8 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.opentofu.org/hashicorp/azurerm" {
-  version = "3.97.1"
+  version     = "3.97.1"
+  constraints = "~> 3.97.0"
   hashes = [
     "h1:3dkdNcbivRDtA7eAj9If1xwpP2VFrmDJUL4vdaob4Z0=",
     "h1:EbpDNSFv5h3YqP74+XjS0Umo/4xWNLeEWW9vw5z6ahs=",

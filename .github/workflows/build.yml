@@ -1,16 +1,65 @@
 name: build
 on:
-  pull_request:
+  workflow_dispatch:
+
+  push:
     branches:
-    - main
+      - "main"
+
+  pull_request:
+    branches: [ main ]
+
+  merge_group:
 
 jobs:
-  prod:
-    if: ${{ github.base_ref == 'main' }}
+  build:
     uses: ./.github/workflows/build-workflow.yml
     secrets: inherit
+    strategy:
+      fail-fast: false # don't cancel other matrix jobs if one fails
+      matrix:
+        foundation: [likvid-prod]
+        platform: [azure] # todo: aws, gcp
     with:
-      foundation: likvid-prod
-      client-id: d009bc1c-9076-4e4e-8cdf-967bc25f5dcf # see azure/bootstrap output
-      tenant-id: 703c8d27-13e0-4836-8b2e-8390c588cf80
-      subscription-id: 9809209b-869e-4f5c-8d86-c8b71294153f
+      foundation: ${{ matrix.foundation }}
+      platform: ${{ matrix.platform }}
+
+  docs:
+    uses: ./.github/workflows/docs-workflow.yml
+    secrets: inherit
+    strategy:
+      fail-fast: false # don't cancel other matrix jobs if one fails
+      matrix:
+        foundation: [likvid-prod]
+    with:
+      foundation: ${{ matrix.foundation }}
+
+  publish:
+    name: deploy docs
+    if: github.ref == 'refs/heads/main' # only deploy if we're on main branch
+    needs:
+      - docs # this will depend on all jobs of the matrix
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: download docs-likvid-prod artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docs-likvid-prod
+          path: './'
+
+      - name: setup GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './'
+
+      - name: deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
