@@ -33,6 +33,8 @@ provider "azurerm" {
   features {}
 
   skip_provider_registration = false
+  resource_provider_registrations = "core"
+
   storage_use_azuread        = true
 
   tenant_id       = "${data.azurerm_subscription.current.tenant_id}"
