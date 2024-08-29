@@ -32,7 +32,6 @@ provider "github" {
 provider "azurerm" {
   features {}
 
-  skip_provider_registration = false
   resource_provider_registrations = "core"
 
   storage_use_azuread        = true
