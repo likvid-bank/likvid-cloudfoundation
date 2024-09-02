@@ -22,5 +22,6 @@ inputs = {
   parent_ou_name                   = "likvid"
   automation_account_email         = "aws+automation@meshcloud.io"
   network_management_account_email = "aws+network.management@meshcloud.io"
+  management_account_email         = "aws+management@meshcloud.io"
   meshstack_account_email          = "aws+meshcloud@meshcloud.io"
 }

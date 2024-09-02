@@ -20,6 +20,12 @@ variable "network_management_account_email" {
   description = "root user email for the network management aws account"
 }
 
+variable "management_account_email" {
+  type        = string
+  nullable    = false
+  description = "root user email for the network management aws account"
+}
+
 variable "meshstack_account_email" {
   type        = string
   nullable    = false

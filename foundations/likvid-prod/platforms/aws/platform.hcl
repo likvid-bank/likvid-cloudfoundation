@@ -38,20 +38,19 @@ terraform {
   }
 }
 
-# In this first iteration of the redesign of the Likvid AWS Platform, we have decided to use the same bucket as for meshcloud-dev.
-# This can be a temporary solution and may be changed in the future. It depends on an LZA in AWS and the resulting kitso
-# that we will be writing for this.
-
 remote_state {
-  backend = "gcs"
-
+  backend = "s3"
   generate = {
     path      = "backend.tf"
     if_exists = "overwrite"
   }
   config = {
-    bucket               = "foundation-meshcloud-dev-tf-states"
-    prefix               = "platforms/aws/${local.cloudfoundation}.${path_relative_to_include()}"
-    skip_bucket_creation = true
+    bucket         = "likvid-tf-state"
+    key            = "platforms/aws/${local.cloudfoundation}.${path_relative_to_include()}"
+    region         = "eu-central-1" 
+    encrypt        = true
+    dynamodb_table = "terraform-state-lock"
+    role_arn       = "arn:aws:iam::490004649140:role/OrganizationAccountAccessRole"
   }
 }
+
