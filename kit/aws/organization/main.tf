@@ -21,8 +21,8 @@ resource "aws_organizations_organizational_unit" "management" {
 }
 
 resource "aws_organizations_account" "management_acc" {
-  name  = "management_acc"
-  email = "aws+management-acc@meshcloud.io"
+  name      = "management_acc"
+  email     = "aws+management-acc@meshcloud.io"
   parent_id = aws_organizations_organizational_unit.management.id
   #role_name = "OrganizationAccountAccessRole"
   lifecycle {

@@ -47,7 +47,7 @@ remote_state {
   config = {
     bucket         = "likvid-tf-state"
     key            = "platforms/aws/${local.cloudfoundation}.${path_relative_to_include()}"
-    region         = "eu-central-1" 
+    region         = "eu-central-1"
     encrypt        = true
     dynamodb_table = "terraform-state-lock"
     role_arn       = "arn:aws:iam::490004649140:role/OrganizationAccountAccessRole"
