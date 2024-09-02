@@ -49,6 +49,6 @@ resource "azurerm_role_definition" "ghactions_register" {
 
 resource "azurerm_role_assignment" "ghactions_register" {
   role_definition_id = azurerm_role_definition.ghactions_register.role_definition_resource_id
-  scope              = azurerm_resource_group.app.id
+  scope              = data.azurerm_subscription.current.id
   principal_id       = azurerm_user_assigned_identity.ghactions.principal_id
 }
