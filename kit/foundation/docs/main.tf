@@ -89,7 +89,7 @@ resource "null_resource" "copy_template" {
   provisioner "local-exec" {
     when = create
     # copy files as symbolic links, this means we can change them in the source dir and live reload will work!
-    command = "mkdir -p ${var.output_dir} && cp --archive --recursive --symbolic-link ${var.template_dir}/* ${var.output_dir}"
+    command = "mkdir -p ${var.output_dir} && cp -a -R -L ${var.template_dir}/* ${var.output_dir}"
   }
 
   provisioner "local-exec" {
@@ -108,7 +108,7 @@ resource "null_resource" "copy_compliance" {
   provisioner "local-exec" {
     when = create
     # copy files as symbolic links, this means we can change them in the source dir and live reload will work!
-    command = "mkdir -p ${var.output_dir}/docs/compliance && cp --archive --recursive --symbolic-link ${local.compliance_dir}/* ${var.output_dir}/docs/compliance"
+    command = "mkdir -p ${var.output_dir}/docs/compliance && cp -a -R -L ${local.compliance_dir}/* ${var.output_dir}/docs/compliance"
   }
 
   provisioner "local-exec" {
