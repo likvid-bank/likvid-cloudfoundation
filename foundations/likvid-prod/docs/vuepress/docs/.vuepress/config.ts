@@ -23,10 +23,6 @@ const navbar: NavbarConfig = [
     link: "/concepts"
   },
   {
-    text: "meshStack",
-    link: "/meshstack"
-  },
-  {
     text: "Compliance",
     link: "/compliance/",
   },
@@ -140,7 +136,7 @@ function getMarkdownFiles(dir: string): string[] {
 export default defineUserConfig({
   // site-level locales config
   bundler: viteBundler(),
-  base: "/dev/",
+  base: "/",
   locales: {
     "/": {
       lang: "en-US",
