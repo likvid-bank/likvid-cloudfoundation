@@ -1,7 +1,7 @@
 ---
 name: Likvid Data Lagoon
 summary: |
-  Deploys our data warehouse based on an official Google terraform module.  
+  Deploys our data warehouse based on an official Google terraform module.
 ---
 
 # Likvid Data Lagoon
