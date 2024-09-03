@@ -25,6 +25,4 @@ inputs = {
   template_dir   = "${local.foundation_path}/docs/vuepress"
   output_dir     = "${local.foundation_path}/.docs-v2"
   repo_dir       = "${get_repo_root()}"
-
-
 }

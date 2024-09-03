@@ -19,13 +19,3 @@ resource "aws_organizations_organizational_unit" "management" {
   name      = "${var.parent_ou_name}-management"
   parent_id = aws_organizations_organizational_unit.parent.id
 }
-
-resource "aws_organizations_account" "management_acc" {
-  name      = "management_acc"
-  email     = "aws+management-acc@meshcloud.io"
-  parent_id = aws_organizations_organizational_unit.management.id
-  #role_name = "OrganizationAccountAccessRole"
-  lifecycle {
-    ignore_changes = [tags, tags_all, name]
-  }
-}
