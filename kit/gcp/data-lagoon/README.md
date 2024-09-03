@@ -1,9 +1,7 @@
 ---
 name: Likvid Data Lagoon
 summary: |
-  deploys new cloud foundation infrastructure.
-  Add a concise description of the module's purpose here.
-# optional: add additional metadata about implemented security controls
+  Deploys our data warehouse based on an official Google terraform module.  
 ---
 
 # Likvid Data Lagoon
