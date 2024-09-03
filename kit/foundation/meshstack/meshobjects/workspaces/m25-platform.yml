@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: meshWorkspace
+metadata:
+  name: m25-platform
+spec:
+  displayName: M25 Platform Team
+  tags:
+    environment: # todo: the environment tag values are not aligned between likvid-demo and meshcloud-dev
+    - dev
+    - qa
+    - prod
+    BusinessUnit:
+    - M25
+    SecurityContact:
+    - platform@m25.example.com
+    # todo: landingzone clearance is missing
