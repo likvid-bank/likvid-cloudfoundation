@@ -136,7 +136,7 @@ function getMarkdownFiles(dir: string): string[] {
 export default defineUserConfig({
   // site-level locales config
   bundler: viteBundler(),
-  base: "/",
+  base: "/likvid-cloudfoundation/", // on github-pages, this is our base url
   locales: {
     "/": {
       lang: "en-US",
