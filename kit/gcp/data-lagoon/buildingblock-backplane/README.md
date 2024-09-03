@@ -1,9 +1,7 @@
 ---
 name: gcp/buildingblock-backplane
 summary: |
-  deploys new cloud foundation infrastructure.
-  Add a concise description of the module's purpose here.
-# optional: add additional metadata about implemented security controls
+  Sets up a simple automation infrastructure for building blocks.
 ---
 
 # gcp/buildingblock-backplane
