@@ -1,0 +1,72 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "organizations:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
+      "Resource": "arn:aws:iam::*:role/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "sso:ListInstances",
+        "sso:ListTagsForResource",
+        "sso:ListAccountAssignments",
+        "sso:CreateAccountAssignment",
+        "sso:DeleteAccountAssignment",
+        "sso:DescribeAccountAssignmentCreationStatus",
+        "sso:DescribeAccountAssignmentDeletionStatus",
+        "sso:DescribePermissionSet",
+        "sso:CreatePermissionSet",
+        "sso:DeletePermissionSet",
+        "sso:UpdatePermissionSet",
+        "sso:ListManagedPoliciesInPermissionSet",
+        "sso:AttachManagedPolicyToPermissionSet",
+        "sso:DetachManagedPolicyFromPermissionSet",
+        "sso:DeleteInlinePolicyFromPermissionSet",
+        "sso:DescribePermissionSetProvisioningStatus",
+        "sso:PutInlinePolicyToPermissionSet",
+        "sso:ListPermissionSets",
+        "sso:ProvisionPermissionSet"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "access-analyzer:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "servicecatalog:AssociatePrincipalWithPortfolio",
+        "servicecatalog:ListPrincipalsForPortfolio",
+        "servicecatalog:DisassociatePrincipalFromPortfolio"
+      ],
+      "Resource": "arn:aws:catalog:eu-central-1:*:portfolio/*"
+    },
+    {
+      "Action": [
+        "cloudformation:*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
