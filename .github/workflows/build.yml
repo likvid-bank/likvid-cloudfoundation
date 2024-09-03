@@ -12,7 +12,8 @@ on:
   merge_group:
 
 jobs:
-  build:
+  platforms_plan:
+    name: platforms plan
     uses: ./.github/workflows/build-workflow.yml
     secrets: inherit
     strategy:
@@ -23,6 +24,25 @@ jobs:
     with:
       foundation: ${{ matrix.foundation }}
       platform: ${{ matrix.platform }}
+      action: plan
+
+  platforms_test:
+    name: platforms test
+    uses: ./.github/workflows/build-workflow.yml
+    secrets: inherit
+    strategy:
+      fail-fast: false
+      matrix:
+        foundation: [likvid-prod]
+        platform: [azure] # todo: aws, gcp
+    # ensure only one test job runs at a time to avoid terraform state clobbering each other (tests use shared names for resources)
+    concurrency:
+      group: ${{ matrix.foundation }}-${{ matrix.platform }}
+      cancel-in-progress: false
+    with:
+      foundation: ${{ matrix.foundation }}
+      platform: ${{ matrix.platform }}
+      action: test
 
   docs:
     uses: ./.github/workflows/docs-workflow.yml

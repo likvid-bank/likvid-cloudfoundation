@@ -7,6 +7,11 @@ on:
       platform:
         required: true
         type: string
+      action:
+        description: Action to perform, either "plan" or "test"
+        required: true
+        default: 'plan'
+        type: string
 
 jobs:
   build:
@@ -63,9 +68,11 @@ jobs:
       #     role-session-name: github-actions-${{ github.run_id }}
 
       - name: terraform plan
+        if: ${{ inputs.action == 'plan' }}
         run: |
           collie foundation deploy ${{ inputs.foundation }} --platform ${{ inputs.platform }} -- plan -lock=false -detailed-exitcode
 
       - name: run tests
+        if: ${{ inputs.action == 'test' }}
         run: |
           collie foundation test ${{ inputs.foundation }} --platform ${{ inputs.platform }}
