@@ -66,6 +66,9 @@ locals {
 }
 
 resource "github_repository_file" "provider_tf" {
+  depends_on = [
+    github_repository_file.backend_tf
+  ] # Only commit the provider.tf file after the backend.tf file has been committed to avoid unmanaged resources
   repository     = github_repository.repository.name
   commit_message = "Configuring azurerm provider to deploy to your subscription"
   commit_author  = local.commit_author
