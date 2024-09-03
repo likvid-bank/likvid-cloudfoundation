@@ -1,7 +1,7 @@
 resource "azurerm_role_definition" "aviatrix_deploy" {
   name        = var.service_principal_name
   scope       = var.parent_management_group
-  description = "Permissions required to deploy the avaitrix"
+  description = "Permissions required to deploy the Aviatrix Spoke"
 
   permissions {
     actions = [

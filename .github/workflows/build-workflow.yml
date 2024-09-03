@@ -4,13 +4,7 @@ on:
       foundation:
         required: true
         type: string
-      client-id:
-        required: true
-        type: string
-      tenant-id:
-        required: true
-        type: string
-      subscription-id:
+      platform:
         required: true
         type: string
 
@@ -21,52 +15,57 @@ jobs:
       name: ${{ inputs.foundation }}
     env:
       TERRAGRUNT_TFPATH: tofu
-      ARM_CLIENT_ID: ${{ inputs.client-id }} # export this for platform.hcl
+      # required to enable for azurerm backend, the azurerm provider seems to be fine without these two keys
+      ARM_CLIENT_ID: ${{ vars.azure_client_id }}
       ARM_USE_OIDC: true
+
+      # required for the github deployment
       GITHUB_APP_PEM_FILE: ${{ secrets.LIVKID_GITHUB_APP_PEM_FILE }} # note: this environment secret must be set up manually on the github repo
     permissions:
       id-token: write
       contents: read
 
     steps:
-      - name: Setup az login
-        uses: azure/login@v2
-        with:
-          client-id: ${{ inputs.client-id }}
-          tenant-id: ${{ inputs.tenant-id }}
-          subscription-id: ${{ inputs.subscription-id }}
-
       - uses: actions/checkout@v4
+
+      - name: Setup environment
+        uses: ./.github/actions/setup-nix-shell
+        with:
+          prepare_terraform: true
 
       - uses: meshcloud/setup-collie@main
 
-      - uses: cachix/install-nix-action@v18
+
+      # TODO GCP
+      # - name: Setup gcloud auth
+      #   if: ${{ inputs.platform == 'gcp' }}
+      #   id: 'auth'
+      #   uses: 'google-github-actions/auth@v2'
+      #   with:
+      #     service_account: '${{ vars.gcp_service_account }}' # sourced from gh environment variable
+      #     workload_identity_provider: '${{ vars.gcp_workload_identity_provider }}'
+
+      - name: Setup az auth
+        if: ${{ inputs.platform == 'azure' }}
+        uses: azure/login@v2
         with:
-          nix_path: nixpkgs=channel:nixos-23.11:nixpkgs-unstable=channel:nixos-unstable
-          extra_nix_config: |
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+          client-id: ${{ vars.azure_client_id }}
+          tenant-id: ${{ vars.azure_tenant_id }}
+          subscription-id: ${{ vars.azure_subscription_id }}
 
-      - uses: rrbutani/use-nix-shell-action@v1
-        with:
-          file: default.nix
-
-      - name: create terraform cache
-        run: |
-          dir=${{ runner.temp }}/.terraform.d/plugin-cache
-          mkdir -p $dir # create terraform plugin cache
-          echo "TF_PLUGIN_CACHE_DIR=$dir" >> $GITHUB_ENV
-
-      - name: collie info
-        run: collie info
-
-      - name: ensure all pre-commit hooks pass
-        run: pre-commit run --all-files --show-diff-on-failure
+      # TODO AWS
+      # - name: Setup aws auth
+      #   if: ${{ inputs.platform == 'aws' }}
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-region: eu-central-1
+      #     role-to-assume: ${{ vars.aws_iam_role }}
+      #     role-session-name: github-actions-${{ github.run_id }}
 
       - name: terraform plan
         run: |
-          TF_IN_AUTOMATION=true
-          collie foundation deploy ${{ inputs.foundation }} -- plan -lock=false -detailed-exitcode
+          collie foundation deploy ${{ inputs.foundation }} --platform ${{ inputs.platform }} -- plan -lock=false -detailed-exitcode
 
       - name: run tests
         run: |
-          collie foundation test ${{ inputs.foundation }}
+          collie foundation test ${{ inputs.foundation }} --platform ${{ inputs.platform }}

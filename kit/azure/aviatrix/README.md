@@ -1,14 +1,10 @@
 ---
-name: Azure Aviatrix
+name: Azure Aviatrix Integration
 summary: |
-  Set
+  Integrates an Azure subscription with Aviatrix
 compliance:
-  - control: cfmm/cost-management/monthly-cloud-tenant-billing-report
-    statement: |
-      Enables
-  - control: cfmm/cost-management/billing-alerts
-    statement: |
-      Sets
+  - control: cfmm/service-ecosystem/virtual-network-service
+    statement: This
 ---
 
 # Azure Aviatrix
