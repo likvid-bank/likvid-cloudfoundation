@@ -41,7 +41,7 @@ provider "azuread" {
 provider "azurerm" {
   features {}
 
-  skip_provider_registration = false
+  skip_provider_registration = true # work around a missing permission in Azure
   storage_use_azuread        = true
 
   # this subscription is managed via meshStack, we hence do not track it as a tenant in this repo
