@@ -23,11 +23,11 @@ data "terraform_remote_state" "docs_azure" {
   backend = "azurerm"
   config = {
     use_azuread_auth     = true
-    tenant_id            = "${var.platforms.azure.aad_tenant_id}"
-    subscription_id      = "${var.platforms.azure.subscription_id}"
-    resource_group_name  = "${var.platforms.azure.tfstateconfig.resource_group_name}"
-    storage_account_name = "${var.platforms.azure.tfstateconfig.storage_account_name}"
-    container_name       = "${var.platforms.azure.tfstateconfig.container_name}"
+    tenant_id            = var.platforms.azure.aad_tenant_id
+    subscription_id      = var.platforms.azure.subscription_id
+    resource_group_name  = var.platforms.azure.tfstateconfig.resource_group_name
+    storage_account_name = var.platforms.azure.tfstateconfig.storage_account_name
+    container_name       = var.platforms.azure.tfstateconfig.container_name
     key                  = "${trimprefix(each.key, "platforms/azure/")}.tfstate"
   }
 }

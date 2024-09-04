@@ -14,7 +14,9 @@ This documentation is intended as a reference documentation for cloud foundation
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >=5.0.0 |
 
 ## Modules
 
@@ -33,10 +35,6 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_automation_account_email"></a> [automation\_account\_email](#input\_automation\_account\_email) | root user email for the automation aws account | `string` | n/a | yes |
-| <a name="input_management_account_email"></a> [management\_account\_email](#input\_management\_account\_email) | root user email for the network management aws account | `string` | n/a | yes |
-| <a name="input_meshstack_account_email"></a> [meshstack\_account\_email](#input\_meshstack\_account\_email) | root user email for the meshstack aws account | `string` | n/a | yes |
-| <a name="input_network_management_account_email"></a> [network\_management\_account\_email](#input\_network\_management\_account\_email) | root user email for the network management aws account | `string` | n/a | yes |
 | <a name="input_parent_ou_name"></a> [parent\_ou\_name](#input\_parent\_ou\_name) | Create a OU of the specified name and treat it as the root of all resources managed as part of this kit.<br>    This is good for separation, in particular if you don't have exclusive control over the AWS organization because<br>    it is supporting non-cloudfoundation workloads as well. | `string` | n/a | yes |
 
 ## Outputs

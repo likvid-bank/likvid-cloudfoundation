@@ -13,7 +13,9 @@ This documentation is intended as a reference documentation for cloud foundation
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >=5.0.0 |
 
 ## Modules
 

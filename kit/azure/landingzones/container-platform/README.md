@@ -37,7 +37,6 @@ The Container Platform Landing Zone is a pre-configured environment designed to 
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_landingzones"></a> [landingzones](#input\_landingzones) | The parent\_management\_group where your landingzones are | `string` | `"landingzones"` | no |
 | <a name="input_location"></a> [location](#input\_location) | The Azure location where this policy assignment should exist, required when an Identity is assigned. | `string` | `"germanywestcentral"` | no |
 | <a name="input_lz-container-platform"></a> [lz-container-platform](#input\_lz-container-platform) | n/a | `string` | `"container-platform"` | no |
 | <a name="input_parent_management_group_id"></a> [parent\_management\_group\_id](#input\_parent\_management\_group\_id) | The tenant management group of your cloud foundation | `string` | `"foundation"` | no |

@@ -24,8 +24,11 @@ variable "project_identifier" {
   type = string
 }
 
+# this variable is supposed to be used by an injected config.tf file for configuring the azurerm provider, so we ignore it
+# tflint-ignore: terraform_unused_declarations
 variable "subscription_id" {
-  type = string
+  type        = string
+  description = "the subscription id to which this building block shall be deployed"
 }
 
 variable "location" {

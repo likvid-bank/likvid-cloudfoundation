@@ -7,28 +7,3 @@ variable "parent_ou_name" {
     it is supporting non-cloudfoundation workloads as well.
   EOF
 }
-
-variable "automation_account_email" {
-  type        = string
-  nullable    = false
-  description = "root user email for the automation aws account"
-}
-
-variable "network_management_account_email" {
-  type        = string
-  nullable    = false
-  description = "root user email for the network management aws account"
-}
-
-variable "management_account_email" {
-  type        = string
-  nullable    = false
-  description = "root user email for the network management aws account"
-}
-
-variable "meshstack_account_email" {
-  type        = string
-  nullable    = false
-  description = "root user email for the meshstack aws account"
-}
-

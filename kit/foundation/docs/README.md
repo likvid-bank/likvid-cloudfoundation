@@ -17,7 +17,10 @@ This documentation is intended as a reference documentation for cloud foundation
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_local"></a> [local](#requirement\_local) | ~> 2.5.1 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.2.2 |
 
 ## Modules
 

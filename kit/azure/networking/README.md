@@ -23,6 +23,7 @@ on the internet.
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 2.41.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.85.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.6.0 |
 
 ## Modules
 
@@ -94,13 +95,11 @@ No modules.
 | <a name="input_firewall_network_rules"></a> [firewall\_network\_rules](#input\_firewall\_network\_rules) | List of network rules to apply to the firewall. | <pre>list(object({<br>    name                  = string<br>    action                = string<br>    source_addresses      = list(string)<br>    destination_ports     = list(string)<br>    destination_addresses = list(string)<br>    protocols             = list(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_firewall_sku_tier"></a> [firewall\_sku\_tier](#input\_firewall\_sku\_tier) | Specify the tier for the firewall, choosing from options like Basic or Standard, Premium. | `string` | `"Basic"` | no |
 | <a name="input_firewall_zones"></a> [firewall\_zones](#input\_firewall\_zones) | Collection of availability zones to distribute the Firewall across. | `list(string)` | `null` | no |
-| <a name="input_hub_networking_deploy"></a> [hub\_networking\_deploy](#input\_hub\_networking\_deploy) | Service Principal responsible for deploying the central hub networking | `string` | `"cloudfoundation_hub_network_deploy_user"` | no |
 | <a name="input_hub_resource_group"></a> [hub\_resource\_group](#input\_hub\_resource\_group) | Name of the central hub resource group | `string` | `"hub-vnet-rg"` | no |
 | <a name="input_hub_subscription_name"></a> [hub\_subscription\_name](#input\_hub\_subscription\_name) | Name of your hub subscription | `string` | `"hub"` | no |
 | <a name="input_hub_vnet_name"></a> [hub\_vnet\_name](#input\_hub\_vnet\_name) | Name of the central virtual network | `string` | `"hub-vnet"` | no |
 | <a name="input_landingzone_scope"></a> [landingzone\_scope](#input\_landingzone\_scope) | Identifier for the management group landinzone | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | Region for resource deployment | `string` | n/a | yes |
-| <a name="input_lz_networking_deploy"></a> [lz\_networking\_deploy](#input\_lz\_networking\_deploy) | Service Principal responsible for deploying the landing zone networking | `string` | `"cloudfoundation_lz_network_deploy_user"` | no |
 | <a name="input_management_nsg_rules"></a> [management\_nsg\_rules](#input\_management\_nsg\_rules) | Network security rules to add to the management subnet. Refer to README for setup details. | `list(any)` | `[]` | no |
 | <a name="input_netwatcher"></a> [netwatcher](#input\_netwatcher) | Properties for creating network watcher. If set, it creates a Network Watcher resource using standard naming conventions. | <pre>object({<br>    log_analytics_workspace_id       = string<br>    log_analytics_workspace_id_short = string<br>    log_analytics_resource_id        = string<br>  })</pre> | `null` | no |
 | <a name="input_network_admin_group"></a> [network\_admin\_group](#input\_network\_admin\_group) | Name of the Cloud Foundation network administration group | `string` | `"cloudfoundation-network-admins"` | no |

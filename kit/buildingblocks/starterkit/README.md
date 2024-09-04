@@ -178,6 +178,8 @@ For advanced use cases, you can of course also want to customize the `buildingbl
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 2.46.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.71.0 |
 | <a name="requirement_github"></a> [github](#requirement\_github) | ~> 5.42.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.6.0 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | ~> 0.11.0 |
 
 ## Modules
 
@@ -215,7 +217,6 @@ No modules.
 | <a name="input_github_org"></a> [github\_org](#input\_github\_org) | id of your GitHub organization as it appears in URLs on GitHub.com | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | Azure location for deploying the building block terraform state storage account | `string` | n/a | yes |
 | <a name="input_scope"></a> [scope](#input\_scope) | Scope where the building block should be deployable, typically a Sandbox Landing Zone Management Group | `string` | n/a | yes |
-| <a name="input_service_principal_name"></a> [service\_principal\_name](#input\_service\_principal\_name) | name of the Service Principal used to perform all deployments of this building block | `string` | n/a | yes |
 
 ## Outputs
 
