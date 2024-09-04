@@ -11,8 +11,8 @@ include "platform" {
 # todo: not quite sure how this will interact with our ability to generate docs in CI/CD for this module
 # it _should_ be fine since we only need to read terraform statex^^
 
-dependency "organization_hierarchy" {
-  config_path = "../../organization-hierarchy"
+dependency "sandbox" {
+  config_path = "../../landingzones/sandbox"
 }
 
 # For GitHub we use github cli authentication see https://registry.terraform.io/providers/integrations/github/latest/docs#github-cli
@@ -57,7 +57,7 @@ terraform {
 inputs = {
   service_principal_name = "devops-toolchain-starterkit"
   location               = "germanywestcentral"
-  scope                  = dependency.organization_hierarchy.outputs.landingzones_id
+  scope                  = dependency.sandbox.outputs.sandbox_id
 
   github_app_id              = "654209"
   github_app_installation_id = "44437049"
