@@ -21,7 +21,8 @@ Other buildingblock backplane's should be dependant to this module to be able to
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >=5.0.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 5.65.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | 3.6.0 |
 
 ## Modules
 
@@ -31,20 +32,20 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_cloudformation_stack_set.permissions_in_target_accounts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudformation_stack_set) | resource |
-| [aws_cloudformation_stack_set_instance.permissions_in_target_accounts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudformation_stack_set_instance) | resource |
-| [aws_dynamodb_table.terraform_locks](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) | resource |
-| [aws_iam_access_key.users_access_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_access_key) | resource |
-| [aws_iam_user.user](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user) | resource |
-| [aws_iam_user_policy.assume_roles](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy) | resource |
-| [aws_iam_user_policy.bucket_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy) | resource |
-| [aws_organizations_policy.deny_create_iam_user](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_policy) | resource |
-| [aws_organizations_policy_attachment.deny_create_iam_user](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_policy_attachment) | resource |
-| [aws_s3_bucket.terraform_state](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
-| [aws_s3_bucket_versioning.versioning](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
-| [random_string.resource_code](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
-| [aws_iam_policy_document.building_block_service](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_partition.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/partition) | data source |
+| [aws_cloudformation_stack_set.permissions_in_target_accounts](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/cloudformation_stack_set) | resource |
+| [aws_cloudformation_stack_set_instance.permissions_in_target_accounts](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/cloudformation_stack_set_instance) | resource |
+| [aws_dynamodb_table.terraform_locks](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/dynamodb_table) | resource |
+| [aws_iam_access_key.users_access_key](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/iam_access_key) | resource |
+| [aws_iam_user.user](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/iam_user) | resource |
+| [aws_iam_user_policy.assume_roles](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/iam_user_policy) | resource |
+| [aws_iam_user_policy.bucket_access](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/iam_user_policy) | resource |
+| [aws_organizations_policy.deny_create_iam_user](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_policy) | resource |
+| [aws_organizations_policy_attachment.deny_create_iam_user](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_policy_attachment) | resource |
+| [aws_s3_bucket.terraform_state](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/s3_bucket) | resource |
+| [aws_s3_bucket_versioning.versioning](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/s3_bucket_versioning) | resource |
+| [random_string.resource_code](https://registry.terraform.io/providers/hashicorp/random/3.6.0/docs/resources/string) | resource |
+| [aws_iam_policy_document.building_block_service](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/data-sources/iam_policy_document) | data source |
+| [aws_partition.current](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/data-sources/partition) | data source |
 
 ## Inputs
 

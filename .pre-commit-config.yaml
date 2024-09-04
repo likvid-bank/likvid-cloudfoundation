@@ -47,6 +47,12 @@ repos:
           - --args=--version "2.53.1"
 
       - id: tfupdate
+        name: tfupdate hashicorp/aws
+        args:
+          - --args=provider hashicorp/aws
+          - --args=--version "5.65.0"
+
+      - id: tfupdate
         name: tfupdate hashicorp/random
         args:
           - --args=provider hashicorp/random

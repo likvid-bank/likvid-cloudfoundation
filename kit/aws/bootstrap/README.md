@@ -22,7 +22,7 @@ to bootstrap the cloudfoundation.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 5.46.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 5.65.0 |
 
 ## Modules
 
@@ -32,23 +32,23 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_cloudformation_stack.root_baseline](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/resources/cloudformation_stack) | resource |
-| [aws_cloudformation_stack_set.baseline](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/resources/cloudformation_stack_set) | resource |
-| [aws_cloudformation_stack_set_instance.baseline](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/resources/cloudformation_stack_set_instance) | resource |
-| [aws_iam_policy.assume_validation_role](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/resources/iam_policy) | resource |
-| [aws_iam_role.validation](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/resources/iam_role) | resource |
-| [aws_iam_role_policy_attachment.validation_assume_validation_role_in_org](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/resources/iam_role_policy_attachment) | resource |
-| [aws_iam_role_policy_attachment.validation_read_only](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/resources/iam_role_policy_attachment) | resource |
-| [aws_identitystore_group.platform_engineers](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/resources/identitystore_group) | resource |
-| [aws_identitystore_group_membership.members](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/resources/identitystore_group_membership) | resource |
-| [aws_ssoadmin_account_assignment.platform_engineers](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/resources/ssoadmin_account_assignment) | resource |
-| [aws_ssoadmin_permission_set.platform_engineers](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/resources/ssoadmin_permission_set) | resource |
-| [aws_ssoadmin_permission_set_inline_policy.platform_engineers](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/resources/ssoadmin_permission_set_inline_policy) | resource |
-| [aws_iam_openid_connect_provider.github](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/data-sources/iam_openid_connect_provider) | data source |
-| [aws_iam_policy_document.allow_assume_validation_role_from_github](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.allow_assume_validation_role_in_org](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/data-sources/iam_policy_document) | data source |
-| [aws_identitystore_user.platform_engineers](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/data-sources/identitystore_user) | data source |
-| [aws_ssoadmin_instances.sso](https://registry.terraform.io/providers/hashicorp/aws/5.46.0/docs/data-sources/ssoadmin_instances) | data source |
+| [aws_cloudformation_stack.root_baseline](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/cloudformation_stack) | resource |
+| [aws_cloudformation_stack_set.baseline](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/cloudformation_stack_set) | resource |
+| [aws_cloudformation_stack_set_instance.baseline](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/cloudformation_stack_set_instance) | resource |
+| [aws_iam_policy.assume_validation_role](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/iam_policy) | resource |
+| [aws_iam_role.validation](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy_attachment.validation_assume_validation_role_in_org](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.validation_read_only](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_identitystore_group.platform_engineers](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/identitystore_group) | resource |
+| [aws_identitystore_group_membership.members](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/identitystore_group_membership) | resource |
+| [aws_ssoadmin_account_assignment.platform_engineers](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/ssoadmin_account_assignment) | resource |
+| [aws_ssoadmin_permission_set.platform_engineers](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/ssoadmin_permission_set) | resource |
+| [aws_ssoadmin_permission_set_inline_policy.platform_engineers](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/ssoadmin_permission_set_inline_policy) | resource |
+| [aws_iam_openid_connect_provider.github](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/data-sources/iam_openid_connect_provider) | data source |
+| [aws_iam_policy_document.allow_assume_validation_role_from_github](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.allow_assume_validation_role_in_org](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/data-sources/iam_policy_document) | data source |
+| [aws_identitystore_user.platform_engineers](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/data-sources/identitystore_user) | data source |
+| [aws_ssoadmin_instances.sso](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/data-sources/ssoadmin_instances) | data source |
 
 ## Inputs
 

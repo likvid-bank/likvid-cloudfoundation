@@ -16,7 +16,7 @@ This documentation is intended as a reference documentation for cloud foundation
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >=5.0.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 5.65.0 |
 
 ## Modules
 
@@ -26,10 +26,10 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_organizations_organizational_unit.landingzones](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_organizational_unit) | resource |
-| [aws_organizations_organizational_unit.management](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_organizational_unit) | resource |
-| [aws_organizations_organizational_unit.parent](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_organizational_unit) | resource |
-| [aws_organizations_organization.org](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/organizations_organization) | data source |
+| [aws_organizations_organizational_unit.landingzones](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
+| [aws_organizations_organizational_unit.management](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
+| [aws_organizations_organizational_unit.parent](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
+| [aws_organizations_organization.org](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/data-sources/organizations_organization) | data source |
 
 ## Inputs
 
