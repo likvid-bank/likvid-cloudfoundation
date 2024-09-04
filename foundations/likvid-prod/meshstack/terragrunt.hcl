@@ -1,7 +1,7 @@
 terraform {
   source = "${get_repo_root()}//kit/foundation/meshstack"
 
-  # todo: we should source that from a foundation.yml somehow?
+  # We authentication against aws so we can fetch remote_state from S3 for the aws plattform
   extra_arguments "profile" {
     commands = [
       "init",
@@ -19,20 +19,7 @@ terraform {
 }
 
 #TODO: maybe move this to an own bucket or use a different prefix
-remote_state {
-  backend = "gcs"
-
-  generate = {
-    path      = "backend.tf"
-    if_exists = "overwrite"
-  }
-
-  config = {
-    skip_bucket_creation = true
-    # bucket               = "foundation-meshcloud-dev-tf-states"
-    # prefix               = "meshstack"
-  }
-}
+# we store foundation module terraform state with the aws platform state
 
 locals {
   azure = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file("../platforms/azure/README.md"))[0]).azure
