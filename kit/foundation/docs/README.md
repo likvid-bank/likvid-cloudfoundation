@@ -17,7 +17,10 @@ This documentation is intended as a reference documentation for cloud foundation
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_local"></a> [local](#requirement\_local) | 2.5.1 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | 3.2.2 |
 
 ## Modules
 
@@ -27,10 +30,10 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [local_file.module_docs](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
-| [local_file.platform_readmes](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
-| [null_resource.copy_compliance](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
-| [null_resource.copy_template](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [local_file.module_docs](https://registry.terraform.io/providers/hashicorp/local/2.5.1/docs/resources/file) | resource |
+| [local_file.platform_readmes](https://registry.terraform.io/providers/hashicorp/local/2.5.1/docs/resources/file) | resource |
+| [null_resource.copy_compliance](https://registry.terraform.io/providers/hashicorp/null/3.2.2/docs/resources/resource) | resource |
+| [null_resource.copy_template](https://registry.terraform.io/providers/hashicorp/null/3.2.2/docs/resources/resource) | resource |
 | [terraform_remote_state.docs_azure](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/data-sources/remote_state) | data source |
 
 ## Inputs

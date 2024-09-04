@@ -175,9 +175,11 @@ For advanced use cases, you can of course also want to customize the `buildingbl
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 2.46.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.71.0 |
-| <a name="requirement_github"></a> [github](#requirement\_github) | ~> 5.42.0 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 2.53.1 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.116.0 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | 5.42.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | 3.6.0 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | 0.11.1 |
 
 ## Modules
 
@@ -187,24 +189,24 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azuread_app_role_assignment.starterkit-directory](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/app_role_assignment) | resource |
-| [azuread_application.starterkit](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application) | resource |
-| [azuread_service_principal.starterkit](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal) | resource |
-| [azuread_service_principal_password.starterkit](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal_password) | resource |
-| [azurerm_resource_group.tfstates](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
-| [azurerm_role_assignment.starterkit_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.terraform_state](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_definition.starterkit_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_definition) | resource |
-| [azurerm_role_definition.starterkit_deploy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_definition) | resource |
-| [azurerm_storage_account.tfstates](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
-| [azurerm_storage_container.tfstates](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
-| [github_repository.staticwebsite_template](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository) | resource |
-| [random_string.resource_code](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
-| [time_rotating.key_rotation](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/rotating) | resource |
-| [azuread_application_published_app_ids.well_known](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/application_published_app_ids) | data source |
-| [azuread_group.project_admins](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
-| [azuread_service_principal.msgraph](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/service_principal) | data source |
-| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
+| [azuread_app_role_assignment.starterkit-directory](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/resources/app_role_assignment) | resource |
+| [azuread_application.starterkit](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/resources/application) | resource |
+| [azuread_service_principal.starterkit](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/resources/service_principal) | resource |
+| [azuread_service_principal_password.starterkit](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/resources/service_principal_password) | resource |
+| [azurerm_resource_group.tfstates](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/resource_group) | resource |
+| [azurerm_role_assignment.starterkit_access](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.terraform_state](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_assignment) | resource |
+| [azurerm_role_definition.starterkit_access](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_definition) | resource |
+| [azurerm_role_definition.starterkit_deploy](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_definition) | resource |
+| [azurerm_storage_account.tfstates](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/storage_account) | resource |
+| [azurerm_storage_container.tfstates](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/storage_container) | resource |
+| [github_repository.staticwebsite_template](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/resources/repository) | resource |
+| [random_string.resource_code](https://registry.terraform.io/providers/hashicorp/random/3.6.0/docs/resources/string) | resource |
+| [time_rotating.key_rotation](https://registry.terraform.io/providers/hashicorp/time/0.11.1/docs/resources/rotating) | resource |
+| [azuread_application_published_app_ids.well_known](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/data-sources/application_published_app_ids) | data source |
+| [azuread_group.project_admins](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/data-sources/group) | data source |
+| [azuread_service_principal.msgraph](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/data-sources/service_principal) | data source |
+| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/data-sources/subscription) | data source |
 
 ## Inputs
 
@@ -215,7 +217,6 @@ No modules.
 | <a name="input_github_org"></a> [github\_org](#input\_github\_org) | id of your GitHub organization as it appears in URLs on GitHub.com | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | Azure location for deploying the building block terraform state storage account | `string` | n/a | yes |
 | <a name="input_scope"></a> [scope](#input\_scope) | Scope where the building block should be deployable, typically a Sandbox Landing Zone Management Group | `string` | n/a | yes |
-| <a name="input_service_principal_name"></a> [service\_principal\_name](#input\_service\_principal\_name) | name of the Service Principal used to perform all deployments of this building block | `string` | n/a | yes |
 
 ## Outputs
 

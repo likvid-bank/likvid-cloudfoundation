@@ -13,7 +13,9 @@ This documentation is intended as a reference documentation for cloud foundation
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 5.65.0 |
 
 ## Modules
 
@@ -23,7 +25,7 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_organizations_organizational_unit.platform](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_organizational_unit) | resource |
+| [aws_organizations_organizational_unit.platform](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
 
 ## Inputs
 

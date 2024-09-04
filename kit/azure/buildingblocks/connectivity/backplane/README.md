@@ -24,7 +24,7 @@ An Azure Policy confines the access of the SPN to that resource group.
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.71.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.116.0 |
 
 ## Modules
 
@@ -34,9 +34,9 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azurerm_role_assignment.buildingblock_deploy_hub](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_definition.buildingblock_deploy_hub](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_definition) | resource |
-| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
+| [azurerm_role_assignment.buildingblock_deploy_hub](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_assignment) | resource |
+| [azurerm_role_definition.buildingblock_deploy_hub](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_definition) | resource |
+| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/data-sources/subscription) | data source |
 
 ## Inputs
 

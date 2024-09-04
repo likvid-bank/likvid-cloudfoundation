@@ -11,7 +11,7 @@ module "policy_container_platform" {
   location            = var.location
 
   template_file_variables = {
-    default_location          = "${var.location}"
+    default_location          = var.location
     current_scope_resource_id = azurerm_management_group.container_platform.id
   }
 }

@@ -58,8 +58,6 @@ resource "aws_cloudformation_stack_set" "permissions_in_target_accounts" {
   }
 }
 
-data "aws_organizations_organization" "main" {}
-
 resource "aws_cloudformation_stack_set_instance" "permissions_in_target_accounts" {
   deployment_targets {
     organizational_unit_ids = var.building_block_target_ou_ids

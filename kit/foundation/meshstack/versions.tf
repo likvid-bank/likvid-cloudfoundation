@@ -4,8 +4,9 @@ terraform {
   required_providers {
     azuread = {
       source  = "hashicorp/azuread"
-      version = "~> 2.46.0"
+      version = "2.53.1"
     }
+
     meshstack = {
       source                = "meshcloud/meshstack"
       version               = "~> 0.5.0"

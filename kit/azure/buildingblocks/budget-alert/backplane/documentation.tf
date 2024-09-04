@@ -13,7 +13,6 @@ specific needs of their application and infrastructure.
 
 This module automates the deployment of a Budget Alert building block within Azure. It utilizes the common [Azure Building Blocks Automation Infrastructure](./azure-buildingblocks-automation)
 
-
 ## 🛠️ Role Definition
 
 | Name | ID |

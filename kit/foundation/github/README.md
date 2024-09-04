@@ -16,7 +16,7 @@ This documentation is intended as a reference documentation for cloud foundation
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_github"></a> [github](#requirement\_github) | ~> 5.42.0 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | 5.42.0 |
 
 ## Modules
 
@@ -26,9 +26,9 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [github_actions_environment_variable.variables](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_environment_variable) | resource |
-| [github_repository_environment.env](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_environment) | resource |
-| [github_repository.foundation_repo](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/repository) | data source |
+| [github_actions_environment_variable.variables](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/resources/actions_environment_variable) | resource |
+| [github_repository_environment.env](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/resources/repository_environment) | resource |
+| [github_repository.foundation_repo](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/data-sources/repository) | data source |
 
 ## Inputs
 

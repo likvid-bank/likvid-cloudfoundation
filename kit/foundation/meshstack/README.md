@@ -23,7 +23,7 @@ NOTE: MESHSTACK_API_PASSWORD is still not there in vault it seems, but it's in g
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 2.46.0 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 2.53.1 |
 | <a name="requirement_meshstack"></a> [meshstack](#requirement\_meshstack) | ~> 0.5.0 |
 
 ## Modules

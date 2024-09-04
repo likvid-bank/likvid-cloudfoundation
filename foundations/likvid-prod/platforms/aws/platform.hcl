@@ -77,6 +77,7 @@ remote_state {
     path      = "backend.tf"
     if_exists = "overwrite"
   }
+
   config = {
     bucket         = "likvid-tf-state"
     key            = "platforms/aws/${local.cloudfoundation}.${path_relative_to_include()}"
@@ -84,6 +85,8 @@ remote_state {
     encrypt        = true
     dynamodb_table = "terraform-state-lock"
     role_arn       = "arn:aws:iam::490004649140:role/OrganizationAccountAccessRole"
+
+    profile = get_env("CI", "false") == "true" ? null : local.cloudfoundation
   }
 }
 

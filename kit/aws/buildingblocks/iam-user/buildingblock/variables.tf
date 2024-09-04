@@ -1,3 +1,5 @@
+# used in injected config.tf file for configuring the aws provider
+# tflint-ignore: terraform_unused_declarations
 variable "region" {
   description = "AWS region"
   default     = "us-west-2"
