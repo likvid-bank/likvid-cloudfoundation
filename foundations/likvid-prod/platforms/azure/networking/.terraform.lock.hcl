@@ -2,42 +2,18 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.opentofu.org/hashicorp/azuread" {
-  version     = "2.41.0"
-  constraints = "~> 2.41.0"
+  version     = "2.53.1"
+  constraints = "2.53.1"
   hashes = [
-    "h1:14xrUydcMgAhrHFAv70WqX1hy55z1932kBU1JGhjo+E=",
-    "h1:5hQwMFT0shd8z6h6jxkD1ULKzr/Vdd6hZtNWyvqVwJ4=",
-    "h1:K2oJDM4R1T6ixaT2vZ1KmiVEB9UWaf7qLHMFqxLxrxY=",
-    "zh:2b924d84107fe6da3ece16e0e8c71e3b8157fe30323c169f6569d69a1a72f3f3",
-    "zh:34e28a4174383be7045d6bdededca6012c4476b33b102e77e70c5d8db61adffb",
-    "zh:449a204286b09afd08695185fcdadbadd1ac07bdb23f17d2d7afed6f5437cf8d",
-    "zh:4aa670a490864dba9bd394a9374b90c49f5c02a537a63e8a1bf4b72eca3936d0",
-    "zh:5c131c43cd229e53f581a52cb1caee7759d55f6a6da70df007c73f550f4236f5",
-    "zh:809f3956fe059ceb8c53259a9d461ef352856c07910003b38eb0bb732398b38c",
-    "zh:8f49d443daf4fe6a8a9b2aec166dcc3453b4678d683914212d1dc72223446a2b",
-    "zh:9a35cab70a45c1d4ff613153b921ef51f3cf5eb6c4ba7edfa0448305b4c7f827",
-    "zh:c7dfe25fdf41be35131277f0273b2f42d61fdc1d6b567bbebc3f7c816c50ec91",
-    "zh:cdc597504ca423e87c9e2e9d4486ad06d3765a68765497355a4319c683cab186",
+    "h1:nt7T1WA3cVEPbJCjMEZnEjzqEqNUeXviiiSYvFJUYwM=",
   ]
 }
 
 provider "registry.opentofu.org/hashicorp/azurerm" {
-  version     = "3.85.0"
-  constraints = "~> 3.85.0"
+  version     = "3.116.0"
+  constraints = "3.116.0"
   hashes = [
-    "h1:2Z18cdwgB11G2MciEnEwFEXgE3yFwYey+vBmgxaa9dU=",
-    "h1:UAYyYq+VhaIfahsg+dy2JkcUD8g7LXhpLc1VxhlNwRY=",
-    "h1:tjcLokbMfQSuOPB0LNR1kBbl7LH0yA6ENjGGLOrxRbg=",
-    "zh:02830d549e97a6f232f0343708600dd00df04c8261e0340ad5f83679192d9cd7",
-    "zh:29f339b4f6ee5149049c5d93d821dd9a364053d427da6fb25305852846faf5a2",
-    "zh:52b8142077e74f26809bd5481aa91f33186d833a19ff64772399227e47fabbb5",
-    "zh:559188bfda7103d31e9890280a745b59c38e9c0879b310667df3dac889b461f6",
-    "zh:6331fbd1fd5c9f390ede2bbe009e8c9e29f5a2afa48939c746648e33e96414cb",
-    "zh:74c920302db9be6d1c9b20ac6946fbc06fce7de2add410686f2055c8fc24c49f",
-    "zh:7c41cf8d69547aab44209673728604a6216e9f8a9b15f0fd96d690560ffd1b5e",
-    "zh:814f7b5686bfec4b73dae0aa9244157a5b81517f219d0a05431373a8266441d2",
-    "zh:ccc857446129c3c09145404987b158bb92f458be9ae34ad8cd90be9e42356e78",
-    "zh:ead07cad0dc327bbfb5524ab3ccc1fb2b93fa8f5d724b93aeb60bfcd0e42cd34",
+    "h1:zTK5W04IiSbRQKMyY0ijlKJohuS5m+lrDvGNJCoD1vQ=",
   ]
 }
 

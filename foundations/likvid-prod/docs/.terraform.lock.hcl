@@ -3,7 +3,7 @@
 
 provider "registry.opentofu.org/hashicorp/local" {
   version     = "2.5.1"
-  constraints = "~> 2.5.1"
+  constraints = "2.5.1"
   hashes = [
     "h1:87L+rpGao062xifb1VuG9YVFwp9vbDP6G2fgfYxUkQs=",
     "h1:GgW5qncKu4KnXLE1ZYv5iwmhSYtTNzsOvJAOQIyFR7E=",
@@ -23,7 +23,7 @@ provider "registry.opentofu.org/hashicorp/local" {
 
 provider "registry.opentofu.org/hashicorp/null" {
   version     = "3.2.2"
-  constraints = "~> 3.2.2"
+  constraints = "3.2.2"
   hashes = [
     "h1:P8+KlqxeTE3fNqzngzTxfwXFJaGl2Csw7lYJtFff508=",
     "h1:sU0t6ANQ4IfEwZbbBmcNeOCg2CDCViVb7L7QVfIHrCs=",

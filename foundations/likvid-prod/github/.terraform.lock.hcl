@@ -3,7 +3,7 @@
 
 provider "registry.opentofu.org/integrations/github" {
   version     = "5.42.0"
-  constraints = "~> 5.42.0"
+  constraints = "5.42.0"
   hashes = [
     "h1:CZUAXhUhMIuIyTPm9VDcvOZgM1Lsl9tuKm5wW9tBEsM=",
     "h1:rfyLEgbZCk3MMCBuGd4PNFM914vtLqGIYcsmVKr6tdg=",

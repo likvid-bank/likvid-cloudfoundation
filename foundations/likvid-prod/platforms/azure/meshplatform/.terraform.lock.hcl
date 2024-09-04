@@ -42,20 +42,20 @@ provider "registry.opentofu.org/hashicorp/azurerm" {
 }
 
 provider "registry.opentofu.org/hashicorp/time" {
-  version = "0.11.1"
+  version = "0.12.0"
   hashes = [
-    "h1:+S9YvR/HeCxFGMS3ITjOFqlWrR6DdarWWowT9Cz18/M=",
-    "h1:HSQ/mQFgGE6du6H/v4eCPKpUjQEy3mknmPBDNXoz9g0=",
-    "h1:jZpXeN0nw4uNakKnWdyB3JgQ1VmkL2hmhnhP8VFAzBQ=",
-    "zh:048c56f9f810f67a7460363a26bf3ef939d64f0d7b7342b9e7f24cc85ee1491b",
-    "zh:49f949cc5cb50fbb65f7b4578b79fbe02b6bafe9e3f5f1c2936114dd445b84b3",
-    "zh:553174a4fa88f6e186800d7ee155a6b5b4c6c81793643f1a20eab26becc7f823",
-    "zh:5cae304e21f77091d4b50389c655afd5e4e2e8d4cd9c06de139a31b8e7d343a9",
-    "zh:7aae20832bd9885f034831aa44db3a6ffcec034a2d5a2815d92c42c40c14ca1d",
-    "zh:93d715610dce777474b5eff1d7dbe797e72ca0b679cd8636efb3aa45d1cb589e",
-    "zh:bd29e04645775851eb10e7f3b39104ae57ca3632dec4ae07328d33d4182e7fb5",
-    "zh:d6ad6a4d52a6989b8452466f2ec3dbcdb00cc44a96bd1ca618d91a5d74895f49",
-    "zh:e68cfad3ec526631410fa9406938d624fd56b9ab065c76525cb3f731d106fbfe",
-    "zh:ffee8aa6b7ce56f4b8fdc0c492404be0041137a278388eb1d1180b637fb5b3de",
+    "h1:D47BKVFyfA5FiRq92ihD7wb2FlaARXoZpySqUbtXNLE=",
+    "h1:Om7xF0GgRkBsAjKis3RAFXQJKmHgnO04C+PEScF/xTM=",
+    "h1:d4t3arm3n6vA6/vSLs7HzaMdxlKnPn3k9578BduysbY=",
+    "zh:01b7ac8203eb7ed712a356215e44f8851b96ddcfdf63b13ff9f870f799667059",
+    "zh:06c4420bdb964209eb119f1740575df7b8ac44a3b5d71631dae2962a155f58b7",
+    "zh:2534d1d04ca934e25426ab5bb0b29a57a95c676f70b154bfb382d58bf1e6f6c9",
+    "zh:340de6c71a1090f13ab5c429ca2134c12189e8b86c2b104859e82eb30eea9772",
+    "zh:561a2780f7fb1b0a9092c59c4eb3e3d8c3ec9cecddc9214ae92fdc941c3bd2e7",
+    "zh:65b1a982617375123bc3a1dcd44d61264cabac6b3d83378e7079ee0655ec6679",
+    "zh:9ae9f6c9609c5ed9e35a702068629ef5adfb131f957a571fc39ce0127c782ca4",
+    "zh:ad7f066c5db340683cb5a3a29ced3a2ece13c5b84c46d6b3d30815444a6c78ee",
+    "zh:f532d2c33c2303a970e9ee813e37d208eb65321aec489da14786b7f04ea66105",
+    "zh:fb269e2425a4b996fef79665eaeec8f40a388bf7ac7bf8ce2c108fb83c4b10ca",
   ]
 }
