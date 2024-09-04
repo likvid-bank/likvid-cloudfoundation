@@ -44,6 +44,7 @@
           opentofu
           terragrunt
           tflint
+          tfupdate
           terraform-docs
 
           # fake tofu as terraform
