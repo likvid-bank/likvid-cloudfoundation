@@ -12,7 +12,7 @@ include "platform" {
 # it _should_ be fine since we only need to read terraform statex^^
 
 dependency "sandbox" {
-  config_path = "../../landingzones/sandbox"
+  config_path = "../../../landingzones/sandbox"
 }
 
 # For GitHub we use github cli authentication see https://registry.terraform.io/providers/integrations/github/latest/docs#github-cli
@@ -51,7 +51,7 @@ EOF
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/buildingblocks/starterkit"
+  source = "${get_repo_root()}//kit/azure/buildingblocks/starterkit/backplane"
 }
 
 inputs = {

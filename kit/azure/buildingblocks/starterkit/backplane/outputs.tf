@@ -30,9 +30,14 @@ provider "github" {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false # This allows the deletion of the building block without having to separately delete the app resources
+    }
+  }
 
-  skip_provider_registration = false
+  resource_provider_registrations = "core"
+
   storage_use_azuread        = true
 
   tenant_id       = "${data.azurerm_subscription.current.tenant_id}"

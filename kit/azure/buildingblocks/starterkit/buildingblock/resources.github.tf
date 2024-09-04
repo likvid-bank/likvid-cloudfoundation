@@ -2,6 +2,11 @@
 # parent dir, this needs to provided in the BB execution enviornment
 
 resource "github_repository" "repository" {
+  depends_on = [
+    azurerm_role_assignment.ghaction_tfstate,
+    azurerm_role_assignment.ghactions_register,
+    azurerm_role_assignment.ghactions_app
+  ] # Wait with creating the Repo until the UAMI all the permissions needed to execute the pipeline
   name        = var.repo_name
   description = "Created from a Likvid Bank DevOps Toolchain starter kit for ${var.workspace_identifier}.${var.project_identifier}"
   visibility  = var.visibility
@@ -61,6 +66,9 @@ locals {
 }
 
 resource "github_repository_file" "provider_tf" {
+  depends_on = [
+    github_repository_file.backend_tf
+  ] # Only commit the provider.tf file after the backend.tf file has been committed to avoid unmanaged resources
   repository     = github_repository.repository.name
   commit_message = "Configuring azurerm provider to deploy to your subscription"
   commit_author  = local.commit_author
@@ -70,10 +78,10 @@ resource "github_repository_file" "provider_tf" {
   content = <<-EOT
 provider "azurerm" {
   features {}
-  skip_provider_registration = false
-  tenant_id                  = "${data.azurerm_subscription.current.tenant_id}"
-  subscription_id            = "${data.azurerm_subscription.current.subscription_id}"
-  storage_use_azuread        = true
+  resource_provider_registrations = "core"
+  tenant_id                       = "${data.azurerm_subscription.current.tenant_id}"
+  subscription_id                 = "${data.azurerm_subscription.current.subscription_id}"
+  storage_use_azuread             = true
 }
 
 provider "azuread" {
