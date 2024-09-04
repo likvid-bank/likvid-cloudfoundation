@@ -51,6 +51,11 @@ resource "aws_cloudformation_stack_set" "permissions_in_target_accounts" {
   })
 
   capabilities = ["CAPABILITY_IAM", "CAPABILITY_NAMED_IAM"]
+
+  #TODO: each time the stack is updated, the ARN of the role changes didn't found out yet
+  lifecycle {
+    ignore_changes = [administration_role_arn]
+  }
 }
 
 data "aws_organizations_organization" "main" {}

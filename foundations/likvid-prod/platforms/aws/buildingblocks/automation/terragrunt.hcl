@@ -27,11 +27,9 @@ EOF
 }
 
 inputs = {
-  foundation = "likvid-prod"
-  #building_block_backend_bucket_name               = "likvid.bb-tf-backend" # Matches the terragrunt managed bucket
+  foundation                                       = "likvid-prod"
   building_block_backend_account_service_user_name = "buildingblock-cf-deploy"
   building_block_backend_account_id                = dependency.bootstrap.outputs.management_account_id
-
-  building_block_target_ou_ids                   = [dependency.organization.outputs.landingzones_ou_id]
-  building_block_target_account_access_role_name = "LikvidBuildingBlockServiceRole"
+  building_block_target_ou_ids                     = [dependency.organization.outputs.landingzones_ou_id]
+  building_block_target_account_access_role_name   = "LikvidBuildingBlockServiceRole"
 }
