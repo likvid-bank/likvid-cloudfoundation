@@ -51,12 +51,18 @@ repos:
           - --args=provider hashicorp/random
           - --args=--version "3.6.0"
 
-
       - id: tfupdate
         name: tfupdate hashicorp/time
         args:
           - --args=provider hashicorp/time
           - --args=--version "0.11.1"
+
+      - id: tfupdate
+        name: tfupdate hashicorp/null
+        args:
+          - --args=provider hashicorp/null
+          - --args=--version "3.2.2"
+
 
       - id: tfupdate
         name: tfupdate integrations/github
