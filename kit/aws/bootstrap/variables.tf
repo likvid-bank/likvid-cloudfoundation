@@ -3,6 +3,11 @@ variable "aws_root_account_id" {
   description = "The id of your AWS Organization's root account"
 }
 
+variable "managment_account_id" {
+  type        = string
+  description = "The id of the management account"
+}
+
 variable "parent_ou_id" {
   type        = string
   description = "Id of the parent OU used for all accounts in this platform"

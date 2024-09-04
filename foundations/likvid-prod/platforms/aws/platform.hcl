@@ -16,7 +16,7 @@ locals {
       "tfelix@meshcloud.io",
     ]
 
-  # foundation admins can bootstrap any platform
+    # foundation admins can bootstrap any platform
     foundation_admins = [
       "jrudolph@meshcloud.io",
       "malhussan@meshcloud.io",
@@ -24,21 +24,21 @@ locals {
       "fzieger@meshcloud.io",
     ]
 
-  # foundation engineers can deploy kit modules, but can't bootstrap
+    # foundation engineers can deploy kit modules, but can't bootstrap
     foundation_engineers = [
       "malhussan@meshcloud.io",
     ]
 
-  # for setting up hub and spoke networks
-  # TODO: not sure if this is still used
+    # for setting up hub and spoke networks
+    # TODO: not sure if this is still used
     shared_vpc_admins = [
       "fzieger@meshcloud.io"
     ]
 
     security_auditors = [
       "fzieger@meshcloud.io"
-  ]
-}
+    ]
+  }
 
   roles = {
     deployment = "OrganizationAccountAccessRole"
