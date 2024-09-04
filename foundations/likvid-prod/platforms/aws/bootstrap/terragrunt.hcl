@@ -21,7 +21,7 @@ EOF
 inputs = {
   aws_root_account_id = include.platform.locals.platform.aws.accountId
 
-  foundation            = include.platform.locals.cloudfoundation
+  foundation            = "likvid-prod" 
   github_repo_full_name = "likvid-bank/likvid-cloudfoundation"
 
   parent_ou_id         = "ou-rpqz-vx54f60i"
