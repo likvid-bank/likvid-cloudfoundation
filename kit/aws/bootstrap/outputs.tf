@@ -7,3 +7,8 @@ output "validation_iam_role_arn" {
   value       = aws_iam_role.validation.arn
   description = "ARN of the IAM role that github can assume to validate the cloudfoundation deployment"
 }
+
+output "management_account_id" {
+  value       = var.management_account_id
+  description = "The id of the management account"
+}

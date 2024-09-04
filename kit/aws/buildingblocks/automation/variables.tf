@@ -1,5 +1,10 @@
-variable "building_block_backend_bucket_name" {
-  description = "Name of the S3 bucket"
+# variable "building_block_backend_bucket_name" {
+#   description = "Name of the S3 bucket"
+# }
+
+variable "foundation" {
+  type        = string
+  description = "Name of your Cloud Foundation configuration"
 }
 
 variable "building_block_backend_account_service_user_name" {

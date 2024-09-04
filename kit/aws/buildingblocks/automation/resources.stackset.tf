@@ -1,5 +1,5 @@
 resource "aws_cloudformation_stack_set" "permissions_in_target_accounts" {
-  name             = "${var.building_block_target_account_access_role_name}Permissons"
+  name             = "${var.foundation}-${var.building_block_target_account_access_role_name}Permissons"
   permission_model = "SERVICE_MANAGED"
   auto_deployment {
     enabled                          = true
@@ -24,7 +24,7 @@ resource "aws_cloudformation_stack_set" "permissions_in_target_accounts" {
               {
                 Effect = "Allow",
                 Principal = {
-                  AWS = "arn:${data.aws_partition.current.partition}:iam::${var.building_block_backend_account_id}:user/${var.building_block_backend_account_service_user_name}"
+                  AWS = "arn:${data.aws_partition.current.partition}:iam::${var.building_block_backend_account_id}:user/${aws_iam_user.user.name}"
                 },
                 Action = "sts:AssumeRole"
               }

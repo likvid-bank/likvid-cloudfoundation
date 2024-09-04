@@ -57,7 +57,7 @@ data "aws_iam_policy_document" "allow_assume_validation_role_in_org" {
     effect = "Allow"
     resources = [
       "arn:aws:iam::*:role/${var.validation_role_name}",
-      "arn:aws:iam::${var.managment_account_id}:role/OrganizationAccountAccessRole"
+      "arn:aws:iam::${var.management_account_id}:role/OrganizationAccountAccessRole"
     ]
   }
 }

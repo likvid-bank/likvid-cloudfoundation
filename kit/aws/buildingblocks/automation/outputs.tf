@@ -1,17 +1,17 @@
 output "bucket_arn" {
-  value = data.aws_s3_bucket.s3_bucket.arn
+  value = aws_s3_bucket.terraform_state.arn
 }
 
 output "bucket_id" {
-  value = data.aws_s3_bucket.s3_bucket.id
+  value = aws_s3_bucket.terraform_state.id
 }
 
 output "bucket_region" {
-  value = data.aws_s3_bucket.s3_bucket.region
+  value = aws_s3_bucket.terraform_state.region
 }
 
 output "bucket_name" {
-  value = data.aws_s3_bucket.s3_bucket.bucket
+  value = aws_s3_bucket.terraform_state.bucket
 }
 
 output "aws_iam_access_key" {
