@@ -1,13 +1,7 @@
-# terragrunt bootstraps and manages our bucket, so we only reference it here for generating outputs
-data "aws_s3_bucket" "s3_bucket" {
-  bucket = var.building_block_backend_bucket_name
-}
-
 # user referenced in building block definition
 resource "aws_iam_user" "user" {
-  name = var.building_block_backend_account_service_user_name
+  name = "${var.foundation}-${var.building_block_backend_account_service_user_name}"
 }
-
 resource "aws_iam_access_key" "users_access_key" {
   user = aws_iam_user.user.name
 }
@@ -30,8 +24,8 @@ resource "aws_iam_user_policy" "bucket_access" {
           "s3:DeleteObject",
         ],
         "Resource" : [
-          data.aws_s3_bucket.s3_bucket.arn,
-          "${data.aws_s3_bucket.s3_bucket.arn}/*"
+          aws_s3_bucket.terraform_state.arn,
+          "${aws_s3_bucket.terraform_state.arn}/*"
         ]
       }
     ]

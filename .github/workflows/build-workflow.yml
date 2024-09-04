@@ -58,14 +58,13 @@ jobs:
           tenant-id: ${{ vars.azure_tenant_id }}
           subscription-id: ${{ vars.azure_subscription_id }}
 
-      # TODO AWS
-      # - name: Setup aws auth
-      #   if: ${{ inputs.platform == 'aws' }}
-      #   uses: aws-actions/configure-aws-credentials@v4
-      #   with:
-      #     aws-region: eu-central-1
-      #     role-to-assume: ${{ vars.aws_iam_role }}
-      #     role-session-name: github-actions-${{ github.run_id }}
+      - name: Setup aws auth
+        if: ${{ inputs.platform == 'aws' }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-central-1
+          role-to-assume: ${{ vars.aws_iam_role }}
+          role-session-name: github-actions-${{ github.run_id }}
 
       - name: terraform plan
         if: ${{ inputs.action == 'plan' }}

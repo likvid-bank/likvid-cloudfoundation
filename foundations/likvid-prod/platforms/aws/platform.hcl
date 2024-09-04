@@ -5,7 +5,40 @@ locals {
   // make platform config available
   platform = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file(".//README.md"))[0])
 
-  #foundation_pam = read_terragrunt_config(find_in_parent_folders("pam.hcl")).locals
+  foundation_pam = {
+    billing_admins = [
+      "jrudolph@meshcloud.io",
+      "fnowarre@meshcloud.io",
+      "malhussan@meshcloud.io",
+    ]
+
+    billing_export_admins = [
+      "tfelix@meshcloud.io",
+    ]
+
+    # foundation admins can bootstrap any platform
+    foundation_admins = [
+      "jrudolph@meshcloud.io",
+      "malhussan@meshcloud.io",
+      "fnowarre@meshcloud.io",
+      "fzieger@meshcloud.io",
+    ]
+
+    # foundation engineers can deploy kit modules, but can't bootstrap
+    foundation_engineers = [
+      "malhussan@meshcloud.io",
+    ]
+
+    # for setting up hub and spoke networks
+    # TODO: not sure if this is still used
+    shared_vpc_admins = [
+      "fzieger@meshcloud.io"
+    ]
+
+    security_auditors = [
+      "fzieger@meshcloud.io"
+    ]
+  }
 
   roles = {
     deployment = "OrganizationAccountAccessRole"

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: meshWorkspace
+metadata:
+  name: likvid-mobile
+spec:
+  displayName: Likvid Mobile App
+  tags:
+    environment: # todo: the environment tag values are not aligned between likvid-demo and meshcloud-dev
+    - dev
+    - prod
+    BusinessUnit:
+    - IT
+    SecurityContact:
+    - likvid-mobile@likvid.meshcloud.io
+    # todo: landingzone clearance is missing

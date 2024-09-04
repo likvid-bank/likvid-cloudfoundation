@@ -1,5 +1,5 @@
 resource "aws_organizations_policy" "deny_create_iam_user" {
-  name        = "DenyCreateIAMUser"
+  name        = "${var.foundation}-DenyCreateIAMUser"
   description = "Deny the creation of IAM users except for a specific role"
   content     = <<POLICY
 {
