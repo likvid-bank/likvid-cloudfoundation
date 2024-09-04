@@ -18,18 +18,24 @@ repos:
         files: ^kit/
         args:
           - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl # share a single tflint config file for all modules
-      
+
       - id: tfupdate
         name: tfupdate terraform
         args:
           - --args=terraform
           - --args=--version ">= 1.0"
-      
+
       - id: tfupdate
         name: tfupdate hashicorp/time
         args:
           - --args=provider hashicorp/time
           - --args=--version "0.11.1"
+
+      - id: tfupdate
+        name: tfupdate hashicorp/azurerm
+        args:
+          - --args=provider hashicorp/azurerm
+          - --args=--version "3.116.0"
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0  # Use the ref you want to point at
