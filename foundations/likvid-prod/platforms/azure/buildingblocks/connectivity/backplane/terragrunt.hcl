@@ -7,10 +7,6 @@ dependency "networking" {
   config_path = "../../../networking"
 }
 
-dependency "corp_online" {
-  config_path = "../../../landingzones/corp-online"
-}
-
 dependency "automation" {
   config_path = "../../automation"
 }
@@ -35,8 +31,7 @@ terraform {
 }
 
 inputs = {
-  name  = "connectivity"
-  scope = dependency.corp_online.outputs.corp_id
+  name = "connectivity"
 
   principal_ids = toset([
     dependency.networking.outputs.network_admins_azuread_group_id,
