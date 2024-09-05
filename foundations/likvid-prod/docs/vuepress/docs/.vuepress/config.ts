@@ -58,7 +58,7 @@ export const sidebar: SidebarConfig = {
             '/platforms/azure/buildingblocks/budget-alert/backplane',
             '/platforms/azure/buildingblocks/connectivity/backplane',
             '/platforms/azure/buildingblocks/github-repo/backplane',
-            '/platforms/azure/buildingblocks/starterkit', // not yet refactored to backplane pattern
+            '/platforms/azure/buildingblocks/starterkit/backplane',
             // the subscription building block is a technical proof of concpet for a pure terraform workflow without meshStack and thus not relevant to the public demo
 
           ]
