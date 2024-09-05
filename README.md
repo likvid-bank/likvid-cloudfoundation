@@ -8,7 +8,14 @@ review our documentation at https://likvid-bank.github.io/likvid-cloudfoundation
 
 *The documentation is generated from this repository and deployed with GitHub pages.*
 
-## Authenticating
+## Development Instructions
+
+### Development Environment
+
+This repo includes a nix flake devShell with all required dependencies, except collie-cli.
+You can open a devShell using `nix develop`.
+
+### Authenticating to Cloud Platforms
 
 Ensure you have run `az login` and `gcloud auth login` into the right cloud tenant/GCP organization.
 For `aws`:
