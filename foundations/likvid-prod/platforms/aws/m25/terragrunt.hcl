@@ -21,7 +21,7 @@ provider "aws" {
 }
 EOF
 }
+
 inputs = {
   parent_ou_id = dependency.organization.outputs.parent_ou_id
-
 }
