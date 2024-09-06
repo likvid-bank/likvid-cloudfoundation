@@ -1,5 +1,5 @@
 resource "aws_cloudformation_stack_set" "permissions_in_target_accounts" {
-  provider = aws.root
+  provider         = aws.root
   name             = "${var.foundation}-${var.building_block_target_account_access_role_name}Permissons"
   permission_model = "SERVICE_MANAGED"
   auto_deployment {
