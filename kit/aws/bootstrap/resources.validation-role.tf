@@ -53,7 +53,7 @@ data "aws_iam_policy_document" "allow_assume_validation_role_in_org" {
     actions = [
       "sts:AssumeRole"
     ]
-    
+
     # not sure this is correct with OrganizationAccountAccessRole
     effect = "Allow"
     resources = [
