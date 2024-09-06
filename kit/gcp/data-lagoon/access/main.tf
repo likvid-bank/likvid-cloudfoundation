@@ -27,3 +27,20 @@ resource "google_project_service" "bigquery" {
   depends_on = [google_project_service.serviceusage]
 }
 
+resource "google_project_service" "aiplatform" {
+  project                    = var.project_id
+  service                    = "aiplatform.googleapis.com"
+  disable_on_destroy         = true
+  disable_dependent_services = true
+
+  depends_on = [google_project_service.serviceusage]
+}
+
+resource "google_project_service" "compute" {
+  project                    = var.project_id
+  service                    = "compute.googleapis.com"
+  disable_on_destroy         = true
+  disable_dependent_services = true
+
+  depends_on = [google_project_service.serviceusage]
+}
