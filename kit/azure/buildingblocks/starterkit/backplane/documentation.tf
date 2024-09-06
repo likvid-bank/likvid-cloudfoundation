@@ -9,7 +9,7 @@ on the cloud quickly.
 
 - a GitHub repository, seeded with an application starter kit
 - a GitHub actions pipeline
-- a service account solution that enables the GitHub actions pipeline to deploy to your Azure Subscription
+- an Azure Managed Identity that enables the GitHub actions pipeline to deploy to your Azure Subscription
 
 ## How to work with a Starter Kit
 
@@ -29,6 +29,11 @@ starter kit template, including the infrastructure set up by the starter kit bui
 because for productive use cases you will eventually need to customize the way your CI/CD pipeline interacts with the
 cloud. See [Secure DevOps Best Practices](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/secure/best-practices/secure-devops)
 for a good overview of securing production pipelines.
+
+## Automation
+
+This building block uses its own dedicated service principal `${azuread_application.starterkit.display_name}` to automate deployment
+of required resources to your Azure subscription.
 
 EOF
 }

@@ -20,8 +20,21 @@ generate "provider" {
   if_exists = "overwrite"
   contents  = <<EOF
 provider "aws" {
+  alias  = "root"
   region = "eu-central-1"
+  assume_role {
+    role_arn = "arn:aws:iam::${include.platform.locals.platform.aws.accountId}:role/OrganizationAccountAccessRole"
+  }
   allowed_account_ids = ["${include.platform.locals.platform.aws.accountId}"]
+}
+
+provider "aws" {
+  alias  = "management"
+  region = "eu-central-1"
+  assume_role {
+    role_arn = "arn:aws:iam::${dependency.bootstrap.outputs.management_account_id}:role/OrganizationAccountAccessRole"
+  }
+  allowed_account_ids = ["${dependency.bootstrap.outputs.management_account_id}"]
 }
 EOF
 }

@@ -1,6 +1,10 @@
 terraform {
   backend "s3" {
+<<<<<<< HEAD
     bucket = "buildingblocks-tfstates-yawi2"# Must match what's configured in automation backend
+=======
+    bucket = "buildingblocks-tfstates-p32kj" # Must match what's configured in automation backend
+>>>>>>> main
     key    = "terraform/iam-user"
     region = "eu-central-1"
   }
