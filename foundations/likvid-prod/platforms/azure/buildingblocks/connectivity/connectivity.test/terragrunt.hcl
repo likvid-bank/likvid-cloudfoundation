@@ -67,8 +67,18 @@ provider "azurerm" {
 EOF
 }
 
+
 terraform {
   source = "${get_repo_root()}//kit/azure/buildingblocks/connectivity/buildingblock"
+  # the extra_arguments is a workarround for an bug in the Azure API after creating the spoke_vnet
+  # network.VirtualNetworkPeeringsClient#CreateOrUpdate: Failure sending request: StatusCode=403
+  # this pre run of an spoke_vnet apply will fix the issue in test scenarios
+  extra_arguments "custom_vars" {
+    commands = ["apply"]
+    arguments = [
+      "--target=azurerm_virtual_network.spoke_vnet"
+    ]
+  }
 }
 
 inputs = {
