@@ -1,5 +1,5 @@
-output "aws_root_account_id" {
-  value       = var.aws_root_account_id
+output "management_account_id" {
+  value       = var.management_account_id
   description = "The id of your AWS Organization's root account"
 }
 
@@ -8,7 +8,7 @@ output "validation_iam_role_arn" {
   description = "ARN of the IAM role that github can assume to validate the cloudfoundation deployment"
 }
 
-output "management_account_id" {
-  value       = var.management_account_id
+output "tf_backend_account_id" {
+  value       = var.tf_backend_account_id
   description = "The id of the management account"
 }

@@ -25,8 +25,8 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_organizations_organizational_unit.cloud_native](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
 | [aws_organizations_organizational_unit.dev](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
+| [aws_organizations_organizational_unit.on_prem](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
 | [aws_organizations_organizational_unit.prod](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
 
 ## Inputs

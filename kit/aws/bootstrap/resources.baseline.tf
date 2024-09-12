@@ -19,7 +19,7 @@ resource "aws_cloudformation_stack_set" "baseline" {
                 Principal = {
                   # Trust any principal on the root account to assume this role.
                   # Of course that principal must have permission to call sts:assumeRole on the root account too
-                  AWS = "arn:aws:iam::${var.aws_root_account_id}:root"
+                  AWS = "arn:aws:iam::${var.management_account_id}:root"
                 }
                 Action = [
                   "sts:AssumeRole"

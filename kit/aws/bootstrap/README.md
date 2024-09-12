@@ -54,21 +54,21 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_aws_root_account_id"></a> [aws\_root\_account\_id](#input\_aws\_root\_account\_id) | The id of your AWS Organization's root account | `string` | n/a | yes |
 | <a name="input_foundation"></a> [foundation](#input\_foundation) | name of the foundation | `string` | n/a | yes |
 | <a name="input_github_repo_full_name"></a> [github\_repo\_full\_name](#input\_github\_repo\_full\_name) | Full name of the GitHub repo incl. owner e.g. meshcloud/internal-cloudfoundation | `string` | n/a | yes |
-| <a name="input_management_account_id"></a> [management\_account\_id](#input\_management\_account\_id) | The id of the management account | `string` | n/a | yes |
+| <a name="input_management_account_id"></a> [management\_account\_id](#input\_management\_account\_id) | The id of your AWS Organization's root account | `string` | n/a | yes |
 | <a name="input_parent_ou_id"></a> [parent\_ou\_id](#input\_parent\_ou\_id) | Id of the parent OU used for all accounts in this platform | `string` | n/a | yes |
 | <a name="input_platform_engineers_group"></a> [platform\_engineers\_group](#input\_platform\_engineers\_group) | n/a | <pre>object({<br>    name    = string<br>    members = set(string)<br>  })</pre> | n/a | yes |
+| <a name="input_tf_backend_account_id"></a> [tf\_backend\_account\_id](#input\_tf\_backend\_account\_id) | The id of the management account | `string` | n/a | yes |
 | <a name="input_validation_role_name"></a> [validation\_role\_name](#input\_validation\_role\_name) | Name of the validation/audit role to deploy as part of the baseline into every account managed by this platform | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_aws_root_account_id"></a> [aws\_root\_account\_id](#output\_aws\_root\_account\_id) | The id of your AWS Organization's root account |
 | <a name="output_baseline_cloudformation_template"></a> [baseline\_cloudformation\_template](#output\_baseline\_cloudformation\_template) | n/a |
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
-| <a name="output_management_account_id"></a> [management\_account\_id](#output\_management\_account\_id) | The id of the management account |
+| <a name="output_management_account_id"></a> [management\_account\_id](#output\_management\_account\_id) | The id of your AWS Organization's root account |
+| <a name="output_tf_backend_account_id"></a> [tf\_backend\_account\_id](#output\_tf\_backend\_account\_id) | The id of the management account |
 | <a name="output_validation_iam_role_arn"></a> [validation\_iam\_role\_arn](#output\_validation\_iam\_role\_arn) | ARN of the IAM role that github can assume to validate the cloudfoundation deployment |
 <!-- END_TF_DOCS -->
