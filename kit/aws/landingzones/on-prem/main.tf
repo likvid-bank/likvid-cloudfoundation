@@ -1,4 +1,4 @@
-resource "aws_organizations_organizational_unit" "cloud_native" {
+resource "aws_organizations_organizational_unit" "on_prem" {
   parent_id = var.parent_ou_id
   name      = "on-prem"
 }
