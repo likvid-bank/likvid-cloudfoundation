@@ -4,11 +4,11 @@ resource "aws_organizations_organizational_unit" "on_prem" {
 }
 
 resource "aws_organizations_organizational_unit" "dev" {
-  parent_id = aws_organizations_organizational_unit.cloud_native.id
+  parent_id = aws_organizations_organizational_unit.on_prem.id
   name      = "dev"
 }
 
 resource "aws_organizations_organizational_unit" "prod" {
-  parent_id = aws_organizations_organizational_unit.cloud_native.id
+  parent_id = aws_organizations_organizational_unit.on_prem.id
   name      = "prod"
 }
