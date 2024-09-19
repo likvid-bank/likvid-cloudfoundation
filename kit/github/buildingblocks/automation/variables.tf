@@ -1,0 +1,3 @@
+variable "foundation" {
+  type = string
+}
