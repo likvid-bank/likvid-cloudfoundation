@@ -12,12 +12,17 @@ provider "github" {
 EOF
 }
 
+dependency "aws_bootstrap" {
+  config_path = "../platforms/aws/bootstrap"
+}
+
 dependency "azure_bootstrap" {
   config_path = "../platforms/azure/bootstrap"
 }
 
 locals {
   azure         = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file("../platforms/azure/README.md"))[0]).azure
+  aws           = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file("../platforms/aws/README.md"))[0]).aws
   tfstateconfig = yamldecode(file("${get_repo_root()}//foundations/likvid-prod/platforms/azure/tfstates-config.yml"))
 }
 
@@ -46,6 +51,8 @@ inputs = {
   github_repo = "likvid-cloudfoundation"
   foundation  = "likvid-prod"
   actions_variables = {
+    aws_iam_role = dependency.aws_bootstrap.outputs.validation_iam_role_arn
+
     azure_client_id       = dependency.azure_bootstrap.outputs.validation_uami_client_id
     azure_tenant_id       = local.azure.aadTenantId
     azure_subscription_id = local.azure.subscriptionId
