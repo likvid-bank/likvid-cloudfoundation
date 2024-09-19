@@ -32,5 +32,5 @@ variable "foundation" {
 
 variable "github_repo_full_name" {
   type        = string
-  description = "Full name of the GitHub repo incl. owner e.g. meshcloud/internal-cloudfoundation"
+  description = "Full name of the GitHub repo incl. owner e.g"
 }

@@ -13,7 +13,7 @@ Common CI/CD pipelines include GitHub actions, GitLabs runners, and Azure DevOps
 They also want to provide more detailed information to their users e.g. what the status of each step is or general information to the user
 when a step was successfully completed (e.g. login information or IDs).
 
-The scenario we are looking at: [M25 Platform Team](https://glowing-guacamole-8korqmy.pages.github.io/dev/meshstack/guides/business_platforms.html) has already built
+The scenario we are looking at: [M25 Platform Team](https://likvid-bank.github.io/likvid-cloudfoundation/meshstack/guides/business_platforms.html) has already built
 Cloud Formation template based automation on [GitHub actions](https://github.com/meshcloud/static-website-assets).
 The template provisons an S3 Bucket for serving static website assets (a component needed by many frontend teams) and assigns access permissions.
 
@@ -49,7 +49,7 @@ API Key (which also must be scoped to this workplace) can't update the Building 
    Create a new Definition called `${local.buildingBlockDefinitions.m25-static-website-assets.spec.displayName}` from the "Service Management Area" of this workspace
 2. Select AWS as supported platform
 3. Use Terraform as Implementation Type (Once per tenant)
-4. Complete the Building Block Definition implementation as [defined](https://glowing-guacamole-8korqmy.pages.github.io/dev/platforms/github/buildingblocks/file/buildingblock.html)
+4. Complete the Building Block Definition implementation as [defined](https://https://likvid-bank.github.io/likvid-cloudfoundation/platforms/github/buildingblocks/file/buildingblock.html)
 
 ### 2. Setting Up the Github Action Pipeline
 

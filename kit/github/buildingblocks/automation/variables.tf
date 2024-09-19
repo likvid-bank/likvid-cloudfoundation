@@ -1,3 +1,0 @@
-variable "foundation" {
-  type = string
-}

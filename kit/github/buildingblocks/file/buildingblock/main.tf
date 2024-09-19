@@ -1,10 +1,10 @@
 resource "terraform_data" "replacement" {
   input = {
-    github_token               = var.github_token
-    github_repo                = var.github_repo
-    github_owner               = var.github_owner
-    workflow_branch            = var.workflow_branch
-    workflow_destroy_file_name = var.workflow_destroy_file_name
+    github_token                     = var.github_token
+    github_repo                      = var.github_repo
+    github_owner                     = var.github_owner
+    workflow_branch                  = var.workflow_branch
+    workflow_destroy_file_name       = var.workflow_destroy_file_name
     meshstack_building_block_run_b64 = var.meshstack_building_block_run_b64
   }
 

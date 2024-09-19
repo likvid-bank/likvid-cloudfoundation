@@ -10,13 +10,6 @@ summary: |
 
 This documentation is intended as a reference documentation for cloud foundation or platform engineers using this module.
 
-## Fetch Secrets
-
-- Connect to vault with script: <https://github.com/meshcloud/infrastructure/blob/main/meshstack-infra-k8s/vault-forward.sh>
-- execute `eval export $(vault read -address="http://localhost:8200" concourse/meshstack-dev/internal-cloudfoundation -format=json | jq -r '.data | to_entries[] | join("=")' )`
-
-NOTE: MESHSTACK_API_PASSWORD is still not there in vault it seems, but it's in github actions secret env
-
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 

@@ -11,7 +11,7 @@ on a project.
 
 In your meshStack building block definition implementation fill the following:
 
-Git Repository URL: `git@github.com:meshcloud/internal-cloudfoundation.git`
+Git Repository URL: `git@github.com:likvid-bank/likvid-cloudfoundation.git`
 Git Repository Path: `kit/github/buildingblocks/file/buildingblock`
 
 Upload the SSH key from the output of github/buildingblocks/automation kit.
@@ -21,7 +21,7 @@ Upload the SSH key from the output of github/buildingblocks/automation kit.
 
 ::: details INPUTS
 
-> Inputs are based on M25 Static Website Assets building block in meshcloud-dev. It should be generic here, and specified in foundation/meshstacks when we have a BB def API, and terraform resource.
+> Inputs are based on M25 Static Website Assets building block in likvid-prod. It should be generic here, and specified in foundation/meshstacks when we have a BB def API, and terraform resource.
 
 ```json
 [
