@@ -18,19 +18,6 @@ This page documents how we set up meshStack at Likvid Bank.
 | `${local.policies.RestrictLandingZoneToWorkspaceBusinessUnit.policy}`               | ${local.policies.RestrictLandingZoneToWorkspaceBusinessUnit.description}            | See [Business Platforms](./meshstack/guides/business_platforms.md) |
 | `${local.policies.RestrictBuildingBlockToWorkspaceBusinessUnit.policy}`             | ${local.policies.RestrictBuildingBlockToWorkspaceBusinessUnit.description}          | See [Business Platforms](./meshstack/guides/business_platforms.md) |
 
-## IAM Integration
-
-We use prod Microsoft Entra ID (tenant: meshcloudio.onmicrosoft.com) for SSO as well as SCIM sync to this meshStack.
-
-### SCIM SYNC
-
-This meshStack instance has users synced from prod Microsoft Entra ID. Application creation is done through Azure bootstrap module,
-and details of the application is listed in https://glowing-guacamole-8korqmy.pages.github.io/prod/platforms/azure/bootstrap.html#scim-provisioning
-
-### SSO Integration
-
-Users of this meshStack uses a Microsoft Entra ID application to login. Creation of this application is done through Azure bootstrap module,
-and details of the application is listed in https://glowing-guacamole-8korqmy.pages.github.io/prod/platforms/azure/bootstrap.html#sso-integration
 EOF
 }
 

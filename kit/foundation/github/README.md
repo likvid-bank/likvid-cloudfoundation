@@ -28,7 +28,7 @@ No modules.
 |------|------|
 | [github_actions_environment_variable.variables](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/resources/actions_environment_variable) | resource |
 | [github_repository_environment.env](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/resources/repository_environment) | resource |
-| [github_repository.foundation_repo](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/data-sources/repository) | data source |
+| [github_repository.cloudfoundation](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/data-sources/repository) | data source |
 
 ## Inputs
 
