@@ -6,9 +6,9 @@ summary: |
 # optional: add additional metadata about implemented security controls
 ---
 
-# AWS Cloud Native Landing Zone
+# AWS Organizational Unit "On-Prem Connectivity"
 
-The Cloud Native Landing Zone is designed to leverage the cloud-native services provided by AWS. This approach allows for the full utilization of the benefits of AWS services, including scalability, flexibility, and robustness. It is ideal for workloads that are designed to run in the cloud, taking full advantage of the unique capabilities of cloud computing.
+This kit provides a Terraform configuration for setting up AWS Organizational Units for dedicated Organizational Units for On-Prem Connected landing zones. Landing zones which require connectivity/hybrid connectivity with the on-premises network through the Transit Gateway.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -25,8 +25,8 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_organizations_organizational_unit.cloud_native](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
 | [aws_organizations_organizational_unit.dev](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
+| [aws_organizations_organizational_unit.on_prem](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
 | [aws_organizations_organizational_unit.prod](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
 
 ## Inputs

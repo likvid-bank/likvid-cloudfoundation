@@ -1,9 +1,9 @@
-variable "aws_root_account_id" {
+variable "management_account_id" {
   type        = string
   description = "The id of your AWS Organization's root account"
 }
 
-variable "management_account_id" {
+variable "tf_backend_account_id" {
   type        = string
   description = "The id of the management account"
 }

@@ -1,15 +1,19 @@
 # user referenced in building block definition
 resource "aws_iam_user" "user" {
-  name = "${var.foundation}-${var.building_block_backend_account_service_user_name}"
+  provider = aws.tf-backend
+  name     = "${var.foundation}-${var.building_block_backend_account_service_user_name}"
 }
+
 resource "aws_iam_access_key" "users_access_key" {
-  user = aws_iam_user.user.name
+  provider = aws.tf-backend
+  user     = aws_iam_user.user.name
 }
 
 # access terraform states in s3 bucket
 resource "aws_iam_user_policy" "bucket_access" {
-  name = "access-s3-bucket-access"
-  user = aws_iam_user.user.name
+  provider = aws.tf-backend
+  name     = "access-s3-bucket-access"
+  user     = aws_iam_user.user.name
 
   policy = jsonencode({
     "Version" : "2012-10-17",
@@ -45,7 +49,8 @@ data "aws_iam_policy_document" "building_block_service" {
 }
 
 resource "aws_iam_user_policy" "assume_roles" {
-  name   = "assume-roles"
-  user   = aws_iam_user.user.name
-  policy = data.aws_iam_policy_document.building_block_service.json
+  provider = aws.tf-backend
+  name     = "assume-roles"
+  user     = aws_iam_user.user.name
+  policy   = data.aws_iam_policy_document.building_block_service.json
 }

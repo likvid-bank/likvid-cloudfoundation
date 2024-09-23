@@ -26,6 +26,6 @@ resource "aws_ssoadmin_account_assignment" "platform_engineers" {
   permission_set_arn = aws_ssoadmin_permission_set.platform_engineers.arn
   principal_type     = "GROUP"
   principal_id       = aws_identitystore_group.platform_engineers.group_id
-  target_id          = var.aws_root_account_id
+  target_id          = var.management_account_id
   target_type        = "AWS_ACCOUNT"
 }

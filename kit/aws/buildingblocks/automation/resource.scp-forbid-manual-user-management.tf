@@ -1,4 +1,5 @@
 resource "aws_organizations_policy" "deny_create_iam_user" {
+  provider    = aws.management
   name        = "${var.foundation}-DenyCreateIAMUser"
   description = "Deny the creation of IAM users except for a specific role"
   content     = <<POLICY
@@ -27,6 +28,7 @@ POLICY
 }
 
 resource "aws_organizations_policy_attachment" "deny_create_iam_user" {
+  provider  = aws.management
   for_each  = var.building_block_target_ou_ids
   policy_id = aws_organizations_policy.deny_create_iam_user.id
   target_id = each.key

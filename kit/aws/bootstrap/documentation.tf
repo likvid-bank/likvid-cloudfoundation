@@ -3,7 +3,7 @@ output "documentation_md" {
   value = <<EOF
 # Deployment Automation
 
-This platform is bootstrapped in the AWS Root Account with number `${var.aws_root_account_id}`.
+This platform is bootstrapped in the AWS Root Account with number `${var.management_account_id}`.
 
 ## Platform Engineer Access Management
 

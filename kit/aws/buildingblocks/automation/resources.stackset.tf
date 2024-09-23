@@ -1,4 +1,5 @@
 resource "aws_cloudformation_stack_set" "permissions_in_target_accounts" {
+  provider         = aws.management
   name             = "${var.foundation}-${var.building_block_target_account_access_role_name}Permissons"
   permission_model = "SERVICE_MANAGED"
   auto_deployment {
@@ -59,6 +60,7 @@ resource "aws_cloudformation_stack_set" "permissions_in_target_accounts" {
 }
 
 resource "aws_cloudformation_stack_set_instance" "permissions_in_target_accounts" {
+  provider = aws.management
   deployment_targets {
     organizational_unit_ids = var.building_block_target_ou_ids
   }

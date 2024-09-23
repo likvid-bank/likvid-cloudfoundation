@@ -26,7 +26,8 @@ inputs = {
 
   parent_ou_id          = "ou-rpqz-vx54f60i"
   validation_role_name  = include.platform.locals.roles.validation
-  management_account_id = "490004649140"
+  tf_backend_account_id = "490004649140"
+  management_account_id = "${include.platform.locals.platform.aws.accountId}"
   platform_engineers_group = {
     name = "${include.platform.locals.cloudfoundation}-foundation-platform-engineers"
     members = concat(
