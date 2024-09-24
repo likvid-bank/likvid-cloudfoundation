@@ -24,8 +24,8 @@ EOF
 
 output "documentation_guides_md" {
   value = {
-    business_platforms       = local.guide_business_platforms
-    gitops                   = local.guide_gitops
+    business_platforms = local.guide_business_platforms
+    #gitops                   = local.guide_gitops
     on_premises_connectivity = local.guide_on_premises_connectivity
   }
 }

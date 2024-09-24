@@ -23,6 +23,10 @@ const navbar: NavbarConfig = [
     link: "/concepts"
   },
   {
+    text: "meshStack",
+    link: "/meshstack"
+  },
+  {
     text: "Compliance",
     link: "/compliance/",
   },
@@ -82,6 +86,18 @@ export const sidebar: SidebarConfig = {
 
   "/concepts": [
     '/concepts'
+  ],
+
+  "/meshstack": [
+    '/meshstack',
+    {
+      text: "Guides",
+      children: [
+        '/meshstack/guides/business_platforms',
+   //     '/meshstack/guides/gitops',
+        '/meshstack/guides/on_premises_connectivity'
+      ]
+    }
   ],
 
   "/compliance/": [

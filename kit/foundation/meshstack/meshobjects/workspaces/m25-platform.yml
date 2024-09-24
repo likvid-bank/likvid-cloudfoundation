@@ -12,5 +12,6 @@ spec:
     BusinessUnit:
     - M25
     SecurityContact:
-    - platform@m25.example.com
+    - m25-platform@likvid.meshcloud.io
+
     # todo: landingzone clearance is missing

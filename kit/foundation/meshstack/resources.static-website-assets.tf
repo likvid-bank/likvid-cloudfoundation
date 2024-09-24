@@ -1,11 +1,13 @@
 ## Platform Team
 
 locals {
-  m25-platform-team = [
-    "malhussan@meshcloud.io",
-    "partner@meshcloud.io"
+  m25-platform = [
+    "fnowarre@meshcloud.io",
+    "malhussan@meshcloud.io"
   ]
-  m25-online-banking-application-team = ["partner@meshcloud.io"]
+
+  m25-online-banking-application = [
+  "likvid-anna@meshcloud.io"]
 }
 
 resource "meshstack_project" "static-website-assets" {
@@ -16,10 +18,11 @@ resource "meshstack_project" "static-website-assets" {
   }
   spec = {
     display_name              = "Static Website Assets"
-    payment_method_identifier = "m25-bu"
+    payment_method_identifier = "m25-platform"
     tags = {
-      "environment"     = ["dev"]
-      "confidentiality" = ["Public"]
+      "environment"          = ["dev"]
+      "Schutzbedarf"         = ["public"]
+      "LandingZoneClearance" = ["cloud-native"]
     }
   }
 }
@@ -32,13 +35,14 @@ resource "meshstack_tenant" "static-website-assets" {
     platform_identifier = "aws.aws-meshstack-dev"
   }
   spec = {
-    landing_zone_identifier = "demo-day"
+    landing_zone_identifier = "likvid-aws-dev"
+
   }
 }
 
 resource "meshstack_project_user_binding" "static_website_assets_project_admins" {
   provider = meshstack.static_website_assets
-  for_each = toset(local.m25-platform-team)
+  for_each = toset(local.m25-platform)
 
   metadata = {
     name = "static_website_assets_${each.key}"
@@ -68,10 +72,11 @@ resource "meshstack_project" "m25_online_banking_app" {
   }
   spec = {
     display_name              = "Online Banking App"
-    payment_method_identifier = "online"
+    payment_method_identifier = "online-banking"
     tags = {
-      "environment"     = ["dev"]
-      "confidentiality" = ["Public"]
+      "environment"          = ["dev"]
+      "Schutzbedarf"         = ["public"]
+      "LandingZoneClearance" = ["cloud-native"]
     }
   }
 }
@@ -84,13 +89,13 @@ resource "meshstack_tenant" "m25_online_banking_app" {
     owned_by_workspace  = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.metadata.name
   }
   spec = {
-    landing_zone_identifier = "demo-day"
+    landing_zone_identifier = "likvid-aws-dev"
   }
 }
 
 resource "meshstack_project_user_binding" "m25_online_banking_app_admins" {
   provider = meshstack.online_banking_app
-  for_each = toset(local.m25-online-banking-application-team)
+  for_each = toset(local.m25-online-banking-application)
 
   metadata = {
     name = "online_banking_app_${each.key}"
@@ -113,8 +118,8 @@ resource "meshstack_project_user_binding" "m25_online_banking_app_admins" {
 resource "meshstack_buildingblock" "m25_online_banking_app_docs" {
   provider = meshstack.online_banking_app
   metadata = {
-    definition_uuid    = "cfbcc75f-65fd-41d8-9a69-b0d5e7e85237"
-    definition_version = 6
+    definition_uuid    = "5a128cec-03cf-4aa4-ad66-d6f8848d351f"
+    definition_version = 5
     tenant_identifier  = "${meshstack_project.m25_online_banking_app.metadata.owned_by_workspace}.${meshstack_project.m25_online_banking_app.metadata.name}.${meshstack_tenant.m25_online_banking_app.metadata.platform_identifier}"
   }
   spec = {

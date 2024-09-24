@@ -2,6 +2,7 @@ terraform {
   source = "${get_repo_root()}//kit/foundation/meshstack"
 
   # We authentication against aws so we can fetch remote_state from S3 for the aws plattform
+  # todo: we should source that from a foundation.yml somehow?
   extra_arguments "profile" {
     commands = [
       "init",
@@ -18,8 +19,22 @@ terraform {
   }
 }
 
-#TODO: maybe move this to an own bucket or use a different prefix
-# we store foundation module terraform state with the aws platform state
+remote_state {
+  backend = "s3"
+
+  generate = {
+    path      = "backend.tf"
+    if_exists = "overwrite"
+  }
+
+  config = {
+    bucket   = "likvid-tf-state"
+    key      = "platforms/meshstack/likvid.${path_relative_to_include()}"
+    region   = "eu-central-1"
+    role_arn = "arn:aws:iam::490004649140:role/OrganizationAccountAccessRole"
+    profile  = get_env("CI", "false") == "true" ? null : "likvid"
+  }
+}
 
 locals {
   azure = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file("../platforms/azure/README.md"))[0]).azure
@@ -37,14 +52,14 @@ provider "azuread" {
 provider "meshstack" {
   alias = "static_website_assets"
   endpoint  = "https://federation.demo.meshcloud.io"
-  apikey    = ""
+  apikey    = "253eb2f8-7589-471b-83f5-0e42312bf98f"
   apisecret = "${get_env("MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS")}"
 }
 
 provider "meshstack" {
   alias = "online_banking_app"
   endpoint  = "https://federation.demo.meshcloud.io"
-  apikey    = ""
+  apikey    = "cf4d794d-5176-44eb-9e69-ad80ce9bfedc"
   apisecret = "${get_env("MESHSTACK_API_KEY_ONLINE_BANKING_APP")}"
 }
 EOF

@@ -20,7 +20,7 @@ inputs = {
       tfstateconfig   = local.azure_platform.locals.tfstateconfig
     }
   }
-
+  tf_state_bucket_name = "likvid-tf-state"
   foundation_dir = "${local.foundation_path}"
   template_dir   = "${local.foundation_path}/docs/vuepress"
   output_dir     = "${local.foundation_path}/.docs-v2"
