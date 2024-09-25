@@ -9,6 +9,7 @@ spec:
     - dev
     - qa
     - test
+    - prod
     BusinessUnit:
     - M25
     SecurityContact:
