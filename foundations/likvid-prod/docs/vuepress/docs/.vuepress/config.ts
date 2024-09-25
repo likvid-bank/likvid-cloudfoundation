@@ -15,7 +15,10 @@ const navbar: NavbarConfig = [
         text: "Azure",
         link: "/platforms/azure/"
       },
-      // TODO AWS
+      {
+        text: "AWS",
+        link: "/platforms/aws/"
+      }
     ],
   },
   {
@@ -81,8 +84,34 @@ export const sidebar: SidebarConfig = {
       ]
     }
   ],
+  "/platforms/aws/": [
+    {
+      text: 'AWS',
+      link: '/platforms/aws/',
+      children: [
+        '/platforms/azure/organization-hierarchy',
+        {
+          text: 'Landing Zones',
+          children: [
+            '/platforms/aws/landingzones/cloud-native',
+          ]
 
-  // TODO: AWS, but need to sort out state management first
+        },
+        {
+          text: 'Building Blocks',
+          children: []
+        },
+
+        {
+          text: 'Platform Administration',
+          children: [
+            '/platforms/aws/bootstrap',
+            '/platforms/aws/buildingblocks/automation',
+          ]
+        }
+      ]
+    }
+  ],
 
   "/concepts": [
     '/concepts'
