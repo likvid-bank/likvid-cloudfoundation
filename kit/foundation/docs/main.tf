@@ -15,7 +15,8 @@ locals {
   }
 
   platform_modules_azure = toset([for x in local.terragrunt_modules : x if startswith(x, "platforms/azure")])
-  #platform_modules_aws = toset([for x in local.terragrunt_modules : x if startswith(x, "platforms/aws")])
+  # AWS is not enalbed yet
+  platform_modules_aws = toset([for x in local.terragrunt_modules : x if startswith(x, "platforms/aws")])
 }
 
 data "terraform_remote_state" "docs_azure" {
@@ -32,16 +33,27 @@ data "terraform_remote_state" "docs_azure" {
     key                  = "${trimprefix(each.key, "platforms/azure/")}.tfstate"
   }
 }
-
-data "terraform_remote_state" "docs" {
-  #for_each = local.platform_modules_aws
+data "terraform_remote_state" "docs_aws" {
+  for_each = local.platform_modules_aws
 
   backend = "s3"
   config = {
     bucket = var.platforms.aws.bucket
-    key    = var.platforms.aws.key
-    region = var.platforms.aws.region
-    #dynamodb_table = var.platforms.aws.tfstateconfig.dynamodb_table
+    #TODO: would be better not having likvid hardcoded here or using it at all
+    key      = "platforms/aws/likvid.${trimprefix(each.key, "platforms/aws/")}"
+    region   = var.platforms.aws.region
+    role_arn = var.platforms.aws.role_arn
+    profile  = var.platforms.aws.profile
+  }
+}
+
+data "terraform_remote_state" "docs" {
+
+  backend = "s3"
+  config = {
+    bucket   = var.platforms.aws.bucket
+    key      = var.platforms.aws.key
+    region   = var.platforms.aws.region
     role_arn = var.platforms.aws.role_arn
     profile  = var.platforms.aws.profile
   }
@@ -142,7 +154,14 @@ resource "local_file" "module_docs" {
     "\n\n",
     compact([
       # documentation_md
-      try(data.terraform_remote_state.docs_azure[each.key].outputs.documentation_md, "*no `docmentation_md` output provided*"),
+      try(
+        startswith(each.key, "platforms/azure")
+        ? data.terraform_remote_state.docs_azure[each.key].outputs.documentation_md
+        : startswith(each.key, "platforms/aws")
+        ? data.terraform_remote_state.docs_aws[each.key].outputs.documentation_md
+        : data.terraform_remote_state.docs.outputs.documentation_md,
+        "*no `documentation_md` output provided*"
+      ),
       # by convention, we expect that a platform module uses the same kit module name so we use that to lookup compliance statements
       "## Compliance Statements",
       coalesce(

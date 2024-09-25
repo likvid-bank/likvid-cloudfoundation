@@ -46,10 +46,22 @@ jobs:
           tenant-id: ${{ vars.azure_tenant_id }}
           subscription-id: ${{ vars.azure_subscription_id }}
 
+      - name: Setup aws auth
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-central-1
+          role-to-assume: ${{ vars.aws_iam_role }}
+          role-session-name: github-actions-${{ github.run_id }}
+
+
       - name: update docs v2
         working-directory: foundations/${{ inputs.foundation }}/docs
         run: |
           collie foundation docs ${{ inputs.foundation }} --build
+        env:
+          MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS: ${{ secrets.MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS }}
+          MESHSTACK_API_KEY_ONLINE_BANKING_APP: ${{ secrets.MESHSTACK_API_KEY_ONLINE_BANKING_APP }}
+          MESHSTACK_API_PASSWORD: ${{ secrets.MESHSTACK_API_PASSWORD }}
 
       - name: upload docs artifact
         uses: actions/upload-artifact@v4

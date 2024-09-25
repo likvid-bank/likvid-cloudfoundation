@@ -89,7 +89,7 @@ export const sidebar: SidebarConfig = {
       text: 'AWS',
       link: '/platforms/aws/',
       children: [
-        '/platforms/azure/organization-hierarchy',
+        '/platforms/aws/organization',
         {
           text: 'Landing Zones',
           children: [
@@ -106,7 +106,7 @@ export const sidebar: SidebarConfig = {
           text: 'Platform Administration',
           children: [
             '/platforms/aws/bootstrap',
-            '/platforms/aws/buildingblocks/automation',
+            //'/platforms/aws/buildingblocks/automation',
           ]
         }
       ]
@@ -119,11 +119,12 @@ export const sidebar: SidebarConfig = {
 
   "/meshstack": [
     '/meshstack',
+
     {
       text: "Guides",
       children: [
         '/meshstack/guides/business_platforms',
-   //     '/meshstack/guides/gitops',
+        '/meshstack/guides/gitops',
         '/meshstack/guides/on_premises_connectivity'
       ]
     }

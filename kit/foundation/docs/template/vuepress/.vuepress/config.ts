@@ -94,7 +94,7 @@ export const sidebar: SidebarConfig = {
         {
           text: 'Landing Zones',
           children: [
-            '/platforms/aws/landingzones/cloud-native',
+          //  '/platforms/aws/landingzones/cloud-native',
           ]
 
         },
@@ -106,8 +106,8 @@ export const sidebar: SidebarConfig = {
         {
           text: 'Platform Administration',
           children: [
-            '/platforms/aws/bootstrap',
-            '/platforms/aws/buildingblocks/automation',
+           // '/platforms/aws/bootstrap',
+           // '/platforms/aws/buildingblocks/automation',
           ]
         }
       ]
@@ -124,7 +124,7 @@ export const sidebar: SidebarConfig = {
       text: "Guides",
       children: [
         '/meshstack/guides/business_platforms',
-   //     '/meshstack/guides/gitops',
+        '/meshstack/guides/gitops',
         '/meshstack/guides/on_premises_connectivity'
       ]
     }
