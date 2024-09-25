@@ -15,6 +15,7 @@ locals {
   }
 
   platform_modules_azure = toset([for x in local.terragrunt_modules : x if startswith(x, "platforms/azure")])
+  #platform_modules_aws = toset([for x in local.terragrunt_modules : x if startswith(x, "platforms/aws")])
 }
 
 data "terraform_remote_state" "docs_azure" {
@@ -33,15 +34,16 @@ data "terraform_remote_state" "docs_azure" {
 }
 
 data "terraform_remote_state" "docs" {
-  for_each = local.platform_modules_aws
+  #for_each = local.platform_modules_aws
 
   backend = "s3"
   config = {
-    bucket         = var.platforms.aws..bucket_name
-    key            = "${trimprefix(each.key, "platforms/aws/")}.tfstate"
-    region         = var.platforms.aws.stateconfig.region
+    bucket = var.platforms.aws.bucket
+    key    = var.platforms.aws.key
+    region = var.platforms.aws.region
     #dynamodb_table = var.platforms.aws.tfstateconfig.dynamodb_table
-    role_arn       = var.platforms.aws.tfstateconfig.role_arn
+    role_arn = var.platforms.aws.role_arn
+    profile  = var.platforms.aws.profile
   }
 }
 
@@ -161,7 +163,7 @@ resource "local_file" "platform_readmes" {
 }
 
 locals {
-  guides = try(data.terraform_remote_state.docs["meshstack"].outputs.documentation_guides_md, {})
+  guides = try(data.terraform_remote_state.docs.outputs.documentation_guides_md, {})
 }
 
 resource "local_file" "meshstack_guides" {

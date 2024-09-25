@@ -2,15 +2,13 @@ terraform {
   source = "${get_repo_root()}//kit/foundation/docs"
 }
 
-dependency "meshstack" {
-  config_path = "../meshstack"
-}
-
 # note: we don't track any state for this module itself
 
 locals {
-  foundation_path = "${get_repo_root()}/foundations/likvid-prod"
-  azure_platform  = read_terragrunt_config("${local.foundation_path}/platforms/azure/platform.hcl")
+  foundation_path    = "${get_repo_root()}/foundations/likvid-prod"
+  azure_platform     = read_terragrunt_config("${local.foundation_path}/platforms/azure/platform.hcl")
+  meshstack_platform = read_terragrunt_config("${local.foundation_path}/meshstack/terragrunt.hcl")
+
 }
 
 inputs = {
@@ -23,11 +21,14 @@ inputs = {
       subscription_id = local.azure_platform.locals.platform.azure.subscriptionId,
       tfstateconfig   = local.azure_platform.locals.tfstateconfig
     }
+    aws = {
+      bucket   = local.meshstack_platform.locals.bucket
+      key      = local.meshstack_platform.locals.key
+      region   = local.meshstack_platform.locals.region
+      role_arn = local.meshstack_platform.locals.role_arn
+      profile  = local.meshstack_platform.locals.profile
+    }
   }
-  tf_state_bucket_name = dependency.meshstack.locals.bucket 
-  key      = dependency.meshstack.locals.key 
-  region   = dependency.meshstack.locals.region
-  role_arn = dependency.meshstack.locals.role_arn 
 
   foundation_dir = "${local.foundation_path}"
   template_dir   = "${local.foundation_path}/docs/vuepress"
