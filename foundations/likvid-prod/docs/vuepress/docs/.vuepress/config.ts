@@ -15,12 +15,19 @@ const navbar: NavbarConfig = [
         text: "Azure",
         link: "/platforms/azure/"
       },
-      // TODO AWS
+      {
+        text: "AWS",
+        link: "/platforms/aws/"
+      }
     ],
   },
   {
     text: "Concepts",
     link: "/concepts"
+  },
+  {
+    text: "meshStack",
+    link: "/meshstack"
   },
   {
     text: "Compliance",
@@ -77,11 +84,50 @@ export const sidebar: SidebarConfig = {
       ]
     }
   ],
+  "/platforms/aws/": [
+    {
+      text: 'AWS',
+      link: '/platforms/aws/',
+      children: [
+        '/platforms/aws/organization',
+        {
+          text: 'Landing Zones',
+          children: [
+            '/platforms/aws/landingzones/cloud-native',
+          ]
 
-  // TODO: AWS, but need to sort out state management first
+        },
+        {
+          text: 'Building Blocks',
+          children: []
+        },
+
+        {
+          text: 'Platform Administration',
+          children: [
+            '/platforms/aws/bootstrap',
+            //'/platforms/aws/buildingblocks/automation',
+          ]
+        }
+      ]
+    }
+  ],
 
   "/concepts": [
     '/concepts'
+  ],
+
+  "/meshstack": [
+    '/meshstack',
+
+    {
+      text: "Guides",
+      children: [
+        '/meshstack/guides/business_platforms',
+        '/meshstack/guides/gitops',
+        '/meshstack/guides/on_premises_connectivity'
+      ]
+    }
   ],
 
   "/compliance/": [

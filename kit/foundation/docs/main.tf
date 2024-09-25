@@ -15,6 +15,8 @@ locals {
   }
 
   platform_modules_azure = toset([for x in local.terragrunt_modules : x if startswith(x, "platforms/azure")])
+  # AWS is not enalbed yet
+  platform_modules_aws = toset([for x in local.terragrunt_modules : x if startswith(x, "platforms/aws")])
 }
 
 data "terraform_remote_state" "docs_azure" {
@@ -29,6 +31,31 @@ data "terraform_remote_state" "docs_azure" {
     storage_account_name = var.platforms.azure.tfstateconfig.storage_account_name
     container_name       = var.platforms.azure.tfstateconfig.container_name
     key                  = "${trimprefix(each.key, "platforms/azure/")}.tfstate"
+  }
+}
+data "terraform_remote_state" "docs_aws" {
+  for_each = local.platform_modules_aws
+
+  backend = "s3"
+  config = {
+    bucket = var.platforms.aws.bucket
+    #TODO: would be better not having likvid hardcoded here or using it at all
+    key      = "platforms/aws/likvid.${trimprefix(each.key, "platforms/aws/")}"
+    region   = var.platforms.aws.region
+    role_arn = var.platforms.aws.role_arn
+    profile  = var.platforms.aws.profile
+  }
+}
+
+data "terraform_remote_state" "docs" {
+
+  backend = "s3"
+  config = {
+    bucket   = var.platforms.aws.bucket
+    key      = var.platforms.aws.key
+    region   = var.platforms.aws.region
+    role_arn = var.platforms.aws.role_arn
+    profile  = var.platforms.aws.profile
   }
 }
 
@@ -127,7 +154,14 @@ resource "local_file" "module_docs" {
     "\n\n",
     compact([
       # documentation_md
-      try(data.terraform_remote_state.docs_azure[each.key].outputs.documentation_md, "*no `docmentation_md` output provided*"),
+      try(
+        startswith(each.key, "platforms/azure")
+        ? data.terraform_remote_state.docs_azure[each.key].outputs.documentation_md
+        : startswith(each.key, "platforms/aws")
+        ? data.terraform_remote_state.docs_aws[each.key].outputs.documentation_md
+        : data.terraform_remote_state.docs.outputs.documentation_md,
+        "*no `documentation_md` output provided*"
+      ),
       # by convention, we expect that a platform module uses the same kit module name so we use that to lookup compliance statements
       "## Compliance Statements",
       coalesce(
@@ -147,14 +181,14 @@ resource "local_file" "platform_readmes" {
   content  = file("${var.foundation_dir}/platforms/${each.key}")
 }
 
-# locals {
-#   guides = try(data.terraform_remote_state.docs["meshstack"].outputs.documentation_guides_md, {})
-# }
+locals {
+  guides = try(data.terraform_remote_state.docs.outputs.documentation_guides_md, {})
+}
 
-# resource "local_file" "meshstack_guides" {
-#   depends_on = [null_resource.copy_template]
-#   for_each   = local.guides
+resource "local_file" "meshstack_guides" {
+  depends_on = [null_resource.copy_template]
+  for_each   = local.guides
 
-#   filename = "${var.output_dir}/docs/meshstack/guides/${each.key}.md"
-#   content  = each.value
-# }
+  filename = "${var.output_dir}/docs/meshstack/guides/${each.key}.md"
+  content  = each.value
+}

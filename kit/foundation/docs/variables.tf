@@ -10,6 +10,13 @@ variable "platforms" {
         container_name       = string
       })
     })
+    aws = object({
+      bucket   = string
+      key      = string
+      region   = string
+      role_arn = string
+      profile  = string
+    })
   })
 }
 

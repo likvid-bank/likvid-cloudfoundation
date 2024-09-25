@@ -8,9 +8,12 @@ spec:
     environment: # todo: the environment tag values are not aligned between likvid-demo and meshcloud-dev
     - dev
     - qa
+    - test
     - prod
     BusinessUnit:
     - M25
     SecurityContact:
-    - banking@m25.example.com
+    - m25-banking@likvid.meshcloud.io
+    AllowedLandingZoneFamilies:
+      - cloud-native
     # todo: landingzone clearance is missing

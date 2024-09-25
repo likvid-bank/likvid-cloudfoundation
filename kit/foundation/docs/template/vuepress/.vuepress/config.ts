@@ -15,12 +15,19 @@ const navbar: NavbarConfig = [
         text: "Azure",
         link: "/platforms/azure/"
       },
-      // TODO other platforms
+      {
+        text: "AWS",
+        link: "/platforms/aws/"
+      }
     ],
   },
   {
     text: "Concepts",
     link: "/concepts"
+  },
+  {
+    text: "meshStack",
+    link: "/meshstack"
   },
   {
     text: "Compliance",
@@ -46,26 +53,81 @@ export const sidebar: SidebarConfig = {
         {
           text: 'Landing Zones',
           children: [
+            '/platforms/azure/landingzones/sandbox',
+            '/platforms/azure/landingzones/cloud-native',
+            '/platforms/azure/landingzones/corp-online',
+            '/platforms/azure/landingzones/container-platform',
           ]
         },
         {
           text: 'Building Blocks',
           children: [
+            '/platforms/azure/buildingblocks/budget-alert/backplane',
+            '/platforms/azure/buildingblocks/connectivity/backplane',
+            '/platforms/azure/buildingblocks/github-repo/backplane',
+            '/platforms/azure/buildingblocks/starterkit/backplane',
+            // the subscription building block is a technical proof of concpet for a pure terraform workflow without meshStack and thus not relevant to the public demo
+
           ]
         },
         {
           text: 'Platform Administration',
           children: [
+            '/platforms/azure/bootstrap',
+            '/platforms/azure/logging',
+            '/platforms/azure/networking',
+            '/platforms/azure/pam',
+            '/platforms/azure/meshplatform',
+            '/platforms/azure/buildingblocks/automation',
           ]
         }
       ]
     }
   ],
 
-  // TODO: AWS, but need to sort out state management first
+  "/platforms/aws/": [
+    {
+      text: 'AWS',
+      link: '/platforms/aws/',
+      children: [
+        '/platforms/aws/organization',
+        {
+          text: 'Landing Zones',
+          children: [
+          //  '/platforms/aws/landingzones/cloud-native',
+          ]
+
+        },
+        {
+          text: 'Building Blocks',
+          children: []
+        },
+
+        {
+          text: 'Platform Administration',
+          children: [
+           // '/platforms/aws/bootstrap',
+           // '/platforms/aws/buildingblocks/automation',
+          ]
+        }
+      ]
+    }
+  ],
 
   "/concepts": [
     '/concepts'
+  ],
+
+  "/meshstack": [
+    '/meshstack',
+    {
+      text: "Guides",
+      children: [
+        '/meshstack/guides/business_platforms',
+        '/meshstack/guides/gitops',
+        '/meshstack/guides/on_premises_connectivity'
+      ]
+    }
   ],
 
   "/compliance/": [
@@ -120,12 +182,12 @@ function getMarkdownFiles(dir: string): string[] {
 export default defineUserConfig({
   // site-level locales config
   bundler: viteBundler(),
-  base: "/",
+  base: "/likvid-cloudfoundation/", // on github-pages, this is our base url
   locales: {
     "/": {
       lang: "en-US",
-      title: "My Cloud Foundation",
-      description: "My internal Cloud Developer Platform",
+      title: "Likvid Bank Cloud Foundation",
+      description: "Livkid Bank's internal Cloud Developer Platform",
     },
   },
 
