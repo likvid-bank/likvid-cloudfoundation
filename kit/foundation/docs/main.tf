@@ -32,6 +32,19 @@ data "terraform_remote_state" "docs_azure" {
   }
 }
 
+data "terraform_remote_state" "docs" {
+  for_each = local.platform_modules_aws
+
+  backend = "s3"
+  config = {
+    bucket         = var.platforms.aws..bucket_name
+    key            = "${trimprefix(each.key, "platforms/aws/")}.tfstate"
+    region         = var.platforms.aws.stateconfig.region
+    #dynamodb_table = var.platforms.aws.tfstateconfig.dynamodb_table
+    role_arn       = var.platforms.aws.tfstateconfig.role_arn
+  }
+}
+
 locals {
   kit_dir        = "${var.repo_dir}/kit"
   compliance_dir = "${var.repo_dir}/compliance"
@@ -147,14 +160,14 @@ resource "local_file" "platform_readmes" {
   content  = file("${var.foundation_dir}/platforms/${each.key}")
 }
 
-# locals {
-#   guides = try(data.terraform_remote_state.docs["meshstack"].outputs.documentation_guides_md, {})
-# }
+locals {
+  guides = try(data.terraform_remote_state.docs["meshstack"].outputs.documentation_guides_md, {})
+}
 
-# resource "local_file" "meshstack_guides" {
-#   depends_on = [null_resource.copy_template]
-#   for_each   = local.guides
+resource "local_file" "meshstack_guides" {
+  depends_on = [null_resource.copy_template]
+  for_each   = local.guides
 
-#   filename = "${var.output_dir}/docs/meshstack/guides/${each.key}.md"
-#   content  = each.value
-# }
+  filename = "${var.output_dir}/docs/meshstack/guides/${each.key}.md"
+  content  = each.value
+}
