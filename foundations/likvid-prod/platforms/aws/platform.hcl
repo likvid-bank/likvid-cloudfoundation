@@ -80,7 +80,9 @@ remote_state {
 
   config = {
     bucket         = "likvid-tf-state"
-    key            = "platforms/aws/${local.cloudfoundation}.${path_relative_to_include()}"
+    # note: we put in a platforms/aws prefix into the bucket key because we also put state for foundation modules
+    # into this same bucket
+    key            = "platforms/aws/${path_relative_to_include()}.tfstate"
     region         = "eu-central-1"
     encrypt        = true
     dynamodb_table = "terraform-state-lock"
