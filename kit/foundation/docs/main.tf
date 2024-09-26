@@ -97,46 +97,48 @@ locals {
   }
 }
 
-resource "null_resource" "copy_template" {
-  triggers = {
+resource "terraform_data" "copy_template" {
+  triggers_replace = {
     output_dir         = var.output_dir
+    template_dir       = var.template_dir
     template_dir_files = join(" ", fileset(var.template_dir, "**/*")) # since we use symbolic links, we don't care for file content
   }
 
   provisioner "local-exec" {
     when = create
     # copy files as symbolic links, this means we can change them in the source dir and live reload will work!
-    command = "mkdir -p ${var.output_dir} && cp -a -R -L ${var.template_dir}/* ${var.output_dir}"
+    command = "mkdir -p ${self.triggers_replace.output_dir} && cp -a -R -L ${self.triggers_replace.template_dir}/* ${self.triggers_replace.output_dir}"
   }
 
   provisioner "local-exec" {
     when = destroy
     # remove symbolic links
-    command = "cd ${self.triggers.output_dir} && rm -f ${self.triggers.template_dir_files}"
+    command = "cd ${self.triggers_replace.output_dir} && rm -f ${self.triggers_replace.template_dir_files}"
   }
 }
 
-resource "null_resource" "copy_compliance" {
-  triggers = {
-    output_dir         = var.output_dir
-    template_dir_files = join(" ", fileset(local.compliance_dir, "**/*")) # since we use symbolic links, we don't care for file content
+resource "terraform_data" "copy_compliance" {
+  triggers_replace = {
+    output_dir           = var.output_dir
+    compliance_dir       = local.compliance_dir
+    compliance_dir_files = join(" ", fileset(local.compliance_dir, "**/*")) # since we use symbolic links, we don't care for file content
   }
 
   provisioner "local-exec" {
     when = create
     # copy files as symbolic links, this means we can change them in the source dir and live reload will work!
-    command = "mkdir -p ${var.output_dir}/docs/compliance && cp -a -R -L ${local.compliance_dir}/* ${var.output_dir}/docs/compliance"
+    command = "mkdir -p ${self.triggers_replace.output_dir}/docs/compliance && cp -a -R -L ${self.triggers_replace.compliance_dir}/* ${self.triggers_replace.output_dir}/docs/compliance"
   }
 
   provisioner "local-exec" {
     when = destroy
     # remove symbolic links
-    command = "cd ${self.triggers.output_dir}/docs/compliance && rm -f ${self.triggers.template_dir_files}"
+    command = "cd ${self.triggers_replace.output_dir}/docs/compliance && rm -f ${self.triggers_replace.compliance_dir_files}"
   }
 }
 
 resource "local_file" "module_docs" {
-  depends_on = [null_resource.copy_template]
+  depends_on = [terraform_data.copy_template]
   for_each   = local.terragrunt_modules
 
   filename = "${var.output_dir}/docs/${each.key}.md"
@@ -160,7 +162,7 @@ resource "local_file" "module_docs" {
 
 # todo: not sure we want those
 resource "local_file" "platform_readmes" {
-  depends_on = [null_resource.copy_template]
+  depends_on = [terraform_data.copy_template]
   for_each   = local.platform_readmes
 
   filename = "${var.output_dir}/docs/platforms/${each.key}"
@@ -172,7 +174,7 @@ locals {
 }
 
 resource "local_file" "meshstack_guides" {
-  depends_on = [null_resource.copy_template]
+  depends_on = [terraform_data.copy_template]
   for_each   = local.guides
 
   filename = "${var.output_dir}/docs/meshstack/guides/${each.key}.md"
