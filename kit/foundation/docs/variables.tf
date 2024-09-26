@@ -1,23 +1,11 @@
-variable "platforms" {
-  description = "platform configuration required to produce docs"
-  type = object({
-    azure = object({
-      aad_tenant_id   = string
-      subscription_id = string
-      tfstateconfig = object({
-        resource_group_name  = string
-        storage_account_name = string
-        container_name       = string
-      })
-    })
-    aws = object({
-      bucket   = string
-      key      = string
-      region   = string
-      role_arn = string
-      profile  = string
-    })
-  })
+variable "module_docs" {
+  description = "configures conventions for looking up remote_state of platform and foundation modules by prefix"
+  type = list(object({
+    prefix     = string
+    key_prefix = optional(string)
+    backend    = string
+    config     = map(any)
+  }))
 }
 
 variable "output_dir" {

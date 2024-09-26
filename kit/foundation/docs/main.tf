@@ -14,49 +14,39 @@ locals {
     : "foundation/${key}"           # foundation modules are prefixed with foundation
   }
 
-  platform_modules_azure = toset([for x in local.terragrunt_modules : x if startswith(x, "platforms/azure")])
-  # AWS is not enalbed yet
-  platform_modules_aws = toset([for x in local.terragrunt_modules : x if startswith(x, "platforms/aws")])
-}
+  terragrunt_modules_to_backend = flatten([
+    for x in var.module_docs : [
+      for y in local.terragrunt_modules : {
+        module     = y
+        prefix     = x.prefix
+        key_prefix = x.key_prefix != null ? x.key_prefix : ""
+        backend    = x.backend
+        config     = x.config
 
-data "terraform_remote_state" "docs_azure" {
-  for_each = local.platform_modules_azure
+      } if startswith(y, x.prefix)
+    ]
+  ])
 
-  backend = "azurerm"
-  config = {
-    use_azuread_auth     = true
-    tenant_id            = var.platforms.azure.aad_tenant_id
-    subscription_id      = var.platforms.azure.subscription_id
-    resource_group_name  = var.platforms.azure.tfstateconfig.resource_group_name
-    storage_account_name = var.platforms.azure.tfstateconfig.storage_account_name
-    container_name       = var.platforms.azure.tfstateconfig.container_name
-    key                  = "${trimprefix(each.key, "platforms/azure/")}.tfstate"
-  }
-}
-data "terraform_remote_state" "docs_aws" {
-  for_each = local.platform_modules_aws
-
-  backend = "s3"
-  config = {
-    bucket = var.platforms.aws.bucket
-    #TODO: would be better not having likvid hardcoded here or using it at all
-    key      = "platforms/aws/likvid.${trimprefix(each.key, "platforms/aws/")}"
-    region   = var.platforms.aws.region
-    role_arn = var.platforms.aws.role_arn
-    profile  = var.platforms.aws.profile
+  remote_state_modules = {
+    for x in local.terragrunt_modules_to_backend : x.module => {
+      backend = x.backend
+      config = merge(
+        x.config,
+        # configure the convention used to locate the module's specific tfstate file in the backend
+        # sometimes the key is prefixed with the platform module id, but often it's left out (in case of just a single platform stored in a state backend for example)
+        x.backend == "gcs"
+        ? { prefix = "${x.key_prefix}${trimprefix(x.module, "${x.prefix}/")}" }
+        : { key = "${x.key_prefix}${trimprefix(x.module, "${x.prefix}/")}.tfstate" }
+      )
+    }
   }
 }
 
 data "terraform_remote_state" "docs" {
+  for_each = local.remote_state_modules
 
-  backend = "s3"
-  config = {
-    bucket   = var.platforms.aws.bucket
-    key      = var.platforms.aws.key
-    region   = var.platforms.aws.region
-    role_arn = var.platforms.aws.role_arn
-    profile  = var.platforms.aws.profile
-  }
+  backend = each.value.backend
+  config  = each.value.config
 }
 
 locals {
@@ -155,11 +145,7 @@ resource "local_file" "module_docs" {
     compact([
       # documentation_md
       try(
-        startswith(each.key, "platforms/azure")
-        ? data.terraform_remote_state.docs_azure[each.key].outputs.documentation_md
-        : startswith(each.key, "platforms/aws")
-        ? data.terraform_remote_state.docs_aws[each.key].outputs.documentation_md
-        : data.terraform_remote_state.docs.outputs.documentation_md,
+        data.terraform_remote_state.docs[each.key].outputs.documentation_md,
         "*no `documentation_md` output provided*"
       ),
       # by convention, we expect that a platform module uses the same kit module name so we use that to lookup compliance statements
@@ -182,7 +168,7 @@ resource "local_file" "platform_readmes" {
 }
 
 locals {
-  guides = try(data.terraform_remote_state.docs.outputs.documentation_guides_md, {})
+  guides = try(data.terraform_remote_state.docs["meshstack"].outputs.documentation_guides_md, {})
 }
 
 resource "local_file" "meshstack_guides" {
