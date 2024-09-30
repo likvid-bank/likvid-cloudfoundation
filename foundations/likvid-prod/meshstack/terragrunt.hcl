@@ -24,7 +24,7 @@ locals {
   aws   = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file("../platforms/aws/README.md"))[0]).aws
 
   bucket   = "likvid-tf-state"
-  key      = "platforms/meshstack/likvid.${path_relative_to_include()}"
+  key      = "meshstack.tfstate"
   region   = "eu-central-1"
   role_arn = "arn:aws:iam::490004649140:role/OrganizationAccountAccessRole"
   profile  = get_env("CI", "false") == "true" ? null : "likvid"
