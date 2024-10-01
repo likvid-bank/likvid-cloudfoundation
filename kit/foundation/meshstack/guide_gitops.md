@@ -1,5 +1,3 @@
-locals {
-  guide_gitops = <<EOF
 # Integrating Existing Automation and GitOps Pipelines
 
 This guide shows you how you can solve common scenarios for integrating existing automation and orchestration
@@ -92,5 +90,3 @@ sources. This API key must be scoped to the repository ${terraform_data.meshobje
 You then need to fetch an access token from this API key and then you can use the [meshObject API](https://federation.demo.meshcloud.io/docs/index.html#mesh_buildingblockrun) in order
 to register steps or report back the current status of those steps. Please keep in mind that this only works when the Building Block is asynchronous.
 
-EOF
-}

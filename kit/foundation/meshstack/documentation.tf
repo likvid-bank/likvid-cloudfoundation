@@ -21,11 +21,27 @@ This page documents how we set up meshStack at Likvid Bank.
 EOF
 }
 
+locals {
+  md_files = fileset("./", "*.md")
+  md_contents = join("\n", [for f in local.md_files : file(f)])
+
+}
+
 
 output "documentation_guides_md" {
-  value = {
-    business_platforms       = local.guide_business_platforms
-    gitops                   = local.guide_gitops
-    on_premises_connectivity = local.guide_on_premises_connectivity
-  }
+   value = {
+    guides = local.md_contents
 }
+}
+  
+
+
+# output "documentation_guides_md" {
+#   value = {
+#     business_platforms       = local.guide_business_platforms
+#     gitops                   = local.guide_gitops
+#     on_premises_connectivity = local.guide_on_premises_connectivity
+#   }
+# }
+
+

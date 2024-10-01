@@ -1,5 +1,3 @@
-locals {
-  guide_on_premises_connectivity = <<EOF
 # On Premises Connectivity
 
 This guide shows you how you can solve common integration challenges for enabling on-premises Connectivity with meshStack.
@@ -68,6 +66,3 @@ The Market Analytics Team will deploy the Market Data Connector application usin
 :::tip Repo and Documentation
 [Market Data Connector Project](https://github.com/likvid-bank/marketdata-connector/tree/main)
 :::
-
-EOF
-}

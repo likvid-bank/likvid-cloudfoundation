@@ -1,5 +1,3 @@
-locals {
-  guide_business_platforms = <<EOF
 # Business Platforms
 
 This guide shows you how you can solve common integration challenges around "business platforms" with meshStack.
@@ -85,5 +83,3 @@ and try using any of the M25-specific landing zones or building blocks.
 :::
 
 <!-- TODO: describe how to import existing AWS Accounts/Projects-->
-EOF
-}
