@@ -18,14 +18,6 @@ This page documents how we set up meshStack at Likvid Bank.
 | `${local.policies.RestrictLandingZoneToWorkspaceBusinessUnit.policy}`               | ${local.policies.RestrictLandingZoneToWorkspaceBusinessUnit.description}            | See [Business Platforms](./meshstack/guides/business_platforms.md) |
 | `${local.policies.RestrictBuildingBlockToWorkspaceBusinessUnit.policy}`             | ${local.policies.RestrictBuildingBlockToWorkspaceBusinessUnit.description}          | See [Business Platforms](./meshstack/guides/business_platforms.md) |
 
-## How to Write Guides
-
-Follow these steps to write a new guide:
-
-- **For Markdown files:** Navigate to the `guides` directory and create a new Markdown file.
-
--  **Use Terraform variables:** If you want to use values from your Terraform configuration in your guide, such as `local.tags.BusinessUnit`, you need to create a corresponding Terraform file in the `meshstack` directory, you can take a look who the guide_gitops.tf is working.
-
 EOF
 }
 
