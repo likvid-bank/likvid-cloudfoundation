@@ -1,0 +1,70 @@
+on:
+  workflow_call:
+    inputs:
+      foundation:
+        required: true
+        type: string
+      # platform:
+      #   required: true
+      #   type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.foundation }}
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      TERRAGRUNT_TFPATH: tofu
+      TF_IN_AUTOMATION: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup environment
+        uses: ./.github/actions/setup-nix-shell
+        with:
+          prepare_terraform: true
+
+      - uses: meshcloud/setup-collie@main
+
+      - name: Setup az auth
+      #if: ${{ inputs.platform == 'azure' }}
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.azure_client_id }}
+          tenant-id: ${{ vars.azure_tenant_id }}
+          subscription-id: ${{ vars.azure_subscription_id }}
+
+      - name: Setup aws auth
+      # if: ${{ inputs.platform == 'aws' }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-central-1
+          role-to-assume: ${{ vars.aws_iam_role }}
+          role-session-name: github-actions-${{ github.run_id }}
+
+      # 
+      - name: terragrunt meshstack apply docs
+        run: |
+          cd foundations/${{ inputs.foundation }}/meshstack
+          terragrunt apply -target=output.documentation_guides_md -lock=false -auto-approve 
+        env:
+          MESHSTACK_API_KEY_LIKVID_MOBILE: ${{ secrets.MESHSTACK_API_KEY_LIKVID_MOBILE }}
+          MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS: ${{ secrets.MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS }}
+          MESHSTACK_API_KEY_ONLINE_BANKING_APP: ${{ secrets.MESHSTACK_API_KEY_ONLINE_BANKING_APP }}
+          MESHSTACK_API_PASSWORD: ${{ secrets.MESHSTACK_API_PASSWORD }}
+
+      #TODO we are working on native working foundation modules with collie-cli. thats an workaround for now
+      # https://github.com/meshcloud/collie-cli/tree/feature/foundation-modules
+      - name: terragrunt meshstack plan
+      #  if: ${{ inputs.platform == 'azure' }}
+        run: |
+          cd foundations/${{ inputs.foundation }}/meshstack
+          terragrunt plan -lock=false -detailed-exitcode
+        env:
+          MESHSTACK_API_KEY_LIKVID_MOBILE: ${{ secrets.MESHSTACK_API_KEY_LIKVID_MOBILE }}
+          MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS: ${{ secrets.MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS }}
+          MESHSTACK_API_KEY_ONLINE_BANKING_APP: ${{ secrets.MESHSTACK_API_KEY_ONLINE_BANKING_APP }}
+          MESHSTACK_API_PASSWORD: ${{ secrets.MESHSTACK_API_PASSWORD }}
