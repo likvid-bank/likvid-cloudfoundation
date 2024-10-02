@@ -18,9 +18,15 @@ This page documents how we set up meshStack at Likvid Bank.
 | `${local.policies.RestrictLandingZoneToWorkspaceBusinessUnit.policy}`               | ${local.policies.RestrictLandingZoneToWorkspaceBusinessUnit.description}            | See [Business Platforms](./meshstack/guides/business_platforms.md) |
 | `${local.policies.RestrictBuildingBlockToWorkspaceBusinessUnit.policy}`             | ${local.policies.RestrictBuildingBlockToWorkspaceBusinessUnit.description}          | See [Business Platforms](./meshstack/guides/business_platforms.md) |
 
+
+### Workspace
+
+| Workspace | Display Name |
+|-----------|--------------|
+${join("\n", [for k, v in local.meshobjects_files : "| ${k} | ${v.spec.displayName} |"])}
+
 EOF
 }
-
 
 locals {
   md_files    = fileset("${path.module}/guides", "*.md")
