@@ -22,7 +22,7 @@ This page documents how we set up meshStack at Likvid Bank.
 
 Follow these steps to write a new guide:
 
-- **For Markdown files:** Navigate to the `guides` directory and create a new Markdown file. 
+- **For Markdown files:** Navigate to the `guides` directory and create a new Markdown file.
 
 -  **Use Terraform variables:** If you want to use values from your Terraform configuration in your guide, such as `local.tags.BusinessUnit`, you need to create a corresponding Terraform file in the `meshstack` directory, you can take a look who the guide_gitops.tf is working.
 
@@ -36,6 +36,6 @@ locals {
 }
 
 output "documentation_guides_md" {
-  value = merge(local.md_contents, 
-    { "guide_gitops" = local.guide_gitops })
+  value = merge(local.md_contents,
+  { "guide_gitops" = local.guide_gitops })
 }

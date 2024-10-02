@@ -19,6 +19,11 @@ jobs:
     env:
       TERRAGRUNT_TFPATH: tofu
       TF_IN_AUTOMATION: true
+      MESHSTACK_API_KEY_LIKVID_MOBILE: ${{ secrets.MESHSTACK_API_KEY_LIKVID_MOBILE }}
+      MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS: ${{ secrets.MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS }}
+      MESHSTACK_API_KEY_ONLINE_BANKING_APP: ${{ secrets.MESHSTACK_API_KEY_ONLINE_BANKING_APP }}
+      MESHSTACK_API_PASSWORD: ${{ secrets.MESHSTACK_API_PASSWORD }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -45,16 +50,10 @@ jobs:
           role-to-assume: ${{ vars.aws_iam_role }}
           role-session-name: github-actions-${{ github.run_id }}
 
-      # 
       - name: terragrunt meshstack apply docs
         run: |
           cd foundations/${{ inputs.foundation }}/meshstack
-          terragrunt apply -target=output.documentation_guides_md -lock=false -auto-approve 
-        env:
-          MESHSTACK_API_KEY_LIKVID_MOBILE: ${{ secrets.MESHSTACK_API_KEY_LIKVID_MOBILE }}
-          MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS: ${{ secrets.MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS }}
-          MESHSTACK_API_KEY_ONLINE_BANKING_APP: ${{ secrets.MESHSTACK_API_KEY_ONLINE_BANKING_APP }}
-          MESHSTACK_API_PASSWORD: ${{ secrets.MESHSTACK_API_PASSWORD }}
+          terragrunt apply -target=output.documentation_guides_md -lock=false -auto-approve
 
       #TODO we are working on native working foundation modules with collie-cli. thats an workaround for now
       # https://github.com/meshcloud/collie-cli/tree/feature/foundation-modules
@@ -63,8 +62,3 @@ jobs:
         run: |
           cd foundations/${{ inputs.foundation }}/meshstack
           terragrunt plan -lock=false -detailed-exitcode
-        env:
-          MESHSTACK_API_KEY_LIKVID_MOBILE: ${{ secrets.MESHSTACK_API_KEY_LIKVID_MOBILE }}
-          MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS: ${{ secrets.MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS }}
-          MESHSTACK_API_KEY_ONLINE_BANKING_APP: ${{ secrets.MESHSTACK_API_KEY_ONLINE_BANKING_APP }}
-          MESHSTACK_API_PASSWORD: ${{ secrets.MESHSTACK_API_PASSWORD }}
