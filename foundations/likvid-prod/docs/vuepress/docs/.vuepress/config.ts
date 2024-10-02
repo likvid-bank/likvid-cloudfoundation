@@ -122,13 +122,7 @@ export const sidebar: SidebarConfig = {
 
     {
       text: "Guides",
-      children: [
-        '/meshstack/guides/guide_business_platforms',
-        '/meshstack/guides/guide_gitops',
-        '/meshstack/guides/guide_on_premises_connectivity'
-        //children: getMarkdownFiles(path.resolve(__dirname, '../meshstack/guides')).filter(file => file.startsWith('/meshstack/guides/guide_'))
-
-      ]
+      children: getMarkdownFiles('docs/meshstack/guides')
     }
   ],
 
