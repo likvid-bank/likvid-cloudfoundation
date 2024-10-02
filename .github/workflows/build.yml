@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - "main"
-      - "feature/docs-preview"
 
   pull_request:
     branches: [ main ]
@@ -60,7 +59,7 @@ jobs:
 
   docs:
     uses: ./.github/workflows/docs-workflow.yml
-    needs: meshStack
+    if: always() && (needs.meshstack.result == 'skipped' || needs.meshStack.result == 'success')
     secrets: inherit
     strategy:
       fail-fast: false # don't cancel other matrix jobs if one fails

@@ -51,6 +51,7 @@ jobs:
           role-session-name: github-actions-${{ github.run_id }}
 
       - name: terragrunt meshstack apply docs
+        if: github.ref == 'refs/heads/main'
         run: |
           cd foundations/${{ inputs.foundation }}/meshstack
           terragrunt apply -target=output.documentation_guides_md -lock=false -auto-approve
