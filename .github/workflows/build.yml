@@ -43,9 +43,23 @@ jobs:
       foundation: ${{ matrix.foundation }}
       platform: ${{ matrix.platform }}
       action: test
+  meshStack:
+    uses: ./.github/workflows/meshStack-workflow.yml
+    secrets: inherit
+    strategy:
+      fail-fast: false # don't cancel other matrix jobs if one fails
+      # unfortunately we don't have a deploy user for cloud foundry right now, if we want to add it we can
+      # add individual matrix entries with "include:" attribute
+      matrix:
+        foundation: [likvid-prod]
+        #platform: [aws, azure, gcp]
+    with:
+      foundation: ${{ matrix.foundation }}
+      #platform: ${{ matrix.platform }}
 
   docs:
     uses: ./.github/workflows/docs-workflow.yml
+    needs: meshStack
     secrets: inherit
     strategy:
       fail-fast: false # don't cancel other matrix jobs if one fails

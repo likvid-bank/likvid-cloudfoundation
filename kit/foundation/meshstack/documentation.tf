@@ -22,10 +22,12 @@ EOF
 }
 
 
+locals {
+  md_files    = fileset("${path.module}/guides", "*.md")
+  md_contents = { for f in local.md_files : replace(basename(f), ".md", "") => "\n${file("${path.module}/guides/${f}")}\n" }
+}
+
 output "documentation_guides_md" {
-  value = {
-    business_platforms       = local.guide_business_platforms
-    gitops                   = local.guide_gitops
-    on_premises_connectivity = local.guide_on_premises_connectivity
-  }
+  value = merge(local.md_contents,
+  { "guide_gitops" = local.guide_gitops })
 }

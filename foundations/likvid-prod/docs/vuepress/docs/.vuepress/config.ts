@@ -120,13 +120,10 @@ export const sidebar: SidebarConfig = {
   "/meshstack": [
     '/meshstack',
 
+
     {
       text: "Guides",
-      children: [
-        '/meshstack/guides/business_platforms',
-        '/meshstack/guides/gitops',
-        '/meshstack/guides/on_premises_connectivity'
-      ]
+      children: getMarkdownFiles('docs/meshstack/guides')
     }
   ],
 
