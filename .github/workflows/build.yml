@@ -59,7 +59,7 @@ jobs:
 
   docs:
     uses: ./.github/workflows/docs-workflow.yml
-    if: always() && (needs.meshstack.result == 'skipped' || needs.meshStack.result == 'success')
+    needs: meshStack
     secrets: inherit
     strategy:
       fail-fast: false # don't cancel other matrix jobs if one fails
@@ -70,6 +70,7 @@ jobs:
 
   publish:
     name: deploy docs
+    if: github.ref == 'refs/heads/main' # only deploy if we're on main branch
     needs:
       - docs # this will depend on all jobs of the matrix
     runs-on: ubuntu-latest
