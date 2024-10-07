@@ -34,5 +34,9 @@ locals {
 
 output "documentation_guides_md" {
   value = merge(local.md_contents,
-  { "guide_gitops" = local.guide_gitops })
+    {
+      "guide_gitops"           = local.guide_gitops,
+      "guide_custom_platforms" = local.guide_custom_platforms
+    }
+  )
 }

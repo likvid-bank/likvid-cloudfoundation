@@ -33,6 +33,7 @@ No modules.
 | [meshstack_project_user_binding.m25_online_banking_app_admins](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project_user_binding) | resource |
 | [meshstack_project_user_binding.static_website_assets_project_admins](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project_user_binding) | resource |
 | [meshstack_tenant.m25_online_banking_app](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
+| [meshstack_tenant.m25_online_banking_app_docs_repo](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
 | [meshstack_tenant.static-website-assets](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
 | [terraform_data.meshobjects_import](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
 

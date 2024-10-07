@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: meshWorkspace
+metadata:
+  name: devops-platform
+spec:
+  displayName: DevOps Platform
+  tags:
+    environment:
+    - dev
+    - qa
+    - prod
+    - test
+    BusinessUnit:
+    - "IT"
+    SecurityContact:
+    - idp@likvid.io
+    # todo: landingzone clearance is missing
