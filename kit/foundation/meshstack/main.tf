@@ -38,6 +38,32 @@ locals {
         }
       }
     }
+
+    github-repository = {
+      name = "github-repository"
+      spec = {
+        displayName = "GitHub Repository"
+        tags = {
+          BusinessUnit = ["IT"]
+        }
+      }
+    }
+  }
+
+  customPlatformDefinitions = {
+    github-repository = {
+      name = "github-repository"
+      spec = {
+        displayName       = "GitHub Repository"
+        description       = "Provisions a GitHub Repository in our Likvid Bank GitHub organization. It can be an empty repository or sourced from a template."
+        web-console-url   = "https://github.com/likvid-bank"
+        support-url       = "https://meshcloud.slack.com/archives/C0681JFCUQP"
+        documentation-url = "https://likvid-bank.github.io/likvid-cloudfoundation/meshstack.html"
+        tags = {
+          BusinessUnit = ["IT"]
+        }
+      }
+    }
   }
 
   buildingBlockDefinitions = {
@@ -64,6 +90,17 @@ locals {
         }
       }
     }
+
+    github-repository = {
+      name = "github-repository"
+      spec = {
+        displayName       = "GitHub Repository"
+        description       = "Provisions a GitHub Repository in our Likvid Bank GitHub organization. It can be an empty repository or sourced from a template."
+        web-console-url   = "https://github.com/likvid-bank"
+        support-url       = "https://meshcloud.slack.com/archives/C0681JFCUQP"
+        documentation-url = "https://likvid-bank.github.io/likvid-cloudfoundation/meshstack.html"
+      }
+    }
   }
 }
 
@@ -76,7 +113,7 @@ resource "terraform_data" "meshobjects_import" {
   provisioner "local-exec" {
     when    = create
     command = <<EOF
-curl -X PUT ${var.meshstack_api.endpoint}/api/meshobjects \
+curl --fail -X PUT ${var.meshstack_api.endpoint}/api/meshobjects \
   -H '${local.headers.contentType}' \
   -H '${local.headers.accept}' \
   -H '${local.headers.authorization}' \

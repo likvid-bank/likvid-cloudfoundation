@@ -120,14 +120,13 @@ resource "meshstack_buildingblock" "m25_online_banking_app_docs" {
   provider = meshstack.online_banking_app
   metadata = {
     definition_uuid    = "5a128cec-03cf-4aa4-ad66-d6f8848d351f"
-    definition_version = 5
-    tenant_identifier  = "${meshstack_project.m25_online_banking_app.metadata.owned_by_workspace}.${meshstack_project.m25_online_banking_app.metadata.name}.${meshstack_tenant.m25_online_banking_app.metadata.platform_identifier}"
+    definition_version = 10
+    tenant_identifier  = "${meshstack_project.m25_online_banking_app.metadata.owned_by_workspace}.${meshstack_project.m25_online_banking_app.metadata.name}.${meshstack_tenant.m25_online_banking_app_docs_repo.metadata.platform_identifier}"
   }
   spec = {
     display_name = "Online Banking App Documentation"
     inputs = {
-      file    = { value_string = "buckets/onlinebanking-docs" }
-      content = { value_string = "malhussan@meshcloud.io fnowarre@meshcloud.io hdettmer@meshcloud.io rbausinger@meshcloud.io" }
+      bucket_name = { value_string = "onlinebanking-docs-prod" }
     }
   }
 }
