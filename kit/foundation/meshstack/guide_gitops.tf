@@ -77,8 +77,13 @@ Application team has the following workspace, project, and tenant:
 ```bash
 Workspace `${terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.spec.displayName}`
 └── Project `${meshstack_project.m25_online_banking_app.spec.display_name}`
-    └── Tenant `${meshstack_tenant.m25_online_banking_app_docs_repo.spec.local_id}` (GitHub Repo - See [Custom Platforms Guide](https://likvid-bank.github.io/likvid-cloudfoundation/meshstack/guides/guide_custom_platforms.html) for details)
+    └── Tenant `${meshstack_tenant.m25_online_banking_app_docs_repo.spec.local_id}`
 ```
+
+:::tip
+See [GitHub as a Custom Platform](https://likvid-bank.github.io/likvid-cloudfoundation/meshstack/guides/guide_custom_platforms.html) for details on
+how the Application team tenant was created.
+:::
 
 Now that M25 platform team has their service published and application team may ordered the website hosting service: `${meshstack_buildingblock.m25_online_banking_app_docs.spec.display_name}`
 through their GitHub tenants. This triggered a [GitHub action workflow](https://github.com/likvid-bank/static-website-assets/actions). This action extracts the user from the Building Block
