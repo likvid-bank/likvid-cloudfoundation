@@ -14,7 +14,7 @@ They also want to provide more detailed information to their users e.g. what the
 when a step was successfully completed (e.g. login information or IDs).
 
 The scenario we are looking at: [M25 Platform Team](https://likvid-bank.github.io/likvid-cloudfoundation/meshstack/guides/business_platforms.html) has already built
-Cloud Formation template based automation on [GitHub actions](https://github.com/meshcloud/static-website-assets).
+Cloud Formation template based automation on [GitHub actions](https://github.com/likvid-bank/static-website-assets).
 The template provisons an S3 Bucket for serving static website assets (a component needed by many frontend teams) and assigns access permissions.
 
 ## Challenges
@@ -36,7 +36,7 @@ published to make it available to every user who wants to consume the "status we
 ### 1. Setting Up a Building Block Definition
 
 :::details
-The Building Block triggers an action in the static-website-assets [github repository](https://github.com/meshcloud/static-website-assets),
+The Building Block triggers an action in the static-website-assets [github repository](https://github.com/likvid-bank/static-website-assets),
 which provisions a web hosting enabled AWS S3 bucket.
 :::
 
@@ -49,7 +49,7 @@ API Key (which also must be scoped to this workplace) can't update the Building 
    Create a new Definition called `${local.buildingBlockDefinitions.m25-static-website-assets.spec.displayName}` from the "Service Management Area" of this workspace
 2. Select AWS as supported platform
 3. Use Terraform as Implementation Type (Once per tenant)
-4. Complete the Building Block Definition implementation as [defined](https://https://likvid-bank.github.io/likvid-cloudfoundation/platforms/github/buildingblocks/file/buildingblock.html)
+4. Complete the Building Block Definition implementation as [defined](https://likvid-bank.github.io/likvid-cloudfoundation/meshstack.html#github-action-trigger-building-block)
 
 ### 2. Setting Up the Github Action Pipeline
 
@@ -81,7 +81,7 @@ Workspace `${terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"
 ```
 
 Now that M25 platform team has their service published and application team may ordered the website hosting service: `${meshstack_buildingblock.m25_online_banking_app_docs.spec.display_name}`
-through their AWS tenants. This triggered a [GitHub action workflow](https://github.com/meshcloud/static-website-assets/actions). This action extracts the user from the Building Block
+through their AWS tenants. This triggered a [GitHub action workflow](https://github.com/likvid-bank/static-website-assets/actions). This action extracts the user from the Building Block
 Run data which is provided as an input and assigns permissions to all user on the project. Currently only admin users gain admin permissions.
 In the "Deploy Resources" workflow in the "Received Building Block Run" step you can see the decoded Building Block Run data for debugging.
 

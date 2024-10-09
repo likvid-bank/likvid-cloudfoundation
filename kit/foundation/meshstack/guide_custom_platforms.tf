@@ -10,10 +10,10 @@ using meshStack.
 Likvid Bank has a `${terraform_data.meshobjects_import["workspaces/devops-platform.yml"].output.spec.displayName}` team. Their job is to build Likvid Bank's internal developer platform.
 The first and essential service they want to offer for their platform is GitHub repositories.
 
-First thing they did was defining requirements to stay compliant while also making Application teams' life easier.
+The first thing they did was defining requirements to stay compliant while also making Application teams' life easier.
 
 - Secure: vulnerability alerts are always activated on new repositories.
-- Flexible: can choose from ready templates (code scaffoldings) to expedite development, but can also create a repository from scratch.
+- Flexible: application teams can choose from ready templates (code scaffoldings) to expedite development, but can also create a repository from scratch.
 
 ## Challenges
 
@@ -48,7 +48,7 @@ The Platform team has identified the following challenges:
     - `repo_html_url`: The HTML URL of the created repository. IMPORTANT: Assignment Type for this output should be `Sign In Url`.
     - `repo_git_clone_url`: The Git clone URL of the created repository.
 4. Create a new Custom Platform called `${local.customPlatformDefinitions.github-repository.spec.displayName}`.
-5. Select the appropriate platform type (e.g., GitHub).
+5. Select an appropriate platform type (e.g., GitHub). If you do not have one, you can create a new platform type in this step.
 6. Configure the necessary parameters for the Custom Platform:
     - `Description`: `${local.customPlatformDefinitions.github-repository.spec.description}`
     - `Web Console URL`: `${local.customPlatformDefinitions.github-repository.spec.web-console-url}`
@@ -57,8 +57,8 @@ The Platform team has identified the following challenges:
 
 ### 3. Publishing the GitHub Repository Service
 
-1. In the Custom Platform, create a Landing Zone `${local.landingZones.github-repository.spec.displayName}` that uses the Building Block Definition `${local.buildingBlockDefinitions.github-repository.spec.displayName}` as Mandatory Building Block.
-2. Publish the Custom Platform Definition to make it available in the meshStack marketplace.
+1. In the Custom Platform, create a Landing Zone `${local.landingZones.github-repository.spec.displayName}` that uses the Building Block Definition `${local.buildingBlockDefinitions.github-repository.spec.displayName}` as a Mandatory Building Block.
+2. Publish the new Custom Platform to make it available in meshStack marketplace.
 3. An Admin will review and approve publishing the Custom Platform.
 
 ### 4. Application Team Consuming the Service
