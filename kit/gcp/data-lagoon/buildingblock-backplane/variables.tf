@@ -1,0 +1,2 @@
+variable "folder_id" {}
+
