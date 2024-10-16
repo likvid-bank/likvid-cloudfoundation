@@ -40,12 +40,12 @@ Our goal is to provide the following access in meshStack
 
 To implement this, we set up the following tags + policies
 
-- Tag `${local.tags.BusinessUnit}` with value `M25` on Workspaces, Landing Zones and Building Block Definitions
-- Policy `${local.policies.RestrictLandingZoneToWorkspaceBusinessUnit.policy}`
-- Policy `${local.policies.RestrictBuildingBlockToWorkspaceBusinessUnit.policy}`
+- Tag `${tags_BusinessUnit}` with value `M25` on Workspaces, Landing Zones and Building Block Definitions
+- Policy `${policy_RestrictLandingZoneToWorkspaceBusinessUnit}`
+- Policy `${policy_RestrictBuildingBlockToWorkspaceBusinessUnit}`
 
 :::tip
-You can model the `${local.tags.BusinessUnit}` tag as an administrative tag, so that its values can only be
+You can model the `${tags_BusinessUnit}` tag as an administrative tag, so that its values can only be
 set and modified by the cloud foundation team.
 :::
 
@@ -57,28 +57,28 @@ untagged subjects will pass policy evaluation.
 
 ## Onboarding the M25 Platform Team
 
-The Likvid Bank Cloud Foundation Team now creates a dedicated Workspace `${terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.spec.displayName}`
+The Likvid Bank Cloud Foundation Team now creates a dedicated Workspace `${meshobjects_import_workspaces_m25_platform_yml_output_spec_displayName }`
 and enables them as a [Landing Zone Contributor]() on the AWS Platform. <!--TODO Link LZ Contributor docs once available-->
 
-The M25 Platform team then proceeds to create its first Landing Zone `${local.landingZones.m25-cloud-native.spec.displayName}` using the [M25 Platform OU](/platforms/aws/m25.md).
-They tag this landing zone `${local.tags.BusinessUnit}: ${join(", ", local.landingZones.m25-cloud-native.spec.tags.BusinessUnit)}`.
+The M25 Platform team then proceeds to create its first Landing Zone `${landinZones_m25_cloud_native_spec_displayName}` using the [M25 Platform OU](/platforms/aws/m25.md).
+They tag this landing zone `${tags_BusinessUnit}: ${landinZones_m25_cloud_native_spec_tags_BusinessUnit}`.
 
-The M25 Platform team also creates a Building Block Definition `${local.buildingBlockDefinitions.m25-domain.spec.displayName}`.
-This building block allows application teams to ${lower(local.buildingBlockDefinitions.m25-domain.spec.description)}
-They tag this building block `${local.tags.BusinessUnit}: ${join(", ", local.buildingBlockDefinitions.m25-domain.spec.tags.BusinessUnit)}`.
+The M25 Platform team also creates a Building Block Definition `${buildingBlockDefinitions_m25_domain_spec_displayName}`.
+This building block allows application teams to ${buildingBlockDefinitions_m25_domain_spec_description}
+They tag this building block `${tags_BusinessUnit}: ${buildingBlockDefinitions_m25_domain_spec_tags_businessUnit}`.
 
 ## Onboarding an M25 Application Team
 
 To verify that the configured Policies work as intended to deliver the desired application team experience,
-we'll create the workspace `${terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.spec.displayName}`
-and tag it with `${local.tags.BusinessUnit}: ${join(", ", terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.spec.tags.BusinessUnit)}`.
+we'll create the workspace `${meshstack_project_m25_online_banking_app_spec_display_name}`
+and tag it with `${tags_BusinessUnit}: ${meshobjects_import_output_spec_tags_BusinessUnit}")}`.
 
-This workspace now has access to only the `${local.landingZones.m25-cloud-native.spec.displayName}` Landing Zone and can create tenants on it
-as well as use the `${local.buildingBlockDefinitions.m25-domain.spec.displayName}` Building Block.
+This workspace now has access to only the `${landinZones_m25_cloud_native_spec_displayName}` Landing Zone and can create tenants on it
+as well as use the `${buildingBlockDefinitions_m25_domain_spec_displayName}` Building Block.
 
 :::tip
-To verify other workspaces do not have access to the `${local.landingZones.m25-cloud-native.name}` Landing Zone,
-simply use a workspace tagged with a different (or no) `${local.tags.BusinessUnit}` tag like `${terraform_data.meshobjects_import["workspaces/likvid-mobile.yml"].output.spec.displayName}`
+To verify other workspaces do not have access to the `${landinZones_m25_cloud_native_spec_name}` Landing Zone,
+simply use a workspace tagged with a different (or no) `${tags_BusinessUnit}` tag like `${meshobjects_import_workspaces_likvid_mobile_yml_output_spec_displayName}`
 and try using any of the M25-specific landing zones or building blocks.
 :::
 

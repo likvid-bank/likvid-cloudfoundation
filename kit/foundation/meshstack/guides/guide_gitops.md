@@ -1,5 +1,3 @@
-locals {
-  guide_gitops = <<EOF
 # Integrating Existing Automation and GitOps Pipelines
 
 This guide shows you how you can solve common scenarios for integrating existing automation and orchestration
@@ -41,12 +39,12 @@ which provisions a web hosting enabled AWS S3 bucket.
 :::
 
 :::details
-It is important that the Building Block Definition is owned by the `${terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.spec.displayName}` workspace. Otherwise the
+It is important that the Building Block Definition is owned by the `${meshobjects_import_workspaces_m25-platform_yml_output_spec_displayName}` workspace. Otherwise the
 API Key (which also must be scoped to this workplace) can't update the Building Block Runs.
 :::
 
-1. The Definition is created by the M25 Platform team within their workspace: `${terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.spec.displayName}`.
-   Create a new Definition called `${local.buildingBlockDefinitions.m25-static-website-assets.spec.displayName}` from the "Service Management Area" of this workspace
+1. The Definition is created by the M25 Platform team within their workspace: `${meshobjects_import_workspaces_m25_platform_yml_output_spec_displayName}`.
+   Create a new Definition called `${buildingBlockDefinitions_m25-static-website-assets_spec_displayName}` from the "Service Management Area" of this workspace
 2. Select GitHub as supported platform
 3. Use Terraform as Implementation Type (Once per tenant)
 4. Complete the Building Block Definition implementation as [defined](https://likvid-bank.github.io/likvid-cloudfoundation/meshstack.html#github-action-trigger-building-block)
@@ -75,9 +73,9 @@ In the repository settings you also need to configure the following environment 
 Application team has the following workspace, project, and tenant:
 
 ```bash
-Workspace `${terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.spec.displayName}`
-└── Project `${meshstack_project.m25_online_banking_app.spec.display_name}`
-    └── Tenant `${meshstack_tenant.m25_online_banking_app_docs_repo.spec.local_id}`
+Workspace `${meshobjects_import_workspaces_m25_online_banki_yml_output_spec_displayName}`
+└── Project `${meshstack_project_m25_online_banking_app_spec_display_name}`
+    └── Tenant `${meshstack_tenant_m25_online_banking_app_docs_repo_spec_local_id}`
 ```
 
 :::tip
@@ -85,7 +83,7 @@ See [GitHub as a Custom Platform](https://likvid-bank.github.io/likvid-cloudfoun
 how the Application team tenant was created.
 :::
 
-Now that M25 platform team has their service published and application team may ordered the website hosting service: `${meshstack_buildingblock.m25_online_banking_app_docs.spec.display_name}`
+Now that M25 platform team has their service published and application team may ordered the website hosting service: `${meshstack_project_m25_online_banking_app_spec_display_name}`
 through their GitHub tenants. This triggered a [GitHub action workflow](https://github.com/likvid-bank/static-website-assets/actions). This action extracts the user from the Building Block
 Run data which is provided as an input and assigns permissions to all user on the project. Currently only admin users gain admin permissions.
 In the "Deploy Resources" workflow in the "Received Building Block Run" step you can see the decoded Building Block Run data for debugging.
@@ -93,8 +91,6 @@ In the "Deploy Resources" workflow in the "Received Building Block Run" step you
 ### 3. Provide Building Block Status from external System
 
 The status is already automatically reported back by the example GitOps pipeline. This is how the pipeline does it: first need an API Key with the permission to write/update Building Block Run
-sources. This API key must be scoped to the repository ${terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.spec.displayName} (in which the Building Block definition lives).
+sources. This API key must be scoped to the repository ${meshobjects_import_workspaces_m25_platform_yml_output_spec_displayName} (in which the Building Block definition lives).
 You then need to fetch an access token from this API key and then you can use the [meshObject API](https://federation.demo.meshcloud.io/docs/index.html#mesh_buildingblockrun) in order
 to register steps or report back the current status of those steps. Please keep in mind that this only works when the Building Block is asynchronous.
-EOF
-}

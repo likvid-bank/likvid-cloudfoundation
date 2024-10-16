@@ -121,15 +121,40 @@ EOF
 }
 
 locals {
-  md_files    = fileset("${path.module}/guides", "*.md")
-  md_contents = { for f in local.md_files : replace(basename(f), ".md", "") => "\n${file("${path.module}/guides/${f}")}\n" }
+  md_files = fileset("${path.module}/guides", "*.md")
+  md_contents = {
+    for f in local.md_files :
+    replace(basename(f), ".md", "") => templatefile("${path.module}/guides/${f}", {
+      meshobjects_import_workspaces_devops_platform_yml_output_spec_displayName  = terraform_data.meshobjects_import["workspaces/devops-platform.yml"].output.spec.displayName,
+      buildingBlockDefinitions_github_repository_spec_displayName                = local.buildingBlockDefinitions.github-repository.spec.displayName,
+      platformDefinitions_github_repository_spec_displayName                     = local.customPlatformDefinitions.github-repository.spec.displayName,
+      platformDefinitions_github_repository_spec_description                     = local.customPlatformDefinitions.github-repository.spec.description,
+      platformDefinitions_github_repository_spec_web_console_url                 = local.customPlatformDefinitions.github-repository.spec.web-console-url,
+      platformDefinitions_github_repository_spec_support_url                     = local.customPlatformDefinitions.github-repository.spec.support-url,
+      platformDefinitions_github_repository_spec_documentation_url               = local.customPlatformDefinitions.github-repository.spec.documentation-url,
+      landingZones_github_repository_spec_displayName                            = local.landingZones.github-repository.spec.displayName,
+      meshobjects_import_workspaces_m25_online_banki_yml_output_spec_displayName = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.spec.displayName,
+      meshstack_project_m25_online_banking_app_spec_display_name                 = meshstack_project.m25_online_banking_app.spec.display_name,
+      meshstack_tenant_m25_online_banking_app_docs_repo_spec_local_id            = meshstack_tenant.m25_online_banking_app_docs_repo.spec.local_id
+      tags_BusinessUnit                                                          = local.tags.BusinessUnit,
+      policy_RestrictLandingZoneToWorkspaceBusinessUnit                          = local.policies.RestrictLandingZoneToWorkspaceBusinessUnit.policy,
+      policy_RestrictBuildingBlockToWorkspaceBusinessUnit                        = local.policies.RestrictBuildingBlockToWorkspaceBusinessUnit.policy,
+      meshobjects_import_workspaces_m25_platform_yml_output_spec_displayName     = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.spec.displayName,
+      landinZones_m25_cloud_native_spec_displayName                              = local.landingZones.m25-cloud-native.spec.displayName,
+      landinZones_m25_cloud_native_spec_tags_BusinessUnit                        = "${local.tags.BusinessUnit}: ${join(", ", local.landingZones.m25-cloud-native.spec.tags.BusinessUnit)}",
+      buildingBlockDefinitions_m25_domain_spec_displayName                       = local.buildingBlockDefinitions.m25-domain.spec.displayName,
+      meshobjects_import_workspaces_likvid_mobile_yml_output_spec_displayName    = terraform_data.meshobjects_import["workspaces/likvid-mobile.yml"].output.spec.displayName,
+      landinZones_m25_cloud_native_spec_name                                     = local.landingZones.m25-cloud-native.name
+      buildingBlockDefinitions_m25_domain_spec_description                       = lower(local.buildingBlockDefinitions.m25-domain.spec.description),
+      buildingBlockDefinitions_m25_domain_spec_tags_businessUnit                 = join(", ", local.buildingBlockDefinitions.m25-domain.spec.tags.BusinessUnit),
+      meshobjects_import_output_spec_tags_BusinessUnit                           = join(", ", terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.spec.tags.BusinessUnit),
+      buildingBlockDefinitions_m25-static-website-assets_spec_displayName        = local.buildingBlockDefinitions.m25-static-website-assets.spec.displayName,
+      meshobjects_import_workspaces_m25-platform_yml_output_spec_displayName     = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.spec.displayName
+
+    })
+  }
 }
 
 output "documentation_guides_md" {
-  value = merge(local.md_contents,
-    {
-      "guide_gitops"           = local.guide_gitops,
-      "guide_custom_platforms" = local.guide_custom_platforms
-    }
-  )
+  value = local.md_contents
 }
