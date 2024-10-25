@@ -21,7 +21,7 @@ data "azurerm_role_definition" "keyvault" {
 }
 
 resource "azurerm_role_assignment" "cloudfoundation_tfdeploy" {
-  principal_id         = azuread_group.platform_engineers.id
+  principal_id         = azuread_group.platform_engineers.object_id
   scope                = azurerm_key_vault.key_vault.id
   role_definition_name = data.azurerm_role_definition.keyvault.name
 }

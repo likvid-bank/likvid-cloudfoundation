@@ -77,7 +77,7 @@ collie foundation deploy --bootstrap -- destroy
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 2.53.1 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 3.0.2 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.116.0 |
 
 ## Modules
@@ -90,9 +90,9 @@ collie foundation deploy --bootstrap -- destroy
 
 | Name | Type |
 |------|------|
-| [azuread_directory_role.readers](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/resources/directory_role) | resource |
-| [azuread_directory_role_assignment.validation_reader](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/resources/directory_role_assignment) | resource |
-| [azuread_group.platform_engineers](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/resources/group) | resource |
+| [azuread_directory_role.readers](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/resources/directory_role) | resource |
+| [azuread_directory_role_assignment.validation_reader](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/resources/directory_role_assignment) | resource |
+| [azuread_group.platform_engineers](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/resources/group) | resource |
 | [azurerm_federated_identity_credential.docs](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/federated_identity_credential) | resource |
 | [azurerm_federated_identity_credential.validation](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/federated_identity_credential) | resource |
 | [azurerm_key_vault.key_vault](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/key_vault) | resource |
@@ -108,8 +108,8 @@ collie foundation deploy --bootstrap -- destroy
 | [azurerm_role_definition.validation_reader](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_definition) | resource |
 | [azurerm_user_assigned_identity.docs](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/user_assigned_identity) | resource |
 | [azurerm_user_assigned_identity.validation](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/user_assigned_identity) | resource |
-| [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/data-sources/client_config) | data source |
-| [azuread_users.platform_engineers_members](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/data-sources/users) | data source |
+| [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/data-sources/client_config) | data source |
+| [azuread_users.platform_engineers_members](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/data-sources/users) | data source |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/data-sources/client_config) | data source |
 | [azurerm_management_group.parent](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/data-sources/management_group) | data source |
 | [azurerm_role_definition.keyvault](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/data-sources/role_definition) | data source |

@@ -19,7 +19,7 @@ output "container_name" {
 }
 
 output "principal_id" {
-  value = azuread_service_principal.buildingblock.id
+  value = azuread_service_principal.buildingblock.object_id
 }
 
 output "client_id" {

@@ -1,5 +1,5 @@
 output "platform_engineers_azuread_group_id" {
-  value = azuread_group.platform_engineers.id
+  value = azuread_group.platform_engineers.object_id
 }
 
 output "platform_engineers_azuread_group_displayname" {

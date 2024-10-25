@@ -29,5 +29,5 @@ output "firewall_name" {
 }
 
 output "network_admins_azuread_group_id" {
-  value = azuread_group.network_admins.id
+  value = azuread_group.network_admins.object_id
 }

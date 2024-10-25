@@ -22,7 +22,7 @@ Microsoft Cost Management is a suite of tools that help organizations monitor, a
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 2.53.1 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 3.0.2 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.116.0 |
 
 ## Modules
@@ -33,8 +33,8 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azuread_group.billing_admins](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/resources/group) | resource |
-| [azuread_group.billing_readers](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/resources/group) | resource |
+| [azuread_group.billing_admins](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/resources/group) | resource |
+| [azuread_group.billing_readers](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/resources/group) | resource |
 | [azurerm_consumption_budget_management_group.tenant_root_group](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/consumption_budget_management_group) | resource |
 | [azurerm_role_assignment.cost_management_contributor](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.cost_management_reader](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_assignment) | resource |
