@@ -21,7 +21,7 @@ terraform {
     resource_group_name   = "${dependency.automation.outputs.resource_group_name}"
     storage_account_name  = "${dependency.automation.outputs.storage_account_name}"
     container_name        = "${dependency.automation.outputs.container_name}"
-    key                   = "budget-alert.tfstate"
+    key                   = "custom-permissions.tfstate"
 
     client_id             = "${dependency.automation.outputs.client_id}"
     client_secret         = "${dependency.automation.outputs.client_secret}"
@@ -32,7 +32,6 @@ provider "azurerm" {
   features {}
 
   skip_provider_registration = false
-  storage_use_azuread        = true
 
   tenant_id       = "${dependency.automation.outputs.tenant_id}"
 
@@ -42,13 +41,24 @@ provider "azurerm" {
   client_id             = "${dependency.automation.outputs.client_id}"
   client_secret         = "${dependency.automation.outputs.client_secret}"
 }
+
+provider "azuread" {
+  tenant_id       = "${dependency.automation.outputs.tenant_id}"
+
+  client_id       = "${dependency.automation.outputs.client_id}"
+  client_secret   = "${dependency.automation.outputs.client_secret}"
+}
 EOF
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/azure/buildingblocks/budget-alert/buildingblock"
+  source = "${get_repo_root()}//kit/azure/buildingblocks/custom-permissions/buildingblock"
 }
 
 inputs = {
-  subscription_id = "c4a1f7bc-9a89-4a8d-a03f-3df5c639bd5d"
+  # https://portal.azure.com/#@devmeshcloud.onmicrosoft.com/resource/subscriptions/a7d09781-d7a9-4e0b-a93c-c9e95d079a13/users
+  subscription_id      = "717b13ac-2baa-4899-b90c-c91723f23c21"
+  workspace_identifier = "likvid-mobile"
+  project_identifier   = "develop"
+  users                = []
 }

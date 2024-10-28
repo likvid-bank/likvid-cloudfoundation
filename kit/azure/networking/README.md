@@ -21,7 +21,7 @@ on the internet.
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 2.53.1 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 3.0.2 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.116.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | 3.6.0 |
 
@@ -33,7 +33,7 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azuread_group.network_admins](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/resources/group) | resource |
+| [azuread_group.network_admins](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/resources/group) | resource |
 | [azurerm_firewall.fw](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/firewall) | resource |
 | [azurerm_firewall_application_rule_collection.fw](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/firewall_application_rule_collection) | resource |
 | [azurerm_firewall_nat_rule_collection.fw](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/firewall_nat_rule_collection) | resource |

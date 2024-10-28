@@ -16,7 +16,7 @@ has the right permissions to deploy the building block implementation to a targe
 
 | Name | ID | Client ID |
 | --- | --- | --- |
-| `${azuread_service_principal.buildingblock.display_name}` | `${azuread_service_principal.buildingblock.id}` | `${azuread_service_principal.buildingblock.client_id}` |
+| `${azuread_service_principal.buildingblock.display_name}` | `${azuread_service_principal.buildingblock.object_id}` | `${azuread_service_principal.buildingblock.client_id}` |
 
 ## 🗃️ Storage Account
 

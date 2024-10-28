@@ -3,7 +3,9 @@ locals {
     for x in fileset(var.foundation_dir, "**/terragrunt.hcl") : trimsuffix(x, "/terragrunt.hcl")
     if(
       !strcontains(x, ".terragrunt-cache") && # this might not be required, check
-      !strcontains(x, "/tenants/")            # we don't document individual tenants, though maybe we should?
+      !strcontains(x, "/tenants/") &&         # we don't document individual tenants, though maybe we should?
+      !strcontains(x, ".test")                # exclude folders with .test in the name
+
     )
   ])
 

@@ -29,7 +29,7 @@ The only alternatives I see
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 2.53.1 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 3.0.2 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.116.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | 3.6.0 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | 0.11.1 |
@@ -42,10 +42,10 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azuread_app_role_assignment.buildingblock-directory](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/resources/app_role_assignment) | resource |
-| [azuread_application.buildingblock](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/resources/application) | resource |
-| [azuread_service_principal.buildingblock](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/resources/service_principal) | resource |
-| [azuread_service_principal_password.buildingblock](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/resources/service_principal_password) | resource |
+| [azuread_app_role_assignment.buildingblock-directory](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/resources/app_role_assignment) | resource |
+| [azuread_application.buildingblock](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/resources/application) | resource |
+| [azuread_service_principal.buildingblock](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/resources/service_principal) | resource |
+| [azuread_service_principal_password.buildingblock](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/resources/service_principal_password) | resource |
 | [azurerm_management_group_policy_assignment.buildingblock_access](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/management_group_policy_assignment) | resource |
 | [azurerm_policy_definition.buildingblock_access](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/policy_definition) | resource |
 | [azurerm_resource_group.tfstates](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/resource_group) | resource |
@@ -57,8 +57,8 @@ No modules.
 | [azurerm_storage_container.tfstates](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/storage_container) | resource |
 | [random_string.resource_code](https://registry.terraform.io/providers/hashicorp/random/3.6.0/docs/resources/string) | resource |
 | [time_rotating.key_rotation](https://registry.terraform.io/providers/hashicorp/time/0.11.1/docs/resources/rotating) | resource |
-| [azuread_application_published_app_ids.well_known](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/data-sources/application_published_app_ids) | data source |
-| [azuread_service_principal.msgraph](https://registry.terraform.io/providers/hashicorp/azuread/2.53.1/docs/data-sources/service_principal) | data source |
+| [azuread_application_published_app_ids.well_known](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/data-sources/application_published_app_ids) | data source |
+| [azuread_service_principal.msgraph](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/data-sources/service_principal) | data source |
 | [azurerm_key_vault.cf_key_vault](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/data-sources/key_vault) | data source |
 | [azurerm_role_definition.keyvault_administrator](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/data-sources/role_definition) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/data-sources/subscription) | data source |
