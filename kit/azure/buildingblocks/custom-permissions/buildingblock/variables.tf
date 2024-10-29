@@ -15,17 +15,17 @@ variable "project_identifier" {
 # atm. we are not using them inside this building block implementation, but they give us a trigger to often reconcile
 # the permissions
 
-# variable "users" {
-#   type = list(object(
-#     {
-#       meshIdentifier = string
-#       username       = string
-#       firstName      = string
-#       lastName       = string
-#       email          = string
-#       euid           = string
-#       roles          = list(string)
-#     }
-#   ))
-#   description = "Users and their roles provided by meshStack"
-# }
+variable "users" {
+  type = list(object(
+    {
+      meshIdentifier = string
+      username       = string
+      firstName      = string
+      lastName       = string
+      email          = string
+      euid           = string
+      roles          = list(string)
+    }
+  ))
+  description = "Users and their roles provided by meshStack"
+}
