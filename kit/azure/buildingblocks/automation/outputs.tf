@@ -18,6 +18,10 @@ output "container_name" {
   value = azurerm_storage_container.tfstates.name
 }
 
+output "resource_manager_id" {
+  value = azurerm_storage_container.tfstates.resource_manager_id
+}
+
 output "principal_id" {
   value = azuread_service_principal.buildingblock.object_id
 }
@@ -30,3 +34,4 @@ output "client_secret" {
   value     = azuread_service_principal_password.buildingblock.value
   sensitive = true
 }
+
