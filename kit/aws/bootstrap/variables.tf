@@ -8,6 +8,11 @@ variable "tf_backend_account_id" {
   description = "The id of the management account"
 }
 
+variable "networking_account_id" {
+  type        = string
+  description = "The id of the management account"
+}
+
 variable "parent_ou_id" {
   type        = string
   description = "Id of the parent OU used for all accounts in this platform"

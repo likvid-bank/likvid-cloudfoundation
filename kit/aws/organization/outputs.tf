@@ -17,3 +17,8 @@ output "landingzones_ou_id" {
   value       = aws_organizations_organizational_unit.landingzones.id
   description = "id of the landingzones organizational unit"
 }
+
+output "landingzones_ou_arn" {
+  value       = aws_organizations_organizational_unit.landingzones.arn
+  description = "arn of the landingzones organizational unit"
+}
