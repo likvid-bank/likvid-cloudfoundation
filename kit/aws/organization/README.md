@@ -42,6 +42,7 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
+| <a name="output_landingzones_ou_arn"></a> [landingzones\_ou\_arn](#output\_landingzones\_ou\_arn) | arn of the landingzones organizational unit |
 | <a name="output_landingzones_ou_id"></a> [landingzones\_ou\_id](#output\_landingzones\_ou\_id) | id of the landingzones organizational unit |
 | <a name="output_org_id"></a> [org\_id](#output\_org\_id) | organiztion id |
 | <a name="output_org_root_id"></a> [org\_root\_id](#output\_org\_root\_id) | id of the organization's root (AWS currently supports only a single root) |

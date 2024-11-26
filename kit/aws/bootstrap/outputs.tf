@@ -12,3 +12,8 @@ output "tf_backend_account_id" {
   value       = var.tf_backend_account_id
   description = "The id of the management account"
 }
+
+output "networking_account_id" {
+  value = var.networking_account_id
+  description = "The id of the networking account"
+}

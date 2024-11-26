@@ -19,14 +19,13 @@ EOF
 }
 
 inputs = {
-  aws_root_account_id = include.platform.locals.platform.aws.accountId
-
+  aws_root_account_id   = include.platform.locals.platform.aws.accountId
   foundation            = "likvid-prod"
   github_repo_full_name = "likvid-bank/likvid-cloudfoundation"
-
   parent_ou_id          = "ou-rpqz-vx54f60i"
   validation_role_name  = include.platform.locals.roles.validation
   tf_backend_account_id = "490004649140"
+  networking_account_id = "676206941913"
   management_account_id = "${include.platform.locals.platform.aws.accountId}"
   platform_engineers_group = {
     name = "${include.platform.locals.cloudfoundation}-foundation-platform-engineers"
