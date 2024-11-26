@@ -56,7 +56,9 @@ This kit provides a Terraform configuration for setting up Azure Management Grou
 
 | Name | Description |
 |------|-------------|
+| <a name="output_corp_dev_id"></a> [corp\_dev\_id](#output\_corp\_dev\_id) | id of the corp dev management group |
 | <a name="output_corp_id"></a> [corp\_id](#output\_corp\_id) | id of the corp management group |
+| <a name="output_corp_prod_id"></a> [corp\_prod\_id](#output\_corp\_prod\_id) | id of the corp prod  management group |
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
 | <a name="output_online_id"></a> [online\_id](#output\_online\_id) | id of the online management group |
 <!-- END_TF_DOCS -->
