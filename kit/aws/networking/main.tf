@@ -10,7 +10,7 @@ module "tgw" {
   ram_allow_external_principals = var.ram_allow_external_principals
   ram_principals                = [var.ram_principals]
 
-  tags = var.tgw_tags
+  tags = [var.tgw_tags]
 }
 
 # module "vpc" {

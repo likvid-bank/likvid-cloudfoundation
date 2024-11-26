@@ -32,9 +32,9 @@ EOF
 }
 
 inputs = {
-  tgw_name = "likvid-tgw"
-  tgw_description = "this is the central transit gateway for likvid"
+  tgw_name                              = "likvid-tgw"
+  tgw_description                       = "this is the central transit gateway for likvid"
   enable_auto_accept_shared_attachments = true
-  ram_principals = [dependency.organization.outputs.landingzones_ou_arn]
+  ram_principals                        = [dependency.organization.outputs.landingzones_ou_arn]
   #ram_tags = ""
 }
