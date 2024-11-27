@@ -21,7 +21,6 @@ generate "provider" {
   contents  = <<EOF
 
 provider "aws" {
-  alias  = "networking"
   region = "eu-central-1"
   assume_role {
     role_arn = "arn:aws:iam::${dependency.bootstrap.outputs.networking_account_id}:role/OrganizationAccountAccessRole"
@@ -36,5 +35,6 @@ inputs = {
   tgw_description                       = "this is the central transit gateway for likvid"
   enable_auto_accept_shared_attachments = true
   ram_principals                        = [dependency.organization.outputs.landingzones_ou_arn]
+  transit_gateway_cidr_blocks           = ["10.99.0.0/24"]
   #ram_tags = ""
 }

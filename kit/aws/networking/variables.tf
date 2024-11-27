@@ -32,3 +32,8 @@ variable "ram_tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "transit_gateway_cidr_blocks" {
+  description = "List of CIDR blocks for the transit gateway"
+  type        = list(string)
+}
