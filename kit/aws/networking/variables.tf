@@ -6,7 +6,7 @@ variable "tgw_name" {
 variable "tgw_description" {
   type        = string
   description = "Description of the transit gateway"
-  default = null
+  default     = null
 }
 
 variable "enable_auto_accept_shared_attachments" {
