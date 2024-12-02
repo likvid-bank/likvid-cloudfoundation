@@ -6,6 +6,7 @@ provider "registry.opentofu.org/hashicorp/azuread" {
   constraints = "3.0.2"
   hashes = [
     "h1:PR5jdxyT2yWQdEUvQgKja9G67S6MD5CNnrZcRE7kGNU=",
+    "h1:eXsdLcyHK81qpkmSv75A3WQlGLV5l0nj7T82ySs3sOU=",
     "zh:2d90764d50b3539b0275de0ae8470a1d024f081a58e48fe695d52908228ae93c",
     "zh:308de133e725b081fbcdb8df983e6cd43afbf5f64e1323ae6ccae1a42adf6add",
     "zh:66314a7874ab548f20a1f7981c9807cbbffc4753f361d7effe8f28e201521c31",
@@ -23,6 +24,7 @@ provider "registry.opentofu.org/meshcloud/meshstack" {
   version     = "0.5.3"
   constraints = "~> 0.5.0"
   hashes = [
+    "h1:GMUT7Py/0cSgHpOy/RjbjlmYo05lkuu+dguCSSDz574=",
     "h1:nTLpJYlQ4byy2JWSpcxMTGRxd0V49omMG+tStz7BOIg=",
     "zh:29e898a53bd368f52edab0e0a546ff897fbcb2261cfc5563c9f62896ab685bbb",
     "zh:2e5a5050f778409a1168a1939ae705144e55d5f14b8342bbe94be0ed868a9895",
