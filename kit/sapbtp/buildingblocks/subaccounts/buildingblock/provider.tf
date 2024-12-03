@@ -6,3 +6,24 @@ terraform {
     }
   }
 }
+# we are using the building block backend from AWS Automation
+terraform {
+  backend "s3" {
+    bucket = "buildingblocks-tfstates-p32kj" # Must match what's configured in automation backend
+    key    = "terraform/sapbtp-subaccount"
+    region = "eu-central-1"
+  }
+}
+
+provider "aws" {
+  region = "eu-central-1"
+
+  assume_role {
+    role_arn = "arn:aws:iam::${var.account_id}:role/LikvidBuildingBlockServiceRole" # Must match what's configured in automation backend
+  }
+}
+
+provider "btp" {
+  globalaccount = var.globalaccount
+  # using ENV vars in meshStack for username and password
+}
