@@ -23,3 +23,8 @@ variable "project" {
   type        = string
   description = "The meshStack project identifier."
 }
+
+variable "parent_id" {
+  description = "The ID of the parent resource."
+  type        = string
+}
