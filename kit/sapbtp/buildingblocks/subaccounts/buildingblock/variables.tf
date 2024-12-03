@@ -10,7 +10,7 @@ variable "globalaccount" {
 
 variable "region" {
   type        = string
-  defauft     = "cf-eu30"
+  default     = "cf-eu30"
   description = "The region of the subaccount."
 }
 
