@@ -64,6 +64,18 @@ locals {
         }
       }
     }
+    sap-core-platform = {
+      name = "sap-core-platform"
+      spec = {
+        displayName       = "SAP BTP core Platform"
+        description       = "Provisions a Subaccount in our Likvid Bank SAP BTP Environment."
+        web-console-url   = "https://emea.cockpit.btp.cloud.sap"
+        documentation-url = "https://likvid-bank.github.io/likvid-cloudfoundation/sap.html"
+        tags = {
+          BusinessUnit = ["IT"]
+        }
+      }
+    }
   }
 
   buildingBlockDefinitions = {
