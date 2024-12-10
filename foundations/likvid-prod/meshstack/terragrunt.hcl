@@ -68,6 +68,13 @@ provider "meshstack" {
   apikey    = "cf4d794d-5176-44eb-9e69-ad80ce9bfedc"
   apisecret = "${get_env("MESHSTACK_API_KEY_ONLINE_BANKING_APP")}"
 }
+
+provider "meshstack" {
+  alias = "sap_core_platform"
+  endpoint  = "https://federation.demo.meshcloud.io"
+  apikey    = "7a309ce7-439e-4bdb-b75f-e5c4b001b349"
+  apisecret = "${get_env("MESHSTACK_API_KEY_SAP_CORE_PLATFORM")}"
+}
 EOF
 }
 

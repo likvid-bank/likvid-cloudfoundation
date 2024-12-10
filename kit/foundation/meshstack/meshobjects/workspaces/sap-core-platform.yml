@@ -13,5 +13,3 @@ spec:
     - IT
     SecurityContact:
     - sap-core-platform@likvid.meshcloud.io
-
-    # todo: landingzone clearance is missing
