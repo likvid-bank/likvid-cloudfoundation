@@ -11,7 +11,6 @@ locals {
   }
 }
 
-
 # todo: replace by tag definition resources once supported
 locals {
   tags = {
@@ -28,6 +27,7 @@ locals {
     }
   }
 
+  # TODO: missing ones
   landingZones = {
     m25-cloud-native = {
       name = "m25-cloud-native"
@@ -64,6 +64,7 @@ locals {
         }
       }
     }
+
     sap-core-platform = {
       name = "sap-core-platform"
       spec = {
@@ -111,6 +112,17 @@ locals {
         web-console-url   = "https://github.com/likvid-bank"
         support-url       = "https://meshcloud.slack.com/archives/C0681JFCUQP"
         documentation-url = "https://likvid-bank.github.io/likvid-cloudfoundation/meshstack.html"
+      }
+    }
+
+    sap-btp-subaccounts = {
+      name = "sap-btp-subaccounts"
+      spec = {
+        displayName       = "SAP BTP Subaccounts"
+        description       = "A new SAP BTP Subaccount will be created via terraform."
+        web-console-url   = "https://github.com/likvid-bank"
+        support-url       = "https://meshcloud.slack.com/archives/C0681JFCUQP"
+        documentation-url = "https://likvid-bank.github.io/likvid-cloudfoundation/platform/sap.html"
       }
     }
   }

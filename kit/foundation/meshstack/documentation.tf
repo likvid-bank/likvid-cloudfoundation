@@ -150,7 +150,8 @@ locals {
       meshobjects_import_output_spec_tags_BusinessUnit                            = join(", ", terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.spec.tags.BusinessUnit),
       buildingBlockDefinitions_m25-static-website-assets_spec_displayName         = local.buildingBlockDefinitions.m25-static-website-assets.spec.displayName,
       meshobjects_import_workspaces_m25-platform_yml_output_spec_displayName      = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.spec.displayName,
-      meshobjects_import_workspaces_sap_core_platform_yml_output_spec_displayName = terraform_data.meshobjects_import["workspaces/sap-core-platform.yml"].output.spec.displayName
+      meshobjects_import_workspaces_sap_core_platform_yml_output_spec_displayName = terraform_data.meshobjects_import["workspaces/sap-core-platform.yml"].output.spec.displayName,
+      meshstack_project_sap_core_platform_spec_display_name                       = meshstack_project.sap_core_platform.spec.display_name
     })
   }
 }
