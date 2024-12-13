@@ -21,7 +21,13 @@ The Platform team has identified the following challenges:
 
 ## Implementation
 
+1. Setup a [SAP Universal ID](https://account.sap.com/core/create) for login to SAP
+2. create a user which have permissions for creating subaccounts in your BTP Cockpit. Terraform will use it for the creation of the infrastructure.
+
 ### 2. Setting Up a Custom Platform
+
+1. Navigate to the "Service Management Area" of the Platform team's workspace: `${meshobjects_import_workspaces_sap_core_platform_yml_output_spec_displayName}`
+
 
 ### 3. Publishing the SAPBTP Custom Service
 
@@ -29,8 +35,8 @@ The Platform team has identified the following challenges:
 
 1. The Application team has the following workspace, project:
    ```bash
-   Workspace ``
-   └── Project ``
+   Workspace `${meshobjects_import_workspaces_sap_core_platform_yml_output_spec_displayName}`
+   └── Project `${meshstack_project_sap_core_platform_spec_display_name}`
    ```
 2. The Application team navigates to the meshStack marketplace and selects `` platform.
 3. They provide the necessary inputs (e.g., repository name, template repo) and submit the request.
