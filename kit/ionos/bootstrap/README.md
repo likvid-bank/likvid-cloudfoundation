@@ -15,6 +15,7 @@ Sets up an IONOS API user with admin rights. This user can be used to deploy oth
 | Name | Version |
 |------|---------|
 | <a name="requirement_ionoscloud"></a> [ionoscloud](#requirement\_ionoscloud) | = 6.4.10 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | 3.6.0 |
 
 ## Modules
 
@@ -25,7 +26,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [ionoscloud_user.api](https://registry.terraform.io/providers/ionos-cloud/ionoscloud/6.4.10/docs/resources/user) | resource |
-| [random_password.api](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
+| [random_password.api](https://registry.terraform.io/providers/hashicorp/random/3.6.0/docs/resources/password) | resource |
 
 ## Inputs
 

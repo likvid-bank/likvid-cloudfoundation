@@ -4,6 +4,10 @@ terraform {
       source  = "SAP/btp"
       version = "~> 1.8.0"
     }
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.65.0"
+    }
   }
 }
 # we are using the building block backend from AWS Automation

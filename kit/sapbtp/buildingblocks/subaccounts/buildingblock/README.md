@@ -28,6 +28,7 @@ Here you can find an example of how to create a backend.tf file on this [Wiki Pa
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 5.65.0 |
 | <a name="requirement_btp"></a> [btp](#requirement\_btp) | ~> 1.8.0 |
 
 ## Modules

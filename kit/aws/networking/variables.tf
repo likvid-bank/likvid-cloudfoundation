@@ -27,8 +27,8 @@ variable "ram_principals" {
   default     = []
 }
 
-variable "ram_tags" {
-  description = "Additional tags for the RAM"
-  type        = map(string)
-  default     = {}
-}
+# variable "ram_tags" {
+#   description = "Additional tags for the RAM"
+#   type        = map(string)
+#   default     = {}
+# }
