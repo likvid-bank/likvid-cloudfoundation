@@ -48,6 +48,16 @@ locals {
         }
       }
     }
+
+    sap-core-platform = {
+      name = "likvid-sapbtp-dev"
+      spec = {
+        displayName = "SAP Core Platform"
+        tags = {
+          BusinessUnit = ["IT"]
+        }
+      }
+    }
   }
 
   customPlatformDefinitions = {
@@ -71,6 +81,7 @@ locals {
         displayName       = "SAP BTP core Platform"
         description       = "Provisions a Subaccount in our Likvid Bank SAP BTP Environment."
         web-console-url   = "https://emea.cockpit.btp.cloud.sap"
+        support-url       = "https://meshcloud.slack.com/archives/C0681JFCUQP"
         documentation-url = "https://likvid-bank.github.io/likvid-cloudfoundation/sap.html"
         tags = {
           BusinessUnit = ["IT"]
@@ -115,14 +126,11 @@ locals {
       }
     }
 
-    sap-btp-subaccounts = {
-      name = "sap-btp-subaccounts"
+    sapbtp-subaccounts-repository = {
+      name = "sapbtp-subaccounts-repository "
       spec = {
-        displayName       = "SAP BTP Subaccounts"
-        description       = "A new SAP BTP Subaccount will be created via terraform."
-        web-console-url   = "https://github.com/likvid-bank"
-        support-url       = "https://meshcloud.slack.com/archives/C0681JFCUQP"
-        documentation-url = "https://likvid-bank.github.io/likvid-cloudfoundation/platform/sap.html"
+        displayName = "SAP BTP Subaccounts"
+        description = "Provisions environments (subaccounts) in SAP BTP via terraform."
       }
     }
   }
