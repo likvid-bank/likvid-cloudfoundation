@@ -17,7 +17,7 @@ This documentation is intended as a reference documentation for cloud foundation
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 3.0.2 |
-| <a name="requirement_meshstack"></a> [meshstack](#requirement\_meshstack) | ~> 0.5.0 |
+| <a name="requirement_meshstack"></a> [meshstack](#requirement\_meshstack) | ~> 0.6.0 |
 
 ## Modules
 
@@ -27,13 +27,15 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [meshstack_buildingblock.m25_online_banking_app_docs](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/buildingblock) | resource |
 | [meshstack_project.m25_online_banking_app](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
+| [meshstack_project.sap_core_platform](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
 | [meshstack_project.static-website-assets](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
 | [meshstack_project_user_binding.m25_online_banking_app_admins](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project_user_binding) | resource |
+| [meshstack_project_user_binding.sap_core_platform_project_admins](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project_user_binding) | resource |
 | [meshstack_project_user_binding.static_website_assets_project_admins](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project_user_binding) | resource |
 | [meshstack_tenant.m25_online_banking_app](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
 | [meshstack_tenant.m25_online_banking_app_docs_repo](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
+| [meshstack_tenant.sap_core_platform](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
 | [meshstack_tenant.static-website-assets](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
 | [terraform_data.meshobjects_import](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
 

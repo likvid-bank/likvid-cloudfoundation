@@ -11,7 +11,6 @@ locals {
   }
 }
 
-
 # todo: replace by tag definition resources once supported
 locals {
   tags = {
@@ -28,6 +27,7 @@ locals {
     }
   }
 
+  # TODO: missing ones
   landingZones = {
     m25-cloud-native = {
       name = "m25-cloud-native"
@@ -48,6 +48,16 @@ locals {
         }
       }
     }
+
+    sap-core-platform = {
+      name = "likvid-sapbtp-dev"
+      spec = {
+        displayName = "SAP Core Platform"
+        tags = {
+          BusinessUnit = ["IT"]
+        }
+      }
+    }
   }
 
   customPlatformDefinitions = {
@@ -59,6 +69,20 @@ locals {
         web-console-url   = "https://github.com/likvid-bank"
         support-url       = "https://meshcloud.slack.com/archives/C0681JFCUQP"
         documentation-url = "https://likvid-bank.github.io/likvid-cloudfoundation/meshstack.html"
+        tags = {
+          BusinessUnit = ["IT"]
+        }
+      }
+    }
+
+    sap-core-platform = {
+      name = "sap-core-platform"
+      spec = {
+        displayName       = "SAP BTP core Platform"
+        description       = "Provisions a Subaccount in our Likvid Bank SAP BTP Environment."
+        web-console-url   = "https://emea.cockpit.btp.cloud.sap"
+        support-url       = "https://meshcloud.slack.com/archives/C0681JFCUQP"
+        documentation-url = "https://likvid-bank.github.io/likvid-cloudfoundation/sap.html"
         tags = {
           BusinessUnit = ["IT"]
         }
@@ -99,6 +123,14 @@ locals {
         web-console-url   = "https://github.com/likvid-bank"
         support-url       = "https://meshcloud.slack.com/archives/C0681JFCUQP"
         documentation-url = "https://likvid-bank.github.io/likvid-cloudfoundation/meshstack.html"
+      }
+    }
+
+    sapbtp-subaccounts-repository = {
+      name = "sapbtp-subaccounts-repository "
+      spec = {
+        displayName = "SAP BTP Subaccounts"
+        description = "Provisions environments (subaccounts) in SAP BTP via terraform."
       }
     }
   }
