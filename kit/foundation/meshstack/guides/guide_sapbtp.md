@@ -76,6 +76,6 @@ The Platform team has identified the following challenges:
 5. The M25 Platform Team can now access the SAP BTP subaccount through the created tenant via "Sign in to Web Console" and start working on their project.
 
 ## Conclusion
-By following this guide, teams can publish custom services using meshStack's Custom Platform functionality, 
-making them discoverable and consumable by other teams. This ensures seamless integration and management of 
+By following this guide, teams can publish custom services using meshStack's Custom Platform functionality,
+making them discoverable and consumable by other teams. This ensures seamless integration and management of
 custom services within the meshStack ecosystem.
