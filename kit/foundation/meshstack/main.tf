@@ -153,4 +153,3 @@ curl --fail -X PUT ${var.meshstack_api.endpoint}/api/meshobjects \
 EOF
   }
 }
-
