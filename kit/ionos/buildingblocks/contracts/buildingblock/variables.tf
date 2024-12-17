@@ -3,47 +3,49 @@ variable "token" {
   type        = string
 }
 
-# variable "contract_name" {
-#   description = "Name of the contract"
-#   type        = string
-# }
-
-# variable "aws_account_id" {
-#   description = "this is for the tfstates Backend. in our case AWS."
-#   type        = string
-# }
+variable "aws_account_id" {
+  description = "this is for the tfstates Backend. in our case AWS."
+  type        = string
+}
 
 variable "workspace_identifier" {
   type        = string
   description = "The meshStack workspace identifier."
-  default     = "workspace-1234"
 }
 
 variable "project_identifier" {
   type        = string
   description = "The meshStack project identifier."
-  default     = "project-123"
 }
 
 # note: these permissions are passed in from meshStack and automatically updated whenever something changes
 # atm. we are not using them inside this building block implementation, but they give us a trigger to often reconcile
 # the permissions
 
-# variable "users" {
-#   type = list(object(
-#     {
-#       meshIdentifier = string
-#       username       = string
-#       firstName      = string
-#       lastName       = string
-#       email          = string
-#       euid           = string
-#       roles          = list(string)
-#     }
-#   ))
-#   description = "Users and their roles provided by meshStack"
-#   default     = []
-# }
+variable "users" {
+  type = list(object(
+    {
+      meshIdentifier = string
+      username       = string
+      firstName      = string
+      lastName       = string
+      email          = string
+      euid           = string
+      roles          = list(string)
+    }
+  ))
+  description = "Users and their roles provided by meshStack"
+  # default = [
+  #   {
+  #     meshIdentifier = "mesh-123"
+  #     username       = "jdoe"
+  #     firstName      = "John"
+  #     lastName       = "Doe"
+  #     email          = "jdoe2@example.com"
+  #     euid           = "euid-001"
+  #     roles          = ["admin"]
+  # }]
+}
 
 variable "reseller_reference" {
   description = "Reseller reference"
@@ -103,27 +105,4 @@ variable "ips" {
   description = "Number of IPs"
   type        = number
   default     = 1
-}
-
-variable "first_name" {
-  description = "First name of the user"
-  type        = string
-  default     = "John"
-}
-
-variable "last_name" {
-  description = "Last name of the user"
-  type        = string
-  default     = "Doe"
-}
-
-variable "email" {
-  description = "Email address of the user"
-  type        = string
-  default     = "jdoe@meshcloud.io"
-}
-
-variable "password" {
-  description = "Password of the user"
-  type        = string
 }
