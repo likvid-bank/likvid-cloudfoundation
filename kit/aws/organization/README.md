@@ -35,7 +35,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_parent_ou_name"></a> [parent\_ou\_name](#input\_parent\_ou\_name) | Create a OU of the specified name and treat it as the root of all resources managed as part of this kit.<br/>    This is good for separation, in particular if you don't have exclusive control over the AWS organization because<br/>    it is supporting non-cloudfoundation workloads as well. | `string` | n/a | yes |
+| <a name="input_parent_ou_name"></a> [parent\_ou\_name](#input\_parent\_ou\_name) | Create a OU of the specified name and treat it as the root of all resources managed as part of this kit.<br>    This is good for separation, in particular if you don't have exclusive control over the AWS organization because<br>    it is supporting non-cloudfoundation workloads as well. | `string` | n/a | yes |
 
 ## Outputs
 

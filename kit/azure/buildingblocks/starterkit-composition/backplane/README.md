@@ -170,9 +170,58 @@ You will typically only need to customize the template repository with code and 
 
 For advanced use cases, you can of course also want to customize the `buildingblock/` terraform module itself or even the backplane terraform module.
 <!-- BEGIN_TF_DOCS -->
-github_app_id              = ""
-github_app_installation_id = ""
-github_org                 = ""
-location                   = ""
-scope                      = ""
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 3.0.2 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 4.4.0 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | 6.3.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | 3.6.3 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | 0.11.1 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azuread_app_role_assignment.starterkit-directory](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/resources/app_role_assignment) | resource |
+| [azuread_application.starterkit](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/resources/application) | resource |
+| [azuread_service_principal.starterkit](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/resources/service_principal) | resource |
+| [azuread_service_principal_password.starterkit](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/resources/service_principal_password) | resource |
+| [azurerm_role_assignment.starterkit_access](https://registry.terraform.io/providers/hashicorp/azurerm/4.4.0/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.terraform_state](https://registry.terraform.io/providers/hashicorp/azurerm/4.4.0/docs/resources/role_assignment) | resource |
+| [azurerm_role_definition.starterkit_access](https://registry.terraform.io/providers/hashicorp/azurerm/4.4.0/docs/resources/role_definition) | resource |
+| [azurerm_role_definition.starterkit_deploy](https://registry.terraform.io/providers/hashicorp/azurerm/4.4.0/docs/resources/role_definition) | resource |
+| [time_rotating.key_rotation](https://registry.terraform.io/providers/hashicorp/time/0.11.1/docs/resources/rotating) | resource |
+| [azuread_application_published_app_ids.well_known](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/data-sources/application_published_app_ids) | data source |
+| [azuread_group.project_admins](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/data-sources/group) | data source |
+| [azuread_service_principal.msgraph](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/data-sources/service_principal) | data source |
+| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/4.4.0/docs/data-sources/subscription) | data source |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_application_name"></a> [application\_name](#input\_application\_name) | n/a | `string` | n/a | yes |
+| <a name="input_github_app_id"></a> [github\_app\_id](#input\_github\_app\_id) | id of your GitHub App | `number` | n/a | yes |
+| <a name="input_github_app_installation_id"></a> [github\_app\_installation\_id](#input\_github\_app\_installation\_id) | id of your GitHub App installation as it appears in URLs on GitHub.com | `number` | n/a | yes |
+| <a name="input_github_org"></a> [github\_org](#input\_github\_org) | id of your GitHub organization as it appears in URLs on GitHub.com | `string` | n/a | yes |
+| <a name="input_location"></a> [location](#input\_location) | Azure location for deploying the building block terraform state storage account | `string` | n/a | yes |
+| <a name="input_scope"></a> [scope](#input\_scope) | Scope where the building block should be deployable, typically a Sandbox Landing Zone Management Group | `string` | n/a | yes |
+| <a name="input_tfstates_resource_group_name"></a> [tfstates\_resource\_group\_name](#input\_tfstates\_resource\_group\_name) | n/a | `string` | n/a | yes |
+| <a name="input_tfstates_resource_manager_id"></a> [tfstates\_resource\_manager\_id](#input\_tfstates\_resource\_manager\_id) | n/a | `string` | n/a | yes |
+| <a name="input_tfstates_storage_account_name"></a> [tfstates\_storage\_account\_name](#input\_tfstates\_storage\_account\_name) | n/a | `string` | n/a | yes |
+| <a name="input_tfstates_storage_container_name"></a> [tfstates\_storage\_container\_name](#input\_tfstates\_storage\_container\_name) | n/a | `string` | n/a | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_config_tf"></a> [config\_tf](#output\_config\_tf) | Generates a config.tf that can be dropped into meshStack's BuildingBlockDefinition as an encrypted file input to configure this building block. |
+| <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
 <!-- END_TF_DOCS -->
