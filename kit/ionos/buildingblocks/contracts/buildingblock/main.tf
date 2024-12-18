@@ -99,5 +99,5 @@ resource "restapi_object" "admin_user" {
 }
 
 locals {
-  first_admin = [for user in var.users : user if contains(user.roles, "admin")][0]
+  first_admin = [for user in var.users : user if contains(users.roles, "admin")][0]
 }
