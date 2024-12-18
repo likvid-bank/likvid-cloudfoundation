@@ -10,6 +10,10 @@ terraform {
     }
   }
 }
+provider "ionoscloud" {
+#  we encourage users to use token authentication for security reasons
+ contract_number = restapi_object.contract.id
+#  optional, does not need to be configured in most cases
 
 provider "restapi" {
   uri                  = "https://api.ionos.com/reseller/v2"

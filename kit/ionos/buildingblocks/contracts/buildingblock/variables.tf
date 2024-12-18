@@ -22,30 +22,30 @@ variable "project_identifier" {
 # atm. we are not using them inside this building block implementation, but they give us a trigger to often reconcile
 # the permissions
 
-# variable "users" {
-#   type = list(object(
-#     {
-#       meshIdentifier = string
-#       username       = string
-#       firstName      = string
-#       lastName       = string
-#       email          = string
-#       euid           = string
-#       roles          = list(string)
-#     }
-#   ))
-#   description = "Users and their roles provided by meshStack"
-#   # default = [
-#   #   {
-#   #     meshIdentifier = "mesh-123"
-#   #     username       = "jdoe"
-#   #     firstName      = "John"
-#   #     lastName       = "Doe"
-#   #     email          = "jdoe2@example.com"
-#   #     euid           = "euid-001"
-#   #     roles          = ["admin"]
-#   # }]
-# }
+variable "users" {
+  type = list(object(
+    {
+      meshIdentifier = string
+      username       = string
+      firstName      = string
+      lastName       = string
+      email          = string
+      euid           = string
+      roles          = list(string)
+    }
+  ))
+  description = "Users and their roles provided by meshStack (Note that users must exist in IONOS)"
+  # default = [
+  #   {
+  #     meshIdentifier = "mesh-123"
+  #     username       = "jdoe"
+  #     firstName      = "John"
+  #     lastName       = "Doe"
+  #     email          = "jdoe2@example.com"
+  #     euid           = "euid-001"
+  #     roles          = ["admin"]
+  # }]
+}
 
 variable "reseller_reference" {
   description = "Reseller reference"
