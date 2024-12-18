@@ -24,21 +24,21 @@ resource "restapi_object" "contract" {
 }
 
 data "ionoscloud_user" "admins" {
-  for_each = local.admins
-  email    = each.value.username
-  ds_on    = [restapi_object.contract]
+  for_each   = local.admins
+  email      = each.value.username
+  depends_on = [restapi_object.contract]
 }
 
 data "ionoscloud_user" "editors" {
-  for_each = local.editors
-  email    = each.value.username
-  ds_on    = [restapi_object.contract]
+  for_each   = local.editors
+  email      = each.value.username
+  depends_on = [restapi_object.contract]
 }
 
 data "ionoscloud_user" "readers" {
-  for_each = local.readers
-  email    = each.value.username
-  ds_on    = [restapi_object.contract]
+  for_each   = local.readers
+  email      = each.value.username
+  depends_on = [restapi_object.contract]
 }
 
 # resource "random_password" "password" {
