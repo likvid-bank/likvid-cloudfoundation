@@ -3,7 +3,7 @@ output "documentation_md" {
 # meshStack Integration
 
 All of the service accounts and infrastructure required and directly owned by meshStack is contained in the
-GCP Project with id `${google_project.meshstack_root.project_id}`.
+GCP Project with id `${var.project_id}`.
 
 > Note that meshStack has permissions to access infrastructure outside of this project. However, these assets
 are owned by cloudfoundation, not meshStack.

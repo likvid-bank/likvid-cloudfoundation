@@ -46,32 +46,16 @@ resource "google_project_service" "enabled_services" {
 
 # Cloud Foundation Admin Permission setup
 
-# created manually via console
+# created manually via `gcloud identity groups create "likvid-foundation-platform-engineers@meshcloud.io" --organization "meshcloud.io"`
 data "google_cloud_identity_group_lookup" "platform_engineers" {
   group_key {
     id = "${var.platform_engineers_group.name}@${data.google_organization.groups_org.domain}"
   }
 }
 
-resource "google_cloud_identity_group" "platform_engineers" {
-  display_name         = var.platform_engineers_group.name
-  initial_group_config = "EMPTY"
-
-  parent = "customers/${data.google_organization.groups_org.directory_customer_id}"
-
-  group_key {
-    id = "${var.platform_engineers_group.name}@${data.google_organization.groups_org.domain}"
-  }
-
-  labels = {
-    "cloudidentity.googleapis.com/groups.discussion_forum" = ""
-    "cloudidentity.googleapis.com/groups.security"         = ""
-  }
-}
-
 resource "google_cloud_identity_group_membership" "platform_engineers" {
   for_each = var.platform_engineers_group.members
-  group    = data.google_cloud_identity_group_lookup.platform_engineers.id
+  group    = data.google_cloud_identity_group_lookup.platform_engineers.name
 
   preferred_member_key {
     id = each.key

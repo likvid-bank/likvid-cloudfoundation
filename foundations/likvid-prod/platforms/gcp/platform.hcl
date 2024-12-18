@@ -8,7 +8,11 @@ locals {
   platform = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file(".//README.md"))[0])
 
   pam = {
-    foundation_admins    = ["jrudolph@meshcloud.io", "fnowarre@meshcloud.io", "malhussan@meshcloud.io", "hdettmer@meshcloud.io"]
+    foundation_admins = [
+      "jrudolph@meshcloud.io",
+      "fnowarre@meshcloud.io",
+      "hdettmer@meshcloud.io",
+    ]
     foundation_engineers = ["ckraus@meshcloud.io", "jschwandke@meshcloud.io"]
   }
 }
