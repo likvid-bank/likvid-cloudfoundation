@@ -25,6 +25,7 @@ terraform {
 inputs = {
   foundation            = include.platform.locals.cloudfoundation
   foundation_project_id = include.platform.locals.platform.gcp.project
+  billing_project_id    = include.platform.locals.platform.gcp.billingExport.project
   billing_account_id    = include.platform.locals.platform.gcp.billingAccount
   parent_folder_id      = "folders/493343334220"
   region                = "europe-west3"

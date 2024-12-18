@@ -1,5 +1,10 @@
 output "documentation_md" {
   value = <<EOF
+# Organization Hierarchy
+
+All resources of this platform are nested under the top-level GCP folder `${data.google_folder.parent.display_name}`.
+All policies described below are also set at this folder level.
+
 ### Domain Restricted Sharing
 
 ::: tip Domain Restricted Sharing

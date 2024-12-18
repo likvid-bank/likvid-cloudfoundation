@@ -22,6 +22,9 @@ locals {
       "roles/orgpolicy.policyViewer",           # required to view
       "roles/serviceusage.serviceUsageConsumer" # required to reconcile enabled services on a project
     ])
+    billing_project = toset([
+      "roles/viewer"
+    ])
   }
 }
 # we need permissions to read roles on the org level
@@ -44,6 +47,13 @@ resource "google_folder_iam_member" "validation" {
   member = "serviceAccount:${google_service_account.validation.email}"
 }
 
+resource "google_project_iam_member" "validation" {
+  for_each = local.validation_roles.billing_project
+
+  project = var.billing_project_id
+  role    = each.key
+  member  = "serviceAccount:${google_service_account.validation.email}"
+}
 
 
 ## Workload Identity Federation setup

@@ -1,3 +1,12 @@
+variable "deploy_principal" {
+  type = object({
+    name = string
+    id   = string
+  })
+  nullable    = false
+  description = "name and id of the principal allowed to deploy cloud foundation resources"
+}
+
 variable "project_id" {
   type        = string
   description = "GCP Project ID where to create the resources. This is typically a 'meshstack-root' project."
@@ -80,20 +89,6 @@ variable "kraken_sa_name" {
 variable "carbon_footprint_dataset_id" {
   type        = string
   description = "Id of BigQuery dataset for carbon footprint."
-}
-
-variable "landingzone_access" {
-  type = object({
-    functions = list(object({
-      function = string
-      region   = string
-      project  = string
-    }))
-    gdm_templates = list(object({
-      project     = string
-      bucket_name = string
-    }))
-  })
 }
 
 variable "service_account_keys" {

@@ -21,12 +21,13 @@ locals {
     var.customer_ids_to_allow
   )
 }
+## root level policies
 
 module "allowed-policy-member-domains" {
   source            = "terraform-google-modules/org-policy/google"
   version           = "~> 5.1.0"
-  policy_for        = "organization"
-  organization_id   = local.organization_id
+  policy_for        = "folder"
+  folder_id         = data.google_folder.parent.name
   constraint        = "constraints/iam.allowedPolicyMemberDomains"
   policy_type       = "list"
   allow             = local.resolved_customer_ids_to_allow[*].customer_id
@@ -36,8 +37,8 @@ module "allowed-policy-member-domains" {
 module "allowed-policy-resource-locations" {
   source            = "terraform-google-modules/org-policy/google"
   version           = "~> 5.1.0"
-  policy_for        = "organization"
-  organization_id   = local.organization_id
+  policy_for        = "folder"
+  folder_id         = data.google_folder.parent.name
   constraint        = "constraints/gcp.resourceLocations"
   policy_type       = "list"
   allow             = var.resource_locations_to_allow
@@ -67,4 +68,9 @@ resource "google_project" "foundation" {
   name       = "${var.foundation}-management"
   project_id = var.foundation_project_id
   folder_id  = google_folder.admin.folder_id
+
+  // the project already exists, we merely want to update its folder
+  lifecycle {
+    ignore_changes = [billing_account]
+  }
 }

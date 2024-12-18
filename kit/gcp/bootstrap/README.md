@@ -49,6 +49,7 @@ No modules.
 | [google_service_account_iam_binding.github](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/resources/service_account_iam_binding) | resource |
 | [google_storage_bucket.terraform_state](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/resources/storage_bucket) | resource |
 | [google_storage_bucket_iam_policy.terraform_state](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/resources/storage_bucket_iam_policy) | resource |
+| [google_cloud_identity_group_lookup.platform_engineers](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/data-sources/cloud_identity_group_lookup) | data source |
 | [google_folder.parent](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/data-sources/folder) | data source |
 | [google_iam_policy.terraform_state](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/data-sources/iam_policy) | data source |
 | [google_organization.groups_org](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/data-sources/organization) | data source |
