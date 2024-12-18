@@ -8,6 +8,10 @@ terraform {
       source  = "hashicorp/random"
       version = "3.6.3"
     }
+    ionoscloud = {
+      source  = "ionos-cloud/ionoscloud"
+      version = "6.6.8"
+    }
   }
 }
 
