@@ -22,24 +22,42 @@ resource "restapi_object" "contract" {
     }
   })
 }
+resource "ionoscloud_user" "example" {
+  for_each = { for user in var.users : user.email => user } # Map email as a unique key for `for_each`
 
-data "ionoscloud_user" "admins" {
-  for_each   = local.admins
-  email      = each.value.username
-  depends_on = [restapi_object.contract]
+  first_name     = each.value.firstName
+  last_name      = each.value.lastName
+  email          = each.value.email
+  password       = random_password.user_password[each.key].result
+  administrator  = false
+  force_sec_auth = false
+  active         = true
+  depends_on     = [restapi_object.contract]
 }
 
-data "ionoscloud_user" "editors" {
-  for_each   = local.editors
-  email      = each.value.username
-  depends_on = [restapi_object.contract]
+resource "random_password" "user_password" {
+  for_each = { for user in var.users : user.email => user } # Ensures one password per user
+  length   = 16
+  special  = true
 }
 
-data "ionoscloud_user" "readers" {
-  for_each   = local.readers
-  email      = each.value.username
-  depends_on = [restapi_object.contract]
-}
+# data "ionoscloud_user" "admins" {
+#   for_each   = local.admins
+#   email      = each.value.username
+#   depends_on = [restapi_object.contract]
+# }
+
+# data "ionoscloud_user" "editors" {
+#   for_each   = local.editors
+#   email      = each.value.username
+#   depends_on = [restapi_object.contract]
+# }
+
+# data "ionoscloud_user" "readers" {
+#   for_each   = local.readers
+#   email      = each.value.username
+#   depends_on = [restapi_object.contract]
+# }
 
 # resource "random_password" "password" {
 #   length = 12
