@@ -82,22 +82,22 @@ resource "restapi_object" "contract" {
   })
 }
 
-resource "random_password" "password" {
-  length = 12
-}
+# resource "random_password" "password" {
+#   length = 12
+# }
 
-# # Deklarative Erstellung des Admin-Users basierend auf der Contract-ID
-resource "restapi_object" "admin_user" {
-  path = "/contracts/${restapi_object.contract.id}/admins"
-  #method = "POST"
-  data = jsonencode({
-    firstName = local.first_admin.firstName
-    lastName  = local.first_admin.lastName
-    email     = local.first_admin.email
-    password  = random_password.password.result
-  })
-}
+# # # Deklarative Erstellung des Admin-Users basierend auf der Contract-ID
+# resource "restapi_object" "admin_user" {
+#   path = "/contracts/${restapi_object.contract.id}/admins"
+#   #method = "POST"
+#   data = jsonencode({
+#     firstName = local.first_admin.firstName
+#     lastName  = local.first_admin.lastName
+#     email     = local.first_admin.email
+#     password  = random_password.password.result
+#   })
+# }
 
-locals {
-  first_admin = [for user in var.users : user if contains(users.roles, "admin")][0]
-}
+# locals {
+#   admin = [for user in var.users : user if contains(user.roles, "admin")][0]
+# }
