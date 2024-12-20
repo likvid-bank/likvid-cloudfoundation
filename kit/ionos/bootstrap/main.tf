@@ -1,15 +1,55 @@
-resource "ionoscloud_user" "api" {
-  email          = var.email
-  first_name     = var.firstname
-  last_name      = var.lastname
-  password       = random_password.api.result
+resource "ionoscloud_user" "user" {
+  for_each = {
+    for index, user in var.users :
+    user.email => user
+  }
+
+  email          = each.value.email
+  first_name     = each.value.firstname
+  last_name      = each.value.lastname
+  password       = random_password.password[each.value.email].result
+  active         = true
+  administrator  = false
+  force_sec_auth = false
+}
+
+resource "random_password" "password" {
+  for_each = {
+    for index, user in var.users :
+    user.email => user
+  }
+
+  length           = 16
+  special          = true
+  override_special = "!#$%&*()-_=+[]{}<>:?"
+}
+
+# Ideally it would be a new kit "meshplatform" that only has the required access to:
+# - create a VDC
+# - assign users to that VDC
+# But only "administrator = true" users can manage user access in IONOS, so there is no real benefit of adding another kit instead
+resource "ionoscloud_user" "admin" {
+  for_each = {
+    for index, user in var.admin :
+    user.email => user
+  }
+
+  email          = each.value.email
+  first_name     = each.value.firstname
+  last_name      = each.value.lastname
+  password       = random_password.admin_password[each.value.email].result
   active         = true
   administrator  = true
   force_sec_auth = false
 }
 
-resource "random_password" "api" {
+resource "random_password" "admin_password" {
+  for_each = {
+    for index, user in var.admin :
+    user.email => user
+  }
+
   length           = 16
   special          = true
-  override_special = "_@+-!=*"
+  override_special = "!#$%&*()-_=+[]{}<>:?"
 }

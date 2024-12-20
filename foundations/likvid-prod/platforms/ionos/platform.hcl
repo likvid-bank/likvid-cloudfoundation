@@ -1,6 +1,7 @@
 locals {
   # make platform config available
-  platform = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file(".//README.md"))[0])
+  platform        = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file(".//README.md"))[0])
+  cloudfoundation = "likvid"
 }
 
 remote_state {

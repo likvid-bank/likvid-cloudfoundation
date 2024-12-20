@@ -1,9 +1,12 @@
 output "documentation_md" {
   value = <<EOF
-# Automation User
+# IONOS meshcloud Users
 
-Admin API user: `${var.email}`.
+${join("\n", formatlist("- `%s`", [for u in var.users : u.email]))}
 
-At this point, there is no distinction between a normal user and API user in IONOS. You can access the console using this user.
+# IONOS admin
+
+${join("\n", formatlist("- `%s`", [for u in var.admin : u.email]))}
+
 EOF
 }

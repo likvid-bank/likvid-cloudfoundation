@@ -1,7 +1,17 @@
-output "api_user" {
-  sensitive = true
+output "user_passwords" {
   value = {
-    username = ionoscloud_user.api.email
-    password = ionoscloud_user.api.password
+    for index, password in random_password.password :
+    index => password.result
   }
+  description = "User passwords"
+  sensitive   = true
+}
+
+output "admin_passwords" {
+  value = {
+    for index, password in random_password.admin_password :
+    index => password.result
+  }
+  description = "User passwords"
+  sensitive   = true
 }
