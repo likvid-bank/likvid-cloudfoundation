@@ -96,20 +96,6 @@ resource "meshstack_tenant" "likvid_gov_guard_dev" {
     platform_identifier = "meshcloud-ionos-dev.sovereign"
     owned_by_project    = meshstack_project.likvid_gov_guard_dev.metadata.name
     owned_by_workspace  = meshstack_project.likvid_gov_guard_dev.metadata.owned_by_workspace
-    # assigned_tags = {
-    #   BusinessUnit = [
-    #     "IT"
-    #   ]
-    #   LandingZoneClearance = [
-    #     "cloud-native"
-    #   ]
-    #   Schutzbedarf = [
-    #     "Grundschutz-hoch"
-    #   ]
-    #   environment = [
-    #     "dev"
-    #   ]
-    # }
   }
   spec = {
     landing_zone_identifier = "likvid-ionos-dev"
@@ -120,7 +106,7 @@ resource "meshstack_tenant" "likvid_gov_guard_prod" {
   provider = meshstack.likvid_gov_guard
 
   metadata = {
-    platform_identifier = "meshcloud-ionos-prod.sovereign"
+    platform_identifier = "meshcloud-ionos-dev.sovereign"
     owned_by_project    = meshstack_project.likvid_gov_guard_prod.metadata.name
     owned_by_workspace  = meshstack_project.likvid_gov_guard_prod.metadata.owned_by_workspace
   }
@@ -128,16 +114,3 @@ resource "meshstack_tenant" "likvid_gov_guard_prod" {
     landing_zone_identifier = "likvid-ionos-prod"
   }
 }
-
-# data "meshstack_tenant" "likvid_gov_guard_dev" {
-#   provider = meshstack.likvid_gov_guard
-#   metadata = {
-#     owned_by_project    = meshstack_project.likvid_gov_guard_dev.metadata.name
-#     owned_by_workspace  = meshstack_project.likvid_gov_guard_prod.metadata.owned_by_workspace
-#     platform_identifier = "meshcloud-ionos-dev.sovereign"
-#   }
-# }
-
-# output "likvid_gov_guard_dev" {
-#   value = data.meshstack_tenant.likvid_gov_guard_dev
-# }
