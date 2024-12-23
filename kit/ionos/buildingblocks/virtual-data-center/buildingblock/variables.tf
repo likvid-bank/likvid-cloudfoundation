@@ -10,11 +10,13 @@ variable "project_id" {
 
 variable "dc_location" {
   type        = string
+  default     = "de/fra"
   description = "Virtual Data Center location, e.g. de/fra, de/txl, es/vit, fr/par, gb/lhr, us/ewr, us/las, us/mci"
 }
 
 variable "dc_description" {
   type        = string
+  default     = "virtual data Center"
   description = "Virtual Data Center description"
 }
 
