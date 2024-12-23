@@ -14,7 +14,7 @@ run "verify" {
         lastName       = "tom"
         email          = "likvid-tom@meshcloud.io"
         euid           = "likvid-tom@meshcloud.io"
-        roles          = ["admin"]
+        roles          = ["user"]
       }
     ]
   }
