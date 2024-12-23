@@ -21,8 +21,8 @@ data "ionoscloud_user" "readers" {
 
 resource "ionoscloud_datacenter" "this" {
   name                = "${var.workspace_id}-${var.project_id}"
-  location            = var.dc_location
-  description         = var.dc_description
+  location            = "de/fra"
+  description         = "Virtual Data Center"
   sec_auth_protection = false
 }
 

@@ -163,7 +163,7 @@ locals {
       platformDefinitions_sap_core_platform_spec_web_console_url                  = local.customPlatformDefinitions.sap-core-platform.spec.web-console-url,
 
       # IONOS Custom Platform
-      smeshobjects_import_workspaces_ionos_yml_output_spec_displayName = terraform_data.meshobjects_import["workspaces/likvid-govguard.yml"].output.spec.displayName,
+      meshobjects_import_workspaces_ionos_yml_output_spec_displayName = terraform_data.meshobjects_import["workspaces/likvid-govguard.yml"].output.spec.displayName,
 
       meshstack_project_likvid_gov_guard_dev_spec_display_name  = meshstack_project.likvid_gov_guard_dev.spec.display_name,
       meshstack_project_likvid_gov_guard_prod_spec_display_name = meshstack_project.likvid_gov_guard_prod.spec.display_name,

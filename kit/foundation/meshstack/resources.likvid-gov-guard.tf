@@ -89,15 +89,55 @@ resource "meshstack_project_user_binding" "likvid_gov_guard_prod_project_admins"
   }
 }
 
-# resource "meshstack_tenant" "sap_core_platform" {
-#   provider = meshstack.likvid_gov_guard
+resource "meshstack_tenant" "likvid_gov_guard_dev" {
+  provider = meshstack.likvid_gov_guard
 
+  metadata = {
+    platform_identifier = "meshcloud-ionos-dev.sovereign"
+    owned_by_project    = meshstack_project.likvid_gov_guard_dev.metadata.name
+    owned_by_workspace  = meshstack_project.likvid_gov_guard_dev.metadata.owned_by_workspace
+    # assigned_tags = {
+    #   BusinessUnit = [
+    #     "IT"
+    #   ]
+    #   LandingZoneClearance = [
+    #     "cloud-native"
+    #   ]
+    #   Schutzbedarf = [
+    #     "Grundschutz-hoch"
+    #   ]
+    #   environment = [
+    #     "dev"
+    #   ]
+    # }
+  }
+  spec = {
+    landing_zone_identifier = "likvid-ionos-dev"
+  }
+}
+
+resource "meshstack_tenant" "likvid_gov_guard_prod" {
+  provider = meshstack.likvid_gov_guard
+
+  metadata = {
+    platform_identifier = "meshcloud-ionos-prod.sovereign"
+    owned_by_project    = meshstack_project.likvid_gov_guard_prod.metadata.name
+    owned_by_workspace  = meshstack_project.likvid_gov_guard_prod.metadata.owned_by_workspace
+  }
+  spec = {
+    landing_zone_identifier = "likvid-ionos-prod"
+  }
+}
+
+# data "meshstack_tenant" "likvid_gov_guard_dev" {
+#   provider = meshstack.likvid_gov_guard
 #   metadata = {
-#     platform_identifier = "meshcloud-sapbtp-dev.sapbtp"
-#     owned_by_project    = meshstack_project.sap_core_platform.metadata.name
-#     owned_by_workspace  = meshstack_project.sap_core_platform.metadata.owned_by_workspace
+#     owned_by_project    = meshstack_project.likvid_gov_guard_dev.metadata.name
+#     owned_by_workspace  = meshstack_project.likvid_gov_guard_prod.metadata.owned_by_workspace
+#     platform_identifier = "meshcloud-ionos-dev.sovereign"
 #   }
-#   spec = {
-#     landing_zone_identifier = "likvid-sapbtp-dev"
-#   }
+# }
+
+# output "likvid_gov_guard_dev" {
+#   value = data.meshstack_tenant.likvid_gov_guard_dev
 # }
