@@ -58,8 +58,27 @@ locals {
         }
       }
     }
-  }
 
+    ionos-dev = {
+      name = "likvid-ionos-dev"
+      spec = {
+        displayName = "Likvid Ionos dev"
+        tags = {
+          BusinessUnit = ["IT"]
+        }
+      }
+    }
+
+    ionos-prod = {
+      name = "likvid-ionos-prod"
+      spec = {
+        displayName = "Likvid Ionos Prod"
+        tags = {
+          BusinessUnit = ["IT"]
+        }
+      }
+    }
+  }
   customPlatformDefinitions = {
     github-repository = {
       name = "github-repository"
@@ -83,6 +102,20 @@ locals {
         web-console-url   = "https://emea.cockpit.btp.cloud.sap"
         support-url       = "https://meshcloud.slack.com/archives/C0681JFCUQP"
         documentation-url = "https://likvid-bank.github.io/likvid-cloudfoundation/sap.html"
+        tags = {
+          BusinessUnit = ["IT"]
+        }
+      }
+    }
+
+    ionos = {
+      name = "Ionos"
+      spec = {
+        displayName       = "Ionos"
+        description       = "This platform only has German locations. It is suitable for workloads in the Schutzklassen Grundschutz-hoch and Grundschutz-normal protection classes."
+        web-console-url   = "https://dcd.ionos.com/"
+        support-url       = "https://meshcloud.slack.com/archives/C0681JFCUQP"
+        documentation-url = "https://likvid-bank.github.io/likvid-cloudfoundation/ionos.html"
         tags = {
           BusinessUnit = ["IT"]
         }
@@ -133,8 +166,17 @@ locals {
         description = "Provisions environments (subaccounts) in SAP BTP via terraform."
       }
     }
+
+    ionos-virtual-data-center = {
+      name = "Ionos Virtual Data Center"
+      spec = {
+        displayName = "Ionos Virtual Data Center"
+        description = "Your IONOS Cloud infrastructure is set up in Virtual Data Centers (VDCs). Here you will find all the resources required to configure and manage your products and services."
+      }
+    }
   }
 }
+
 
 resource "terraform_data" "meshobjects_import" {
   for_each = local.meshobjects_files

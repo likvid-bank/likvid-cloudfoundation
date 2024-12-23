@@ -75,6 +75,14 @@ provider "meshstack" {
   apikey    = "7a309ce7-439e-4bdb-b75f-e5c4b001b349"
   apisecret = "${get_env("MESHSTACK_API_KEY_SAP_CORE_PLATFORM")}"
 }
+
+
+provider "meshstack" {
+  alias = "likvid_gov_guard"
+  endpoint  = "https://federation.demo.meshcloud.io"
+  apikey    = "924588a3-2e6e-4afd-910e-8d867a587551"
+  apisecret = "${get_env("MESHSTACK_API_KEY_LIKVID_GOV_GUARD")}"
+}
 EOF
 }
 
