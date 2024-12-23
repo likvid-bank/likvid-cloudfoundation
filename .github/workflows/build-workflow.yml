@@ -41,14 +41,13 @@ jobs:
       - uses: meshcloud/setup-collie@main
 
 
-      # TODO GCP
-      # - name: Setup gcloud auth
-      #   if: ${{ inputs.platform == 'gcp' }}
-      #   id: 'auth'
-      #   uses: 'google-github-actions/auth@v2'
-      #   with:
-      #     service_account: '${{ vars.gcp_service_account }}' # sourced from gh environment variable
-      #     workload_identity_provider: '${{ vars.gcp_workload_identity_provider }}'
+      - name: Setup gcloud auth
+        if: ${{ inputs.platform == 'gcp' }}
+        id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          service_account: '${{ vars.gcp_service_account }}' # sourced from gh environment variable
+          workload_identity_provider: '${{ vars.gcp_workload_identity_provider }}'
 
       - name: Setup az auth
         if: ${{ inputs.platform == 'azure' }}
