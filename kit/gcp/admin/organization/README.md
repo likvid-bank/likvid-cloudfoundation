@@ -14,7 +14,7 @@ This documentation is intended as a reference documentation for cloud foundation
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_google"></a> [google](#requirement\_google) | ~> 4.80.0 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | < 5.0.0 |
 
 ## Modules
 
@@ -49,5 +49,10 @@ This documentation is intended as a reference documentation for cloud foundation
 
 | Name | Description |
 |------|-------------|
+| <a name="output_admin_folder_id"></a> [admin\_folder\_id](#output\_admin\_folder\_id) | n/a |
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
+| <a name="output_likvid_dev_folder_id"></a> [likvid\_dev\_folder\_id](#output\_likvid\_dev\_folder\_id) | n/a |
+| <a name="output_likvid_prod_folder_id"></a> [likvid\_prod\_folder\_id](#output\_likvid\_prod\_folder\_id) | n/a |
+| <a name="output_organization_id"></a> [organization\_id](#output\_organization\_id) | n/a |
+| <a name="output_root_folder_id"></a> [root\_folder\_id](#output\_root\_folder\_id) | n/a |
 <!-- END_TF_DOCS -->

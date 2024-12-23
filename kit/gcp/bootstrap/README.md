@@ -28,7 +28,6 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [google_cloud_identity_group.platform_engineers](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/resources/cloud_identity_group) | resource |
 | [google_cloud_identity_group_membership.platform_engineers](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/resources/cloud_identity_group_membership) | resource |
 | [google_folder_iam_member.cloudfoundation_deploy](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/resources/folder_iam_member) | resource |
 | [google_folder_iam_member.platform_engineers](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/resources/folder_iam_member) | resource |
@@ -44,6 +43,7 @@ No modules.
 | [google_project_iam_member.platform_engineers_saadmin](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/resources/project_iam_member) | resource |
 | [google_project_iam_member.platform_engineers_wif](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/resources/project_iam_member) | resource |
 | [google_project_iam_member.project_browser](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/resources/project_iam_member) | resource |
+| [google_project_iam_member.validation](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/resources/project_iam_member) | resource |
 | [google_project_service.enabled_services](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/resources/project_service) | resource |
 | [google_service_account.validation](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/resources/service_account) | resource |
 | [google_service_account_iam_binding.github](https://registry.terraform.io/providers/hashicorp/google/6.12.0/docs/resources/service_account_iam_binding) | resource |
@@ -61,6 +61,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_billing_account_id"></a> [billing\_account\_id](#input\_billing\_account\_id) | id of the billing account for projects | `string` | n/a | yes |
+| <a name="input_billing_project_id"></a> [billing\_project\_id](#input\_billing\_project\_id) | Project ID of the GCP Project hosting billing resources for this foundation | `string` | n/a | yes |
 | <a name="input_foundation"></a> [foundation](#input\_foundation) | name of the foundation | `string` | n/a | yes |
 | <a name="input_foundation_project_id"></a> [foundation\_project\_id](#input\_foundation\_project\_id) | Project ID of the GCP Project hosting foundation-level resources for this foundation | `string` | n/a | yes |
 | <a name="input_github_repo_enable_tf_state_access"></a> [github\_repo\_enable\_tf\_state\_access](#input\_github\_repo\_enable\_tf\_state\_access) | allow github actions access to terraform state | `bool` | n/a | yes |

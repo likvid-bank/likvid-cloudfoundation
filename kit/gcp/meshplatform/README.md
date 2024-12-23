@@ -12,7 +12,9 @@ This documentation is intended as a reference documentation for cloud foundation
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_google"></a> [google](#requirement\_google) | 5.19.0 |
 
 ## Modules
 
@@ -24,7 +26,11 @@ No requirements.
 
 | Name | Type |
 |------|------|
-| [google_project.meshstack_root](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project) | resource |
+| [google_bigquery_dataset_iam_member.cloudfoundation_deploy_billing](https://registry.terraform.io/providers/hashicorp/google/5.19.0/docs/resources/bigquery_dataset_iam_member) | resource |
+| [google_bigquery_dataset_iam_member.cloudfoundation_deploy_carbon](https://registry.terraform.io/providers/hashicorp/google/5.19.0/docs/resources/bigquery_dataset_iam_member) | resource |
+| [google_project_iam_custom_role.cloudfoundation_deploy](https://registry.terraform.io/providers/hashicorp/google/5.19.0/docs/resources/project_iam_custom_role) | resource |
+| [google_project_iam_custom_role.cloudfoundation_deploy_billing_project](https://registry.terraform.io/providers/hashicorp/google/5.19.0/docs/resources/project_iam_custom_role) | resource |
+| [google_project_iam_member.cloudfoundation_deploy](https://registry.terraform.io/providers/hashicorp/google/5.19.0/docs/resources/project_iam_member) | resource |
 
 ## Inputs
 
@@ -38,10 +44,10 @@ No requirements.
 | <a name="input_cloud_billing_export_dataset_id"></a> [cloud\_billing\_export\_dataset\_id](#input\_cloud\_billing\_export\_dataset\_id) | GCP BigQuery dataset containing the Cloud Billing BigQuery export. This variable is only required to form the output for meshPlatform configuration. No resources are created or attached. | `string` | n/a | yes |
 | <a name="input_cloud_billing_export_project_id"></a> [cloud\_billing\_export\_project\_id](#input\_cloud\_billing\_export\_project\_id) | GCP Project where the BiqQuery table resides that holds the Cloud Billing export to BigQuery. See https://cloud.google.com/billing/docs/how-to/export-data-bigquery | `string` | n/a | yes |
 | <a name="input_cloud_billing_export_table_id"></a> [cloud\_billing\_export\_table\_id](#input\_cloud\_billing\_export\_table\_id) | GCP BigQuery table containing the Cloud Billing BigQuery export. This variable is only required to form the output for meshPlatform configuration. No resources are created or attached. | `string` | n/a | yes |
+| <a name="input_deploy_principal"></a> [deploy\_principal](#input\_deploy\_principal) | name and id of the principal allowed to deploy cloud foundation resources | <pre>object({<br>    name = string<br>    id   = string<br>  })</pre> | n/a | yes |
 | <a name="input_folder_id"></a> [folder\_id](#input\_folder\_id) | id of the parent folder to the project (see project\_id) | `string` | n/a | yes |
 | <a name="input_kraken_sa_name"></a> [kraken\_sa\_name](#input\_kraken\_sa\_name) | Name of the service account to create for Kraken. | `string` | `"mesh-kraken-service-tf"` | no |
 | <a name="input_landing_zone_folder_ids"></a> [landing\_zone\_folder\_ids](#input\_landing\_zone\_folder\_ids) | GCP Folders that make up the Landing Zone. The service account will only receive permissions on these folders. | `list(string)` | n/a | yes |
-| <a name="input_landingzone_access"></a> [landingzone\_access](#input\_landingzone\_access) | n/a | <pre>object({<br>    functions = list(object({<br>      function = string<br>      region   = string<br>      project  = string<br>    }))<br>    gdm_templates = list(object({<br>      project     = string<br>      bucket_name = string<br>    }))<br>  })</pre> | n/a | yes |
 | <a name="input_organization_id"></a> [organization\_id](#input\_organization\_id) | GCP Organization ID that holds the projects that generate billing data that the service account should import. | `string` | n/a | yes |
 | <a name="input_project_id"></a> [project\_id](#input\_project\_id) | GCP Project ID where to create the resources. This is typically a 'meshstack-root' project. | `string` | n/a | yes |
 | <a name="input_replicator_sa_name"></a> [replicator\_sa\_name](#input\_replicator\_sa\_name) | Name of the service account to create for Replicator. | `string` | `"mesh-replicator-service-tf"` | no |

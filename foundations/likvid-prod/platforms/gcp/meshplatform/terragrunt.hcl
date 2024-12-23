@@ -29,7 +29,7 @@ terraform {
 
 inputs = {
 
-  # meshplatform module 
+  # meshplatform module
 
   project_id      = include.platform.locals.platform.gcp.project
   organization_id = include.platform.locals.platform.gcp.organization

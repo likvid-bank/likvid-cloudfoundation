@@ -6,7 +6,7 @@ This building block is stateless (no backend) because it's to be used with purge
 | Name | Version |
 |------|---------|
 | <a name="requirement_meshstack"></a> [meshstack](#requirement\_meshstack) | >= 0.5.5 |
-| <a name="requirement_time"></a> [time](#requirement\_time) | 0.12.1 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | 0.11.1 |
 
 ## Modules
 
@@ -18,7 +18,7 @@ No modules.
 |------|------|
 | [meshstack_buildingblock.github_actions_terraform_setup](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/buildingblock) | resource |
 | [meshstack_tenant.repo](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
-| [time_sleep.wait](https://registry.terraform.io/providers/hashicorp/time/0.12.1/docs/resources/sleep) | resource |
+| [time_sleep.wait](https://registry.terraform.io/providers/hashicorp/time/0.11.1/docs/resources/sleep) | resource |
 
 ## Inputs
 
