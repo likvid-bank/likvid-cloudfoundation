@@ -2,6 +2,9 @@
 aws:
   accountId: "702461728527"
   accountAccessRole: "OrganizationAccountAccessRole"
+  meshplatform:
+    automationAccountId: "579066991346"
+    meshcloudAccountId: "155536268514"
 cli:
   aws:
     AWS_PROFILE: likvid                # required
