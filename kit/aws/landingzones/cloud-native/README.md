@@ -39,7 +39,9 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_dev_ou_arn"></a> [dev\_ou\_arn](#output\_dev\_ou\_arn) | organizational unit arn for the dev OU |
 | <a name="output_dev_ou_id"></a> [dev\_ou\_id](#output\_dev\_ou\_id) | organizational unit id for the dev OU |
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
+| <a name="output_prod_ou_arn"></a> [prod\_ou\_arn](#output\_prod\_ou\_arn) | organizational unit arn for the prod OU |
 | <a name="output_prod_ou_id"></a> [prod\_ou\_id](#output\_prod\_ou\_id) | organizational unit id for the prod OU |
 <!-- END_TF_DOCS -->
