@@ -63,6 +63,7 @@ jobs:
           MESHSTACK_API_KEY_ONLINE_BANKING_APP: ${{ secrets.MESHSTACK_API_KEY_ONLINE_BANKING_APP }}
           MESHSTACK_API_PASSWORD: ${{ secrets.MESHSTACK_API_PASSWORD }}
           MESHSTACK_API_KEY_SAP_CORE_PLATFORM: ${{ secrets.MESHSTACK_API_KEY_SAP_CORE_PLATFORM }}
+          MESHSTACK_API_KEY_LIKVID_GOV_GUARD: ${{ secrets.MESHSTACK_API_KEY_LIKVID_GOV_GUARD }}
 
       - name: upload docs artifact
         uses: actions/upload-artifact@v4
