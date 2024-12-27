@@ -12,6 +12,10 @@ terraform {
       source  = "ionos-cloud/ionoscloud"
       version = "6.6.8"
     }
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.65.0"
+    }
   }
 }
 
