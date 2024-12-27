@@ -6,7 +6,7 @@ terraform {
     }
     random = {
       source  = "hashicorp/random"
-      version = "3.6.3"
+      version = "3.6.0"
     }
     ionoscloud = {
       source  = "ionos-cloud/ionoscloud"
