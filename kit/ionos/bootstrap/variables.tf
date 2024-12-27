@@ -1,11 +1,15 @@
-variable "email" {
-  type = string
+variable "users" {
+  type = list(object({
+    email     = string
+    firstname = string
+    lastname  = string
+  }))
 }
 
-variable "firstname" {
-  type = string
-}
-
-variable "lastname" {
-  type = string
+variable "admin" {
+  type = list(object({
+    email     = string
+    firstname = string
+    lastname  = string
+  }))
 }

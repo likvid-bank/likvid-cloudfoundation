@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: meshWorkspace
+metadata:
+  name: likvid-gov-guard
+spec:
+  displayName: Likvid Government Guard
+  tags:
+    environment: # todo: the environment tag values are not aligned between likvid-demo and meshcloud-dev
+    - dev
+    - prod
+    BusinessUnit:
+    - IT
+    SecurityContact:
+    - likvid-gov-guard@likvid.meshcloud.io
+    # todo: landingzone clearance is missing

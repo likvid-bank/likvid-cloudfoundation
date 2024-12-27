@@ -161,6 +161,21 @@ locals {
       platformDefinitions_sap_core_platform_spec_support_url                      = local.customPlatformDefinitions.sap-core-platform.spec.support-url,
       platformDefinitions_sap_core_platform_spec_documentation_url                = local.customPlatformDefinitions.sap-core-platform.spec.documentation-url,
       platformDefinitions_sap_core_platform_spec_web_console_url                  = local.customPlatformDefinitions.sap-core-platform.spec.web-console-url,
+
+      # IONOS Custom Platform
+      meshobjects_import_workspaces_ionos_yml_output_spec_displayName = terraform_data.meshobjects_import["workspaces/likvid-govguard.yml"].output.spec.displayName,
+
+      meshstack_project_likvid_gov_guard_dev_spec_display_name  = meshstack_project.likvid_gov_guard_dev.spec.display_name,
+      meshstack_project_likvid_gov_guard_prod_spec_display_name = meshstack_project.likvid_gov_guard_prod.spec.display_name,
+
+      buildingBlockDefinitions_ionos_virtual_datacenter_repository_spec_displayName = local.buildingBlockDefinitions.ionos-virtual-data-center.spec.displayName,
+      landingZones_ionos_dev_spec_displayName                                       = local.landingZones.ionos-dev.spec.displayName,
+      landingZones_ionos_prod_spec_displayName                                      = local.landingZones.ionos-prod.spec.displayName,
+      platformDefinitions_ionos_spec_displayName                                    = local.customPlatformDefinitions.ionos.spec.displayName,
+      platformDefinitions_ionos_spec_description                                    = local.customPlatformDefinitions.ionos.spec.description,
+      platformDefinitions_ionos_spec_support_url                                    = local.customPlatformDefinitions.ionos.spec.support-url,
+      platformDefinitions_ionos_spec_documentation_url                              = local.customPlatformDefinitions.ionos.spec.documentation-url,
+      platformDefinitions_ionos_spec_web_console_url                                = local.customPlatformDefinitions.ionos.spec.web-console-url,
     })
   }
 }
