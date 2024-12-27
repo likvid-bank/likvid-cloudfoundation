@@ -20,7 +20,7 @@ jobs:
       fail-fast: false # don't cancel other matrix jobs if one fails
       matrix:
         foundation: [likvid-prod]
-        platform: [azure, aws] # todo: aws, gcp
+        platform: [azure, aws, gcp]
     with:
       foundation: ${{ matrix.foundation }}
       platform: ${{ matrix.platform }}
