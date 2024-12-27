@@ -24,6 +24,7 @@ generate "provider" {
 provider "aws" {
   alias = "management"
   region = "eu-central-1"
+  allowed_account_ids = ["${include.platform.locals.platform.aws.accountId}"]
 }
 
 provider "aws" {
@@ -31,7 +32,7 @@ provider "aws" {
   region = "eu-central-1"
 
   assume_role {
-    role_arn     = "arn:aws:iam::${include.platform.locals.platform.aws.meshplatform.automationAccountId}:role/${include.platform.locals.active_role}"
+    role_arn     = "arn:aws:iam::${dependency.organization.outputs.automation_account_id}:role/${include.platform.locals.active_role}"
     session_name = "likvid_cloudfoundation_tf_deploy"
   }
 }
@@ -41,7 +42,7 @@ provider "aws" {
   region = "eu-central-1"
 
   assume_role {
-    role_arn     = "arn:aws:iam::${include.platform.locals.platform.aws.meshplatform.meshcloudAccountId}:role/${include.platform.locals.active_role}"
+    role_arn     = "arn:aws:iam::${dependency.organization.outputs.meshstack_account_id}:role/${include.platform.locals.active_role}"
     session_name = "likvid_cloudfoundation_tf_deploy"
   }
 }

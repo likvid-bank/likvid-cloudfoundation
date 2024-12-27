@@ -67,7 +67,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_key_vault"></a> [key\_vault](#input\_key\_vault) | Key Vault configuration | <pre>object({<br/>    name                = string<br/>    resource_group_name = string<br/>  })</pre> | n/a | yes |
+| <a name="input_key_vault"></a> [key\_vault](#input\_key\_vault) | Key Vault configuration | <pre>object({<br>    name                = string<br>    resource_group_name = string<br>  })</pre> | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | Azure location for deploying the storage account | `string` | n/a | yes |
 | <a name="input_scope"></a> [scope](#input\_scope) | n/a | `string` | n/a | yes |
 | <a name="input_service_principal_name"></a> [service\_principal\_name](#input\_service\_principal\_name) | n/a | `string` | n/a | yes |

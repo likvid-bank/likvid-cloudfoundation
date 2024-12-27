@@ -3,10 +3,6 @@ include "platform" {
   expose = true
 }
 
-dependency "bootstrap" {
-  config_path = "../bootstrap"
-}
-
 terraform {
   source = "${get_repo_root()}//kit/aws/organization"
 }
@@ -24,8 +20,9 @@ EOF
 
 inputs = {
   parent_ou_name                   = "likvid"
-  automation_account_email         = "aws+automation@meshcloud.io"
-  network_management_account_email = "aws+network.management@meshcloud.io"
-  management_account_email         = "aws+management@meshcloud.io"
-  meshstack_account_email          = "aws+meshcloud@meshcloud.io"
+  automation_account_email         = "aws+automation-acc@meshcloud.io"
+  network_management_account_email = "likvid-networking@meshcloud.io"
+  management_account_email         = "aws+management-acc@meshcloud.io"
+  meshstack_account_email          = "aws+meshstack-acc@meshcloud.io"
+  admin_users                      = include.platform.locals.foundation_pam.foundation_admins
 }
