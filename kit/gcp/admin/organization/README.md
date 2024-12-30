@@ -28,6 +28,7 @@ This documentation is intended as a reference documentation for cloud foundation
 | Name | Type |
 |------|------|
 | [google_folder.admin](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/folder) | resource |
+| [google_folder.data_lagoon](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/folder) | resource |
 | [google_folder.dev](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/folder) | resource |
 | [google_folder.prod](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/folder) | resource |
 | [google_project.foundation](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project) | resource |

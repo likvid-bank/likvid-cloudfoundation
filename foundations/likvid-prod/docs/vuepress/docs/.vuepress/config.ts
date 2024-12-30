@@ -20,12 +20,17 @@ const navbar: NavbarConfig = [
         link: "/platforms/aws/"
       },
       {
+<<<<<<< HEAD
         text: "IONOS",
         link: "/platforms/ionos/bootstrap"
       },
       {
         text: "SAP BTP",
         link: "/platforms/sapbtp/bootstrap"
+=======
+        text: "GCP",
+        link: "/platforms/gcp/"
+>>>>>>> 3a8c60a (docs: include GCP platform)
       }
     ],
   },
@@ -139,6 +144,22 @@ export const sidebar: SidebarConfig = {
         ]
       }
     ],
+  "/platforms/gcp/": [
+    {
+      text: 'GCP',
+      link: '/platforms/gcp/',
+      children: [
+        '/platforms/gcp/admin/organization',
+        {
+          text: 'Platform Administration',
+          children: [
+            '/platforms/gcp/bootstrap',
+            '/platforms/gcp/meshplatform',
+          ]
+        }
+      ]
+    }
+  ],
 
   "/concepts": [
     '/concepts'

@@ -64,6 +64,13 @@ resource "google_folder" "prod" {
   parent       = data.google_folder.parent.name
 }
 
+resource "google_folder" "data_lagoon" {
+  display_name = "Data Lagoon"
+  parent       = data.google_folder.parent.name
+}
+
+# management project
+
 resource "google_project" "foundation" {
   name       = "${var.foundation}-management"
   project_id = var.foundation_project_id
