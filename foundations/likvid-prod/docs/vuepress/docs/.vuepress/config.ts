@@ -18,6 +18,10 @@ const navbar: NavbarConfig = [
       {
         text: "AWS",
         link: "/platforms/aws/"
+      },
+      {
+        text: "IONOS",
+        link: "/platforms/ionos/"
       }
     ],
   },
@@ -112,6 +116,23 @@ export const sidebar: SidebarConfig = {
       ]
     }
   ],
+  "/platforms/ionos/": [
+      {
+        text: 'Ionos',
+        link: '/platforms/ionos/',
+        children: [
+          '/platforms/ionos/',
+          {
+            text: 'Ionos',
+            children: [
+            // '/platforms/aws/landingzones/cloud-native',
+             '/platforms/ionos/bootstrap'
+            // '/platforms/aws/buildingblocks/'
+            ]
+          }
+        ]
+      }
+    ],
 
   "/concepts": [
     '/concepts'
