@@ -41,7 +41,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_foundation_dir"></a> [foundation\_dir](#input\_foundation\_dir) | path to the collie foundation directory for this foundation | `string` | n/a | yes |
-| <a name="input_module_docs"></a> [module\_docs](#input\_module\_docs) | configures conventions for looking up remote\_state of platform and foundation modules by prefix | <pre>list(object({<br>    prefix     = string<br>    key_prefix = optional(string)<br>    backend    = string<br>    config     = map(any)<br>  }))</pre> | n/a | yes |
+| <a name="input_module_docs"></a> [module\_docs](#input\_module\_docs) | configures conventions for looking up remote\_state of platform and foundation modules by prefix | <pre>list(object({<br/>    prefix     = string<br/>    key_prefix = optional(string)<br/>    backend    = string<br/>    config     = map(any)<br/>  }))</pre> | n/a | yes |
 | <a name="input_output_dir"></a> [output\_dir](#input\_output\_dir) | path to the directory where to store the generated documentation output | `string` | n/a | yes |
 | <a name="input_repo_dir"></a> [repo\_dir](#input\_repo\_dir) | path to the collie repository directory | `string` | n/a | yes |
 | <a name="input_template_dir"></a> [template\_dir](#input\_template\_dir) | path to the directory containing the docs site template | `string` | n/a | yes |

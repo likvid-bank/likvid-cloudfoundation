@@ -37,6 +37,19 @@ inputs = {
       key_prefix = "platforms/aws/"
       config     = local.aws_backend_config
     },
+    {
+      prefix     = "platforms/ionos",
+      backend    = "s3",
+      key_prefix = "platforms/ionos/"
+      config     = local.aws_backend_config
+    },
+    {
+      prefix     = "platforms/sapbtp",
+      backend    = "s3",
+      key_prefix = "platforms/sapbtp/"
+      config     = local.aws_backend_config
+    },
+
     # foundation modules
     {
       prefix  = "meshstack",
