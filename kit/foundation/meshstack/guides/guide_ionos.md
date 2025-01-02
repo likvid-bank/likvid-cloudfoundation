@@ -18,9 +18,9 @@ At Likvid Bank, the Platform team is tasked with creating an exclusive service f
 
 The Platform team has identified the following challenges in deploying Likvid Government Guard:
 
-- Ensuring discoverability and usability of the custom platform via meshStack’s marketplace.
-- Enforcing compliance policies and high-security standards through automated configurations.
-- Providing seamless onboarding and management for application teams, ensuring ease of use and consistency.
+- **Ease of Use:** Ensuring discoverability and usability of the custom platform via meshStack’s marketplace.
+- **Compliance** Enforcing compliance policies and high-security standards through automated configurations.
+- **Self-Service** Providing seamless onboarding and management for application teams, ensuring ease of use and consistency.
 
 ---
 
