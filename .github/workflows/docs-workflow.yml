@@ -53,6 +53,11 @@ jobs:
           role-to-assume: ${{ vars.aws_iam_role }}
           role-session-name: github-actions-${{ github.run_id }}
 
+      - name: Setup gcloud auth
+        uses: 'google-github-actions/auth@v2'
+        with:
+          service_account: '${{ vars.gcp_service_account }}' # sourced from gh environment variable
+          workload_identity_provider: '${{ vars.gcp_workload_identity_provider }}'
 
       - name: update docs v2
         working-directory: foundations/${{ inputs.foundation }}/docs

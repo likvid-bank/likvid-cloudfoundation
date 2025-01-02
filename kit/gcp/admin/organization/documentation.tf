@@ -5,6 +5,14 @@ output "documentation_md" {
 All resources of this platform are nested under the top-level GCP folder `${data.google_folder.parent.display_name}`.
 All policies described below are also set at this folder level.
 
+```
+${data.google_folder.parent.display_name}
+  └── ${google_folder.admin.display_name}
+  └── ${google_folder.dev.display_name}
+  └── ${google_folder.prod.display_name}
+  └── ${google_folder.data_lagoon.display_name}
+```
+
 ### Domain Restricted Sharing
 
 ::: tip Domain Restricted Sharing

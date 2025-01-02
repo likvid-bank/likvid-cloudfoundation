@@ -7,6 +7,7 @@ terraform {
 locals {
   foundation_path    = "${get_repo_root()}/foundations/likvid-prod"
   azure_platform     = read_terragrunt_config("${local.foundation_path}/platforms/azure/platform.hcl")
+  gcp_platform       = read_terragrunt_config("${local.foundation_path}/platforms/gcp/platform.hcl")
   meshstack_platform = read_terragrunt_config("${local.foundation_path}/meshstack/terragrunt.hcl")
 
   aws_backend_config = {
@@ -49,7 +50,15 @@ inputs = {
       key_prefix = "platforms/sapbtp/"
       config     = local.aws_backend_config
     },
-
+    {
+      prefix     = "platforms/gcp",
+      key_prefix = "platforms/gcp/"
+      backend    = "gcs",
+      config = {
+        bucket = local.gcp_platform.locals.gcp_backend_config.bucket
+        prefix = local.gcp_platform.locals.gcp_backend_config.prefix
+      }
+    },
     # foundation modules
     {
       prefix  = "meshstack",

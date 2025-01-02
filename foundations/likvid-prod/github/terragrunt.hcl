@@ -20,6 +20,10 @@ dependency "azure_bootstrap" {
   config_path = "../platforms/azure/bootstrap"
 }
 
+dependency "gcp_bootstrap" {
+  config_path = "../platforms/gcp/bootstrap"
+}
+
 locals {
   azure         = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file("../platforms/azure/README.md"))[0]).azure
   aws           = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file("../platforms/aws/README.md"))[0]).aws
@@ -56,5 +60,8 @@ inputs = {
     azure_client_id       = dependency.azure_bootstrap.outputs.validation_uami_client_id
     azure_tenant_id       = local.azure.aadTenantId
     azure_subscription_id = local.azure.subscriptionId
+
+    gcp_service_account            = dependency.gcp_bootstrap.outputs.github_actions_validation_sa_email
+    gcp_workload_identity_provider = dependency.gcp_bootstrap.outputs.github_actions_workload_identity_provider
   }
 }

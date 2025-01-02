@@ -7,6 +7,12 @@ locals {
   # make platform config available
   platform = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file(".//README.md"))[0])
 
+  gcp_backend_config = {
+    skip_bucket_creation = true
+    bucket               = "foundation-likvid-prod-tf-states"
+    prefix               = "platforms/gcp/${path_relative_to_include()}"
+  }
+
   pam = {
     foundation_admins = [
       "jrudolph@meshcloud.io",
@@ -25,9 +31,5 @@ remote_state {
     if_exists = "overwrite"
   }
 
-  config = {
-    skip_bucket_creation = true
-    bucket               = "foundation-likvid-prod-tf-states"
-    prefix               = "platforms/gcp/${path_relative_to_include()}"
-  }
+  config = local.gcp_backend_config
 }

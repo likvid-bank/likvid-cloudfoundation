@@ -26,6 +26,10 @@ const navbar: NavbarConfig = [
       {
         text: "SAP BTP",
         link: "/platforms/sapbtp/bootstrap"
+      },
+      {
+        text: "GCP",
+        link: "/platforms/gcp/"
       }
     ],
   },
@@ -121,24 +125,40 @@ export const sidebar: SidebarConfig = {
     }
   ],
   "/platforms/ionos/": [
-      {
-        text: 'Ionos',
-        link: '/platforms/ionos/',
-        children: [
-          '/platforms/ionos/bootstrap'
-        ]
-      }
-    ],
+    {
+      text: 'Ionos',
+      link: '/platforms/ionos/',
+      children: [
+        '/platforms/ionos/bootstrap'
+      ]
+    }
+  ],
 
   "/platforms/sapbtp/": [
-      {
-        text: 'SAP BTP',
-        link: '/platforms/sapbtp/',
-        children: [
-          '/platforms/sapbtp/bootstrap'
-        ]
-      }
-    ],
+    {
+      text: 'SAP BTP',
+      link: '/platforms/sapbtp/',
+      children: [
+        '/platforms/sapbtp/bootstrap'
+      ]
+    }
+  ],
+  "/platforms/gcp/": [
+    {
+      text: 'GCP',
+      link: '/platforms/gcp/',
+      children: [
+        '/platforms/gcp/admin/organization',
+        {
+          text: 'Platform Administration',
+          children: [
+            '/platforms/gcp/bootstrap',
+            '/platforms/gcp/meshplatform',
+          ]
+        }
+      ]
+    }
+  ],
 
   "/concepts": [
     '/concepts'
