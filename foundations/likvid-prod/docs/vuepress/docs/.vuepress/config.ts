@@ -21,7 +21,11 @@ const navbar: NavbarConfig = [
       },
       {
         text: "IONOS",
-        link: "/platforms/ionos/"
+        link: "/platforms/ionos/bootstrap"
+      },
+      {
+        text: "SAP BTP",
+        link: "/platforms/sapbtp/bootstrap"
       }
     ],
   },
@@ -121,15 +125,17 @@ export const sidebar: SidebarConfig = {
         text: 'Ionos',
         link: '/platforms/ionos/',
         children: [
-          '/platforms/ionos/',
-          {
-            text: 'Ionos',
-            children: [
-            // '/platforms/aws/landingzones/cloud-native',
-             '/platforms/ionos/bootstrap'
-            // '/platforms/aws/buildingblocks/'
-            ]
-          }
+          '/platforms/ionos/bootstrap'
+        ]
+      }
+    ],
+
+  "/platforms/sapbtp/": [
+      {
+        text: 'SAP BTP',
+        link: '/platforms/sapbtp/',
+        children: [
+          '/platforms/sapbtp/bootstrap'
         ]
       }
     ],

@@ -45,7 +45,7 @@ No resources.
 | <a name="input_meshcloud_account_service_user_name"></a> [meshcloud\_account\_service\_user\_name](#input\_meshcloud\_account\_service\_user\_name) | Name of the meshfed-service user. This user is responsible for replication. | `string` | `"meshfed-service-user"` | no |
 | <a name="input_replicator_privileged_external_id"></a> [replicator\_privileged\_external\_id](#input\_replicator\_privileged\_external\_id) | Set this variable to a random UUID version 4. The external id is a secondary key to make an AssumeRole API call. | `string` | n/a | yes |
 | <a name="input_support_root_account_via_aws_sso"></a> [support\_root\_account\_via\_aws\_sso](#input\_support\_root\_account\_via\_aws\_sso) | Set to true to allow meshStack to manage the Organization's AWS Root account's access via AWS SSO. | `bool` | `false` | no |
-| <a name="input_workload_identity_federation"></a> [workload\_identity\_federation](#input\_workload\_identity\_federation) | n/a | <pre>object({<br>    issuer             = string,<br>    audience           = string,<br>    thumbprint         = string,<br>    replicator_subject = string,<br>    kraken_subject     = string<br>  })</pre> | `null` | no |
+| <a name="input_workload_identity_federation"></a> [workload\_identity\_federation](#input\_workload\_identity\_federation) | n/a | <pre>object({<br/>    issuer             = string,<br/>    audience           = string,<br/>    thumbprint         = string,<br/>    replicator_subject = string,<br/>    kraken_subject     = string<br/>  })</pre> | `null` | no |
 
 ## Outputs
 
