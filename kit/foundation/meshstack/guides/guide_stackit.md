@@ -29,39 +29,71 @@ The Likvid Bank rely on meshStack to standardize cloud access across teams and e
 
 ---
 
-## Implementation
+# Integrating STACKIT with meshStack
 
-### 1. Setting up STACKIT
+### 1. Setting up STACKIT  
 
-1. Create a STACKIT account through the [STACKIT Portal](https://stackit.de).
-2. Set up API credentials for your organization to enable meshStack integration.
+1. **Create a STACKIT Account**  
+   - Register via the [STACKIT Portal](https://stackit.de).  
 
-### 2. Integrating STACKIT as a Cloud Platform
+2. **Set Up Project Management**  
+   - Create a management project in your STACKIT organization.  
 
-1. Navigate to the platform team’s workspace:
-   - `${meshobjects_import_workspaces_stackit_yml_output_spec_displayName}`.
-2. Create a Building Block Definition for STACKIT:
-   - **Name:** `${buildingBlockDefinitions_stackit_virtual_datacenter_spec_displayName}`.
-   - **Inputs:**
-     - `region`: Selected STACKIT region (e.g., Germany, Austria).
-     - `project_name`: The name of the project where workloads will be deployed.
-     - `resources`: Resource configuration (e.g., VMs, storage, or Kubernetes).
-   - **Outputs:**
-     - `stackit_project_id`: ID of the created project in STACKIT.
-     - `web_console_url`: URL to access the STACKIT project.
+3. **Configure a Service Account**  
+   - Create a service account in the management project and generate a token for your organization.  
+   - Grant the service account sufficient permissions to create tenants in your organization.  
 
-3. Define a new Cloud Platform in meshStack:
-   - **Name:** `${platformDefinitions_stackit_spec_displayName}`.
-   - **Type:** STACKIT Secure Cloud Platform.
-   - **Description:** `${platformDefinitions_stackit_spec_description}`.
+---
 
-### 3. Publish the Platform
+### 2. Configure STACKIT Projects in meshStack
 
-1. Create Landing Zones for different use cases:
-   - `${landingZones_stackit_dev_spec_displayName}` for development environments.
-   - `${landingZones_stackit_prod_spec_displayName}` for production workloads.
-2. Publish the STACKIT platform in the meshStack marketplace to make it available for application teams.
+#### Create a Custom Building Block Definition
 
+1. Create a new Building Block Definition with the following configuration:
+   - **Implementation Type**: Terraform
+   - **Git Repository URL**: `git@github.com:likvid-bank/likvid-cloudfoundation.git`
+   - **Git Repository Path**: `kit/stackit/buildingblocks/projects/buildingblock`
+   - **Inputs**:
+     - `api_url`: The STACKIT API URL.  
+     - `token`: The token from your service account.  
+     - `workspace_id`: Workspace ID for the STACKIT environment; select it as a type in meshStack.  
+     - `project_id`: Project ID where workloads will be deployed; select it as a type in meshStack. 
+     - `parent_container_id`: The parent container for resource organization.  
+     - `users`: User access configuration; select it as a type in meshStack.  
+   - **Outputs:**  
+     - `tenant_id`: The unique ID of the created project in STACKIT.  
+     - `stackit_login_link`: URL for accessing the STACKIT project.  
+
+#### Set Up a Custom Platform
+
+1. Create a new Custom Platform called:
+   ```bash
+   ${platformDefinitions_stackit_spec_displayName}
+   ```
+
+2. Configure the following parameters:
+   - **Description**: `${platformDefinitions_stackit_spec_description}`
+   - **Web Console URL**: `${platformDefinitions_stackit_spec_web_console_url}`
+   - **Support URL**: `${platformDefinitions_stackit_spec_support_url}`
+   - **Documentation URL**: `${platformDefinitions_stackit_spec_documentation_url}`
+
+3. Define Landing Zones for Development and Production environments:
+   - Development:
+     ```bash
+     ${landingZones_stackit_dev_spec_displayName}
+     ```
+   - Production:
+     ```bash
+     ${landingZones_stackit_prod_spec_displayName}
+     ```
+
+### 3. Publish  STACKIT Projects building block
+
+1. Navigate to the Landing Zone configuration:
+   - Link the Building Block Definition `${buildingBlockDefinitions_stackit_projects_spec_displayName}` to the Landing Zones for both development and production.
+2. Publish the Custom Platform:
+   - Ensure that the platform appears in the meshStack marketplace.
+3. Submit the platform for administrator review and approval.
 
 ---
 

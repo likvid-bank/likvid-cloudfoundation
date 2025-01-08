@@ -178,18 +178,13 @@ locals {
       platformDefinitions_ionos_spec_web_console_url                                = local.customPlatformDefinitions.ionos.spec.web-console-url,
 
       # stackit Custom Platform
-      meshobjects_import_workspaces_stackit_yml_output_spec_displayName = terraform_data.meshobjects_import["workspaces/likvid-eurocloud.yml"].output.spec.displayName,
-
-      meshstack_project_likvid_gov_guard_dev_spec_display_name  = meshstack_project.likvid_gov_guard_dev.spec.display_name,
-      meshstack_project_likvid_gov_guard_prod_spec_display_name = meshstack_project.likvid_gov_guard_prod.spec.display_name,
-
-      buildingBlockDefinitions_stackit_virtual_datacenter_repository_spec_displayName = local.buildingBlockDefinitions.stackit-virtual-data-center.spec.displayName,
-      landingZones_stackit_dev_spec_displayName                                       = local.landingZones.stackit-dev.spec.displayName,
-      landingZones_stackit_prod_spec_displayName                                      = local.landingZones.stackit-prod.spec.displayName,
-      platformDefinitions_stackit_spec_displayName                                    = local.customPlatformDefinitions.stackit.spec.displayName,
-      platformDefinitions_stackit_spec_description                                    = local.customPlatformDefinitions.stackit.spec.description,
-      platformDefinitions_stackit_spec_support_url                                    = local.customPlatformDefinitions.stackit.spec.support-url,
-      platformDefinitions_stackit_spec_documentation_url                              = local.customPlatformDefinitions.stackit.spec.documentation-url,
+      buildingBlockDefinitions_stackit_projects_spec_displayName = local.buildingBlockDefinitions.stackit-projects.spec.displayName,
+      landingZones_stackit_dev_spec_displayName                  = local.landingZones.stackit-dev.spec.displayName,
+      landingZones_stackit_prod_spec_displayName                 = local.landingZones.stackit-prod.spec.displayName,
+      platformDefinitions_stackit_spec_displayName               = local.customPlatformDefinitions.stackit.spec.displayName,
+      platformDefinitions_stackit_spec_description               = local.customPlatformDefinitions.stackit.spec.description,
+      platformDefinitions_stackit_spec_support_url               = local.customPlatformDefinitions.stackit.spec.support-url,
+      platformDefinitions_stackit_spec_documentation_url         = local.customPlatformDefinitions.stackit.spec.documentation-url,
     platformDefinitions_stackit_spec_web_console_url = local.customPlatformDefinitions.stackit.spec.web-console-url })
   }
 }

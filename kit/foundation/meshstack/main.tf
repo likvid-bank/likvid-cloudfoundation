@@ -82,7 +82,7 @@ locals {
     stackit-dev = {
       name = "likvid-stackit-dev"
       spec = {
-        displayName = "Likvid stackit dev"
+        displayName = "likvid stackit dev"
         tags = {
           BusinessUnit = ["IT"]
         }
@@ -92,7 +92,7 @@ locals {
     stackit-prod = {
       name = "likvid-stackit-prod"
       spec = {
-        displayName = "Likvid stackit Prod"
+        displayName = "likvid stackit prod"
         tags = {
           BusinessUnit = ["IT"]
         }
@@ -208,7 +208,13 @@ locals {
         description = "Your IONOS Cloud infrastructure is set up in Virtual Data Centers (VDCs). Here you will find all the resources required to configure and manage your products and services."
       }
     }
-  }
+    stackit-projects = {
+      name = "stackit Projects"
+      spec = {
+        displayName = "STACKIT Projects"
+        description = "STACKIT projects are modular, cloud-native solutions and services provided by Schwarz Group, enabling businesses to manage infrastructure, applications, and data securely while ensuring compliance with European regulations."
+      }
+  } }
 }
 
 
