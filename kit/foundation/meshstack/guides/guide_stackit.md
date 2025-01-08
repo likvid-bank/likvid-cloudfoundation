@@ -31,17 +31,17 @@ The Likvid Bank rely on meshStack to standardize cloud access across teams and e
 
 # Integrating STACKIT with meshStack
 
-### 1. Setting up STACKIT  
+### 1. Setting up STACKIT
 
-1. **Create a STACKIT Account**  
-   - Register via the [STACKIT Portal](https://stackit.de).  
+1. **Create a STACKIT Account**
+   - Register via the [STACKIT Portal](https://stackit.de).
 
-2. **Set Up Project Management**  
-   - Create a management project in your STACKIT organization.  
+2. **Set Up Project Management**
+   - Create a management project in your STACKIT organization.
 
-3. **Configure a Service Account**  
-   - Create a service account in the management project and generate a token for your organization.  
-   - Grant the service account sufficient permissions to create tenants in your organization.  
+3. **Configure a Service Account**
+   - Create a service account in the management project and generate a token for your organization.
+   - Grant the service account sufficient permissions to create tenants in your organization.
 
 ---
 
@@ -54,15 +54,15 @@ The Likvid Bank rely on meshStack to standardize cloud access across teams and e
    - **Git Repository URL**: `git@github.com:likvid-bank/likvid-cloudfoundation.git`
    - **Git Repository Path**: `kit/stackit/buildingblocks/projects/buildingblock`
    - **Inputs**:
-     - `api_url`: The STACKIT API URL.  
-     - `token`: The token from your service account.  
-     - `workspace_id`: Workspace ID for the STACKIT environment; select it as a type in meshStack.  
-     - `project_id`: Project ID where workloads will be deployed; select it as a type in meshStack. 
-     - `parent_container_id`: The parent container for resource organization.  
-     - `users`: User access configuration; select it as a type in meshStack.  
-   - **Outputs:**  
-     - `tenant_id`: The unique ID of the created project in STACKIT.  
-     - `stackit_login_link`: URL for accessing the STACKIT project.  
+     - `api_url`: The STACKIT API URL.
+     - `token`: The token from your service account.
+     - `workspace_id`: Workspace ID for the STACKIT environment; select it as a type in meshStack.
+     - `project_id`: Project ID where workloads will be deployed; select it as a type in meshStack.
+     - `parent_container_id`: The parent container for resource organization.
+     - `users`: User access configuration; select it as a type in meshStack.
+   - **Outputs:**
+     - `tenant_id`: The unique ID of the created project in STACKIT.
+     - `stackit_login_link`: URL for accessing the STACKIT project.
 
 #### Set Up a Custom Platform
 
