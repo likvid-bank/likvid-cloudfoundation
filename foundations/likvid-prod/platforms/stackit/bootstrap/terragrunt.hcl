@@ -26,13 +26,15 @@ inputs = {
   token           = local.token
   organization_id = "05d7eb3f-f875-4bcd-ad0d-a07d62787f21"
   platform_admins = [
-    { subject = "fnowarre@meshcloud.io", role = "owner" },
-    { subject = "jrudolph@meshcloud.io", role = "owner" },
-    { subject = "malhussan@meshcloud.io", role = "owner" }
+    { subject = "fnowarre@meshcloud.io", role = "organization.member" },
+    { subject = "jrudolph@meshcloud.io", role = "organization.member" },
+    { subject = "malhussan@meshcloud.io", role = "organization.member" }
   ]
   platform_users = [
     { subject = "bschoor@meshcloud.io", role = "organization.auditor" },
     { subject = "ckraus@meshcloud.io", role = "organization.auditor" },
-    { subject = "ule@meshcloud.io", role = "organization.auditor" }
-  ]
+    { subject = "ule@meshcloud.io", role = "organization.auditor" },
+    { subject = "likvid-tom@meshcloud.io", role = "organization.auditor" },
+    { subject = "likvid-anna@meshcloud.io", role = "organization.auditor" },
+  { subject = "likvid-daniela@meshcloud.io", role = "organization.auditor" }]
 }
