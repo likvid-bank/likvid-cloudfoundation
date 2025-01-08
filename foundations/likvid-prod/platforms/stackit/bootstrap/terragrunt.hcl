@@ -32,6 +32,7 @@ inputs = {
   ]
   platform_users = [
     { subject = "bschoor@meshcloud.io", role = "organization.auditor" },
+    { subject = "sradzhabov@meshcloud.io", role = "organization.auditor" },
     { subject = "ckraus@meshcloud.io", role = "organization.auditor" },
     { subject = "ule@meshcloud.io", role = "organization.auditor" },
     { subject = "likvid-tom@meshcloud.io", role = "organization.auditor" },

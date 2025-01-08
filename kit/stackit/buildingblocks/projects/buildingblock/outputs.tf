@@ -3,5 +3,5 @@ output "tenant_id" {
 }
 
 output "stackit_login_link" {
-  value = "https://portal.stackit.cloud"
+  value = "https://portal.stackit.cloud/projects/${stackit_resourcemanager_project.projects.project_id}/access"
 }
