@@ -15,6 +15,11 @@ terraform {
   }
 }
 
+provider "stackit" {
+  region                = "eu01"
+  service_account_token = var.token
+}
+
 terraform {
   backend "s3" {
     bucket = "buildingblocks-tfstates-p32kj" # Must match what's configured in automation backend

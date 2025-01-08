@@ -1,4 +1,3 @@
-
 variable "api_url" {
   description = "Base API URL"
   type        = string
