@@ -25,3 +25,8 @@ variable "api_url" {
   type        = string
   default     = "https://authorization.api.stackit.cloud"
 }
+
+variable "organization_id" {
+  description = "Organization ID of your stackit cloud account"
+  type        = string
+}

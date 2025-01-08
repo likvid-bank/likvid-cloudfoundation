@@ -7,25 +7,32 @@ terraform {
   source = "${get_repo_root()}//kit/stackit/bootstrap"
 }
 
+locals {
+  token = get_env("STACKIT_SERVICE_ACCOUNT_TOKEN")
+}
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
   contents  = <<EOF
 provider "stackit" {
   region              = "eu01"
-  service_account_token = "${get_env("STACKIT_SERVICE_ACCOUNT_TOKEN")}"
+  service_account_token = "${local.token}"
 }
 EOF
 }
 
 inputs = {
-  admin = [
-    { subject = "fnowarre@meshcloud.io" },
-    { subject = "jrudolph@meshcloud.io" },
-    { subject = "malhussan@meshcloud.io" }
+  token           = local.token
+  organization_id = "05d7eb3f-f875-4bcd-ad0d-a07d62787f21"
+  platform_admins = [
+    { subject = "fnowarre@meshcloud.io", role = "owner" },
+    { subject = "jrudolph@meshcloud.io", role = "owner" },
+    { subject = "malhussan@meshcloud.io", role = "owner" }
   ]
-  users = [
-    { email = "bschoor@meshcloud.io" },
-    { email = "ckraus@meshcloud.io" }
+  platform_users = [
+    { subject = "bschoor@meshcloud.io", role = "organization.auditor" },
+    { subject = "ckraus@meshcloud.io", role = "organization.auditor" },
+    { subject = "ule@meshcloud.io", role = "organization.auditor" }
   ]
 }

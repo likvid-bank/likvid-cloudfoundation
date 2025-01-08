@@ -1,7 +1,8 @@
 resource "null_resource" "platform_admin" {
+
   # Trigger creation and destruction of resources based on the lifecycle
   triggers = {
-    members         = jsonencode(var.members)
+    members         = jsonencode(var.platform_admins)
     url             = var.api_url
     token           = var.token
     organization_id = var.organization_id
@@ -39,7 +40,7 @@ EOT
 resource "null_resource" "platform_users" {
   # Trigger creation and destruction of resources based on the lifecycle
   triggers = {
-    members         = jsonencode(var.members)
+    members         = jsonencode(var.platform_users)
     url             = var.api_url
     token           = var.token
     organization_id = var.organization_id
