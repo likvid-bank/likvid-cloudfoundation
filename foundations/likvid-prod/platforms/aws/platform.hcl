@@ -91,4 +91,3 @@ remote_state {
     profile = get_env("CI", "false") == "true" ? null : local.cloudfoundation
   }
 }
-
