@@ -3,7 +3,7 @@ output "documentation_md" {
 
 # Ionos Cloud Custom Platform
 
-## Self-Service Virtual Datacenter Provioning
+## Self-Service Virtual Datacenter Provisioning
 
 At Likvid Bank, the Platform Team enables seamless self-service provisioning and management of Virtual Datacenters (VDCs) for development teams. The platform is based on the Ionos Cloud and is designed to i
 provide a secure and compliant environment for development teams to deploy and manage their applications.

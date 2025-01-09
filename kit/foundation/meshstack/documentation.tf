@@ -176,7 +176,16 @@ locals {
       platformDefinitions_ionos_spec_support_url                                    = local.customPlatformDefinitions.ionos.spec.support-url,
       platformDefinitions_ionos_spec_documentation_url                              = local.customPlatformDefinitions.ionos.spec.documentation-url,
       platformDefinitions_ionos_spec_web_console_url                                = local.customPlatformDefinitions.ionos.spec.web-console-url,
-    })
+
+      # stackit Custom Platform
+      buildingBlockDefinitions_stackit_projects_spec_displayName = local.buildingBlockDefinitions.stackit-projects.spec.displayName,
+      landingZones_stackit_dev_spec_displayName                  = local.landingZones.stackit-dev.spec.displayName,
+      landingZones_stackit_prod_spec_displayName                 = local.landingZones.stackit-prod.spec.displayName,
+      platformDefinitions_stackit_spec_displayName               = local.customPlatformDefinitions.stackit.spec.displayName,
+      platformDefinitions_stackit_spec_description               = local.customPlatformDefinitions.stackit.spec.description,
+      platformDefinitions_stackit_spec_support_url               = local.customPlatformDefinitions.stackit.spec.support-url,
+      platformDefinitions_stackit_spec_documentation_url         = local.customPlatformDefinitions.stackit.spec.documentation-url,
+    platformDefinitions_stackit_spec_web_console_url = local.customPlatformDefinitions.stackit.spec.web-console-url })
   }
 }
 

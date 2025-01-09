@@ -24,6 +24,10 @@ const navbar: NavbarConfig = [
         link: "/platforms/ionos/bootstrap"
       },
       {
+        text: "STACKIT",
+        link: "/platforms/STACKIT/bootstrap"
+      },
+      {
         text: "SAP BTP",
         link: "/platforms/sapbtp/bootstrap"
       },
@@ -130,6 +134,16 @@ export const sidebar: SidebarConfig = {
       link: '/platforms/ionos/',
       children: [
         '/platforms/ionos/bootstrap'
+      ]
+    }
+  ],
+
+   "/platforms/stackit/": [
+    {
+      text: 'STACKIT',
+      link: '/platforms/stackit/',
+      children: [
+        '/platforms/stackit/bootstrap'
       ]
     }
   ],

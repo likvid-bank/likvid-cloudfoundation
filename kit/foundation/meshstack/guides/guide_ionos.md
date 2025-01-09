@@ -18,9 +18,9 @@ At Likvid Bank, the Platform team is tasked with creating an exclusive service f
 
 The Platform team has identified the following challenges in deploying Likvid Government Guard:
 
-- Ensuring discoverability and usability of the custom platform via meshStack’s marketplace.
-- Enforcing compliance policies and high-security standards through automated configurations.
-- Providing seamless onboarding and management for application teams, ensuring ease of use and consistency.
+- **Ease of Use:** Ensuring discoverability and usability of the custom platform via meshStack’s marketplace.
+- **Compliance** Enforcing compliance policies and high-security standards through automated configurations.
+- **Self-Service** Providing seamless onboarding and management for application teams, ensuring ease of use and consistency.
 
 ---
 
@@ -34,7 +34,7 @@ The Platform team has identified the following challenges in deploying Likvid Go
      Therefore, it unfortunately only makes sense to provide individual environments such as a DCD or a cluster within a single contract and not to issue subcontracts to the respective requesters.
      All users must be created in the contract beforehand. Replication of users via SSO does not work.
 
-### 2. Configure  Ionos DCD  in meshStack
+### 2. Configure Ionos DCD in meshStack
 
 #### Create a Custom Building Block Definition
 
@@ -46,7 +46,7 @@ The Platform team has identified the following challenges in deploying Likvid Go
 2. Create a new Building Block Definition with the following configuration:
    - **Implementation Type**: Terraform
    - **Git Repository URL**: `git@github.com:likvid-bank/likvid-cloudfoundation.git`
-   - **Git Repository Path**: `kit/ionos/buildingblocks/virtual-datacenter`
+   - **Git Repository Path**: `kit/ionos/buildingblocks/virtual-datacenter/buildingblock`
    - **Inputs**:
      - `location`: the location is hardcoded because we only allow "de/fra".
      - `workspace_identifier`: The meshStack workspace identifier (source).
@@ -88,7 +88,7 @@ The Platform team has identified the following challenges in deploying Likvid Go
 
 ---
 
-### 3. Publish  Ionos Virtual Datacenter building block
+### 3. Publish Ionos Virtual Datacenter building block
 
 1. Navigate to the Landing Zone configuration:
    - Link the Building Block Definition `${buildingBlockDefinitions_ionos_virtual_datacenter_repository_spec_displayName}` to the Landing Zones for both development and production.
@@ -105,8 +105,7 @@ The Platform team has identified the following challenges in deploying Likvid Go
    ${platformDefinitions_ionos_spec_displayName}
    ```
 
-2. Teams provide the necessary inputs during provisioning, such as the Virtual Data Center name and region.
-3. A Virtual Data Center is created within the IONOS Cloud, linked to the specific project:
+2. A Virtual Data Center is created within the IONOS Cloud, linked to the specific project:
    ```bash
    Development: ${meshstack_project_likvid_gov_guard_dev_spec_display_name}
    Production: ${meshstack_project_likvid_gov_guard_prod_spec_display_name}

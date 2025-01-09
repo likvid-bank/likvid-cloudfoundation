@@ -45,6 +45,12 @@ inputs = {
       config     = local.aws_backend_config
     },
     {
+      prefix     = "platforms/stackit",
+      backend    = "s3",
+      key_prefix = "platforms/stackit/"
+      config     = local.aws_backend_config
+    },
+    {
       prefix     = "platforms/sapbtp",
       backend    = "s3",
       key_prefix = "platforms/sapbtp/"

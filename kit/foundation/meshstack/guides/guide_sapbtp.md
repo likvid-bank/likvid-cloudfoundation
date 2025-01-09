@@ -2,12 +2,16 @@
 
 This guide explains how to manage SAP BTP services as a custom platform that can be consumed by application teams using meshStack.
 
+---
+
 ## Motivation
 
 At Likvid Bank, the Platform team is tasked with building the organization’s internal developer platform. One of the foundational services they aim to offer is self-service provisioning and management of SAP BTP subaccounts. The team has defined key requirements to ensure compliance while simplifying workflows for application teams:
 
 - **Secure**: Ensure subaccounts are created with preconfigured compliance settings, such as security policies and access restrictions.
 - **Flexible**: Allow application teams to choose from predefined subaccount configurations or create custom subaccounts based on their specific requirements.
+
+---
 
 ## Challenges
 
@@ -17,15 +21,21 @@ The Platform team has identified the following challenges:
 - Enforcing secure access and compliance policies by applying standardized tags, roles, and policies during subaccount creation.
 - Providing clear guidance and feedback to users during the subaccount provisioning process, ensuring ease of use and consistency.
 
-## Implementation
+## Integrating SAPBTP with meshStack
 
-### 1. Set Up SAP BTP
+### 1. Set Up SAP
 
-1. Create a [SAP Universal ID](https://account.sap.com/core/create) for logging into SAP.
-2. Create a user with permissions for creating subaccounts in your BTP Cockpit. Terraform will use this user to create the infrastructure.
-3. Set a password for the user, as it is required for the Terraform SAP BTP Provider.
+1. **Create a SAP Account**
+   - Create a [SAP Universal ID](https://account.sap.com/core/create) for logging into SAP.
+2. **Create a User**
+   - Create a user with permissions for creating subaccounts in your BTP Cockpit. Terraform will use this user to create the infrastructure.
+   - Set a password for the user, as it is required for the Terraform SAP BTP Provider.
 
-### 2. Set Up a Custom Platform
+---
+
+### 2. Configure SAPBTP Subaccounts in meshStack
+
+#### Create a Custom Building Block Definition
 
 1. Navigate to the "Service Management Area" of the Platform team's workspace: `${meshobjects_import_workspaces_sap_core_platform_yml_output_spec_displayName}`.
 2. Create a new Building Block Definition called `${buildingBlockDefinitions_sapbtp_subaccounts_repository_spec_displayName}`.
@@ -64,7 +74,36 @@ The Platform team has identified the following challenges:
 2. Publish the new Custom Platform to make it available in the meshStack marketplace.
 3. An administrator will review and approve publishing the Custom Platform.
 
-### 4. Application Team Consuming the Service
+
+#### Set Up a Custom Platform
+
+1. Create a new Custom Platform called:
+
+   ```bash
+   ${ platformDefinitions_sap_core_platform_spec_displayName }
+   ```
+2. Configure the following parameters:
+   - **Description**: `${platformDefinitions_sap_core_platform_spec_description}`
+   - **Web Console URL**: `${platformDefinitions_sap_core_platform_spec_web_console_url}`
+   - **Support URL**: `${platformDefinitions_sap_core_platform_spec_support_url}`
+   - **Documentation URL**: `${platformDefinitions_sap_core_platform_spec_documentation_url}`
+
+3. Define a Landing Zone:
+
+     ```bash
+     ${landingZones_sap_core_platform_spec_displayName}
+     ```
+
+
+### 4. Publish SAPBTP Subaccounts building block
+
+1. Navigate to the Landing Zone configuration:
+   - Link the Building Block Definition `${buildingBlockDefinitions_sapbtp_subaccounts_repository_spec_displayName}` to the Landing Zone.
+2. Publish the Custom Platform:
+   - Ensure that the platform appears in the meshStack marketplace.
+3. Submit the platform for administrator review and approval.
+
+### 5. Application Team Consuming the Service
 
 1. The application team has the following workspace and project:
    ```bash
