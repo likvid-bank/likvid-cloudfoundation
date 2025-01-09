@@ -30,6 +30,7 @@ inputs = {
     { subject = "jrudolph@meshcloud.io", role = "organization.member" },
     { subject = "malhussan@meshcloud.io", role = "organization.member" }
   ]
+
   platform_users = [
     { subject = "bschoor@meshcloud.io", role = "organization.auditor" },
     { subject = "sradzhabov@meshcloud.io", role = "organization.auditor" },
@@ -37,5 +38,6 @@ inputs = {
     { subject = "ule@meshcloud.io", role = "organization.auditor" },
     { subject = "likvid-tom@meshcloud.io", role = "organization.auditor" },
     { subject = "likvid-anna@meshcloud.io", role = "organization.auditor" },
-  { subject = "likvid-daniela@meshcloud.io", role = "organization.auditor" }]
+    { subject = "likvid-daniela@meshcloud.io", role = "organization.auditor" }
+  ]
 }
