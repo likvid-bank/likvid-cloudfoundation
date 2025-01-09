@@ -25,7 +25,7 @@ const navbar: NavbarConfig = [
       },
       {
         text: "STACKIT",
-        link: "/platforms/STACKIT/bootstrap"
+        link: "/platforms/stackit/bootstrap"
       },
       {
         text: "SAP BTP",
