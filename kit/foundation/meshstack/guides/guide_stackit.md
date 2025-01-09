@@ -54,14 +54,18 @@ The Likvid Bank rely on meshStack to standardize cloud access across teams and e
    - **Git Repository URL**: `git@github.com:likvid-bank/likvid-cloudfoundation.git`
    - **Git Repository Path**: `kit/stackit/buildingblocks/projects/buildingblock`
    - **Inputs**:
-     - `api_url`: The STACKIT API URL.
-     - `token`: The token from your service account.
-     - `workspace_id`: Workspace ID for the STACKIT environment; select it as a type in meshStack.
-     - `project_id`: Project ID where workloads will be deployed; select it as a type in meshStack.
-     - `parent_container_id`: The parent container for resource organization.
-     - `users`: User access configuration; select it as a type in meshStack.
+     - `api_url`: The STACKIT API URL (static source).
+     - `token`: The token from your service account (encrypted).
+     - `workspace_id`:  The meshStack workspace identifier (source).
+     - `project_id`: The meshStack project identifier (source).
+     - `parent_container_id`: The parent container for resource organization (static source).
+     - `users`: The [User Permissions](https://docs.meshcloud.io/docs/administration.building-blocks.html#user-permissions) that grant access to the created STACKIT Projects.
+     - **Terraform Backend (AWS):**
+       - `aws_account_id`: AWS account ID for the assume role where the backend was created (part of `versions.tf`).
+       - `AWS_ACCESS_KEY_ID`: AWS IAM user access key (environment variable).
+       - `AWS_SECRET_ACCESS_KEY`: AWS IAM user secret access key (environment variable, encrypted).
    - **Outputs:**
-     - `tenant_id`: The unique ID of the created project in STACKIT.
+     - `tenant_id`: The unique ID of the created project in STACKIT (**Assignment Type**: Platform Tenant ID).
      - `stackit_login_link`: URL for accessing the STACKIT project.
 
 #### Set Up a Custom Platform
@@ -87,7 +91,7 @@ The Likvid Bank rely on meshStack to standardize cloud access across teams and e
      ${landingZones_stackit_prod_spec_displayName}
      ```
 
-### 3. Publish  STACKIT Projects building block
+### 3. Publish STACKIT Projects building block
 
 1. Navigate to the Landing Zone configuration:
    - Link the Building Block Definition `${buildingBlockDefinitions_stackit_projects_spec_displayName}` to the Landing Zones for both development and production.
