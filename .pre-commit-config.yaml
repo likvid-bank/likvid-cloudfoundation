@@ -39,42 +39,49 @@ repos:
         args:
           - --args=provider hashicorp/azurerm
           - --args=--version "3.116.0"
+          - --args=--ignore-path "kit/.*/buildingblocks/.*"
 
       - id: tfupdate
         name: tfupdate hashicorp/azuread
         args:
           - --args=provider hashicorp/azuread
           - --args=--version "3.0.2"
+          - --args=--ignore-path "kit/.*/buildingblocks/.*"
 
       - id: tfupdate
         name: tfupdate hashicorp/aws
         args:
           - --args=provider hashicorp/aws
           - --args=--version "5.65.0"
+          - --args=--ignore-path "kit/.*/buildingblocks/.*"
 
       - id: tfupdate
         name: tfupdate hashicorp/random
         args:
           - --args=provider hashicorp/random
           - --args=--version "3.6.0"
+          - --args=--ignore-path "kit/.*/buildingblocks/.*"
 
       - id: tfupdate
         name: tfupdate hashicorp/time
         args:
           - --args=provider hashicorp/time
           - --args=--version "0.11.1"
+          - --args=--ignore-path "kit/.*/buildingblocks/.*"
 
       - id: tfupdate
         name: tfupdate hashicorp/null
         args:
           - --args=provider hashicorp/null
           - --args=--version "3.2.2"
+          - --args=--ignore-path "kit/.*/buildingblocks/.*"
 
       - id: tfupdate
         name: tfupdate hashicorp/local
         args:
           - --args=provider hashicorp/local
           - --args=--version "2.5.1"
+          - --args=--ignore-path "kit/.*/buildingblocks/.*"
 
 
       - id: tfupdate
@@ -82,6 +89,7 @@ repos:
         args:
           - --args=provider integrations/github
           - --args=--version "5.42.0"
+          - --args=--ignore-path "kit/.*/buildingblocks/.*"
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0  # Use the ref you want to point at
