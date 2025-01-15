@@ -17,7 +17,6 @@ All Firewall related logs are in the Log Anlytics Workspace
 |-|-|-|
 | glaskugel | 10.1.0.0/24 | Project Palantíri, stackholder Saruman |
 | glaskugel | 10.2.1.0/24 | Project Palantíri dev, stackholder Saruman |
-|trading-app-dev| 10.3.1.0/24 | Trading App Dev, stackholder Gandalf |
 ## Subnets
 
 | name | prefixes |
