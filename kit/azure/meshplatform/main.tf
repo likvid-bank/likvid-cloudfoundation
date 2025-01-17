@@ -24,4 +24,5 @@ module "meshplatform" {
   create_passwords                      = var.create_passwords
   workload_identity_federation          = var.workload_identity_federation
   can_cancel_subscriptions_in_scopes    = var.can_cancel_subscriptions_in_scopes
+  can_delete_rgs_in_scopes              = var.can_delete_rgs_in_scopes
 }

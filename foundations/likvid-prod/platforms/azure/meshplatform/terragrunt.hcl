@@ -46,6 +46,10 @@ inputs = {
     dependency.organization_hierarchy.outputs.landingzones_id
   ]
 
+  can_delete_rgs_in_scopes = [
+    "/subscriptions/e1c85eff-0a2c-4268-9b6c-7d2ff9ca9848"
+  ]
+
   workload_identity_federation = {
     issuer             = "https://container.googleapis.com/v1/projects/meshcloud-meshcloud--bc0/locations/europe-west1/clusters/meshstacks-ha"
     replicator_subject = "system:serviceaccount:meshcloud-demo:replicator"
