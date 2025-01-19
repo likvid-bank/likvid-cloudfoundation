@@ -11,6 +11,10 @@ dependency "organization_hierarchy" {
   config_path = "../organization-hierarchy"
 }
 
+dependency "lift_and_shift_landingzone" {
+  config_path = "../landingzones/lift-and-shift"
+}
+
 # todo: setup providers as needed by your kit module, typically referencing outputs of the bootstrap module
 # note: this block is generated as a fallback, since the kit module provided no explicit terragrunt.hcl template
 generate "provider" {
@@ -47,7 +51,7 @@ inputs = {
   ]
 
   can_delete_rgs_in_scopes = [
-    "/subscriptions/e1c85eff-0a2c-4268-9b6c-7d2ff9ca9848"
+    dependency.lift_and_shift_landingzone.outputs.lift_and_shift_subscription_id
   ]
 
   workload_identity_federation = {
