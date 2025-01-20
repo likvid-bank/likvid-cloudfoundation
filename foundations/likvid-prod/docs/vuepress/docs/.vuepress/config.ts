@@ -73,6 +73,7 @@ export const sidebar: SidebarConfig = {
             '/platforms/azure/landingzones/cloud-native',
             '/platforms/azure/landingzones/corp-online',
             '/platforms/azure/landingzones/container-platform',
+            '/platforms/azure/landingzones/lift-and-shift',
           ]
         },
         {
@@ -138,7 +139,7 @@ export const sidebar: SidebarConfig = {
     }
   ],
 
-   "/platforms/stackit/": [
+  "/platforms/stackit/": [
     {
       text: 'STACKIT',
       link: '/platforms/stackit/',
