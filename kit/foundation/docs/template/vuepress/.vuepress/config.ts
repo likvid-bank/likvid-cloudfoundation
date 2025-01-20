@@ -57,6 +57,7 @@ export const sidebar: SidebarConfig = {
             '/platforms/azure/landingzones/cloud-native',
             '/platforms/azure/landingzones/corp-online',
             '/platforms/azure/landingzones/container-platform',
+            '/platforms/azure/landingzones/lift-and-shift',
           ]
         },
         {
@@ -94,7 +95,7 @@ export const sidebar: SidebarConfig = {
         {
           text: 'Landing Zones',
           children: [
-          //  '/platforms/aws/landingzones/cloud-native',
+            //  '/platforms/aws/landingzones/cloud-native',
           ]
 
         },
@@ -106,8 +107,8 @@ export const sidebar: SidebarConfig = {
         {
           text: 'Platform Administration',
           children: [
-           // '/platforms/aws/bootstrap',
-           // '/platforms/aws/buildingblocks/automation',
+            // '/platforms/aws/bootstrap',
+            // '/platforms/aws/buildingblocks/automation',
           ]
         }
       ]

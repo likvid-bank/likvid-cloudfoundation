@@ -21,22 +21,11 @@ locals {
       "jrudolph@meshcloud.io",
       "malhussan@meshcloud.io",
       "fnowarre@meshcloud.io",
-      "fzieger@meshcloud.io",
     ]
 
     # foundation engineers can deploy kit modules, but can't bootstrap
     foundation_engineers = [
       "malhussan@meshcloud.io",
-    ]
-
-    # for setting up hub and spoke networks
-    # TODO: not sure if this is still used
-    shared_vpc_admins = [
-      "fzieger@meshcloud.io"
-    ]
-
-    security_auditors = [
-      "fzieger@meshcloud.io"
     ]
   }
 
