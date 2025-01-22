@@ -1,3 +1,8 @@
+output "cloud_native_ou_id" {
+  description = "organizational unit id for the cloud-native OU"
+  value       = aws_organizations_organizational_unit.cloud_native.id
+}
+
 output "dev_ou_id" {
   description = "organizational unit id for the dev OU"
   value       = aws_organizations_organizational_unit.dev.id

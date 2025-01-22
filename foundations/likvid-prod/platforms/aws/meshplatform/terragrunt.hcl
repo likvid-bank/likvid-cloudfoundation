@@ -77,7 +77,10 @@ inputs = {
     "arn:aws:organizations::${include.platform.locals.platform.aws.accountId}:ou/o-0asb1bd1jb/ou-rpqz-iq2j0zhi" # likvid-mobile OU
   ]
 
-  can_close_accounts_in_resource_org_paths = []
+  can_close_accounts_in_resource_org_paths = [
+    # Ideally this should be restricted to specific landing zones, but that results in a 400 error from AWS.
+    "${dependency.organization.outputs.org_id}/${dependency.organization.outputs.org_root_id}/*",
+  ]
 
   create_access_keys = true
 }
