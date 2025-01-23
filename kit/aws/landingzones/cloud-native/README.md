@@ -39,6 +39,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_cloud_native_ou_id"></a> [cloud\_native\_ou\_id](#output\_cloud\_native\_ou\_id) | organizational unit id for the cloud-native OU |
 | <a name="output_dev_ou_arn"></a> [dev\_ou\_arn](#output\_dev\_ou\_arn) | organizational unit arn for the dev OU |
 | <a name="output_dev_ou_id"></a> [dev\_ou\_id](#output\_dev\_ou\_id) | organizational unit id for the dev OU |
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
