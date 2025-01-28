@@ -26,11 +26,11 @@ run "verify" {
       },
       {
         meshIdentifier = "identifier1"
-        username       = "likvid-anna2@meshcloud.io"
+        username       = "likvid-annai442@meshcloud.io"
         firstName      = "likvid"
         lastName       = "anna"
-        email          = "likvid-anna2@meshcloud.io"
-        euid           = "likvid-anna2@meshcloud.io"
+        email          = "likvid-anna442@meshcloud.io"
+        euid           = "likvid-anna442@meshcloud.io"
         roles          = ["admin"]
       }
     ]

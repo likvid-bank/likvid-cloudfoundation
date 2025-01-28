@@ -1,19 +1,18 @@
-
 run "verify" {
   variables {
+
     aws_account_id = "490004649140"
-    contract_id    = "34858204"
-    workspace_id   = "ionos"
-    project_id     = "testvdc"
+    workspace_id   = "workspace"
+    project_id     = "project"
     users = [
       {
-        meshIdentifier = "identifier1"
+        meshIdentifier = "identifier0"
         username       = "likvid-daniela@meshcloud.io"
         firstName      = "likvid"
         lastName       = "daniela"
         email          = "likvid-daniela@meshcloud.io"
         euid           = "likvid-daniela@meshcloud.io"
-        roles          = ["user"]
+        roles          = ["reader"]
       },
       {
         meshIdentifier = "identifier1"
@@ -22,17 +21,18 @@ run "verify" {
         lastName       = "tom"
         email          = "likvid-tom@meshcloud.io"
         euid           = "likvid-tom@meshcloud.io"
-        roles          = ["user"]
+        roles          = ["editor"]
       },
       {
-        meshIdentifier = "identifier1"
-        username       = "likvid-anna2@meshcloud.io"
+        meshIdentifier = "identifier2"
+        username       = "likvid-anna@meshcloud.io"
         firstName      = "likvid"
         lastName       = "anna"
-        email          = "likvid-anna2@meshcloud.io"
-        euid           = "likvid-anna2@meshcloud.io"
+        email          = "likvid-anna@meshcloud.io"
+        euid           = "likvid-anna@meshcloud.io"
         roles          = ["admin"]
       }
+
     ]
   }
 
