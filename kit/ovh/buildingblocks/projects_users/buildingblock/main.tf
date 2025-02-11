@@ -16,23 +16,6 @@ locals {
 
   all_users = merge(local.new_users, local.existing_users)
 
-  # admin_urns = compact([
-  #   for email, user in local.processed_users :
-  #   lookup(ovh_me_identity_user.platform_users, email, null) != null ? ovh_me_identity_user.platform_users[email].urn : null
-  #   if contains(user.roles, "admin")
-  # ])
-
-  # editor_urns = compact([
-  #   for email, user in local.processed_users :
-  #   lookup(ovh_me_identity_user.platform_users, email, null) != null ? ovh_me_identity_user.platform_users[email].urn : null
-  #   if contains(user.roles, "editor")
-  # ])
-
-  # reader_urns = compact([
-  #   for email, user in local.processed_users :
-  #   lookup(ovh_me_identity_user.platform_users, email, null) != null ? ovh_me_identity_user.platform_users[email].urn : null
-  #   if contains(user.roles, "reader")
-  # ])
 }
 
 data "ovh_me" "myaccount" {}
