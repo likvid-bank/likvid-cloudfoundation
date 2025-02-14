@@ -50,8 +50,3 @@ data "azurerm_kubernetes_cluster" "aks" {
   name                = "aks"
   resource_group_name = "aks-rg"
 }
-
-output "aks" {
-  value     = data.azurerm_kubernetes_cluster.aks.kube_admin_config_raw
-  sensitive = true
-}
