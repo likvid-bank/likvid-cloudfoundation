@@ -1,10 +1,15 @@
+locals {
+  user_list = split(",", var.users)
+}
+
 data "azurerm_subscription" "current" {}
 
 data "azurerm_client_config" "current" {}
 
+
 data "azuread_user" "users" {
-  for_each = toset(var.users)
-  mail     = each.value
+  for_each = toset(local.user_list)
+  mail     = trimspace(each.value)
 }
 
 resource "azurerm_resource_group" "key_vault" {

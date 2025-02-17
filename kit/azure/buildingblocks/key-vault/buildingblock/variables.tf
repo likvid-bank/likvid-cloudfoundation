@@ -20,9 +20,10 @@ variable "subscription_id" {
 }
 
 variable "users" {
-  type    = list(string)
-  default = []
+  type        = string
+  description = "Comma-separated list of user emails"
 }
+
 variable "public_network_access_enabled" {
   type    = bool
   default = false
