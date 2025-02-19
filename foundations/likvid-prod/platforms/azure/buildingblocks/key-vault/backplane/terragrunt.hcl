@@ -75,5 +75,12 @@ provider "azurerm" {
   client_id             = "${dependency.automation.outputs.client_id}"
   client_secret         = "${dependency.automation.outputs.client_secret}"
 }
+
+provider "azuread" {
+  tenant_id       = "${dependency.automation.outputs.tenant_id}"
+
+  client_id       = "${dependency.automation.outputs.client_id}"
+  client_secret   = "${dependency.automation.outputs.client_secret}"
+}
 EOF
 }
