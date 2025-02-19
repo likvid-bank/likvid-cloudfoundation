@@ -19,6 +19,7 @@ across all subscriptions underneath a management group (typically the top-level 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 3.1.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.116.0 |
 
 ## Modules
@@ -29,8 +30,8 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azuread_directory_role.directory_readers](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/directory_role) | resource |
-| [azuread_directory_role_assignment.example](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/directory_role_assignment) | resource |
+| [azuread_directory_role.directory_readers](https://registry.terraform.io/providers/hashicorp/azuread/3.1.0/docs/resources/directory_role) | resource |
+| [azuread_directory_role_assignment.directory_readers](https://registry.terraform.io/providers/hashicorp/azuread/3.1.0/docs/resources/directory_role_assignment) | resource |
 | [azurerm_role_assignment.buildingblock_deploy](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_definition.buildingblock_deploy](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_definition) | resource |
 

@@ -25,7 +25,7 @@ resource "azuread_directory_role" "directory_readers" {
   display_name = "Directory Readers"
 }
 
-resource "azuread_directory_role_assignment" "example" {
+resource "azuread_directory_role_assignment" "directory_readers" {
   for_each            = var.principal_ids
   role_id             = azuread_directory_role.directory_readers.template_id
   principal_object_id = each.value
