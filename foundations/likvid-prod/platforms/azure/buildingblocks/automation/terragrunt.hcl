@@ -33,11 +33,7 @@ terraform {
 inputs = {
   location               = "germanywestcentral"
   service_principal_name = "likvid_foundation_tf_buildingblock_user"
-  key_vault = {
-    name                = dependency.bootstrap.outputs.azurerm_key_vault.name
-    resource_group_name = dependency.bootstrap.outputs.azurerm_key_vault_rg_name
-  }
-  scope = dependency.organization-hierarchy.outputs.landingzones_id
+  scope                  = dependency.organization-hierarchy.outputs.landingzones_id
 
 }
 

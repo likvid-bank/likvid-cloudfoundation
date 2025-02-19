@@ -3,11 +3,9 @@
 
 run "verify" {
   variables {
-    private = true
-  }
-
-  assert {
-    condition     = output.repo_name == "likvid-github-repo-test"
-    error_message = "did not produce the correct repository_name output"
+    key_vault_resource_group_name = "kv-rg"
+    key_vault_name                = "kv-integrationtest"
+    location                      = "westeurope"
+    users                         = ["fnowarre@meshcloud.io"]
   }
 }
