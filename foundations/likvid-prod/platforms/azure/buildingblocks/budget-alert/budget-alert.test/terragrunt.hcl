@@ -46,7 +46,7 @@ EOF
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/azure/buildingblocks/budget-alert/buildingblock"
+  source = "https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/budget-alert/buildingblock?ref=v0.5.3"
 }
 
 inputs = {

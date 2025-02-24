@@ -32,7 +32,8 @@ dependency "automation" {
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/azure/buildingblocks/key-vault/backplane"
+  source = "https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/key-vault/backplane?ref=v0.5.3"
+
 }
 
 inputs = {
