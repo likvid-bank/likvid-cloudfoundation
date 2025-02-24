@@ -19,7 +19,7 @@ EOF
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/aks/buildingblocks/github-connector/backplane"
+  source = "https://github.com/meshcloud/collie-hub.git//kit/aks/buildingblocks/github-connector/backplane?ref=v0.5.3"
 }
 
 inputs = {
