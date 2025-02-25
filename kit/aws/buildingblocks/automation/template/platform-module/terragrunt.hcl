@@ -23,7 +23,7 @@ provider "aws" {
 
 ## We are using Automation account here, since meshStack already set up a trust to this account
   assume_role {
-    role_arn     = "arn:aws:iam::579066991346:role/${include.platform.locals.active_role}"
+    role_arn     = "arn:aws:iam::579066991346:role/${include.platform.locals.active_role.default}"
     session_name = "cloudfoundation_tf_deploy"
   }
 }

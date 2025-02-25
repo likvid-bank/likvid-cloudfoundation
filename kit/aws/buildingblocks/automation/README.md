@@ -55,6 +55,7 @@ No modules.
 | <a name="input_building_block_backend_account_service_user_name"></a> [building\_block\_backend\_account\_service\_user\_name](#input\_building\_block\_backend\_account\_service\_user\_name) | Name of the IAM user that meshStack will use to manage building block resources | `string` | n/a | yes |
 | <a name="input_building_block_target_account_access_role_name"></a> [building\_block\_target\_account\_access\_role\_name](#input\_building\_block\_target\_account\_access\_role\_name) | Account access role used by building-block-service. | `string` | `"BuildingBlockServiceRole"` | no |
 | <a name="input_building_block_target_ou_ids"></a> [building\_block\_target\_ou\_ids](#input\_building\_block\_target\_ou\_ids) | List of OUs to deploy the building block service role to | `set(string)` | n/a | yes |
+| <a name="input_deny_create_iam_user_except_roles"></a> [deny\_create\_iam\_user\_except\_roles](#input\_deny\_create\_iam\_user\_except\_roles) | List of role names that are allowed to create, update, or delete IAM users | `list(string)` | n/a | yes |
 | <a name="input_foundation"></a> [foundation](#input\_foundation) | Name of your Cloud Foundation configuration | `string` | n/a | yes |
 
 ## Outputs
