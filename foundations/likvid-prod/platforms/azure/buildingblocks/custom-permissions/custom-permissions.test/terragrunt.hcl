@@ -52,7 +52,7 @@ EOF
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/azure/buildingblocks/custom-permissions/buildingblock"
+  source = "https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/custom-permissions/buildingblock?ref=v0.5.3"
 }
 
 inputs = {

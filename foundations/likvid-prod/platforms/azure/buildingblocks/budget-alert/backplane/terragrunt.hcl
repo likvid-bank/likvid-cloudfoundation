@@ -32,7 +32,7 @@ dependency "automation" {
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/azure/buildingblocks/budget-alert/backplane"
+  source = "https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/budget-alert/backplane?ref=v0.5.3"
 }
 
 inputs = {

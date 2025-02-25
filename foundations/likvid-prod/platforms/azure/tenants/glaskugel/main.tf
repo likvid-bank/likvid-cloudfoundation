@@ -1,5 +1,5 @@
 module "subscription" {
-  source = "../../../../../../../../../kit/azure/buildingblocks/subscription/buildingblock"
+  source = "git::https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/subscription/buildingblock?ref=v0.5.3"
 
   subscription_name       = "glaskugel"
   parent_management_group = var.corp_management_group
@@ -8,7 +8,7 @@ module "subscription" {
 data "azurerm_subscription" "current" {}
 
 module "budget_alert" {
-  source = "../../../../../../../../../kit/azure/buildingblocks/budget-alert/buildingblock"
+  source = "git::https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/budget-alert/buildingblock?ref=v0.5.3"
 
   subscription_id       = data.azurerm_subscription.current.subscription_id
   contact_emails        = "fnowarre@meshcloud.io,jrudolph@meshcloud.io"
@@ -17,7 +17,7 @@ module "budget_alert" {
 
 
 module "connectivity" {
-  source = "../../../../../../../../../kit/azure/buildingblocks/connectivity/buildingblock"
+  source = "git::https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/connectivity/buildingblock?ref=v0.5.3"
 
   providers = {
     azurerm.spoke = azurerm
