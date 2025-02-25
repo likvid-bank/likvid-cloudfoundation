@@ -32,7 +32,7 @@ dependency "automation" {
 }
 
 terraform {
-  source = "https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/key-vault/backplane?ref=v0.5.3"
+  source = "https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/key-vault/backplane?ref=main"
 
 }
 
