@@ -13,11 +13,3 @@ variable "scope" {
   type     = string
   nullable = false
 }
-
-variable "key_vault" {
-  type = object({
-    name                = string
-    resource_group_name = string
-  })
-  description = "Key Vault configuration"
-}
