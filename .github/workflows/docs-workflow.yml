@@ -69,6 +69,7 @@ jobs:
           MESHSTACK_API_PASSWORD: ${{ secrets.MESHSTACK_API_PASSWORD }}
           MESHSTACK_API_KEY_SAP_CORE_PLATFORM: ${{ secrets.MESHSTACK_API_KEY_SAP_CORE_PLATFORM }}
           MESHSTACK_API_KEY_LIKVID_GOV_GUARD: ${{ secrets.MESHSTACK_API_KEY_LIKVID_GOV_GUARD }}
+          MESHSTACK_API_KEY_QUICKSTART_PROD: ${{ secrets.MESHSTACK_API_KEY_QUICKSTART_PROD }}
 
       - name: upload docs artifact
         uses: actions/upload-artifact@v4
