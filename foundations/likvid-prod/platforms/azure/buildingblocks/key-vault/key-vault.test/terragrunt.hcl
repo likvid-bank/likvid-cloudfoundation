@@ -21,7 +21,7 @@ terraform {
     resource_group_name   = "${dependency.automation.outputs.resource_group_name}"
     storage_account_name  = "${dependency.automation.outputs.storage_account_name}"
     container_name        = "${dependency.automation.outputs.container_name}"
-    key                   = "budget-alert.tfstate"
+    key                   = "key-vault.tfstate"
 
     client_id             = "${dependency.automation.outputs.client_id}"
     client_secret         = "${dependency.automation.outputs.client_secret}"
@@ -42,11 +42,20 @@ provider "azurerm" {
   client_id             = "${dependency.automation.outputs.client_id}"
   client_secret         = "${dependency.automation.outputs.client_secret}"
 }
+
+provider "azuread" {
+  tenant_id       = "${dependency.automation.outputs.tenant_id}"
+
+  client_id       = "${dependency.automation.outputs.client_id}"
+  client_secret   = "${dependency.automation.outputs.client_secret}"
+}
+
+
 EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/budget-alert/buildingblock?ref=v0.5.3"
+  source = "https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/key-vault/buildingblock?ref=v0.5.3"
 }
 
 inputs = {

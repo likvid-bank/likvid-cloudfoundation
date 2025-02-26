@@ -13,21 +13,6 @@ resource "azurerm_role_assignment" "tfstates_engineers" {
 # However, we take great care to limit those permissions via policy so that the principal can only use them on
 # specifically whitelisted resource groups.
 
-data "azurerm_key_vault" "cf_key_vault" {
-  name                = var.key_vault.name
-  resource_group_name = var.key_vault.resource_group_name
-}
-
-data "azurerm_role_definition" "keyvault_administrator" {
-  name = "Key Vault Administrator"
-}
-
-resource "azurerm_role_assignment" "keyvault_administrator" {
-  scope                = data.azurerm_key_vault.cf_key_vault.id
-  role_definition_name = data.azurerm_role_definition.keyvault_administrator.name
-  principal_id         = azuread_service_principal.buildingblock.object_id
-}
-
 locals {
   managedResourceGroups = ["connectivity"]
 }

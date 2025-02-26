@@ -95,14 +95,10 @@ collie foundation deploy --bootstrap -- destroy
 | [azuread_group.platform_engineers](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/resources/group) | resource |
 | [azurerm_federated_identity_credential.docs](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/federated_identity_credential) | resource |
 | [azurerm_federated_identity_credential.validation](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/federated_identity_credential) | resource |
-| [azurerm_key_vault.key_vault](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/key_vault) | resource |
-| [azurerm_resource_group.key_vault](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/resource_group) | resource |
 | [azurerm_role_assignment.cloudfoundation_deploy](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.cloudfoundation_tfdeploy](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.docs_tfstate](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.tfstates_engineers](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.validation_reader](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.validation_reader_keyvault](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.validation_tfstate](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_assignment) | resource |
 | [azurerm_role_definition.cloudfoundation_deploy](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_definition) | resource |
 | [azurerm_role_definition.validation_reader](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_definition) | resource |
@@ -110,9 +106,7 @@ collie foundation deploy --bootstrap -- destroy
 | [azurerm_user_assigned_identity.validation](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/user_assigned_identity) | resource |
 | [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/data-sources/client_config) | data source |
 | [azuread_users.platform_engineers_members](https://registry.terraform.io/providers/hashicorp/azuread/3.0.2/docs/data-sources/users) | data source |
-| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/data-sources/client_config) | data source |
 | [azurerm_management_group.parent](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/data-sources/management_group) | data source |
-| [azurerm_role_definition.keyvault](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/data-sources/role_definition) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/data-sources/subscription) | data source |
 
 ## Inputs
@@ -120,7 +114,6 @@ collie foundation deploy --bootstrap -- destroy
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_documentation_uami"></a> [documentation\_uami](#input\_documentation\_uami) | read-only UAMI with access to terraform states to generate documentation in CI pipelines | <pre>object({<br>    name = string<br>    # note: it seems wildcards are not supported yet, see https://github.com/Azure/azure-workload-identity/issues/373<br>    oidc_subject = string<br>  })</pre> | `null` | no |
-| <a name="input_key_vault"></a> [key\_vault](#input\_key\_vault) | This object contains configuration details for setting up a key vault. | <pre>object({<br>    name                = string,<br>    resource_group_name = string<br>  })</pre> | <pre>{<br>  "name": "cloudfoundation-kv",<br>  "resource_group_name": "cloudfoundation-rg"<br>}</pre> | no |
 | <a name="input_parent_management_group_name"></a> [parent\_management\_group\_name](#input\_parent\_management\_group\_name) | Name of the management group you want to use as parent for your foundation. | `string` | n/a | yes |
 | <a name="input_platform_engineers_group"></a> [platform\_engineers\_group](#input\_platform\_engineers\_group) | the name of the cloud foundation platform engineers group | `string` | `"cloudfoundation-platform-engineers"` | no |
 | <a name="input_platform_engineers_members"></a> [platform\_engineers\_members](#input\_platform\_engineers\_members) | Set up a group of platform engineers. If enabled, this group will receive access to terraform\_state\_storage | <pre>list(object({<br>    email = string,<br>    upn   = string,<br>  }))</pre> | n/a | yes |
@@ -131,8 +124,6 @@ collie foundation deploy --bootstrap -- destroy
 
 | Name | Description |
 |------|-------------|
-| <a name="output_azurerm_key_vault"></a> [azurerm\_key\_vault](#output\_azurerm\_key\_vault) | n/a |
-| <a name="output_azurerm_key_vault_rg_name"></a> [azurerm\_key\_vault\_rg\_name](#output\_azurerm\_key\_vault\_rg\_name) | n/a |
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
 | <a name="output_documentation_uami_client_id"></a> [documentation\_uami\_client\_id](#output\_documentation\_uami\_client\_id) | n/a |
 | <a name="output_module_storage_account_resource_id"></a> [module\_storage\_account\_resource\_id](#output\_module\_storage\_account\_resource\_id) | n/a |
