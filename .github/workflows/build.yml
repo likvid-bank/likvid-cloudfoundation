@@ -34,7 +34,7 @@ jobs:
       fail-fast: false
       matrix:
         foundation: [likvid-prod]
-        platform: [azure] # todo: aws, gcp
+        platform: [azure,aws] # todo: aws, gcp
     # ensure only one test job runs at a time to avoid terraform state clobbering each other (tests use shared names for resources)
     concurrency:
       group: ${{ matrix.foundation }}-${{ matrix.platform }}
