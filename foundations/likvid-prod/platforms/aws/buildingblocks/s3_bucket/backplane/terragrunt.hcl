@@ -24,11 +24,7 @@ EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/collie-hub.git//kit/aws/buildingblocks/s3_bucket/backplane?ref=91b6c3c0adb55228d523592a7570be781757cf2e"
+  source = "https://github.com/meshcloud/collie-hub.git//kit/aws/buildingblocks/s3_bucket/backplane?ref=v0.5.5"
 }
 
-inputs = {
-  # todo: set input variables
-
-
-}
+inputs = {}
