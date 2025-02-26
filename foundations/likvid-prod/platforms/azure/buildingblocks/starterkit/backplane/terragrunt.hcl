@@ -51,7 +51,7 @@ EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/starterkit/backplane?ref=v0.5.4"
+  source = "https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/starterkit/backplane?ref=v0.5.3"
 }
 
 inputs = {
