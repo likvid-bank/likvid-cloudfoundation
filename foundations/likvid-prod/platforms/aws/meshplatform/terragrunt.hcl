@@ -32,7 +32,7 @@ provider "aws" {
   region = "eu-central-1"
 
   assume_role {
-    role_arn     = "arn:aws:iam::${dependency.organization.outputs.automation_account_id}:role/${include.platform.locals.active_role}"
+    role_arn     = "arn:aws:iam::${dependency.organization.outputs.automation_account_id}:role/${include.platform.locals.active_role.default}"
     session_name = "likvid_cloudfoundation_tf_deploy"
   }
 }
@@ -42,7 +42,7 @@ provider "aws" {
   region = "eu-central-1"
 
   assume_role {
-    role_arn     = "arn:aws:iam::${dependency.organization.outputs.meshstack_account_id}:role/${include.platform.locals.active_role}"
+    role_arn     = "arn:aws:iam::${dependency.organization.outputs.meshstack_account_id}:role/${include.platform.locals.active_role.default}"
     session_name = "likvid_cloudfoundation_tf_deploy"
   }
 }

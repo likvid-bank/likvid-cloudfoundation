@@ -17,7 +17,9 @@ resource "aws_organizations_policy" "deny_create_iam_user" {
       "Resource": "*",
       "Condition": {
         "StringNotLike": {
-          "aws:PrincipalArn": "arn:aws:iam::*:role/${var.building_block_target_account_access_role_name}"
+          "aws:PrincipalArn": [
+            ${join(",", [for role in var.deny_create_iam_user_except_roles : "\"arn:aws:iam::*:role/${role}\""])}
+          ]
         }
       }
     }

@@ -23,3 +23,8 @@ variable "building_block_target_account_access_role_name" {
   default     = "BuildingBlockServiceRole"
   description = "Account access role used by building-block-service."
 }
+
+variable "deny_create_iam_user_except_roles" {
+  description = "List of role names that are allowed to create, update, or delete IAM users"
+  type        = list(string)
+}

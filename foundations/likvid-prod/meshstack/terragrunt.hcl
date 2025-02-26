@@ -83,6 +83,13 @@ provider "meshstack" {
   apikey    = "924588a3-2e6e-4afd-910e-8d867a587551"
   apisecret = "${get_env("MESHSTACK_API_KEY_LIKVID_GOV_GUARD")}"
 }
+
+provider "meshstack" {
+  alias = "quickstart"
+  endpoint  = "https://federation.demo.meshcloud.io"
+  apikey    = "f846470b-3144-47ba-a8e2-fc1f41ce5fca"
+  apisecret = "${get_env("MESHSTACK_API_KEY_QUICKSTART_PROD")}"
+}
 EOF
 }
 
