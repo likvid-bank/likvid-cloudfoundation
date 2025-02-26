@@ -55,7 +55,7 @@ EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/key-vault/buildingblock?ref=v0.5.3"
+  source = "https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/key-vault/buildingblock?ref=v0.5.4"
 }
 
 inputs = {
