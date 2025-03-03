@@ -30,13 +30,22 @@ locals {
   }
 
   roles = {
-    deployment = "OrganizationAccountAccessRole"
+    deployment = {
+      default = "OrganizationAccountAccessRole"
+
+      # This is identical to OrganizationAccountAccessRole if downgrade access is not selected in replicator config (i.e. has AdministratorAccess)
+      # use this on AWS accounts created via meshStack
+      meshstack_managed = "MeshstackAccountAccessRole"
+    }
     validation = "${local.cloudfoundation}-AuditorRole"
   }
 
   # we have to manually switch the role to be assumed in CI because we cannot override this with an env var
   # see https://github.com/hashicorp/terraform-provider-aws/issues/32617#issuecomment-2062072613
-  active_role = get_env("CI", "false") == "true" ? local.roles.validation : local.roles.deployment
+  active_role = {
+    default                   = get_env("CI", "false") == "true" ? local.roles.validation : local.roles.deployment.default
+    meshstack_managed_account = get_env("CI", "false") == "true" ? local.roles.validation : local.roles.deployment.meshstack_managed
+  }
 
   # Useful override for locally testing with readonly permissions like in CI, DO NOT COMMIT/MERGE THIS
   # active_role = local.roles.validation
