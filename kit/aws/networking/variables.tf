@@ -32,3 +32,9 @@ variable "ram_principals" {
 #   type        = map(string)
 #   default     = {}
 # }
+
+variable "tgw_tags" {
+  description = "Additional tags for the TGW"
+  type        = map(string)
+  default     = {}
+}
