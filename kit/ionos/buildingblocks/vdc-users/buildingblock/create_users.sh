@@ -1,69 +1,59 @@
 #!/bin/bash
 
-token=$1
-users=$2
+# Enable best practices for error handling and debugging
+set -o errexit  # Exit the script when any command fails
+set -o errtrace # Trace errors in functions
+set -o pipefail # Set the exit status of a pipe to the one that fails
+set -o nounset  # Exit the script when using an undefined variable
 
-# API URL
+# API credentials
+
+first_login_passwrd="$IONOS_FIRST_LOGIN_PW"
+token="$TOKEN_IONOS"
 url="https://api.ionos.com/cloudapi/v6/um/users"
 
-# Pagination-Parameter
+# Pagination parameters
 limit=100
 offset=0
 
-# Liste aller existierenden User abrufen
-users_list=$(echo "$users" | jq -r '.[].email')
+# Extract list of user emails from MESH_USERS environment variable
+users_list="$(echo "$MESH_USERS" | jq '.[].email')"
 
-while true; do
-  # GET-Anfrage mit Pagination und Authentifizierung
-  response=$(curl -s -H "Authorization: Basic $token" "$url?limit=$limit&offset=$offset")
+  # Create new users from the MESH_USERS list
+  for new_user in $(echo "$MESH_USERS" | jq -c '.[]'); do
+    new_email="$(echo "$new_user" | jq -r '.email')"
+    #echo $new_email
+    firstname="$(echo "$new_user" | jq -r '.firstName')"  
+    lastname="$(echo "$new_user" | jq -r '.lastName')"
+    
+    #If the user does not exist, create them
+    #echo $users_list
+    # echo "$users_list" | grep -wq "$new_email"
+      
+    #    if echo "$users_list" | grep -q "^$new_email"; then
+      echo "User $new_email  Creating..."
+      password=$first_login_passwrd
 
-  # Benutzer-IDs extrahieren
-  user_ids=$(echo "$response" | jq -r '.items[].id')
+      # Prepare payload for creating the user
+      new_user_payload="{\"properties\": {\"firstname\": \"$firstname\", \"lastname\": \"$lastname\", \"email\": \"$new_email\", \"administrator\": false, \"password\": \"$password\", \"active\": true}}"
 
-  # Überprüfung, ob Nutzer bereits existieren
-  for user_id in $user_ids; do
-    user_details=$(curl -s -H "Authorization: Basic $token" "$url/$user_id")
-    email=$(echo "$user_details" | jq -r '.properties.email')
-
-    # Entferne existierende User aus der Liste
-    users_list=$(echo "$users_list" | grep -v "^$email$" || true)
-  done
-
-  # Neue Benutzer erstellen
-  for new_user in $(echo "$users" | jq -c '.[]'); do
-    new_email=$(echo "$new_user" | jq -r '.email')
-    firstname=$(echo "$new_user" | jq -r '.firstname')
-    lastname=$(echo "$new_user" | jq -r '.lastname')
-
-    if echo "$users_list" | grep -q "^$new_email$"; then
-      echo "User $new_email does not exist yet. Creating..."
-      password="NewPassword123"  # Hier könnte ein zufälliges Passwort generiert werden
-      new_user_payload=$(cat <<EOF
-{
-  "properties": {
-    "firstname": "$firstname",
-    "lastname": "$lastname",
-    "email": "$new_email",
-    "administrator": false,
-    "password": "$password",
-    "active": true
-  }
-}
-EOF
-)
+      # Make the POST request to create the user
       create_response=$(curl -s -w "%{http_code}" -X POST -H "Authorization: Basic $token" -H "Content-Type: application/json" -d "$new_user_payload" "$url")
       http_code=$(echo "$create_response" | tail -n 1)
       response_body=$(echo "$create_response" | sed '$d')
 
+      # Output HTTP status code and response body for debugging
       echo "HTTP Status Code: $http_code"
       echo "Response: $response_body"
 
+      # If user creation is successful (HTTP 202), check the activation status
       if [ "$http_code" -eq 202 ]; then
         echo "User $new_email created successfully, checking activation status..."
         user_id=$(echo "$response_body" | jq -r '.id')
         attempts=0
         max_attempts=5
 
+        # Retry checking user activation status a few times
         while [ $attempts -lt $max_attempts ]; do
           user_status=$(curl -s -H "Authorization: Basic $token" "$url/$user_id" | jq -r '.properties.active')
           if [ "$user_status" == "true" ]; then
@@ -76,19 +66,13 @@ EOF
           fi
         done
 
+        # If activation fails after max attempts, notify the user
         if [ $attempts -eq $max_attempts ]; then
           echo "User $new_email could not be activated, maximum attempts reached."
         fi
       else
+        # If user creation fails, output the status code
         echo "Error creating user $new_email. Status code: $http_code"
       fi
-    fi
   done
 
-  count=$(echo "$response" | jq '.items | length')
-  if [ "$count" -lt "$limit" ]; then
-    break
-  fi
-
-  offset=$((offset + limit))
-done

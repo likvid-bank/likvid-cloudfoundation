@@ -1,5 +1,4 @@
-name: Deploy Resources
-
+name: Deploy IONOS Users
 on:
   workflow_dispatch:
     inputs:
@@ -10,6 +9,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: likvid-prod
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -28,122 +29,87 @@ jobs:
               }
             ]
 
-      # You can use the parsed values in subsequent steps
-      # - name: Extract Variables
-      #   id: variables
-      #   run: |
-      #     # Transform newlines into spaces
-      #     admin_users_space_separated=$(echo "${{ steps.setup-meshstack-auth.outputs.admin_users }}" | tr '\n' ' ')
-      #     # Optionally trim trailing spaces
-      #     usernames_space_separated=$(echo "$admin_users_space_separated" | sed 's/ *$//')
-      #     echo "admin_users=$usernames_space_separated" >> $GITHUB_OUTPUT
-
-
-      - name: Grant Access to bucket
+      - name: IONOS User Creation
         id: create-ionos-user
-        run: |
+        env:
+          TOKEN_IONOS: ${{ secrets.TOKEN_IONOS }}
+          IONOS_FIRST_LOGIN_PW: ${{ secrets.IONOS_FIRST_LOGIN_PW }}
+          MESH_USERS: ${{ steps.setup-meshstack-auth.outputs.users }}
+        run: |           
           #!/bin/bash
-          set -o errexit
-          set -o errtrace
-          set -o pipefail
-          set -o nounset
 
-          token=${{ steps.setup-meshstack-auth.outputs.token }}
-          users=${{ steps.setup-meshstack-auth.outputs.users }}
+          # Enable best practices for error handling and debugging
+          set -o errexit  # Exit the script when any command fails
+          set -o errtrace # Trace errors in functions
+          set -o pipefail # Set the exit status of a pipe to the one that fails
+          set -o nounset  # Exit the script when using an undefined variable
 
-          # API URL
+          # API credentials
+
+          first_login_passwrd="$IONOS_FIRST_LOGIN_PW"
+          token="$TOKEN_IONOS"
           url="https://api.ionos.com/cloudapi/v6/um/users"
 
-          # Pagination-Parameter
+          # Pagination parameters
           limit=100
           offset=0
 
-          # Liste aller existierenden User abrufen
-          users_list=$(echo "$users" | jq -r '.[].email')
+          # Extract list of user emails from MESH_USERS environment variable
+          users_list="$(echo "$MESH_USERS" | jq '.[].email')"
 
-          while true; do
-            # GET-Anfrage mit Pagination und Authentifizierung
-            response=$(curl -s -H "Authorization: Basic $token" "$url?limit=$limit&offset=$offset")
+          # Create new users from the MESH_USERS list
+          for new_user in $(echo "$MESH_USERS" | jq -c '.[]'); do
+            new_email="$(echo "$new_user" | jq -r '.email')"
+            #echo $new_email
+            firstname="$(echo "$new_user" | jq -r '.firstName')"  
+            lastname="$(echo "$new_user" | jq -r '.lastName')"
+              echo "User $new_email  Creating..."
+              password=$first_login_passwrd
 
-            # Benutzer-IDs extrahieren
-            user_ids=$(echo "$response" | jq -r '.items[].id')
+              # Prepare payload for creating the user
+              new_user_payload="{\"properties\": {\"firstname\": \"$firstname\", \"lastname\": \"$lastname\", \"email\": \"$new_email\", \"administrator\": false, \"password\": \"$password\", \"active\": true}}"
 
-            # Überprüfung, ob Nutzer bereits existieren
-            for user_id in $user_ids; do
-              user_details=$(curl -s -H "Authorization: Basic $token" "$url/$user_id")
-              email=$(echo "$user_details" | jq -r '.properties.email')
+              # Make the POST request to create the user
+              create_response=$(curl -s -w "%{http_code}" -X POST -H "Authorization: Basic $token" -H "Content-Type: application/json" -d "$new_user_payload" "$url")
+              http_code=$(echo "$create_response" | tail -n 1)
+              response_body=$(echo "$create_response" | sed '$d')
 
-              # Entferne existierende User aus der Liste
-              users_list=$(echo "$users_list" | grep -v "^$email$" || true)
-            done
+              # Output HTTP status code and response body for debugging
+              echo "HTTP Status Code: $http_code"
+              echo "Response: $response_body"
 
-            # Neue Benutzer erstellen
-            for new_user in $(echo "$users" | jq -c '.[]'); do
-              new_email=$(echo "$new_user" | jq -r '.email')
-              firstname=$(echo "$new_user" | jq -r '.firstname')
-              lastname=$(echo "$new_user" | jq -r '.lastname')
+              # If user creation is successful (HTTP 202), check the activation status
+              if [ "$http_code" -eq 202 ]; then
+                echo "User $new_email created successfully, checking activation status..."
+                user_id=$(echo "$response_body" | jq -r '.id')
+                attempts=0
+                max_attempts=5
 
-              if echo "$users_list" | grep -q "^$new_email$"; then
-                echo "User $new_email does not exist yet. Creating..."
-                password="NewPassword123"  # Hier könnte ein zufälliges Passwort generiert werden
-                new_user_payload=$(cat <<EOF
-          {
-            "properties": {
-              "firstname": "$firstname",
-              "lastname": "$lastname",
-              "email": "$new_email",
-              "administrator": false,
-              "password": "$password",
-              "active": true
-            }
-          }
-          EOF
-          )
-                create_response=$(curl -s -w "%{http_code}" -X POST -H "Authorization: Basic $token" -H "Content-Type: application/json" -d "$new_user_payload" "$url")
-                http_code=$(echo "$create_response" | tail -n 1)
-                response_body=$(echo "$create_response" | sed '$d')
-
-                echo "HTTP Status Code: $http_code"
-                echo "Response: $response_body"
-
-                if [ "$http_code" -eq 202 ]; then
-                  echo "User $new_email created successfully, checking activation status..."
-                  user_id=$(echo "$response_body" | jq -r '.id')
-                  attempts=0
-                  max_attempts=5
-
-                  while [ $attempts -lt $max_attempts ]; do
-                    user_status=$(curl -s -H "Authorization: Basic $token" "$url/$user_id" | jq -r '.properties.active')
-                    if [ "$user_status" == "true" ]; then
-                      echo "User $new_email successfully activated."
-                      break
-                    else
-                      echo "User $new_email is not yet activated, retrying in 10 seconds..."
-                      sleep 10
-                      attempts=$((attempts + 1))
-                    fi
-                  done
-
-                  if [ $attempts -eq $max_attempts ]; then
-                    echo "User $new_email could not be activated, maximum attempts reached."
+                # Retry checking user activation status a few times
+                while [ $attempts -lt $max_attempts ]; do
+                  user_status=$(curl -s -H "Authorization: Basic $token" "$url/$user_id" | jq -r '.properties.active')
+                  if [ "$user_status" == "true" ]; then
+                    echo "User $new_email successfully activated."
+                    break
+                  else
+                    echo "User $new_email is not yet activated, retrying in 10 seconds..."
+                    sleep 10
+                    attempts=$((attempts + 1))
                   fi
-                else
-                  echo "Error creating user $new_email. Status code: $http_code"
+                done
+
+                # If activation fails after max attempts, notify the user
+                if [ $attempts -eq $max_attempts ]; then
+                  echo "User $new_email could not be activated, maximum attempts reached."
                 fi
+              else
+                # If user creation fails, output the status code
+                echo "Error creating user $new_email. Status code: $http_code"
               fi
-            done
-
-            count=$(echo "$response" | jq '.items | length')
-            if [ "$count" -lt "$limit" ]; then
-              break
-            fi
-
-            offset=$((offset + limit))
           done
 
-
       - name: Send status
-        if: ${{ steps.grant-access-to-bucket.outcome == 'success' || steps.grant-access-to-bucket.outcome == 'failure' }}
+        if: ${{ steps.create-ionos-user.outcome == 'success' || steps.create-ionos-user.outcome == 'failure' }}
         uses: meshcloud/actions-send-status@main
         with:
           step_id: "create-ionos-user"
