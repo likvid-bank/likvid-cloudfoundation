@@ -5,7 +5,7 @@ on:
     inputs:
       buildingBlockRun:
         description: "Building Block Run Object"
-        required: true
+        required: false
 
 jobs:
   deploy:
