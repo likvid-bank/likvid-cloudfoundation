@@ -35,7 +35,7 @@ jobs:
           TOKEN_IONOS: ${{ secrets.TOKEN_IONOS }}
           IONOS_FIRST_LOGIN_PW: ${{ secrets.IONOS_FIRST_LOGIN_PW }}
           MESH_USERS: ${{ steps.setup-meshstack-auth.outputs.users }}
-        run: |           
+        run: |
           #!/bin/bash
 
           # Enable best practices for error handling and debugging
@@ -61,7 +61,7 @@ jobs:
           for new_user in $(echo "$MESH_USERS" | jq -c '.[]'); do
             new_email="$(echo "$new_user" | jq -r '.email')"
             #echo $new_email
-            firstname="$(echo "$new_user" | jq -r '.firstName')"  
+            firstname="$(echo "$new_user" | jq -r '.firstName')"
             lastname="$(echo "$new_user" | jq -r '.lastName')"
               echo "User $new_email  Creating..."
               password=$first_login_passwrd
