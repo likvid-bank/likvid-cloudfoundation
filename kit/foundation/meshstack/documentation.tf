@@ -185,6 +185,11 @@ locals {
       platformDefinitions_stackit_spec_description               = local.customPlatformDefinitions.stackit.spec.description,
       platformDefinitions_stackit_spec_support_url               = local.customPlatformDefinitions.stackit.spec.support-url,
       platformDefinitions_stackit_spec_documentation_url         = local.customPlatformDefinitions.stackit.spec.documentation-url,
+
+      # Quickstart AWS
+      meshstack_project_quickstart_aws_spec_display_name           = meshstack_project.quickstart.spec.display_name,
+      meshstack_tenant_quickstart_aws_spec_landing_zone_identifier = meshstack_tenant.quickstart_aws.spec.landing_zone_identifier,
+      meshstack_tenant_quickstart_aws_spec_local_id                = meshstack_tenant.quickstart_aws.spec.local_id,
     platformDefinitions_stackit_spec_web_console_url = local.customPlatformDefinitions.stackit.spec.web-console-url })
   }
 }

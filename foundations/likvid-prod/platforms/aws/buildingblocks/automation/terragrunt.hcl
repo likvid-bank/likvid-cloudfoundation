@@ -45,4 +45,8 @@ inputs = {
   building_block_backend_account_id                = dependency.bootstrap.outputs.tf_backend_account_id
   building_block_target_ou_ids                     = [dependency.organization.outputs.landingzones_ou_id]
   building_block_target_account_access_role_name   = "LikvidBuildingBlockServiceRole"
+  deny_create_iam_user_except_roles = [
+    "LikvidBuildingBlockServiceRole",
+    "MeshstackAccountAccessRole"
+  ]
 }

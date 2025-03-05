@@ -20,6 +20,7 @@ resource "meshstack_project" "sap_core_platform" {
       "environment"          = ["dev"]
       "Schutzbedarf"         = ["internal"]
       "LandingZoneClearance" = ["sap"]
+      "projectOwner"         = ["Anna Admin"]
     }
   }
 }
