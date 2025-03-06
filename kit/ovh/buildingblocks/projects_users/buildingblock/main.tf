@@ -4,18 +4,10 @@ locals {
     for user in var.users : user.email => merge(user, { login = split("@", user.email)[0], group = "DEFAULT" })
   }
 
-  new_users = {
+  missing_users = {
     for k, v in local.processed_users :
-    k => v if !contains(local.existing_logins, v.login)
+    k => v if !contains(local.existing_logins, v.login) # Nur fehlende Nutzer
   }
-
-  existing_users = {
-    for k, v in local.processed_users :
-    k => v if contains(local.existing_logins, v.login)
-  }
-
-  all_users = merge(local.new_users, local.existing_users)
-
 }
 
 data "ovh_me" "myaccount" {}
@@ -39,7 +31,7 @@ resource "random_password" "user_passwords" {
 }
 
 resource "ovh_me_identity_user" "platform_users" {
-  for_each    = local.new_users
+  for_each    = local.missing_users
   description = "Likvid OVH Platform User"
   email       = each.value.email
   group       = each.value.group
