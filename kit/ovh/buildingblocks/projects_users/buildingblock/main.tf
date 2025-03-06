@@ -45,4 +45,8 @@ resource "ovh_me_identity_user" "platform_users" {
   group       = each.value.group
   login       = each.value.login
   password    = random_password.user_passwords.result
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
