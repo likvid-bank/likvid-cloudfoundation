@@ -39,7 +39,7 @@ resource "random_password" "user_passwords" {
 }
 
 resource "ovh_me_identity_user" "platform_users" {
-  for_each    = local.all_users
+  for_each    = local.new_users
   description = "Likvid OVH Platform User"
   email       = each.value.email
   group       = each.value.group
