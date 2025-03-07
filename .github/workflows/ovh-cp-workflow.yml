@@ -52,6 +52,7 @@ jobs:
           node index.ts
         working-directory: kit/ovh/buildingblocks/projects_users/buildingblock
 
+
       - name: Send status
         if: ${{ steps.create-ovh-user.outcome == 'success' || steps.create-ovh-user.outcome == 'failure' }}
         uses: meshcloud/actions-send-status@main
