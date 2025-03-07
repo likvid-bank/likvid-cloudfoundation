@@ -1,0 +1,66 @@
+name: Deploy OVH Users
+on:
+  workflow_dispatch:
+    inputs:
+      buildingBlockRun:
+        description: "Building Block Run Object"
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: likvid-prod
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup meshstack auth
+        id: setup-meshstack-auth
+        uses: meshcloud/actions-register-source@v0.1.0
+        with:
+          client_id: ${{ vars.BUILDINGBLOCK_API_CLIENT_ID }}
+          key_secret: ${{ secrets.BUILDINGBLOCK_API_KEY_SECRET }}
+          steps: |
+            [
+              {
+                "id": "create-ovh-user",
+                "displayName": "Create Users in OVH if not exist"
+              }
+            ]
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: stackit-usagereport
+
+      - name: Run User Sync for OVH
+        env:
+          OVH_CONSUMER_KEY: ${{ secrets.STACKIT_SERVICE_ACCOUNT_TOKEN }}
+          OVH_APPLICATION_SECRET: ${{ secrets.KRAKEN_API_KEY }}
+          MESH_USERS: ${{ steps.setup-meshstack-auth.outputs.users }}
+
+        run: |
+          set -e  # Fail on error
+          node kit/ovh/buildingblocks/projects_users/buildingblock/index.ts
+
+      - name: Send status
+        if: ${{ steps.create-ovh-user.outcome == 'success' || steps.create-ovh-user.outcome == 'failure' }}
+        uses: meshcloud/actions-send-status@main
+        with:
+          step_id: "create-ovh-user"
+          status: ${{ steps.create-ovh-user.outcome == 'success' && 'SUCCEEDED' || 'FAILED' }}
+          summary: "create user in ovh if needed"
+          user_message: ${{ steps.create-ovh-user.outcome == 'success' && 'Step was successful.' || 'Step was failed' }}
+          system_message:  ${{ steps.create-ovh-user.outcome == 'success' && 'Step was successful.' || 'Step Failed, please check the GitHub actions log for more details.' }}
+
+      - name: Send final status
+        if: ${{ always() }}
+        uses: meshcloud/actions-send-status@main
+        with:
+          final_status: ${{ job.status == 'success' && 'SUCCEEDED' || 'FAILED' }}
+          summary: ${{ job.status == 'success' && 'User Deployment successful' || 'User Deployment failed' }}
