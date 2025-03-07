@@ -46,11 +46,6 @@ jobs:
           OVH_APPLICATION_SECRET: ${{ secrets.OVH_APPLICATION_SECRET }}
           OVH_APPLICATION_KEY: ${{ secrets.OVH_APPLICATION_KEY }}
           MESH_USERS: ${{ steps.setup-meshstack-auth.outputs.users }}
-        run: |
-          npm install ovh
-          set -e  # Fail on error
-          node index.ts
-        working-directory: kit/ovh/buildingblocks/projects_users/buildingblock
 
       - name: Send status
         if: ${{ steps.create-ovh-user.outcome == 'success' || steps.create-ovh-user.outcome == 'failure' }}
