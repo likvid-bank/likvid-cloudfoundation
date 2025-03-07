@@ -55,6 +55,7 @@ resource "ovh_cloud_project" "cloud_project" {
   plan {
     duration     = data.ovh_order_cart_product_plan.cloud.selected_price[0].duration
     pricing_mode = data.ovh_order_cart_product_plan.cloud.selected_price[0].pricing_mode
+    plan_code    = data.ovh_order_cart_product_plan.cloud.plan_code
   }
 }
 
