@@ -46,7 +46,7 @@ jobs:
           OVH_APPLICATION_SECRET: ${{ secrets.OVH_APPLICATION_SECRET }}
           OVH_APPLICATION_KEY: ${{ secrets.OVH_APPLICATION_KEY }}
           MESH_USERS: ${{ steps.setup-meshstack-auth.outputs.users }}
-        
+
       - name: Send status
         if: ${{ steps.create-ovh-user.outcome == 'success' || steps.create-ovh-user.outcome == 'failure' }}
         uses: meshcloud/actions-send-status@main
