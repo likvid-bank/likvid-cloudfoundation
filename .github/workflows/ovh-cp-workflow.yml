@@ -28,7 +28,7 @@ jobs:
                 "displayName": "Create Users in OVH if not exist"
               }
             ]
-          
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -43,7 +43,7 @@ jobs:
           OVH_CONSUMER_KEY: ${{ secrets.STACKIT_SERVICE_ACCOUNT_TOKEN }}
           OVH_APPLICATION_SECRET: ${{ secrets.KRAKEN_API_KEY }}
           MESH_USERS: ${{ steps.setup-meshstack-auth.outputs.users }}
-          
+
         run: |
           set -e  # Fail on error
           node kit/ovh/buildingblocks/projects_users/buildingblock/index.ts
