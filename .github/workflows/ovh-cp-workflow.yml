@@ -5,8 +5,9 @@ on:
       buildingBlockRun:
         description: "Building Block Run Object"
         required: true
+
 jobs:
-  sync:
+  deploy:
     runs-on: ubuntu-latest
     environment:
       name: likvid-prod
@@ -27,7 +28,7 @@ jobs:
                 "displayName": "Create Users in OVH if not exist"
               }
             ]
-            
+          
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -41,7 +42,6 @@ jobs:
         env:
           OVH_CONSUMER_KEY: ${{ secrets.STACKIT_SERVICE_ACCOUNT_TOKEN }}
           OVH_APPLICATION_SECRET: ${{ secrets.KRAKEN_API_KEY }}
-          OVH_APPLICATION_SECRET: ${{ secrets.MESHSTACK_API_ENDPOINT }}
           MESH_USERS: ${{ steps.setup-meshstack-auth.outputs.users }}
           
         run: |
