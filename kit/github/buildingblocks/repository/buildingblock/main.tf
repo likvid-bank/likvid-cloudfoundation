@@ -12,3 +12,9 @@ resource "github_repository" "repository" {
     include_all_branches = true
   }
 }
+
+resource "github_actions_environment_secret" "meshstack_gh_workflows_secret" {
+  environment     = "MESHSTACK"
+  secret_name     = "MESHSTACK_GH_WORKFLOWS_SECRET"
+  plaintext_value = var.meshstack_gh_workflows_secret
+}

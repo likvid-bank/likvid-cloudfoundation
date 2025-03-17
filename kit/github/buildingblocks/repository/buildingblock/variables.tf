@@ -53,3 +53,7 @@ variable "use_template" {
   description = "Flag to indicate whether to create a repo based on a Template Repository"
   default     = false
 }
+
+variable "meshstack_gh_workflows_secret" {
+  type = string
+}
