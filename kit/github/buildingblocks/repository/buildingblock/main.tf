@@ -6,12 +6,9 @@ resource "github_repository" "repository" {
   vulnerability_alerts = true
   archive_on_destroy   = true
 
-  dynamic "template" {
-    for_each = var.use_template ? [1] : []
-    content {
-      owner                = var.template_owner
-      repository           = var.template_repo
-      include_all_branches = true
-    }
+  template {
+    owner                = "likvid-bank"
+    repository           = "meta-marketplace"
+    include_all_branches = true
   }
 }
