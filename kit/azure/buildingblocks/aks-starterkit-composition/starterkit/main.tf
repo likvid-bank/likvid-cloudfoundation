@@ -6,9 +6,9 @@ resource "meshstack_project" "dev" {
   spec = {
     display_name = "${var.name_prefix}-dev"
     tags = {
-      "environment"       = ["dev"]
-      "LandingZoneFamily" = ["container-platform"]
-      "Schutzbedarf"      = ["public"]
+      "environment"          = ["dev"]
+      "LandingZoneClearance" = ["container-platform"]
+      "Schutzbedarf"         = ["public"]
     }
   }
 }
@@ -21,9 +21,9 @@ resource "meshstack_project" "prod" {
   spec = {
     display_name = "${var.name_prefix}-prod"
     tags = {
-      "environment"       = ["prod"]
-      "LandingZoneFamily" = ["container-platform"]
-      "Schutzbedarf"      = ["public"]
+      "environment"          = ["prod"]
+      "LandingZoneClearance" = ["container-platform"]
+      "Schutzbedarf"         = ["public"]
 
     }
   }
