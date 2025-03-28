@@ -98,7 +98,7 @@ resource "meshstack_buildingblock" "github_actions_prod" {
   metadata = {
     definition_uuid    = "56e67643-b975-48b6-80c9-6d455bf6d3d2"
     definition_version = 4
-    tenant_identifier  = "${var.workspace_identifier}.${meshstack_project.prod.metadata.name}.aks.meshcloud-azure-prod"
+    tenant_identifier  = "${var.workspace_identifier}.${meshstack_project.prod.metadata.name}.aks.meshcloud-azure-dev"
 
   }
 
