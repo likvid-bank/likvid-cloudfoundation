@@ -1,0 +1,112 @@
+resource "meshstack_project" "dev" {
+  metadata = {
+    name               = "${var.name_prefix}-dev"
+    owned_by_workspace = var.workspace_identifier
+  }
+  spec = {
+    display_name = "${var.name_prefix}-dev"
+    tags = {
+      "environment"       = ["dev"]
+      "LandingZoneFamily" = ["container-platform"]
+      "Schutzbedarf"      = ["public"]
+    }
+  }
+}
+
+resource "meshstack_project" "prod" {
+  metadata = {
+    name               = "${var.name_prefix}-prod"
+    owned_by_workspace = var.workspace_identifier
+  }
+  spec = {
+    display_name = "${var.name_prefix}-prod"
+    tags = {
+      "environment"       = ["prod"]
+      "LandingZoneFamily" = ["container-platform"]
+      "Schutzbedarf"      = ["public"]
+
+    }
+  }
+}
+
+resource "meshstack_tenant" "dev" {
+  metadata = {
+    owned_by_workspace  = var.workspace_identifier
+    owned_by_project    = meshstack_project.dev.metadata.name
+    platform_identifier = "aks.meshcloud-azure-dev"
+  }
+
+  spec = {
+    landing_zone_identifier = "likvid-aks-dev"
+  }
+}
+
+resource "meshstack_tenant" "prod" {
+  metadata = {
+    owned_by_workspace  = var.workspace_identifier
+    owned_by_project    = meshstack_project.prod.metadata.name
+    platform_identifier = "aks.meshcloud-azure-dev"
+  }
+
+  spec = {
+    landing_zone_identifier = "likvid-aks-prod"
+  }
+}
+
+resource "meshstack_building_block_v2" "repo" {
+  spec = {
+    building_block_definition_version_ref = {
+      uuid = "8eef0c48-4d91-48fe-9e97-dff725a2336d"
+    }
+
+    display_name = "GitHub Repo"
+    target_ref = {
+      kind       = "meshWorkspace"
+      identifier = var.workspace_identifier
+    }
+
+    inputs = {
+      repo_name = {
+        value_string = var.repo_name
+      }
+    }
+  }
+}
+
+resource "meshstack_buildingblock" "github_actions_dev" {
+  depends_on = [meshstack_building_block_v2.repo]
+
+  metadata = {
+    definition_uuid    = "56e67643-b975-48b6-80c9-6d455bf6d3d2"
+    definition_version = 4
+    tenant_identifier  = "${var.workspace_identifier}.${meshstack_project.dev.metadata.name}.aks.meshcloud-azure-dev"
+  }
+
+  spec = {
+    display_name = "GitHub Actions Connector"
+
+    inputs = {
+      repo_name = { value_string = "${meshstack_project.dev.metadata.name}" }
+    }
+  }
+}
+
+resource "meshstack_buildingblock" "github_actions_prod" {
+
+  depends_on = [meshstack_building_block_v2.repo]
+
+  metadata = {
+    definition_uuid    = "56e67643-b975-48b6-80c9-6d455bf6d3d2"
+    definition_version = 4
+    tenant_identifier  = "${var.workspace_identifier}.${meshstack_project.prod.metadata.name}.aks.meshcloud-azure-prod"
+
+  }
+
+  spec = {
+    display_name = "GitHub Actions Connector"
+
+    inputs = {
+      repo_name = { value_string = var.repo_name }
+    }
+  }
+}
