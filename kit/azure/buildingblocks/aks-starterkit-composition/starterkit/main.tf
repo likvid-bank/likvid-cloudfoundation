@@ -4,7 +4,7 @@ resource "meshstack_project" "dev" {
     owned_by_workspace = var.workspace_identifier
   }
   spec = {
-    display_name = "${var.name_prefixy}-dev"
+    display_name = "${var.name_prefix}-dev"
     tags = {
       "environment"          = ["dev"]
       "LandingZoneClearance" = ["container-platform"]
@@ -59,7 +59,7 @@ resource "meshstack_building_block_v2" "repo" {
       uuid = "1357fbb1-dc85-40c2-944d-27c93b92c2c5"
     }
 
-    display_name = "GitHub Repo"
+    display_name = "GitHub Repo ${var.repo_name}"
     target_ref = {
       kind       = "meshWorkspace"
       identifier = var.workspace_identifier
@@ -67,7 +67,8 @@ resource "meshstack_building_block_v2" "repo" {
 
     inputs = {
       repo_name = {
-        value_string = "${var.name_prefix}${var.repo_name}"
+        value_string = var.repo_name
+
       }
     }
   }
