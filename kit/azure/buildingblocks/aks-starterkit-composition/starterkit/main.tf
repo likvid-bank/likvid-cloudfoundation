@@ -4,7 +4,7 @@ resource "meshstack_project" "dev" {
     owned_by_workspace = var.workspace_identifier
   }
   spec = {
-    display_name = "${var.name_prefix}-dev"
+    display_name = "${var.name_prefixy}-dev"
     tags = {
       "environment"          = ["dev"]
       "LandingZoneClearance" = ["container-platform"]
@@ -67,7 +67,7 @@ resource "meshstack_building_block_v2" "repo" {
 
     inputs = {
       repo_name = {
-        value_string = var.repo_name
+        value_string = "${var.name_prefix}${var.repo_name}"
       }
     }
   }
