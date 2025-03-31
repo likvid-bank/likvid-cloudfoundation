@@ -65,11 +65,11 @@ resource "meshstack_building_block_v2" "repo" {
       identifier = var.workspace_identifier
     }
 
-    inputs = {
-      repo_name = {
-        value_string = var.repo_name
-      }
-    }
+    # inputs = {
+    #   repo_name = {
+    #     value_string = var.repo_name
+    #   }
+    # }
   }
 }
 
