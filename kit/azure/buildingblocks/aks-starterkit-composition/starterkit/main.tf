@@ -84,7 +84,10 @@ resource "meshstack_buildingblock" "github_actions_dev" {
 
   spec = {
     display_name = "GitHub Actions Connector"
-
+    parent_building_blocks = {
+      buildingblock_uuid = meshstack_building_block_v2.repo.metadata.uuid
+      definition_uuid    = meshstack_building_block_v2.spec.metadata.building_block_definition_version_ref.uuid
+    }
     # inputs = {
     #   repo_name = { value_string = var.repo_name }
     # }
@@ -104,8 +107,10 @@ resource "meshstack_buildingblock" "github_actions_prod" {
 
   spec = {
     display_name = "GitHub Actions Connector"
-
-    # inputs = {
+    parent_building_blocks = {
+      buildingblock_uuid = meshstack_building_block_v2.repo.metadata.uuid
+      definition_uuid    = meshstack_building_block_v2.spec.metadata.building_block_definition_version_ref.uuid
+    } # inputs = {
     #   repo_name = { value_string = var.repo_name }
     # }
   }
