@@ -21,13 +21,14 @@ provider "azurerm" {
 }
 
 provider "kubernetes" {
+  config_path = "~/.kube/config"
   config_context = "aks"
 }
 EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/collie-hub.git//kit/aks/buildingblocks/postgresql/backplane?ref=v0.5.3"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/aks/postgresql/backplane?ref=42a9bc3904e9221493f8b98cd8c720b181731c8b"
 
 }
 
