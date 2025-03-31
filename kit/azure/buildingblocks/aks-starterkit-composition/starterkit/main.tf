@@ -97,7 +97,7 @@ resource "meshstack_buildingblock" "github_actions_dev" {
 
 resource "meshstack_buildingblock" "github_actions_prod" {
 
-  depends_on = [meshstack_building_block_v2.repo]
+  depends_on = [meshstack_building_block_v2.repo, meshstack_buildingblock.github_actions_dev]
 
   metadata = {
     definition_uuid    = "56e67643-b975-48b6-80c9-6d455bf6d3d2"
