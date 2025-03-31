@@ -86,7 +86,7 @@ resource "meshstack_buildingblock" "github_actions_dev" {
     display_name = "GitHub Actions Connector"
 
     inputs = {
-      repo_name = { value_string = "${meshstack_project.dev.metadata.name}" }
+      repo_name = { value_string = var.repo_name }
     }
   }
 }
