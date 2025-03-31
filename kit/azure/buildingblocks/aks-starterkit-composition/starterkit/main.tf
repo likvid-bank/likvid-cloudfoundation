@@ -65,11 +65,11 @@ resource "meshstack_building_block_v2" "repo" {
       identifier = var.workspace_identifier
     }
 
-    # inputs = {
-    #   repo_name = {
-    #     value_string = var.repo_name
-    #   }
-    # }
+    inputs = {
+      repo_name = {
+        value_string = var.repo_name
+      }
+    }
   }
 }
 
@@ -85,9 +85,9 @@ resource "meshstack_buildingblock" "github_actions_dev" {
   spec = {
     display_name = "GitHub Actions Connector"
 
-    inputs = {
-      repo_name = { value_string = var.repo_name }
-    }
+    # inputs = {
+    #   repo_name = { value_string = var.repo_name }
+    # }
   }
 }
 
@@ -105,8 +105,8 @@ resource "meshstack_buildingblock" "github_actions_prod" {
   spec = {
     display_name = "GitHub Actions Connector"
 
-    inputs = {
-      repo_name = { value_string = var.repo_name }
-    }
+    # inputs = {
+    #   repo_name = { value_string = var.repo_name }
+    # }
   }
 }
