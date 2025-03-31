@@ -69,6 +69,9 @@ resource "meshstack_building_block_v2" "repo" {
       repo_name = {
         value_string = var.repo_name
       }
+      use_template = {
+        value_bool = false
+      }
     }
   }
 }
