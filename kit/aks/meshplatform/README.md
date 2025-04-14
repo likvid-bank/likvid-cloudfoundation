@@ -20,7 +20,7 @@ No requirements.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_meshplatform"></a> [meshplatform](#module\_meshplatform) | git::https://github.com/meshcloud/terraform-aks-meshplatform.git | 91ee5a74ff2101f1ac021167ec628a66d4b09352 |
+| <a name="module_meshplatform"></a> [meshplatform](#module\_meshplatform) | git::https://github.com/meshcloud/terraform-aks-meshplatform.git | be8582047c744c70f59a6d5edb078335deb17408 |
 
 ## Resources
 
@@ -44,8 +44,6 @@ No resources.
 | Name | Description |
 |------|-------------|
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
-| <a name="output_metering_token"></a> [metering\_token](#output\_metering\_token) | # METERING |
 | <a name="output_replicator_service_principal"></a> [replicator\_service\_principal](#output\_replicator\_service\_principal) | Replicator Service Principal. |
 | <a name="output_replicator_service_principal_password"></a> [replicator\_service\_principal\_password](#output\_replicator\_service\_principal\_password) | Password for Replicator Service Principal. |
-| <a name="output_replicator_token"></a> [replicator\_token](#output\_replicator\_token) | n/a |
 <!-- END_TF_DOCS -->

@@ -34,7 +34,7 @@ terraform {
 }
 
 inputs = {
-  # metering and replicator are enabled in dev ICF 
+  # metering and replicator are enabled in dev ICF
   metering_enabled   = false
   replicator_enabled = false
 
