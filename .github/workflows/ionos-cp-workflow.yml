@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: likvid-runners
+    runs-on: [likvid-runners, Organization]
     container:
       image: europe-west3-docker.pkg.dev/meshstack-infra/meshstack-container/cypress-ci
       credentials:
