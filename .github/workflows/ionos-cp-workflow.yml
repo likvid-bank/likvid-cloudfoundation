@@ -8,12 +8,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: [likvid-runners, Organization]
-    container:
-      image: europe-west3-docker.pkg.dev/meshstack-infra/meshstack-container/cypress-ci
-      credentials:
-        username: _json_key
-        password: "${{ secrets.IMAGE_PULL_SECRET }}"
+    runs-on: ubuntu-latest
     environment:
       name: likvid-prod
     steps:
