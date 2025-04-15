@@ -40,7 +40,7 @@ inputs = {
     "956712559912", # likvid-dev
     "145203092684"  # likvid-prod
   ]
-  can_delete_projects_in_landing_zone_folder_ids = []
+
   # required for replicator
   billing_org_id     = include.platform.locals.platform.gcp.organization
   billing_account_id = include.platform.locals.platform.gcp.billingAccount

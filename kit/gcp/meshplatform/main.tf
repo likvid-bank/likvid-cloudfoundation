@@ -7,7 +7,7 @@ module "meshplatform" {
   org_id     = var.organization_id
 
   landing_zone_folder_ids                        = var.landing_zone_folder_ids
-  can_delete_projects_in_landing_zone_folder_ids = var.can_delete_projects_in_landing_zone_folder_ids
+  can_delete_projects_in_landing_zone_folder_ids = var.landing_zone_folder_ids
 
   # required for replicator
   billing_org_id     = var.organization_id

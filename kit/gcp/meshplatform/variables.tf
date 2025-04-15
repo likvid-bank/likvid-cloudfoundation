@@ -38,12 +38,6 @@ variable "landing_zone_folder_ids" {
   description = "GCP Folders that make up the Landing Zone. The service account will only receive permissions on these folders."
 }
 
-variable "can_delete_projects_in_landing_zone_folder_ids" {
-  type        = list(string)
-  description = "GCP Folders that make up Landing Zone. The service account will receive permissions to delete projects on these folders."
-  default     = []
-}
-
 variable "cloud_billing_export_project_id" {
   type        = string
   description = "GCP Project where the BiqQuery table resides that holds the Cloud Billing export to BigQuery. See https://cloud.google.com/billing/docs/how-to/export-data-bigquery"
