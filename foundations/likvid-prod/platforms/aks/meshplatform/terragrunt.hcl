@@ -41,8 +41,8 @@ inputs = {
   service_principal_name = "aks_replicator.${include.platform.locals.cloudfoundation}.meshcloud.io"
   create_password        = false
   workload_identity_federation = {
-    issuer             = "https://container.googleapis.com/v1/projects/meshcloud-meshcloud--bc0/locations/europe-west1/clusters/meshstacks-ha"
-    replicator_subject = "system:serviceaccount:meshcloud-demo:replicator"
+    issuer         = "https://container.googleapis.com/v1/projects/meshcloud-meshcloud--bc0/locations/europe-west1/clusters/meshstacks-ha"
+    access_subject = "system:serviceaccount:meshcloud-demo:replicator"
   }
   scope = "7490f509-073d-42cd-a720-a7f599a3fd0b"
 }

@@ -20,7 +20,7 @@ No requirements.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_meshplatform"></a> [meshplatform](#module\_meshplatform) | git::https://github.com/meshcloud/terraform-aks-meshplatform.git | be8582047c744c70f59a6d5edb078335deb17408 |
+| <a name="module_meshplatform"></a> [meshplatform](#module\_meshplatform) | git::https://github.com/meshcloud/terraform-aks-meshplatform.git | 88fc6ed79457cd7c52c730df50abba451df5e2ac |
 
 ## Resources
 
@@ -37,7 +37,7 @@ No resources.
 | <a name="input_replicator_enabled"></a> [replicator\_enabled](#input\_replicator\_enabled) | n/a | `bool` | `true` | no |
 | <a name="input_scope"></a> [scope](#input\_scope) | n/a | `string` | n/a | yes |
 | <a name="input_service_principal_name"></a> [service\_principal\_name](#input\_service\_principal\_name) | n/a | `string` | n/a | yes |
-| <a name="input_workload_identity_federation"></a> [workload\_identity\_federation](#input\_workload\_identity\_federation) | Enable workload identity federation instead of using a password by providing these additional settings. Usually you should receive the required settings when attempting to configure a platform with workload identity federation in meshStack. | `object({ issuer = string, replicator_subject = string })` | `null` | no |
+| <a name="input_workload_identity_federation"></a> [workload\_identity\_federation](#input\_workload\_identity\_federation) | Enable workload identity federation instead of using a password by providing these additional settings. Usually you should receive the required settings when attempting to configure a platform with workload identity federation in meshStack. | `object({ issuer = string, access_subject = string })` | `null` | no |
 
 ## Outputs
 

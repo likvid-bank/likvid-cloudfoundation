@@ -2,7 +2,7 @@
 # Note that you should typically not put a terraform{} block into cloud foundation kit modules,
 # these will be provided by the platform implementations using this kit module.
 module "meshplatform" {
-  source = "git::https://github.com/meshcloud/terraform-aks-meshplatform.git?ref=be8582047c744c70f59a6d5edb078335deb17408"
+  source = "git::https://github.com/meshcloud/terraform-aks-meshplatform.git?ref=88fc6ed79457cd7c52c730df50abba451df5e2ac"
 
   metering_enabled             = var.metering_enabled
   metering_additional_rules    = var.metering_additional_rules
