@@ -47,9 +47,3 @@ variable "template_repo" {
   default     = "github-repo"
   description = "Name of the template repository"
 }
-
-# variable "use_template" {
-#   type        = bool
-#   description = "Flag to indicate whether to create a repo based on a Template Repository"
-#   default     = false
-# }
