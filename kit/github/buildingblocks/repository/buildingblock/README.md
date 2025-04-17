@@ -41,7 +41,6 @@ No modules.
 | <a name="input_repo_visibility"></a> [repo\_visibility](#input\_repo\_visibility) | Visibility of the GitHub repository | `string` | `"private"` | no |
 | <a name="input_template_owner"></a> [template\_owner](#input\_template\_owner) | Owner of the template repository | `string` | `"template-owner"` | no |
 | <a name="input_template_repo"></a> [template\_repo](#input\_template\_repo) | Name of the template repository | `string` | `"github-repo"` | no |
-| <a name="input_use_template"></a> [use\_template](#input\_use\_template) | Flag to indicate whether to create a repo based on a Template Repository | `bool` | `false` | no |
 
 ## Outputs
 
