@@ -1,3 +1,8 @@
+include "platform" {
+  path   = find_in_parent_folders("platform.hcl")
+  expose = true
+}
+
 dependency "automation" {
   config_path = "../../../../azure/buildingblocks/automation"
 }
