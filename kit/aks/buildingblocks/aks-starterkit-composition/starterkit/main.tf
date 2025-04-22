@@ -74,8 +74,15 @@ resource "meshstack_building_block_v2" "repo" {
   }
 }
 
-resource "meshstack_buildingblock" "github_actions_dev" {
+# takes a while until github repo and aks namespace are ready
+resource "time_sleep" "wait_45_seconds" {
   depends_on = [meshstack_building_block_v2.repo]
+
+  create_duration = "45s"
+}
+
+resource "meshstack_buildingblock" "github_actions_dev" {
+  depends_on = [null_resource.wait_for_github_and_namespace]
 
   metadata = {
     definition_uuid    = "56e67643-b975-48b6-80c9-6d455bf6d3d2"
@@ -93,14 +100,12 @@ resource "meshstack_buildingblock" "github_actions_dev" {
 }
 
 resource "meshstack_buildingblock" "github_actions_prod" {
-
   depends_on = [meshstack_building_block_v2.repo, meshstack_buildingblock.github_actions_dev]
 
   metadata = {
     definition_uuid    = "56e67643-b975-48b6-80c9-6d455bf6d3d2"
     definition_version = 9
     tenant_identifier  = "${meshstack_tenant.prod.metadata.owned_by_workspace}.${meshstack_tenant.prod.metadata.owned_by_project}.aks.meshcloud-azure-dev"
-
   }
 
   spec = {
