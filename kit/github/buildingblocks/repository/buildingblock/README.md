@@ -39,8 +39,6 @@ No modules.
 | <a name="input_repo_description"></a> [repo\_description](#input\_repo\_description) | Description of the GitHub repository | `string` | `"created by github-repo-building-block"` | no |
 | <a name="input_repo_name"></a> [repo\_name](#input\_repo\_name) | Name of the GitHub repository | `string` | `"github-repo"` | no |
 | <a name="input_repo_visibility"></a> [repo\_visibility](#input\_repo\_visibility) | Visibility of the GitHub repository | `string` | `"private"` | no |
-| <a name="input_template_owner"></a> [template\_owner](#input\_template\_owner) | Owner of the template repository | `string` | `"template-owner"` | no |
-| <a name="input_template_repo"></a> [template\_repo](#input\_template\_repo) | Name of the template repository | `string` | `"github-repo"` | no |
 
 ## Outputs
 

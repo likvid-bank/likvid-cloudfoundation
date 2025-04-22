@@ -44,5 +44,4 @@ No resources.
 | Name | Description |
 |------|-------------|
 | <a name="output_replicator_service_principal"></a> [replicator\_service\_principal](#output\_replicator\_service\_principal) | Replicator Service Principal. |
-| <a name="output_replicator_service_principal_password"></a> [replicator\_service\_principal\_password](#output\_replicator\_service\_principal\_password) | Password for Replicator Service Principal. |
 <!-- END_TF_DOCS -->
