@@ -56,7 +56,7 @@ resource "meshstack_tenant" "prod" {
 resource "meshstack_building_block_v2" "repo" {
   spec = {
     building_block_definition_version_ref = {
-      uuid = "1357fbb1-dc85-40c2-944d-27c93b92c2c5"
+      uuid = "07f93787-64d8-4b53-8e36-ff0f79bcd93c"
     }
 
     display_name = "GitHub Repo ${var.repo_name}"
