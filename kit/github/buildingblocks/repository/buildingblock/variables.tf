@@ -35,15 +35,3 @@ variable "repo_visibility" {
   default     = "private"
   description = "Visibility of the GitHub repository"
 }
-
-variable "template_owner" {
-  type        = string
-  default     = "template-owner"
-  description = "Owner of the template repository"
-}
-
-variable "template_repo" {
-  type        = string
-  default     = "github-repo"
-  description = "Name of the template repository"
-}
