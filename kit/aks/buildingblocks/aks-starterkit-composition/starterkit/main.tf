@@ -82,7 +82,7 @@ resource "time_sleep" "wait_45_seconds" {
 }
 
 resource "meshstack_buildingblock" "github_actions_dev" {
-  depends_on = [null_resource.wait_for_github_and_namespace]
+  depends_on = [time_sleep.wait_45_seconds]
 
   metadata = {
     definition_uuid    = "56e67643-b975-48b6-80c9-6d455bf6d3d2"
