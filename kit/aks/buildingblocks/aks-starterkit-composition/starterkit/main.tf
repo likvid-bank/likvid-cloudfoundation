@@ -72,11 +72,13 @@ resource "meshstack_building_block_v2" "repo" {
       use_template = {
         value_bool = false
       }
+      # The API doesn't fetch default values from the BuildingBlock Definition currently
+      # This is a workaround to set the an unused value for the template_owner and template_repo inputs
       template_owner = {
-        value_string = null
+        value_string = "null"
       }
       template_repo = {
-        value_string = null
+        value_string = "null"
       }
     }
   }
