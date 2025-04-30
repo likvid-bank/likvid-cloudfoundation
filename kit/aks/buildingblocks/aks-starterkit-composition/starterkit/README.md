@@ -29,8 +29,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | prefix for name of the resources | `string` | n/a | yes |
-| <a name="input_repo_name"></a> [repo\_name](#input\_repo\_name) | Name of the repository to connect. | `string` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | Name of of the resources and the repository to connect. | `string` | n/a | yes |
 | <a name="input_workspace_identifier"></a> [workspace\_identifier](#input\_workspace\_identifier) | n/a | `string` | n/a | yes |
 
 ## Outputs

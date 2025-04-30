@@ -1,10 +1,10 @@
 resource "meshstack_project" "dev" {
   metadata = {
-    name               = "${var.name_prefix}-dev"
+    name               = "${var.name}-dev"
     owned_by_workspace = var.workspace_identifier
   }
   spec = {
-    display_name = "${var.name_prefix}-dev"
+    display_name = "${var.name}-dev"
     tags = {
       "environment"          = ["dev"]
       "LandingZoneClearance" = ["container-platform"]
@@ -15,11 +15,11 @@ resource "meshstack_project" "dev" {
 
 resource "meshstack_project" "prod" {
   metadata = {
-    name               = "${var.name_prefix}-prod"
+    name               = "${var.name}-prod"
     owned_by_workspace = var.workspace_identifier
   }
   spec = {
-    display_name = "${var.name_prefix}-prod"
+    display_name = "${var.name}-prod"
     tags = {
       "environment"          = ["prod"]
       "LandingZoneClearance" = ["container-platform"]
@@ -59,7 +59,7 @@ resource "meshstack_building_block_v2" "repo" {
       uuid = "2a17061b-e0c6-400d-a589-4597c44ee84a"
     }
 
-    display_name = "GitHub Repo ${var.repo_name}"
+    display_name = "GitHub Repo ${var.name}"
     target_ref = {
       kind       = "meshWorkspace"
       identifier = var.workspace_identifier
@@ -67,7 +67,7 @@ resource "meshstack_building_block_v2" "repo" {
 
     inputs = {
       repo_name = {
-        value_string = var.repo_name
+        value_string = var.name
       }
       use_template = {
         value_bool = false
