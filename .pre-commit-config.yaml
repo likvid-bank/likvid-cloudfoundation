@@ -33,6 +33,7 @@ repos:
         args:
           - --args=provider hashicorp/time
           - --args=--version "0.11.1"
+          - --args=--ignore-path "kit/.*/buildingblocks/.*"
 
       - id: tfupdate
         name: tfupdate hashicorp/azurerm
