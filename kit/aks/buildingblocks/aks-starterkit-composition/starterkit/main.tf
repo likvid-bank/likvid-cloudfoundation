@@ -107,7 +107,7 @@ resource "meshstack_buildingblock" "github_actions_dev" {
       definition_uuid    = "8b91fa84-9572-4e1d-a90f-f63f70ffac71"
     }]
     inputs = {
-      repo_branch = {
+      github_branch = {
         value_string = "dev"
       }
     }
@@ -130,7 +130,7 @@ resource "meshstack_buildingblock" "github_actions_prod" {
       definition_uuid    = "8b91fa84-9572-4e1d-a90f-f63f70ffac71"
     }]
     inputs = {
-      repo_branch = {
+      github_branch = {
         value_string = "prod"
       }
     }
