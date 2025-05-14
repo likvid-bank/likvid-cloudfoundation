@@ -56,7 +56,7 @@ resource "meshstack_tenant" "prod" {
 resource "meshstack_building_block_v2" "repo" {
   spec = {
     building_block_definition_version_ref = {
-      uuid = "2a17061b-e0c6-400d-a589-4597c44ee84a"
+      uuid = "447553d6-e8aa-4de2-a5a1-4a9f8f862df8"
     }
 
     display_name = "GitHub Repo ${var.name}"
@@ -71,6 +71,9 @@ resource "meshstack_building_block_v2" "repo" {
       }
       use_template = {
         value_bool = false
+      }
+      auto_init = {
+        value_bool = true
       }
       # The API doesn't fetch default values from the BuildingBlock Definition currently
       # This is a workaround to set the an unused value for the template_owner and template_repo inputs
@@ -91,13 +94,12 @@ resource "time_sleep" "wait_45_seconds" {
   create_duration = "45s"
 }
 
-
 resource "meshstack_buildingblock" "github_actions_dev" {
   depends_on = [meshstack_building_block_v2.repo, time_sleep.wait_45_seconds]
 
   metadata = {
     definition_uuid    = "56e67643-b975-48b6-80c9-6d455bf6d3d2"
-    definition_version = 19
+    definition_version = 24
     tenant_identifier  = "${meshstack_tenant.dev.metadata.owned_by_workspace}.${meshstack_tenant.dev.metadata.owned_by_project}.aks.meshcloud-azure-dev"
   }
 
@@ -107,6 +109,11 @@ resource "meshstack_buildingblock" "github_actions_dev" {
       buildingblock_uuid = meshstack_building_block_v2.repo.metadata.uuid
       definition_uuid    = "8b91fa84-9572-4e1d-a90f-f63f70ffac71"
     }]
+    inputs = {
+      github_branch = {
+        value_string = "dev"
+      }
+    }
   }
 }
 
@@ -115,7 +122,7 @@ resource "meshstack_buildingblock" "github_actions_prod" {
 
   metadata = {
     definition_uuid    = "56e67643-b975-48b6-80c9-6d455bf6d3d2"
-    definition_version = 19
+    definition_version = 24
     tenant_identifier  = "${meshstack_tenant.prod.metadata.owned_by_workspace}.${meshstack_tenant.prod.metadata.owned_by_project}.aks.meshcloud-azure-dev"
   }
 
@@ -125,5 +132,10 @@ resource "meshstack_buildingblock" "github_actions_prod" {
       buildingblock_uuid = meshstack_building_block_v2.repo.metadata.uuid
       definition_uuid    = "8b91fa84-9572-4e1d-a90f-f63f70ffac71"
     }]
+    inputs = {
+      github_branch = {
+        value_string = "prod"
+      }
+    }
   }
 }
