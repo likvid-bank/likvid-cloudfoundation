@@ -96,7 +96,7 @@ resource "meshstack_buildingblock" "github_actions_dev" {
 
   metadata = {
     definition_uuid    = "56e67643-b975-48b6-80c9-6d455bf6d3d2"
-    definition_version = 20
+    definition_version = 21
     tenant_identifier  = "${meshstack_tenant.dev.metadata.owned_by_workspace}.${meshstack_tenant.dev.metadata.owned_by_project}.aks.meshcloud-azure-dev"
   }
 
@@ -119,7 +119,7 @@ resource "meshstack_buildingblock" "github_actions_prod" {
 
   metadata = {
     definition_uuid    = "56e67643-b975-48b6-80c9-6d455bf6d3d2"
-    definition_version = 20
+    definition_version = 21
     tenant_identifier  = "${meshstack_tenant.prod.metadata.owned_by_workspace}.${meshstack_tenant.prod.metadata.owned_by_project}.aks.meshcloud-azure-dev"
   }
 
