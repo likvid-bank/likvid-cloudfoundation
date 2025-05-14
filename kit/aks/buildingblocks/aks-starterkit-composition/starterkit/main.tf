@@ -56,7 +56,7 @@ resource "meshstack_tenant" "prod" {
 resource "meshstack_building_block_v2" "repo" {
   spec = {
     building_block_definition_version_ref = {
-      uuid = "2a17061b-e0c6-400d-a589-4597c44ee84a"
+      uuid = "447553d6-e8aa-4de2-a5a1-4a9f8f862df8"
     }
 
     display_name = "GitHub Repo ${var.name}"
@@ -71,6 +71,9 @@ resource "meshstack_building_block_v2" "repo" {
       }
       use_template = {
         value_bool = false
+      }
+      auto_init = {
+        value_bool = true
       }
       # The API doesn't fetch default values from the BuildingBlock Definition currently
       # This is a workaround to set the an unused value for the template_owner and template_repo inputs
