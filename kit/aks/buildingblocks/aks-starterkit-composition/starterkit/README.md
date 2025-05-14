@@ -23,7 +23,7 @@ No modules.
 | [meshstack_project.prod](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
 | [meshstack_tenant.dev](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
 | [meshstack_tenant.prod](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
-| [time_sleep.wait_45_seconds](https://registry.terraform.io/providers/hashicorp/time/0.11.1/docs/resources/sleep) | resource |
+| [time_sleep.wait_2_minutes](https://registry.terraform.io/providers/hashicorp/time/0.11.1/docs/resources/sleep) | resource |
 
 ## Inputs
 
