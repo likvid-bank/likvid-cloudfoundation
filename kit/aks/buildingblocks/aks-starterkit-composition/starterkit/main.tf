@@ -91,13 +91,12 @@ resource "time_sleep" "wait_45_seconds" {
   create_duration = "45s"
 }
 
-
 resource "meshstack_buildingblock" "github_actions_dev" {
   depends_on = [meshstack_building_block_v2.repo, time_sleep.wait_45_seconds]
 
   metadata = {
     definition_uuid    = "56e67643-b975-48b6-80c9-6d455bf6d3d2"
-    definition_version = 19
+    definition_version = 20
     tenant_identifier  = "${meshstack_tenant.dev.metadata.owned_by_workspace}.${meshstack_tenant.dev.metadata.owned_by_project}.aks.meshcloud-azure-dev"
   }
 
@@ -107,6 +106,11 @@ resource "meshstack_buildingblock" "github_actions_dev" {
       buildingblock_uuid = meshstack_building_block_v2.repo.metadata.uuid
       definition_uuid    = "8b91fa84-9572-4e1d-a90f-f63f70ffac71"
     }]
+    inputs = {
+      repo_branch = {
+        value_string = "dev"
+      }
+    }
   }
 }
 
@@ -115,7 +119,7 @@ resource "meshstack_buildingblock" "github_actions_prod" {
 
   metadata = {
     definition_uuid    = "56e67643-b975-48b6-80c9-6d455bf6d3d2"
-    definition_version = 19
+    definition_version = 20
     tenant_identifier  = "${meshstack_tenant.prod.metadata.owned_by_workspace}.${meshstack_tenant.prod.metadata.owned_by_project}.aks.meshcloud-azure-dev"
   }
 
@@ -125,5 +129,10 @@ resource "meshstack_buildingblock" "github_actions_prod" {
       buildingblock_uuid = meshstack_building_block_v2.repo.metadata.uuid
       definition_uuid    = "8b91fa84-9572-4e1d-a90f-f63f70ffac71"
     }]
+    inputs = {
+      repo_branch = {
+        value_string = "prod"
+      }
+    }
   }
 }
