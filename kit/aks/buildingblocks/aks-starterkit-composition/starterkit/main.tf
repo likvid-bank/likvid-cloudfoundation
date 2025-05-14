@@ -85,11 +85,12 @@ resource "meshstack_building_block_v2" "repo" {
 }
 
 # takes a while until github repo and aks namespace are ready
-resource "time_sleep" "wait_2_minutes" {
+resource "time_sleep" "wait_45_seconds" {
   depends_on = [meshstack_building_block_v2.repo]
 
-  create_duration = "2m"
+  create_duration = "45s"
 }
+
 
 resource "meshstack_buildingblock" "github_actions_dev" {
   depends_on = [meshstack_building_block_v2.repo, time_sleep.wait_45_seconds]
