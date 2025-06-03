@@ -27,6 +27,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [meshstack_project.buildingblocks-testing](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
 | [meshstack_project.likvid_gov_guard_dev](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
 | [meshstack_project.likvid_gov_guard_prod](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
 | [meshstack_project.m25_online_banking_app](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
@@ -38,6 +39,7 @@ No modules.
 | [meshstack_project_user_binding.m25_online_banking_app_admins](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project_user_binding) | resource |
 | [meshstack_project_user_binding.sap_core_platform_project_admins](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project_user_binding) | resource |
 | [meshstack_project_user_binding.static_website_assets_project_admins](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project_user_binding) | resource |
+| [meshstack_tenant.buildingblocks-testing-aws](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
 | [meshstack_tenant.likvid_gov_guard_dev](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
 | [meshstack_tenant.likvid_gov_guard_prod](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
 | [meshstack_tenant.m25_online_banking_app](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
