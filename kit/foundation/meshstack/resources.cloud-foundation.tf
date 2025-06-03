@@ -17,7 +17,7 @@ resource "meshstack_project" "buildingblocks-testing" {
   spec = {
     display_name = "Building Blocks Testing"
     tags = {
-      "environment"          = ["prod"]
+      "environment"          = ["dev"]
       "Schutzbedarf"         = ["public"]
       "LandingZoneClearance" = ["cloud-native"]
     }
@@ -32,6 +32,18 @@ resource "meshstack_tenant" "buildingblocks-testing-aws" {
     platform_identifier = "aws.aws-meshstack-dev"
   }
   spec = {
-    landing_zone_identifier = "likvid-aws-prod"
+    landing_zone_identifier = "likvid-aws-prod" // todo: should have probably used a dev landing zone instead?
+  }
+}
+
+resource "meshstack_tenant" "buildingblocks-testing-gcp" {
+  provider = meshstack.cloudfoundation
+  metadata = {
+    owned_by_project    = meshstack_project.buildingblocks-testing.metadata.name
+    owned_by_workspace  = meshstack_project.buildingblocks-testing.metadata.owned_by_workspace
+    platform_identifier = "gcp.gcp-meshstack-dev"
+  }
+  spec = {
+    landing_zone_identifier = "likvid-gcp-dev"
   }
 }
