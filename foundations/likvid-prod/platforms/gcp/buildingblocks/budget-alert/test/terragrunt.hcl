@@ -5,7 +5,7 @@ dependency "backplane" {
 }
 
 inputs = {
-  project_id           = "cloud-foundatio-buildingbl-8yv" # workspace cloudf-oundation, project buildingblocks-testing  
+  project_id           = "cloud-foundatio-buildingbl-8yv" # workspace cloudf-oundation, project buildingblocks-testing
   billing_account_id   = dependency.backplane.outputs.billing_account_id
   backplane_project_id = dependency.backplane.outputs.backplane_project_id
 }

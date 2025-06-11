@@ -54,6 +54,7 @@ EOF
 inputs = {
   github_repo = "likvid-cloudfoundation"
   foundation  = "likvid-prod"
+
   actions_variables = {
     aws_iam_role = dependency.aws_bootstrap.outputs.validation_iam_role_arn
 
@@ -63,5 +64,18 @@ inputs = {
 
     gcp_service_account            = dependency.gcp_bootstrap.outputs.github_actions_validation_sa_email
     gcp_workload_identity_provider = dependency.gcp_bootstrap.outputs.github_actions_workload_identity_provider
+  }
+
+  actions_secrets = {
+    MESHSTACK_API_KEY_LIKVID_MOBILE         = get_env("MESHSTACK_API_KEY_LIKVID_MOBILE")
+    MESHSTACK_API_KEY_LIKVID_GOV_GUARD      = get_env("MESHSTACK_API_KEY_LIKVID_GOV_GUARD")
+    MESHSTACK_API_KEY_ONLINE_BANKING_APP    = get_env("MESHSTACK_API_KEY_ONLINE_BANKING_APP")
+    MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS = get_env("MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS")
+    MESHSTACK_API_KEY_SAP_CORE_PLATFORM     = get_env("MESHSTACK_API_KEY_SAP_CORE_PLATFORM")
+    MESHSTACK_API_KEY_QUICKSTART_PROD       = get_env("MESHSTACK_API_KEY_QUICKSTART_PROD")
+    MESHSTACK_API_KEY_CLOUDFOUNDATION       = get_env("MESHSTACK_API_KEY_CLOUDFOUNDATION")
+    MESHSTACK_API_PASSWORD                  = get_env("MESHSTACK_API_PASSWORD")
+
+    # note: there's currently some more secrets managed outside of this repo still
   }
 }
