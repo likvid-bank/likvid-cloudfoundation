@@ -17,6 +17,10 @@ significant effort and specialized knowledge. This slows down cloud adoption and
 
 ## Implementation Steps
 
+### Story Lane
+
+You can view all steps of this demo story in [StoryLane](https://app.storylane.io/share/hzzabrqbgthk) as well.
+
 ### Prerequisites
 
 - You have permissions to manage Building Block Definitions.
