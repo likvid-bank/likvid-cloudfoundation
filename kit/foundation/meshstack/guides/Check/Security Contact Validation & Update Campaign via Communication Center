@@ -25,13 +25,13 @@ Maintaining accurate contact information for each application ensures regulatory
 ### 4. **Implementation Steps**
 [See the click through demo here](https://app.storylane.io/share/nyykaczmecli)
 
-#### - **Prerequisites**
+#### **Prerequisites**
 
 - A `Security Contact` tag is configured at the **workspace level**, with permission for workspace owners/manager to edit the tag value.
 - Some workspaces already have the `Security Contact` set.
 - The full version of the **Communication Center** is enabled (reach out to the SRE team if needed).
 
-#### - **Steps to Execute the Campaign (Admin Flow)**
+#### **Steps to Execute the Campaign (Admin Flow)**
 
 1. Go to the **Communication Center** in the **admin area** of meshStack.
 2. Create a new communication titled:  
@@ -60,7 +60,7 @@ Maintaining accurate contact information for each application ensures regulatory
 > 
 > Thanks for helping keep our platforms secure!
 
-#### - **Steps to Complete the Update (Application Team Flow)**
+#### **Steps to Complete the Update (Application Team Flow)**
 
 1. Navigate to the **Likvid Mobile App** workspace in meshPanel.
 2. Go to the **Compliance** section.
@@ -71,7 +71,7 @@ Maintaining accurate contact information for each application ensures regulatory
 7. Return to the **Communications** tab.
 8. **Check the box** to confirm the update is complete and mark the communication as addressed.
 
-#### - **Steps to Show Progress of the Compaign (Admin Flow)**
+#### **Steps to Show Progress of the Compaign (Admin Flow)**
 
 1. Go to the **Communication Center** in the **admin area** of meshStack.
 2. See that the status has changed and one workspace has responded
