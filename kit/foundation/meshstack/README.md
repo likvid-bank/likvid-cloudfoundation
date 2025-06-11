@@ -54,7 +54,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_meshstack_api"></a> [meshstack\_api](#input\_meshstack\_api) | API user with access to meshStack | <pre>object({<br>    endpoint = string,<br>    username = string,<br>    password = string<br>  })</pre> | `null` | no |
+| <a name="input_meshstack_api"></a> [meshstack\_api](#input\_meshstack\_api) | API user with access to meshStack | <pre>object({<br/>    endpoint = string,<br/>    username = string,<br/>    password = string<br/>  })</pre> | `null` | no |
 
 ## Outputs
 
