@@ -16,6 +16,11 @@ terraform {
     commands  = ["test", "plan", "apply"]
     arguments = []
     env_vars = {
+      # Unset any AWS credentials that might be set by CI environment
+      AWS_PROFILE        = ""
+      AWS_SESSION_TOKEN  = ""
+      AWS_DEFAULT_REGION = ""
+
       AWS_REGION            = "eu-central-1"
       AWS_ACCESS_KEY_ID     = dependency.buildingblock.outputs.aws_access_key_id
       AWS_SECRET_ACCESS_KEY = dependency.buildingblock.outputs.aws_secret_access_key
