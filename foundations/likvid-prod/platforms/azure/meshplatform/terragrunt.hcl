@@ -54,9 +54,12 @@ inputs = {
     dependency.lift_and_shift_landingzone.outputs.lift_and_shift_subscription_id
   ]
 
+  create_passwords = false
   workload_identity_federation = {
     issuer             = "https://container.googleapis.com/v1/projects/meshcloud-meshcloud--bc0/locations/europe-west1/clusters/meshstacks-ha"
     replicator_subject = "system:serviceaccount:meshcloud-demo:replicator"
     kraken_subject     = "system:serviceaccount:meshcloud-demo:kraken-worker"
   }
+
+  create_passwords = false
 }
