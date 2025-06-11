@@ -60,4 +60,6 @@ inputs = {
     replicator_subject = "system:serviceaccount:meshcloud-demo:replicator"
     kraken_subject     = "system:serviceaccount:meshcloud-demo:kraken-worker"
   }
+
+  create_passwords = false
 }
