@@ -1,0 +1,80 @@
+### 1. **Title**
+
+Check/Update Security Contact
+
+---
+
+### 2. **Motivation / Business Context**
+
+As part of its internal cloud governance model at **Likvid Bank**, every **application** running in the cloud must have a clearly defined **security contact**—an accountable individual responsible for security incidents, audit inquiries, and compliance communications.
+
+Maintaining accurate contact information for each application ensures regulatory alignment (e.g., DORA, ISO 27001) and enables faster incident resolution across all cloud environments (AWS, Azure, GCP).
+
+---
+
+### 3. **Challenges**
+
+- Security contacts are outdated or entirely missing across many cloud-hosted **applications**.
+- Development teams launching new **applications** were often unaware of the security metadata requirements.
+- The central security team lacked visibility into which **applications** had valid contacts, increasing risk.
+- Email communication and reminders were not effective and a lot of effort to send out
+
+
+---
+
+### 4. **Implementation Steps**
+
+#### - **Prerequisites**
+
+- A `Security Contact` tag is configured at the **workspace level**, with permission for workspace owners/manager to edit the tag value.
+- Some workspaces already have the `Security Contact` set.
+- The full version of the **Communication Center** is enabled (reach out to the SRE team if needed).
+
+#### - **Steps to Execute the Campaign (Admin Flow)**
+
+1. Go to the **Communication Center** in the **admin area** of meshStack.
+2. Create a new communication titled:  
+   **🔒 Security Contact Update Required**
+3. Set a **due date** and choose **Action Required** as the communication type.
+4. Set filter to all workspaces
+5. Add the following message content:
+
+> ⚠️ **All workspace owners must ensure their `Security Contact` is up to date by _July 31st, 2025_.**
+> 
+> ### ✅ Steps to Update
+> 
+> 1. Go to your **workspace**.  
+> 2. Navigate to **Settings → Tags**.  
+> 3. Select **Security Contact** and update if needed.
+> 
+> ### ❗ Why It Matters
+> 
+> Accurate contact info ensures:  
+> - Fast response to security incidents  
+> - Compliance with audit requirements
+> 
+> ### 🆘 Need Help?
+> 
+> Contact **security-support@yourcompany.com** or see the [update guide](#).
+> 
+> Thanks for helping keep our platforms secure!
+
+#### - **Steps to Complete the Update (Application Team Flow)**
+
+1. Navigate to the **Likvid Mobile App** workspace in meshPanel.
+2. Go to the **Compliance** section.
+3. Open the **Communications** tab.
+4. Read the **🔒 Security Contact Update Required** message.
+5. Navigate to **Settings → Tags** within the workspace.
+6. Locate the `Security Contact` tag and update it with the correct email address.
+7. Return to the **Communications** tab.
+8. **Check the box** to confirm the update is complete and mark the communication as addressed.
+
+#### - **Steps to Show Progress of the Compaign (Admin Flow)**
+
+1. Go to the **Communication Center** in the **admin area** of meshStack.
+2. See that the status has changed and one workspace has responded
+
+### 5. **Conclusion**
+
+This demo shows how **Likvid Bank** leverages meshStack’s Communication Center and metadata capabilities to drive security accountability at scale. By initiating a targeted campaign, the bank ensures every application has a valid security contact in place—improving response readiness and audit compliance with minimal manual effort.
