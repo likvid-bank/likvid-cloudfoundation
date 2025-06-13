@@ -26,6 +26,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [github_actions_environment_secret.secrets](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/resources/actions_environment_secret) | resource |
 | [github_actions_environment_variable.variables](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/resources/actions_environment_variable) | resource |
 | [github_repository_environment.env](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/resources/repository_environment) | resource |
 | [github_repository.cloudfoundation](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/data-sources/repository) | data source |
@@ -34,6 +35,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_actions_secrets"></a> [actions\_secrets](#input\_actions\_secrets) | github actions environment secrets | `map(string)` | n/a | yes |
 | <a name="input_actions_variables"></a> [actions\_variables](#input\_actions\_variables) | github actions environment variables | `map(string)` | n/a | yes |
 | <a name="input_foundation"></a> [foundation](#input\_foundation) | name of the foundation | `string` | n/a | yes |
 | <a name="input_github_repo"></a> [github\_repo](#input\_github\_repo) | name of the github repo | `string` | n/a | yes |

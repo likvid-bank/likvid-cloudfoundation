@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: meshWorkspace
+metadata:
+  name: cloud-foundation
+spec:
+  displayName: Likvid Cloud Foundation
+  tags:
+    environment:
+    - dev
+    - qa
+    - prod
+    - test
+    BusinessUnit:
+    - "IT"
+    SecurityContact:
+    - cloudfoundation@likvid.io
+    # todo: landingzone clearance is missing

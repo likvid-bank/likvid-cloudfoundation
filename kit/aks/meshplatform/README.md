@@ -31,9 +31,9 @@ No resources.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_create_password"></a> [create\_password](#input\_create\_password) | n/a | `bool` | `true` | no |
-| <a name="input_metering_additional_rules"></a> [metering\_additional\_rules](#input\_metering\_additional\_rules) | n/a | <pre>list(object({<br>    api_groups        = list(string)<br>    resources         = list(string)<br>    verbs             = list(string)<br>    resource_names    = optional(list(string))<br>    non_resource_urls = optional(list(string))<br>  }))</pre> | `[]` | no |
+| <a name="input_metering_additional_rules"></a> [metering\_additional\_rules](#input\_metering\_additional\_rules) | n/a | <pre>list(object({<br/>    api_groups        = list(string)<br/>    resources         = list(string)<br/>    verbs             = list(string)<br/>    resource_names    = optional(list(string))<br/>    non_resource_urls = optional(list(string))<br/>  }))</pre> | `[]` | no |
 | <a name="input_metering_enabled"></a> [metering\_enabled](#input\_metering\_enabled) | n/a | `bool` | `true` | no |
-| <a name="input_replicator_additional_rules"></a> [replicator\_additional\_rules](#input\_replicator\_additional\_rules) | n/a | <pre>list(object({<br>    api_groups        = list(string)<br>    resources         = list(string)<br>    verbs             = list(string)<br>    resource_names    = optional(list(string))<br>    non_resource_urls = optional(list(string))<br>  }))</pre> | `[]` | no |
+| <a name="input_replicator_additional_rules"></a> [replicator\_additional\_rules](#input\_replicator\_additional\_rules) | n/a | <pre>list(object({<br/>    api_groups        = list(string)<br/>    resources         = list(string)<br/>    verbs             = list(string)<br/>    resource_names    = optional(list(string))<br/>    non_resource_urls = optional(list(string))<br/>  }))</pre> | `[]` | no |
 | <a name="input_replicator_enabled"></a> [replicator\_enabled](#input\_replicator\_enabled) | n/a | `bool` | `true` | no |
 | <a name="input_scope"></a> [scope](#input\_scope) | n/a | `string` | n/a | yes |
 | <a name="input_service_principal_name"></a> [service\_principal\_name](#input\_service\_principal\_name) | n/a | `string` | n/a | yes |

@@ -67,7 +67,7 @@ No modules.
 | <a name="input_github_repo_enable_tf_state_access"></a> [github\_repo\_enable\_tf\_state\_access](#input\_github\_repo\_enable\_tf\_state\_access) | allow github actions access to terraform state | `bool` | n/a | yes |
 | <a name="input_github_repo_full_name"></a> [github\_repo\_full\_name](#input\_github\_repo\_full\_name) | Full name of the GitHub repo incl. owner e.g. likvid-bank/likvid-cloudfoundation | `string` | n/a | yes |
 | <a name="input_parent_folder_id"></a> [parent\_folder\_id](#input\_parent\_folder\_id) | Folder if of the parent folder hosting this foundation | `string` | n/a | yes |
-| <a name="input_platform_engineers_group"></a> [platform\_engineers\_group](#input\_platform\_engineers\_group) | Name of the platform engineers group | <pre>object({<br>    name    = string,<br>    members = set(string),<br>    domain  = string<br>  })</pre> | n/a | yes |
+| <a name="input_platform_engineers_group"></a> [platform\_engineers\_group](#input\_platform\_engineers\_group) | Name of the platform engineers group | <pre>object({<br/>    name    = string,<br/>    members = set(string),<br/>    domain  = string<br/>  })</pre> | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | GCP region where to create cresources | `string` | n/a | yes |
 | <a name="input_service_account_name"></a> [service\_account\_name](#input\_service\_account\_name) | name of the Service Account used to deploy cloud foundation resources | `string` | `"foundation-tf-deploy-user"` | no |
 | <a name="input_tf_state_bucket_name"></a> [tf\_state\_bucket\_name](#input\_tf\_state\_bucket\_name) | name of the GCS bucket to create for hosting foundation-level terraform states | `string` | `null` | no |
