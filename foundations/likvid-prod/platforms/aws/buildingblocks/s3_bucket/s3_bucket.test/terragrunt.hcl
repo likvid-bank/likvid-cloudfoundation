@@ -1,3 +1,8 @@
+# this module only supports the test command!
+exclude {
+  if      = true
+  actions = ["plan", "apply", "destroy"]
+}
 
 # this is a test for a meshStack building block
 dependency "backplane" {

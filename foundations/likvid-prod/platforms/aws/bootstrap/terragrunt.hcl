@@ -3,6 +3,13 @@ include "platform" {
   expose = true
 }
 
+# exclude bootstrap module for all operations when run in a stack
+# bootstrap modules must be run individually via `terragrunt apply`
+exclude {
+  if      = true
+  actions = ["all"]
+}
+
 terraform {
   source = "${get_repo_root()}//kit/aws/bootstrap"
 }

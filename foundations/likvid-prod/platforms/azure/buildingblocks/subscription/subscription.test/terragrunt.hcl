@@ -8,6 +8,12 @@ include "platform" {
   expose = true
 }
 
+# this module only supports the test command!
+exclude {
+  if      = true
+  actions = ["plan", "apply", "destroy"]
+}
+
 dependency "buildingblock" {
   config_path = "../backplane"
 }

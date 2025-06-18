@@ -3,6 +3,13 @@ include "platform" {
   expose = true
 }
 
+# exclude bootstrap module for all operations when run in a stack
+# bootstrap modules must be run individually via `terragrunt apply`
+exclude {
+  if      = true
+  actions = ["all"]
+}
+
 # this is a bootstrap module, so we set up a provider
 # with user credentials (az CLI based authentication) here
 generate "provider" {

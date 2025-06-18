@@ -35,8 +35,6 @@ jobs:
           cache: npm
           cache-dependency-path: foundations/${{ inputs.foundation }}/docs/vuepress/package-lock.json
 
-      - uses: meshcloud/setup-collie@main
-
       # authenticate with azure using Workflow Identity Federation, this enables us to access the tfstate for platforms/azure
       # and perform terraform plan against platform/azure
       - name: Setup az login
@@ -61,8 +59,10 @@ jobs:
 
       - name: update docs v2
         working-directory: foundations/${{ inputs.foundation }}/docs
+        # note: this will update files in ./docs-v2 folder used below, this is a bit non-intuitive
+        # but that's an artifact of the legacy collie workflow
         run: |
-          collie foundation docs ${{ inputs.foundation }} --build
+          terragrunt apply --auto-approve
         env:
           MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS: ${{ secrets.MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS }}
           MESHSTACK_API_KEY_ONLINE_BANKING_APP: ${{ secrets.MESHSTACK_API_KEY_ONLINE_BANKING_APP }}
@@ -72,6 +72,13 @@ jobs:
           MESHSTACK_API_KEY_QUICKSTART_PROD: ${{ secrets.MESHSTACK_API_KEY_QUICKSTART_PROD }}
           MESHSTACK_API_KEY_CLOUDFOUNDATION: ${{ secrets.MESHSTACK_API_KEY_CLOUDFOUNDATION }}
 
+      
+      - name: build docs v2
+        working-directory: foundations/${{ inputs.foundation }}/.docs-v2
+        run: |
+          npm ci
+          npm run docs:build
+          
       - name: upload docs artifact
         uses: actions/upload-artifact@v4
         with:

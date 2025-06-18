@@ -38,9 +38,6 @@ jobs:
         with:
           prepare_terraform: true
 
-      - uses: meshcloud/setup-collie@main
-
-
       - name: Setup gcloud auth
         if: ${{ inputs.platform == 'gcp' }}
         id: 'auth'
@@ -68,9 +65,14 @@ jobs:
       - name: terraform plan
         if: ${{ inputs.action == 'plan' }}
         run: |
-          collie foundation deploy ${{ inputs.foundation }} --platform ${{ inputs.platform }} -- plan -lock=false -detailed-exitcode
+          terragrunt plan \
+            --all \
+            --working-dir="./foundations/${{ inputs.foundation }}/platforms/${{ inputs.platform }}" \
+            -- -lock=false -concise
 
       - name: run tests
         if: ${{ inputs.action == 'test' }}
         run: |
-          collie foundation test ${{ inputs.foundation }} --platform ${{ inputs.platform }}
+          terragrunt test \
+            --all \
+            --working-dir="./foundations/${{ inputs.foundation }}/platforms/${{ inputs.platform }}"
