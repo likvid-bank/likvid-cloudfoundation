@@ -28,3 +28,13 @@ resource "github_actions_environment_variable" "variables" {
   variable_name = each.key
   value         = each.value
 }
+
+
+resource "github_actions_environment_secret" "secrets" {
+  for_each = var.actions_secrets
+
+  repository      = data.github_repository.cloudfoundation.name
+  environment     = github_repository_environment.env.environment
+  secret_name     = each.key
+  plaintext_value = each.value
+}
