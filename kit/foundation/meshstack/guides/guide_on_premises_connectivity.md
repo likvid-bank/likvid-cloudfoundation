@@ -14,9 +14,9 @@ This guide will demonstrate how the team can utilize meshStack to address this c
 
 ## Challenges
 
-The Cloud Foundation team, in collaboration with the Market Analytics Team, has identified the following milestones:
+The [Cloud Foundation team](md_workspace_cloud_foundation), in collaboration with the Market Analytics Team, has identified the following milestones:
 
-- Establish secure connectivity between the cloud-based application and the on-premises data center. This responsibility lies with the Cloud Foundation team.
+- Establish secure connectivity between the cloud-based application and the on-premises data center. This responsibility lies with the [Cloud Foundation team](md_workspace_cloud_foundation).
 
 - The Market Analytics Team will gain access to a meshStack workspace, where they will create a project and tenant for the Market Data Connector application. This is their responsibility. The Team intends to employ Infrastructure as Code (IaC) principles, in conjunction with DevOps practices, to deploy both the meshStack projects/tenants and the Market Data Connector application, ensuring adherence to best practices.
 
@@ -47,7 +47,7 @@ For more information on how to set up a Building Block Definition, please refer 
 
 ### Workspace Access for the Market Analytics Team
 
-The Cloud Foundation team will provide the Market Analytics Team with access to a meshStack workspace. This workspace will be used by the Market Analytics Team to create a project and tenant for the Market Data Connector application.
+The [Cloud Foundation team](md_workspace_cloud_foundation) will provide the Market Analytics Team with access to a meshStack workspace. This workspace will be used by the Market Analytics Team to create a project and tenant for the Market Data Connector application.
 
 ### Handled by the Market Analytics Team
 
