@@ -1,6 +1,6 @@
 # Likvid Bank Cloud Foundation
 
-This is the cloud foundation infrastructure as code repository defining all landing zones of Likvid Bank as IaC
+This is the cloud foundation infrastructure as code repository defining the internal developer platform of Likvid Bank as IaC
 using terraform and terragrunt.
 
 This repository is maintained by the cloud foundation team. To learn more about our cloud foundation, please
