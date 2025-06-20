@@ -111,6 +111,7 @@ inputs = {
     endpoint = "https://federation.demo.meshcloud.io"
     username = "likvid-prod"
     password = get_env("MESHSTACK_API_PASSWORD")
-
   }
+
+  meshpanel_base_url = "https://panel.demo.meshcloud.io"
 }
