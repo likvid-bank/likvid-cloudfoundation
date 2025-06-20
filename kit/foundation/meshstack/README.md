@@ -39,6 +39,8 @@ No modules.
 | [meshstack_project_user_binding.m25_online_banking_app_admins](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project_user_binding) | resource |
 | [meshstack_project_user_binding.sap_core_platform_project_admins](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project_user_binding) | resource |
 | [meshstack_project_user_binding.static_website_assets_project_admins](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project_user_binding) | resource |
+| [meshstack_tag_definition.BusinessUnit](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tag_definition) | resource |
+| [meshstack_tag_definition.security_contact](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tag_definition) | resource |
 | [meshstack_tenant.buildingblocks-testing-aws](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
 | [meshstack_tenant.buildingblocks-testing-gcp](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
 | [meshstack_tenant.likvid_gov_guard_dev](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
