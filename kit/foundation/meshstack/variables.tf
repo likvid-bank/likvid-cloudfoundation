@@ -7,3 +7,9 @@ variable "meshstack_api" {
     password = string
   })
 }
+
+variable "meshpanel_base_url" {
+  description = "Base URL of the meshPanel"
+  default     = null
+  type        = string
+}
