@@ -50,7 +50,7 @@ Summarize the value demonstrated and encourage next steps or learning.
 
 # Formatting Requirements for Demo Stories
 
-We write demo stories as terraform templated markdown files. 
+We write demo stories as terraform templated markdown files.
 This allows us to tightly interweave the Livkid Bank cloud foundation IaC code that setups up their meshStack environment
 with the generated documentation. This is important to ensure that the demo story is always up-to-date with the
 actual deployed environment.

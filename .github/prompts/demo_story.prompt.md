@@ -7,11 +7,11 @@ Use instructions from the file `.github/instructions/demo_story.instructions.md`
 Ask the user for relevant information to fill in the template.
 
 Use a concise and clear writing style.
-Make sure to use consistent terminology for the same concepts, especially when referring to meshStack concepts 
+Make sure to use consistent terminology for the same concepts, especially when referring to meshStack concepts
 like "Workspace", "Landing Zone", "Building Block Definition", etc.
 
 Scan the terraform code in the `kit/foundation/meshstack/` directory to find available managed terraform resources
-and whenever possible include values from these resources via string interpolation (via template variables defined 
+and whenever possible include values from these resources via string interpolation (via template variables defined
 in the `locals.md_contents` local). Make necessary edits to surface additional variables that are not already defined in
  the `locals.md_contents` local to the templates.
 
