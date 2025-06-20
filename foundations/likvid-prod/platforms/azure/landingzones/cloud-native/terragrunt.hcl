@@ -8,11 +8,11 @@ include "platform" {
 }
 
 dependency "bootstrap" {
-  config_path = "${path_relative_from_include()}/bootstrap"
+  config_path = "../../bootstrap"
 }
 
 dependency "corp_online" {
-  config_path = "${path_relative_from_include()}/landingzones/corp-online"
+  config_path = "../corp-online"
 }
 
 terraform {

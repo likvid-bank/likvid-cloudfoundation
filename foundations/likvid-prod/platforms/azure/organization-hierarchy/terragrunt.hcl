@@ -8,7 +8,7 @@ include "platform" {
 }
 
 dependency "bootstrap" {
-  config_path = "${path_relative_from_include()}/bootstrap"
+  config_path = "../bootstrap"
 }
 
 terraform {

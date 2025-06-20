@@ -8,11 +8,11 @@ include "platform" {
 }
 
 dependency "bootstrap" {
-  config_path = "${path_relative_from_include()}/bootstrap"
+  config_path = "../../bootstrap"
 }
 
 dependency "organization-hierarchy" {
-  config_path = "${path_relative_from_include()}/organization-hierarchy"
+  config_path = "../../organization-hierarchy"
 }
 
 terraform {
