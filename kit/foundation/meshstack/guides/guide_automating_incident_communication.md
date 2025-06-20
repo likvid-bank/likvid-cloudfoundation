@@ -1,4 +1,4 @@
-# Automating Communication via meshStack API
+# Automating Security Incident Management via meshStack API
 
 This demo story shows how Likvid Bank's GCP architect, Phil, automates communication about GCP Deny Policies to affected teams using meshStack's API.
 
@@ -16,7 +16,12 @@ When a GCP service fails to meet these standards, the team creates a **Deny Poli
 
 ## Implementation Steps
 
-[Watch the Demo on Storylane](https://app.storylane.io/share/nyykaczmecli)
+### Familiarize with Communication Center
+
+Before you start automating communications via the communication center, you should familiarize yourself with our
+Guide on [Maintaining Security Contacts](./guide_maintaining_security_contacts.md). Once you have understood these
+basic concepts and the user experience for your application teams, you can move on to automating the creation of
+communications.
 
 ### Service Usage Assessment
 
@@ -38,12 +43,11 @@ This will return the meshTenant object, including its UUID.
 
 The team uses the meshStack communications definitions and communications API to send the “Action Required” communication to all affected workspaces, including a due date for confirming the deprecation.
 
-### Create Communication Definition
+A [meshCommunicationDefinition](https://docs.meshcloud.io/api/index.html#_get_meshcommunicationdefinition) stores a message as a reusable template and helps you keep track
+of all affected tenants that have received the same communication and whether they have marked the communication as resolved.
 
-A `meshCommunicationDefinition` stores a message as a reusable template and helps you keep track
-of all affected tenants that have received the same message and their resolution status.
-
-`meshCommunications` are instances of a definition and are sent to a specific target (e.g. a `meshWorkspace` or as in our example a `meshTenant`).
+[meshCommunications](https://docs.meshcloud.io/api/index.html#_get_meshcommunication) allow you to attach a communication definition
+to a specific target (e.g. a `meshWorkspace` or as in our example a `meshTenant`).
 
 First, create a communication definition with the message to be sent.
 
