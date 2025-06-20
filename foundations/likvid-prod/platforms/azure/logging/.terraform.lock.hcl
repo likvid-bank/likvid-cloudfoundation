@@ -3,7 +3,7 @@
 
 provider "registry.opentofu.org/azure/azapi" {
   version     = "1.12.1"
-  constraints = "~> 1.12.1"
+  constraints = "1.12.1"
   hashes = [
     "h1:4uNzgEfL4VJ48QYAKM4A/E+HWyx7roO58xmR3R2WNh0=",
     "h1:EaQL7pQCRm5iL2zy/dG7rOe2OZ0ZypuyVnpQAiAwJmM=",

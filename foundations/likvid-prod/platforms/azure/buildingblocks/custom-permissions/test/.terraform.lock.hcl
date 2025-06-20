@@ -16,6 +16,7 @@ provider "registry.opentofu.org/hashicorp/azuread" {
     "zh:cf3b315592559ef6ee47dbb7f98ca1c9f42821dbb45225f5191678975c996427",
     "zh:f4ef1eef47ff6338a0811dc82153757c21b6be1fc8e37c92970efcbfd8f85f13",
   ]
+  constraints = "3.0.2"
 }
 
 provider "registry.opentofu.org/hashicorp/azurerm" {
