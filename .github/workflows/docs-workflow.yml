@@ -72,13 +72,13 @@ jobs:
           MESHSTACK_API_KEY_QUICKSTART_PROD: ${{ secrets.MESHSTACK_API_KEY_QUICKSTART_PROD }}
           MESHSTACK_API_KEY_CLOUDFOUNDATION: ${{ secrets.MESHSTACK_API_KEY_CLOUDFOUNDATION }}
 
-      
+
       - name: build docs v2
         working-directory: foundations/${{ inputs.foundation }}/.docs-v2
         run: |
           npm ci
           npm run docs:build
-          
+
       - name: upload docs artifact
         uses: actions/upload-artifact@v4
         with:
