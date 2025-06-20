@@ -22,6 +22,7 @@ To drive adoption and ensure professional communication, the platform team wants
 - Tick **prefix internal name to all email subjects**. This ensures all emails start with “Likvid Developer Platform” for consistency.
 - Set the **sender email address** to `likvid-developer-platform@likvidbank.com`.
 - Set the **reply-to email address** to `likvid-developer-platform@likvidbank.com`.
+- Set the **email header logo** to the following file: ![image](./likvid_logo.png).
 - Set the **button color** to **Likvid Bank Blue** (`#0072C6`) for consistency with the brand.
 - Set the **button text** to `Open Likvid Developer Platform` to provide a clear call to action.
 - Set the e-mail signature to
