@@ -1,5 +1,10 @@
+# this module only supports the test command!
+exclude {
+  if      = true
+  actions = ["plan", "apply", "destroy"]
+}
+
 # this is a test for a meshStack building block
-# hence it's using config.tf, and not collie-style composition (maybe we should align the two and let collie use config_tf style as well)
 dependency "buildingblock" {
   config_path = "../backplane"
 }
