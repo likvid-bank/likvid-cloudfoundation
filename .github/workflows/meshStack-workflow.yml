@@ -4,9 +4,6 @@ on:
       foundation:
         required: true
         type: string
-      # platform:
-      #   required: true
-      #   type: string
 
 jobs:
   build:
@@ -25,6 +22,7 @@ jobs:
       MESHSTACK_API_KEY_SAP_CORE_PLATFORM: ${{ secrets.MESHSTACK_API_KEY_SAP_CORE_PLATFORM }}
       MESHSTACK_API_KEY_LIKVID_GOV_GUARD: ${{ secrets.MESHSTACK_API_KEY_LIKVID_GOV_GUARD }}
       MESHSTACK_API_KEY_QUICKSTART_PROD: ${{ secrets.MESHSTACK_API_KEY_QUICKSTART_PROD }}
+      MESHSTACK_API_KEY_CLOUDFOUNDATION: ${{ secrets.MESHSTACK_API_KEY_CLOUDFOUNDATION }}
       MESHSTACK_API_PASSWORD: ${{ secrets.MESHSTACK_API_PASSWORD }}
 
     steps:
@@ -35,10 +33,7 @@ jobs:
         with:
           prepare_terraform: true
 
-      - uses: meshcloud/setup-collie@main
-
       - name: Setup az auth
-      #if: ${{ inputs.platform == 'azure' }}
         uses: azure/login@v2
         with:
           client-id: ${{ vars.azure_client_id }}
@@ -46,7 +41,6 @@ jobs:
           subscription-id: ${{ vars.azure_subscription_id }}
 
       - name: Setup aws auth
-      # if: ${{ inputs.platform == 'aws' }}
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: eu-central-1
@@ -56,13 +50,13 @@ jobs:
       - name: terragrunt meshstack apply docs
         if: github.ref == 'refs/heads/main'
         run: |
-          cd foundations/${{ inputs.foundation }}/meshstack
-          terragrunt apply -target=output.documentation_guides_md -lock=false -auto-approve
+          terragrunt apply \
+            --working-dir="./foundations/${{ inputs.foundation }}/meshstack" \
+            -- -target=output.documentation_guides_md -lock=false -auto-approve
 
-      #TODO we are working on native working foundation modules with collie-cli. thats an workaround for now
-      # https://github.com/meshcloud/collie-cli/tree/feature/foundation-modules
       - name: terragrunt meshstack plan
-      #  if: ${{ inputs.platform == 'azure' }}
         run: |
-          cd foundations/${{ inputs.foundation }}/meshstack
-          terragrunt plan -lock=false -detailed-exitcode
+          terragrunt plan \
+            --all \
+            --working-dir="./foundations/${{ inputs.foundation }}/meshstack" \
+            -- -lock=false -concise

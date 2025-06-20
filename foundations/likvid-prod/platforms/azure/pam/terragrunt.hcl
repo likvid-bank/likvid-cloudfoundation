@@ -1,22 +1,26 @@
+include "common" {
+  path = find_in_parent_folders("common.hcl")
+}
+
 include "platform" {
   path   = find_in_parent_folders("platform.hcl")
   expose = true
 }
 
 dependency "bootstrap" {
-  config_path = "${path_relative_from_include()}/bootstrap"
+  config_path = "../bootstrap"
 }
 
 dependency "logging" {
-  config_path = "${path_relative_from_include()}/logging"
+  config_path = "../logging"
 }
 
 dependency "billing" {
-  config_path = "${path_relative_from_include()}/billing"
+  config_path = "../billing"
 }
 
 dependency "networking" {
-  config_path = "${path_relative_from_include()}/networking"
+  config_path = "../networking"
 }
 
 terraform {

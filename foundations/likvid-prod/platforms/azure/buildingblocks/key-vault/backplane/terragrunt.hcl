@@ -1,3 +1,7 @@
+include "common" {
+  path = find_in_parent_folders("common.hcl")
+}
+
 include "platform" {
   path   = find_in_parent_folders("platform.hcl")
   expose = true
@@ -44,7 +48,7 @@ inputs = {
 
 # generate a config.tf file for automating building block deployments via meshStack
 generate "config" {
-  path      = "${get_terragrunt_dir()}/../key-vault.test/config.tf"
+  path      = "${get_terragrunt_dir()}/../test/config.tf"
   if_exists = "overwrite"
   contents  = <<EOF
 terraform {

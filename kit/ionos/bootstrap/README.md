@@ -34,8 +34,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_admin"></a> [admin](#input\_admin) | n/a | <pre>list(object({<br>    email     = string<br>    firstname = string<br>    lastname  = string<br>  }))</pre> | n/a | yes |
-| <a name="input_users"></a> [users](#input\_users) | n/a | <pre>list(object({<br>    email     = string<br>    firstname = string<br>    lastname  = string<br>  }))</pre> | n/a | yes |
+| <a name="input_admin"></a> [admin](#input\_admin) | n/a | <pre>list(object({<br/>    email     = string<br/>    firstname = string<br/>    lastname  = string<br/>  }))</pre> | n/a | yes |
+| <a name="input_users"></a> [users](#input\_users) | n/a | <pre>list(object({<br/>    email     = string<br/>    firstname = string<br/>    lastname  = string<br/>  }))</pre> | n/a | yes |
 
 ## Outputs
 

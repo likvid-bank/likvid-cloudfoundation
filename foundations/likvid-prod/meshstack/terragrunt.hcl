@@ -1,3 +1,7 @@
+include "common" {
+  path = find_in_parent_folders("common.hcl")
+}
+
 terraform {
   source = "${get_repo_root()}//kit/foundation/meshstack"
 
@@ -90,6 +94,15 @@ provider "meshstack" {
   apikey    = "f846470b-3144-47ba-a8e2-fc1f41ce5fca"
   apisecret = "${get_env("MESHSTACK_API_KEY_QUICKSTART_PROD")}"
 }
+
+# an admin api key that will eventually replace the need for having individual api keys for each workspace
+provider "meshstack" {
+  alias = "cloudfoundation"
+  endpoint  = "https://federation.demo.meshcloud.io"
+  apikey    = "6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74"
+  apisecret = "${get_env("MESHSTACK_API_KEY_CLOUDFOUNDATION")}"
+}
+
 EOF
 }
 

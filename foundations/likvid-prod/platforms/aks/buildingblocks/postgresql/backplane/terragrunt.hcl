@@ -1,3 +1,7 @@
+include "common" {
+  path = find_in_parent_folders("common.hcl")
+}
+
 dependency "automation" {
   config_path = "../../../../azure/buildingblocks/automation"
 }

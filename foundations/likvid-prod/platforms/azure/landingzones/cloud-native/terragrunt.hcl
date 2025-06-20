@@ -1,14 +1,18 @@
+include "common" {
+  path = find_in_parent_folders("common.hcl")
+}
+
 include "platform" {
   path   = find_in_parent_folders("platform.hcl")
   expose = true
 }
 
 dependency "bootstrap" {
-  config_path = "${path_relative_from_include()}/bootstrap"
+  config_path = "../../bootstrap"
 }
 
 dependency "corp_online" {
-  config_path = "${path_relative_from_include()}/landingzones/corp-online"
+  config_path = "../corp-online"
 }
 
 terraform {
