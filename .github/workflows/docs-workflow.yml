@@ -14,8 +14,10 @@ jobs:
       id-token: write
       contents: read
     env:
-      TERRAGRUNT_TFPATH: tofu
+      TG_TF_PATH: tofu
+      TG_PROVIDER_CACHE: 1 # enable provider caching for a speeding up tf inits
       TF_IN_AUTOMATION: true
+      TG_NON_INTERACTIVE: true
 
       # required for azurerm state backend
       ARM_CLIENT_ID: ${{ vars.azure_client_id }}

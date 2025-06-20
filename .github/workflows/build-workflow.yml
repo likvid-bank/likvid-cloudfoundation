@@ -19,7 +19,11 @@ jobs:
     environment:
       name: ${{ inputs.foundation }}
     env:
-      TERRAGRUNT_TFPATH: tofu
+      TG_TF_PATH: tofu
+      TG_PROVIDER_CACHE: 1 # enable provider caching for a speeding up tf inits
+      TF_IN_AUTOMATION: true
+      TG_NON_INTERACTIVE: true
+
       # required to enable for azurerm backend, the azurerm provider seems to be fine without these two keys
       ARM_CLIENT_ID: ${{ vars.azure_client_id }}
       ARM_USE_OIDC: true
