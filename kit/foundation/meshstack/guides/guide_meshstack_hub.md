@@ -6,7 +6,7 @@ This guide shows you how you can accelerate your platform engineering with pre-b
 
 Platform teams are expected to provide standardized, secure infrastructure quickly and at scale.
 However, defining and maintaining these components, such as landing zones, networking, or security baselines, requires
-significant effort and specialized knowledge. Building blocks on the meshStack hub offer a community-maintained resource 
+significant effort and specialized knowledge. Building blocks on the meshStack hub offer a community-maintained resource
 for getting started quickly with common platform engineering challenges by leveraging tried and tested building
 blocks.
 

@@ -131,11 +131,11 @@ locals {
   md_contents = {
     for f in local.md_files :
     replace(basename(f), ".md", "") => templatefile("${path.module}/guides/${f}", {
-       
-      # new pattern, we generate ready to use markdown depp-links into meshpanel to entities where that makes sense 
-      md_workspace_m25_platform_team                                            = "[${local.workspaces.m25_platform_team.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.m25_platform_team.metadata.name})",
 
-      
+      # new pattern, we generate ready to use markdown depp-links into meshpanel to entities where that makes sense
+      md_workspace_m25_platform_team = "[${local.workspaces.m25_platform_team.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.m25_platform_team.metadata.name})",
+
+
       meshobjects_import_workspaces_devops_platform_yml_output_spec_displayName  = terraform_data.meshobjects_import["workspaces/devops-platform.yml"].output.spec.displayName,
       buildingBlockDefinitions_github_repository_spec_displayName                = local.buildingBlockDefinitions.github-repository.spec.displayName,
       platformDefinitions_github_repository_spec_displayName                     = local.customPlatformDefinitions.github-repository.spec.displayName,
