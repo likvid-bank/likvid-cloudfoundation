@@ -1,3 +1,7 @@
+include "common" {
+  path = find_in_parent_folders("common.hcl")
+}
+
 # this module only supports the test command!
 exclude {
   if      = true

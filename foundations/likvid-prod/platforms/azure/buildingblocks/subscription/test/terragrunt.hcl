@@ -1,3 +1,7 @@
+include "common" {
+  path = find_in_parent_folders("common.hcl")
+}
+
 # this is a test for a collie building block
 # this is a building block that's not going to be automated via meshStack, so we can simplify a few things here
 # see the budget-alert building block for a building block that's both deployable by collie as well as meshStack
