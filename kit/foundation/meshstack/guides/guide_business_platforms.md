@@ -4,7 +4,7 @@ This guide shows you how you can solve common integration challenges around "bus
 
 ## Motivation
 
-With the cloud foundation team being responsible for building the foundational landing zones for different workload
+With the [Cloud Foundation team](md_workspace_cloud_foundation) being responsible for building the foundational landing zones for different workload
 types, many organizations find the need to build specialized internal platforms dedicated to supporting applications for a specific
 line of business. These internal platforms typically have their own platform teams that cater to their customers.
 
@@ -16,15 +16,15 @@ Nonetheless, Likvid Bank must leverage significant cost synergies from the acuis
 set the goal of moving M25s existing AWS workload under the Likvid Bank AWS Contract as quickly as possible.
 This will allow Likvid Bank to leverage better terms negotiated with AWS.
 
-The Cloud Foundation team is now tasked with establishing a minimum of central governance and compliance management over
+The [Cloud Foundation team](md_workspace_cloud_foundation) is now tasked with establishing a minimum of central governance and compliance management over
 M25, while not interfering with their existing operations on AWS.
 
 ## Challenges
 
-The Cloud Foundation team has identified the following milestones
+The [Cloud Foundation team](md_workspace_cloud_foundation) has identified the following milestones
 
 - Migrate all of M25s AWS Accounts into the Likvid Bank AWS Organization in a dedicated Organizational Unit (OU)
-- Enable the M25 Platform team to offer landing zones and services to their application teams using meshStack
+- Enable the ${md_workspace_m25_platform_team} to offer landing zones and services to their application teams using meshStack
 - Onboard existing M25 Applications as Workspaces into meshStack, assign the responsible Owners and ensure all
  regulatory required metadata is present
 
@@ -46,7 +46,7 @@ To implement this, we set up the following tags + policies
 
 :::tip
 You can model the `${tags_BusinessUnit}` tag as an administrative tag, so that its values can only be
-set and modified by the cloud foundation team.
+set and modified by the [Cloud Foundation team](md_workspace_cloud_foundation).
 :::
 
 To keep it simple, we will model all of these tags as single-select values. Therefore it does not matter (in this case)
@@ -55,15 +55,15 @@ whether we choose the [subset](https://docs.meshcloud.io/docs/meshcloud.policies
 Thanks to the [null sets rule](https://docs.meshcloud.io/docs/meshcloud.policies.html#policy-evaluation-strategy), all
 untagged subjects will pass policy evaluation.
 
-## Onboarding the M25 Platform Team
+## Onboarding the [M25 Platform Team](md_workspace_m25_platform_team)
 
-The Likvid Bank Cloud Foundation Team now creates a dedicated Workspace `${meshobjects_import_workspaces_m25_platform_yml_output_spec_displayName }`
+The Likvid Bank [Cloud Foundation team](md_workspace_cloud_foundation) now creates a dedicated Workspace ${md_workspace_m25_platform_team}
 and enables them as a [Landing Zone Contributor]() on the AWS Platform. <!--TODO Link LZ Contributor docs once available-->
 
-The M25 Platform team then proceeds to create its first Landing Zone `${landinZones_m25_cloud_native_spec_displayName}` using the [M25 Platform OU](/platforms/aws/m25.md).
+The ${md_workspace_m25_platform_team} then proceeds to create its first Landing Zone `${landinZones_m25_cloud_native_spec_displayName}` using the [M25 Platform OU](/platforms/aws/m25.md).
 They tag this landing zone `${tags_BusinessUnit}: ${landinZones_m25_cloud_native_spec_tags_BusinessUnit}`.
 
-The M25 Platform team also creates a Building Block Definition `${buildingBlockDefinitions_m25_domain_spec_displayName}`.
+The ${md_workspace_m25_platform_team} also creates a Building Block Definition `${buildingBlockDefinitions_m25_domain_spec_displayName}`.
 This building block allows application teams to ${buildingBlockDefinitions_m25_domain_spec_description}
 They tag this building block `${tags_BusinessUnit}: ${buildingBlockDefinitions_m25_domain_spec_tags_businessUnit}`.
 
@@ -78,7 +78,7 @@ as well as use the `${buildingBlockDefinitions_m25_domain_spec_displayName}` Bui
 
 :::tip
 To verify other workspaces do not have access to the `${landinZones_m25_cloud_native_spec_name}` Landing Zone,
-simply use a workspace tagged with a different (or no) `${tags_BusinessUnit}` tag like `${meshobjects_import_workspaces_likvid_mobile_yml_output_spec_displayName}`
+simply use a workspace tagged with a different (or no) `${tags_BusinessUnit}` tag like ${md_workspace_likvid_mobile}
 and try using any of the M25-specific landing zones or building blocks.
 :::
 
