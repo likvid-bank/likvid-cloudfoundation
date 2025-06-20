@@ -123,6 +123,10 @@ EOF
 locals {
   workspaces = {
     m25_platform_team = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output
+    # Add more workspaces for demo stories
+    likvid_mobile = terraform_data.meshobjects_import["workspaces/likvid-mobile.yml"].output
+    m25_online_banking = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output
+    cloud_foundation = terraform_data.meshobjects_import["workspaces/cloud-foundation.yml"].output
   }
 }
 
@@ -134,7 +138,9 @@ locals {
 
       # new pattern, we generate ready to use markdown depp-links into meshpanel to entities where that makes sense
       md_workspace_m25_platform_team = "[${local.workspaces.m25_platform_team.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.m25_platform_team.metadata.name})",
-
+      md_workspace_likvid_mobile = "[${local.workspaces.likvid_mobile.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.likvid_mobile.metadata.name})",
+      md_workspace_m25_online_banking = "[${local.workspaces.m25_online_banking.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.m25_online_banking.metadata.name})",
+      md_workspace_cloud_foundation = "[${local.workspaces.cloud_foundation.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.cloud_foundation.metadata.name})",
 
       meshobjects_import_workspaces_devops_platform_yml_output_spec_displayName  = terraform_data.meshobjects_import["workspaces/devops-platform.yml"].output.spec.displayName,
       buildingBlockDefinitions_github_repository_spec_displayName                = local.buildingBlockDefinitions.github-repository.spec.displayName,
