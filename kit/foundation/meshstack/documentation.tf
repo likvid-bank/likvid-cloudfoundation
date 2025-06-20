@@ -123,6 +123,10 @@ EOF
 locals {
   workspaces = {
     m25_platform_team = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output
+    # Add more workspaces for demo stories
+    likvid_mobile      = terraform_data.meshobjects_import["workspaces/likvid-mobile.yml"].output
+    m25_online_banking = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output
+    cloud_foundation   = terraform_data.meshobjects_import["workspaces/cloud-foundation.yml"].output
   }
 }
 
@@ -133,8 +137,13 @@ locals {
     replace(basename(f), ".md", "") => templatefile("${path.module}/guides/${f}", {
 
       # new pattern, we generate ready to use markdown depp-links into meshpanel to entities where that makes sense
-      md_workspace_m25_platform_team = "[${local.workspaces.m25_platform_team.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.m25_platform_team.metadata.name})",
+      md_workspace_m25_platform_team  = "[${local.workspaces.m25_platform_team.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.m25_platform_team.metadata.name})",
+      md_workspace_likvid_mobile      = "[${local.workspaces.likvid_mobile.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.likvid_mobile.metadata.name})",
+      md_workspace_m25_online_banking = "[${local.workspaces.m25_online_banking.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.m25_online_banking.metadata.name})",
+      md_workspace_cloud_foundation   = "[${local.workspaces.cloud_foundation.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.cloud_foundation.metadata.name})",
 
+      tags_BusinessUnit    = local.tags.BusinessUnit,
+      tags_SecurityContact = local.tags.SecurityContact,
 
       meshobjects_import_workspaces_devops_platform_yml_output_spec_displayName  = terraform_data.meshobjects_import["workspaces/devops-platform.yml"].output.spec.displayName,
       buildingBlockDefinitions_github_repository_spec_displayName                = local.buildingBlockDefinitions.github-repository.spec.displayName,
@@ -147,7 +156,6 @@ locals {
       meshobjects_import_workspaces_m25_online_banki_yml_output_spec_displayName = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.spec.displayName,
       meshstack_project_m25_online_banking_app_spec_display_name                 = meshstack_project.m25_online_banking_app.spec.display_name,
       meshstack_tenant_m25_online_banking_app_docs_repo_spec_local_id            = meshstack_tenant.m25_online_banking_app_docs_repo.spec.local_id
-      tags_BusinessUnit                                                          = local.tags.BusinessUnit,
       policy_RestrictLandingZoneToWorkspaceBusinessUnit                          = local.policies.RestrictLandingZoneToWorkspaceBusinessUnit.policy,
       policy_RestrictBuildingBlockToWorkspaceBusinessUnit                        = local.policies.RestrictBuildingBlockToWorkspaceBusinessUnit.policy,
       meshobjects_import_workspaces_m25_platform_yml_output_spec_displayName     = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.spec.displayName,
@@ -196,12 +204,17 @@ locals {
       platformDefinitions_stackit_spec_description               = local.customPlatformDefinitions.stackit.spec.description,
       platformDefinitions_stackit_spec_support_url               = local.customPlatformDefinitions.stackit.spec.support-url,
       platformDefinitions_stackit_spec_documentation_url         = local.customPlatformDefinitions.stackit.spec.documentation-url,
+      platformDefinitions_stackit_spec_web_console_url           = local.customPlatformDefinitions.stackit.spec.web-console-url,
 
       # Quickstart AWS
       meshstack_project_quickstart_aws_spec_display_name           = meshstack_project.quickstart.spec.display_name,
       meshstack_tenant_quickstart_aws_spec_landing_zone_identifier = meshstack_tenant.quickstart_aws.spec.landing_zone_identifier,
       meshstack_tenant_quickstart_aws_spec_local_id                = meshstack_tenant.quickstart_aws.spec.local_id,
-    platformDefinitions_stackit_spec_web_console_url = local.customPlatformDefinitions.stackit.spec.web-console-url })
+
+      # API and platform URLs for demo stories
+      meshstack_api_url = var.meshstack_api.endpoint,
+      meshpanel_url     = var.meshpanel_base_url
+    })
   }
 }
 
