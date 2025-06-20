@@ -19,7 +19,11 @@ jobs:
     environment:
       name: ${{ inputs.foundation }}
     env:
-      TERRAGRUNT_TFPATH: tofu
+      TG_TF_PATH: tofu
+      TG_PROVIDER_CACHE: 1 # enable provider caching for a speeding up tf inits
+      TF_IN_AUTOMATION: true
+      TG_NON_INTERACTIVE: true
+
       # required to enable for azurerm backend, the azurerm provider seems to be fine without these two keys
       ARM_CLIENT_ID: ${{ vars.azure_client_id }}
       ARM_USE_OIDC: true
@@ -37,9 +41,6 @@ jobs:
         uses: ./.github/actions/setup-nix-shell
         with:
           prepare_terraform: true
-
-      - uses: meshcloud/setup-collie@main
-
 
       - name: Setup gcloud auth
         if: ${{ inputs.platform == 'gcp' }}
@@ -68,9 +69,14 @@ jobs:
       - name: terraform plan
         if: ${{ inputs.action == 'plan' }}
         run: |
-          collie foundation deploy ${{ inputs.foundation }} --platform ${{ inputs.platform }} -- plan -lock=false -detailed-exitcode
+          terragrunt plan \
+            --all \
+            --working-dir="./foundations/${{ inputs.foundation }}/platforms/${{ inputs.platform }}" \
+            -- -lock=false -concise
 
       - name: run tests
         if: ${{ inputs.action == 'test' }}
         run: |
-          collie foundation test ${{ inputs.foundation }} --platform ${{ inputs.platform }}
+          terragrunt test \
+            --all \
+            --working-dir="./foundations/${{ inputs.foundation }}/platforms/${{ inputs.platform }}"
