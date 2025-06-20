@@ -79,7 +79,8 @@ EOF
 
 
 terraform {
-  source = "https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/connectivity/buildingblock?ref=v0.5.3"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/spoke-network/buildingblock?ref=ed7ef87e6dbdcc222520e24309e3210373ae2bb8"
+
   # the extra_arguments is a workarround for an bug in the Azure API after creating the spoke_vnet
   # network.VirtualNetworkPeeringsClient#CreateOrUpdate: Failure sending request: StatusCode=403
   # this pre run of an spoke_vnet apply will fix the issue in test scenarios
