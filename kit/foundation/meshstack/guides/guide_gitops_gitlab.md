@@ -1,16 +1,24 @@
 # Integrating Existing GitLab CI/CD Pipelines
 
-This guide shows you how you can use existing GitLab CI/CD solutions with meshStack.
+## Motivation / Business Context
 
-## Overview
-
-<!-- Reference gitops guide for motivation and challenges -->
-
-The scenario we are looking at: [M25 Platform Team](https://likvid-bank.github.io/likvid-cloudfoundation/meshstack/guides/business_platforms.html) has already built
+The scenario we are looking at: [M25 Platform Team](./guide_business_platforms.md) has already built
 Cloud Formation template based automation on [GitHub actions](https://gitlab.com/likvid-bank/static-website-assets).
 GitLab CI/CD provisons an S3 Bucket for serving static website assets (a component needed by many frontend teams) and assigns access permissions.
+This guide shows how such existing GitLab CI/CD solutions can be integrated with meshStack to leverage prior investments while benefiting from meshStack's capabilities.
 
-## Implementation
+## Challenges
+
+Platform teams like M25 often possess established and valuable CI/CD pipelines for their automation.
+A key challenge is to integrate these existing assets into meshStack. This integration should enable a seamless self-service experience for application teams, without necessitating a complete rewrite of the proven automation.
+Specific challenges include:
+
+- Triggering external GitLab CI/CD pipelines from meshStack.
+- Securely passing necessary parameters (user inputs) to the pipelines.
+- Receiving status updates and outputs back from the pipelines into meshStack.
+- Ensuring the integration aligns with meshStack's governance model and control mechanisms.
+
+## Implementation Steps
 
 This integration requires three main steps:
 
@@ -63,7 +71,7 @@ In order to do this the API key also requires admin permissions to list all user
 These permissions can only be added to the API key via the admin area.
 
 Once the API key is in place the pipeline can also report building block outputs back to meshStack by creating artifacts in a specific directory.
-A job writing to a file `bb_output/${CI_JOB_ID}/website_url` will result in the file content being reported as an output with the name `website_url` if the file is exported as an artifact.
+A job writing to a file `bb_output/$CI_JOB_ID/website_url` will result in the file content being reported as an output with the name `website_url` if the file is exported as an artifact.
 
 ```yaml
 job:
@@ -77,3 +85,9 @@ job:
 Test your new definition by creating a building block in the same workspace.
 Make sure to test deletion as well.
 Once you're statisified with the results publish it to make it usable by your whole organization.
+
+## Conclusion
+
+By following these steps, platform teams can successfully integrate their existing GitLab CI/CD pipelines with meshStack.
+This approach allows them to leverage their current automation investments while providing a standardized and governed self-service experience for consuming these services through meshStack.
+Application teams benefit from easy access to established components like static website hosting, provisioned through familiar meshStack building blocks, thereby accelerating their development cycles and ensuring compliance.

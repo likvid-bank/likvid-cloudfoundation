@@ -14,3 +14,4 @@
 # generated config.tf files for building blocks
 config.tf
 *.tfvars
+.aider*
