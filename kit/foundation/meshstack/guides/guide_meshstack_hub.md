@@ -12,9 +12,10 @@ blocks.
 
 ## Implementation Steps
 
-### Story Lane
-
-You can view all steps of this demo story in [StoryLane](https://app.storylane.io/share/hzzabrqbgthk) as well.
+:::tip
+For a hands-on walkthrough of this solution, checkout the interactive demo on Storylane: [View the Interactive Demo](https://app.storylane.io/share/hzzabrqbgthk). This demo will guide you step-by-step through
+importing a Building Block Definition from the meshStack Hub and making it available to your platform users.
+:::
 
 ### Prerequisites
 

@@ -11,7 +11,7 @@ Common CI/CD pipelines include GitHub actions, GitLabs runners, and Azure DevOps
 They also want to provide more detailed information to their users e.g. what the status of each step is or general information to the user
 when a step was successfully completed (e.g. login information or IDs).
 
-The scenario we are looking at: [M25 Platform Team](https://likvid-bank.github.io/likvid-cloudfoundation/meshstack/guides/business_platforms.html) has already built
+The scenario we are looking at: ${md_workspace_m25_platform_team} has already built
 Cloud Formation template based automation on [GitHub actions](https://github.com/likvid-bank/static-website-assets).
 The template provisons an S3 Bucket for serving static website assets (a component needed by many frontend teams) and assigns access permissions.
 
@@ -39,11 +39,11 @@ which provisions a web hosting enabled AWS S3 bucket.
 :::
 
 :::details
-It is important that the Building Block Definition is owned by the `${meshobjects_import_workspaces_m25-platform_yml_output_spec_displayName}` workspace. Otherwise the
+It is important that the Building Block Definition is owned by the ${md_workspace_m25_platform_team} workspace. Otherwise the
 API Key (which also must be scoped to this workplace) can't update the Building Block Runs.
 :::
 
-1. The Definition is created by the M25 Platform team within their workspace: `${meshobjects_import_workspaces_m25_platform_yml_output_spec_displayName}`.
+1. The Definition is created by the ${md_workspace_m25_platform_team} within their workspace: ${md_workspace_m25_platform_team}.
    Create a new Definition called `${buildingBlockDefinitions_m25-static-website-assets_spec_displayName}` from the "Service Management Area" of this workspace
 2. Select GitHub as supported platform
 3. Use Terraform as Implementation Type (Once per tenant)
@@ -70,12 +70,11 @@ In the repository settings you also need to configure the following environment 
 
 ### Application Team Orders an Instance
 
-Application team has the following workspace, project, and tenant:
+The application team workspace ${md_workspace_m25_online_banking} has the following project, and tenant:
 
 ```bash
-Workspace `${meshobjects_import_workspaces_m25_online_banki_yml_output_spec_displayName}`
-└── Project `${meshstack_project_m25_online_banking_app_spec_display_name}`
-    └── Tenant `${meshstack_tenant_m25_online_banking_app_docs_repo_spec_local_id}`
+Project `${meshstack_project_m25_online_banking_app_spec_display_name}`
+└── Tenant `${meshstack_tenant_m25_online_banking_app_docs_repo_spec_local_id}`
 ```
 
 :::tip
@@ -83,14 +82,13 @@ See [GitHub as a Custom Platform](https://likvid-bank.github.io/likvid-cloudfoun
 how the Application team tenant was created.
 :::
 
-Now that M25 platform team has their service published and application team may ordered the website hosting service: `${meshstack_project_m25_online_banking_app_spec_display_name}`
+Now that ${md_workspace_m25_platform_team} has their service published and application team may order the website hosting service: `${meshstack_project_m25_online_banking_app_spec_display_name}`
 through their GitHub tenants. This triggered a [GitHub action workflow](https://github.com/likvid-bank/static-website-assets/actions). This action extracts the user from the Building Block
 Run data which is provided as an input and assigns permissions to all user on the project. Currently only admin users gain admin permissions.
 In the "Deploy Resources" workflow in the "Received Building Block Run" step you can see the decoded Building Block Run data for debugging.
 
 ### 3. Provide Building Block Status from external System
 
-The status is already automatically reported back by the example GitOps pipeline. This is how the pipeline does it: first need an API Key with the permission to write/update Building Block Run
-sources. This API key must be scoped to the repository ${meshobjects_import_workspaces_m25_platform_yml_output_spec_displayName} (in which the Building Block definition lives).
+The status is already automatically reported back by the example GitOps pipeline. This is how the pipeline does it: first need an API Key with the permission to write/update "Building Block Runs". This API key must be scoped to the workspace ${md_workspace_m25_platform_team}, which ownes the Building Block definition that's referenced by the building block run.
 You then need to fetch an access token from this API key and then you can use the [meshObject API](https://federation.demo.meshcloud.io/docs/index.html#mesh_buildingblockrun) in order
-to register steps or report back the current status of those steps. Please keep in mind that this only works when the Building Block is asynchronous.
+to register steps or report back the current status of those steps. Please keep in mind that this only works when the Building Block Definition has enabled asynchronous status updates.

@@ -24,7 +24,7 @@ M25, while not interfering with their existing operations on AWS.
 The Cloud Foundation team has identified the following milestones
 
 - Migrate all of M25s AWS Accounts into the Likvid Bank AWS Organization in a dedicated Organizational Unit (OU)
-- Enable the M25 Platform team to offer landing zones and services to their application teams using meshStack
+- Enable the ${md_workspace_m25_platform_team} to offer landing zones and services to their application teams using meshStack
 - Onboard existing M25 Applications as Workspaces into meshStack, assign the responsible Owners and ensure all
  regulatory required metadata is present
 
@@ -55,15 +55,15 @@ whether we choose the [subset](https://docs.meshcloud.io/docs/meshcloud.policies
 Thanks to the [null sets rule](https://docs.meshcloud.io/docs/meshcloud.policies.html#policy-evaluation-strategy), all
 untagged subjects will pass policy evaluation.
 
-## Onboarding the M25 Platform Team
+## Onboarding the Business Platform Team
 
-The Likvid Bank Cloud Foundation Team now creates a dedicated Workspace `${meshobjects_import_workspaces_m25_platform_yml_output_spec_displayName }`
+The Likvid Bank ${md_workspace_cloud_foundation} now creates a dedicated Workspace ${md_workspace_m25_platform_team}
 and enables them as a [Landing Zone Contributor]() on the AWS Platform. <!--TODO Link LZ Contributor docs once available-->
 
-The M25 Platform team then proceeds to create its first Landing Zone `${landinZones_m25_cloud_native_spec_displayName}` using the [M25 Platform OU](/platforms/aws/m25.md).
+The ${md_workspace_m25_platform_team} then proceeds to create its first Landing Zone `${landinZones_m25_cloud_native_spec_displayName}` using the [M25 Platform OU](/platforms/aws/m25.md).
 They tag this landing zone `${tags_BusinessUnit}: ${landinZones_m25_cloud_native_spec_tags_BusinessUnit}`.
 
-The M25 Platform team also creates a Building Block Definition `${buildingBlockDefinitions_m25_domain_spec_displayName}`.
+The ${md_workspace_m25_platform_team} also creates a Building Block Definition `${buildingBlockDefinitions_m25_domain_spec_displayName}`.
 This building block allows application teams to ${buildingBlockDefinitions_m25_domain_spec_description}
 They tag this building block `${tags_BusinessUnit}: ${buildingBlockDefinitions_m25_domain_spec_tags_businessUnit}`.
 
@@ -71,14 +71,14 @@ They tag this building block `${tags_BusinessUnit}: ${buildingBlockDefinitions_m
 
 To verify that the configured Policies work as intended to deliver the desired application team experience,
 we'll create the workspace `${meshstack_project_m25_online_banking_app_spec_display_name}`
-and tag it with `${tags_BusinessUnit}: ${meshobjects_import_output_spec_tags_BusinessUnit}")}`.
+and tag it with `${tags_BusinessUnit}: ${meshobjects_import_output_spec_tags_BusinessUnit}`.
 
 This workspace now has access to only the `${landinZones_m25_cloud_native_spec_displayName}` Landing Zone and can create tenants on it
 as well as use the `${buildingBlockDefinitions_m25_domain_spec_displayName}` Building Block.
 
 :::tip
 To verify other workspaces do not have access to the `${landinZones_m25_cloud_native_spec_name}` Landing Zone,
-simply use a workspace tagged with a different (or no) `${tags_BusinessUnit}` tag like `${meshobjects_import_workspaces_likvid_mobile_yml_output_spec_displayName}`
+simply use a workspace tagged with a different (or no) `${tags_BusinessUnit}` tag like ${md_workspace_likvid_mobile}
 and try using any of the M25-specific landing zones or building blocks.
 :::
 

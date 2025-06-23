@@ -37,7 +37,7 @@ The Platform team has identified the following challenges:
 
 #### Create a Custom Building Block Definition
 
-1. Navigate to the "Service Management Area" of the Platform team's workspace: `${meshobjects_import_workspaces_sap_core_platform_yml_output_spec_displayName}`.
+1. Navigate to the "Platform Builder" of the ${md_workspace_sap_core_platform} workspace.
 2. Create a new Building Block Definition called `${buildingBlockDefinitions_sapbtp_subaccounts_repository_spec_displayName}`.
 3. Set up the necessary parameters for the Building Block Definition:
    - **Implementation Type**: Terraform
@@ -105,14 +105,11 @@ The Platform team has identified the following challenges:
 
 ### 5. Application Team Consuming the Service
 
-1. The application team has the following workspace and project:
-   ```bash
-   Workspace `${meshobjects_import_workspaces_sap_core_platform_yml_output_spec_displayName}`
-   └── Project `${meshstack_project_sap_core_platform_spec_display_name}`
+1. The application team has the workspace ${md_workspace_sap_core_platform} and project ${md_project_sap_core_platform}.
 2. The application team navigates to the meshStack marketplace and selects the ${platformDefinitions_sap_core_platform_spec_displayName} platform.
 3. They provide the necessary inputs and submit the request.
-4. A tenant M25 SAP is created for the M25 Platform Team as their subaccount.
-5. The M25 Platform Team can now access the SAP BTP subaccount through the created tenant via "Sign in to Web Console" and start working on their project.
+4. A tenant M25 SAP is created for the [M25 Platform Team](md_workspace_m25_platform_team) as their subaccount.
+5. The [M25 Platform Team](md_workspace_m25_platform_team) can now access the SAP BTP subaccount through the created tenant via "Sign in to Web Console" and start working on their project.
 
 ## Conclusion
 By following this guide, teams can publish custom services using meshStack's Custom Platform functionality,
