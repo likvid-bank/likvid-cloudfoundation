@@ -122,11 +122,14 @@ EOF
 
 locals {
   workspaces = {
-    m25_platform_team = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output
     # Add more workspaces for demo stories
+    m25_platform_team  = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output
     likvid_mobile      = terraform_data.meshobjects_import["workspaces/likvid-mobile.yml"].output
     m25_online_banking = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output
     cloud_foundation   = terraform_data.meshobjects_import["workspaces/cloud-foundation.yml"].output
+    sap_core_platform  = terraform_data.meshobjects_import["workspaces/sap-core-platform.yml"].output
+    devops_platform    = terraform_data.meshobjects_import["workspaces/devops-platform.yml"].output
+    likvid_gov_guard   = terraform_data.meshobjects_import["workspaces/likvid-govguard.yml"].output
   }
 }
 
@@ -141,11 +144,15 @@ locals {
       md_workspace_likvid_mobile      = "[${local.workspaces.likvid_mobile.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.likvid_mobile.metadata.name})",
       md_workspace_m25_online_banking = "[${local.workspaces.m25_online_banking.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.m25_online_banking.metadata.name})",
       md_workspace_cloud_foundation   = "[${local.workspaces.cloud_foundation.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.cloud_foundation.metadata.name})",
+      md_workspace_sap_core_platform  = "[${local.workspaces.sap_core_platform.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.sap_core_platform.metadata.name})",
+      md_workspace_devops_platform    = "[${local.workspaces.devops_platform.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.devops_platform.metadata.name})",
+      md_workspace_likvid_gov_guard   = "[${local.workspaces.likvid_gov_guard.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.likvid_gov_guard.metadata.name})",
+
+      md_project_sap_core_platform = "[${meshstack_project.sap_core_platform.spec.display_name}](${var.meshpanel_base_url}/#/w/${meshstack_project.sap_core_platform.metadata.owned_by_workspace}/p/${meshstack_project.sap_core_platform.metadata.name})",
 
       tags_BusinessUnit    = local.tags.BusinessUnit,
       tags_SecurityContact = local.tags.SecurityContact,
 
-      meshobjects_import_workspaces_devops_platform_yml_output_spec_displayName  = terraform_data.meshobjects_import["workspaces/devops-platform.yml"].output.spec.displayName,
       buildingBlockDefinitions_github_repository_spec_displayName                = local.buildingBlockDefinitions.github-repository.spec.displayName,
       platformDefinitions_github_repository_spec_displayName                     = local.customPlatformDefinitions.github-repository.spec.displayName,
       platformDefinitions_github_repository_spec_description                     = local.customPlatformDefinitions.github-repository.spec.description,
@@ -171,15 +178,13 @@ locals {
       meshobjects_import_workspaces_m25-platform_yml_output_spec_displayName     = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.spec.displayName,
 
       # SAP BTP Custom Platform
-      meshobjects_import_workspaces_sap_core_platform_yml_output_spec_displayName = terraform_data.meshobjects_import["workspaces/sap-core-platform.yml"].output.spec.displayName,
-      meshstack_project_sap_core_platform_spec_display_name                       = meshstack_project.sap_core_platform.spec.display_name,
-      buildingBlockDefinitions_sapbtp_subaccounts_repository_spec_displayName     = local.buildingBlockDefinitions.sapbtp-subaccounts-repository.spec.displayName,
-      landingZones_sap_core_platform_spec_displayName                             = local.landingZones.sap-core-platform.spec.displayName,
-      platformDefinitions_sap_core_platform_spec_displayName                      = local.customPlatformDefinitions.sap-core-platform.spec.displayName,
-      platformDefinitions_sap_core_platform_spec_description                      = local.customPlatformDefinitions.sap-core-platform.spec.description,
-      platformDefinitions_sap_core_platform_spec_support_url                      = local.customPlatformDefinitions.sap-core-platform.spec.support-url,
-      platformDefinitions_sap_core_platform_spec_documentation_url                = local.customPlatformDefinitions.sap-core-platform.spec.documentation-url,
-      platformDefinitions_sap_core_platform_spec_web_console_url                  = local.customPlatformDefinitions.sap-core-platform.spec.web-console-url,
+      buildingBlockDefinitions_sapbtp_subaccounts_repository_spec_displayName = local.buildingBlockDefinitions.sapbtp-subaccounts-repository.spec.displayName,
+      landingZones_sap_core_platform_spec_displayName                         = local.landingZones.sap-core-platform.spec.displayName,
+      platformDefinitions_sap_core_platform_spec_displayName                  = local.customPlatformDefinitions.sap-core-platform.spec.displayName,
+      platformDefinitions_sap_core_platform_spec_description                  = local.customPlatformDefinitions.sap-core-platform.spec.description,
+      platformDefinitions_sap_core_platform_spec_support_url                  = local.customPlatformDefinitions.sap-core-platform.spec.support-url,
+      platformDefinitions_sap_core_platform_spec_documentation_url            = local.customPlatformDefinitions.sap-core-platform.spec.documentation-url,
+      platformDefinitions_sap_core_platform_spec_web_console_url              = local.customPlatformDefinitions.sap-core-platform.spec.web-console-url,
 
       # IONOS Custom Platform
       meshobjects_import_workspaces_ionos_yml_output_spec_displayName = terraform_data.meshobjects_import["workspaces/likvid-govguard.yml"].output.spec.displayName,

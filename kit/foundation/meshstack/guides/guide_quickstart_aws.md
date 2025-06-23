@@ -6,7 +6,7 @@ They start their journey by checking out [AWS Building Block Quickstart Guide](h
 
 ## AWS Account Pre-requisites
 
-In their workspace ${md_workspace_m25_platform_team}, they created a project named `${meshstack_project_quickstart_aws_spec_display_name}`, with an AWS tenant (Account: `${meshstack_tenant_quickstart_aws_spec_local_id}`) under landing zone `${meshstack_tenant_quickstart_aws_spec_landing_zone_identifier}`. This account will hold all S3 buckets ordered via application teams.
+In their workspace ${md_workspace_m25_platform_team}, they created a project named `${meshstack_project_quickstart_aws_spec_display_name}`, with an AWS tenant (Account: `${meshstack_tenant_quickstart_aws_spec_local_id}`) under landing zone `${meshstack_tenant_quickstart_aws_spec_landing_zone_identifier}`. This account will hold all S3 buckets ordered by application teams.
 
 In the created AWS account, they create an IAM user with necessary permissions for performing S3 bucket operations, for simplicity, they provide full access to S3 (`s3:*`).
 

@@ -5,7 +5,7 @@ using meshStack.
 
 ## Motivation
 
-Likvid Bank has a "${meshobjects_import_workspaces_devops_platform_yml_output_spec_displayName}" team. Their job is to build Likvid Bank's internal developer platform.
+Likvid Bank has a ${md_workspace_devops_platform} team. Their job is to build Likvid Bank's internal developer platform.
 The first and essential service they want to offer for their platform is GitHub repositories.
 
 The first thing they did was defining requirements to stay compliant while also making Application teams' life easier.
@@ -30,7 +30,7 @@ The Platform team has identified the following challenges:
 
 ### 2. Setting Up a Custom Platform
 
-1. Navigate to the "Service Management Area" of the Platform team's workspace: `${meshobjects_import_workspaces_devops_platform_yml_output_spec_displayName}`.
+1. Navigate to the "Service Management Area" of the Platform team's workspace.
 2. Create a new Building Block Definition called `${buildingBlockDefinitions_github_repository_spec_displayName}`.
 3. Set up the necessary parameters for the Building Block Definition
   - Implementation Type: Terraform

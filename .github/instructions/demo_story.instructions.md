@@ -36,6 +36,14 @@ Explain the problems or blockers the platform aims to solve.
 ### 4. **Implementation Steps**
 
 If available, this section should link to a StoryLane video that walks through the demo story.
+Links to story lane should be placed in a `:::tip` block like this
+
+```markdown
+:::tip
+For a hands-on walkthrough of this solution, checkout the interactive demo on Storylane: [View the Interactive Demo](https://app.storylane.io/share/nyykaczmecli). This demo will guide you step-by-step through
+<insert summary of implementation here>
+:::
+```
 
 Walk through the setup and usage of the feature being demoed.
 
@@ -56,4 +64,12 @@ with the generated documentation. This is important to ensure that the demo stor
 actual deployed environment.
 
 
+Scan the terraform code in the `kit/foundation/meshstack/` directory to find available managed terraform resources
+and whenever possible include values from these resources via string interpolation (via template variables defined
+in the `locals.md_contents` local). Make necessary edits to surface additional variables that are not already defined in
+ the `locals.md_contents` local to the templates.
 
+When referring to workspaces, use deep-links into meshPanel to the relevant workspace, e.g. `${md_workspace_m25_platform_team}`.
+This helps someone following the demo story to quickly navigate to the relevant workspace in meshPanel.
+
+The same applies also project links. There is an existing example of `md_project_sap_core_platform` that you can follow.
