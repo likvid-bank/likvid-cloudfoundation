@@ -1,3 +1,44 @@
+data "btp_directories" "all" {}
+
+data "meshstack_tag_definitions" "all" {
+  # no attributes for filtering are supported at the moment
+}
+
+data "meshstack_tag_definition" "example" {
+  name = "meshProject.environment"
+}
+
+data "meshstack_project" "example" {
+  metadata = {
+    name               = var.project_identifier
+    owned_by_workspace = var.workspace_identifier
+  }
+}
+
+locals {
+  subfolders = [
+    for dir in data.btp_directories.all.values : {
+      id   = dir.id
+      name = dir.name
+    }
+    if dir.parent_id == var.parent_id
+  ]
+
+  selected_subfolder_id = try(
+    one([
+      for sf in local.subfolders : sf.id
+      if sf.name == var.subfolder
+    ]),
+    null
+  )
+
+  environment = data.meshstack_project.example.spec.tags.environment[0]
+}
+
+output "subfolders" {
+  value = local.selected_subfolder_id
+}
+
 # iterate through the list of users and redue to a map of user with only their euid
 locals {
   reader = { for user in var.users : user.euid => user if contains(user.roles, "reader") }
@@ -5,10 +46,17 @@ locals {
   user   = { for user in var.users : user.euid => user if contains(user.roles, "user") }
 }
 
+# Create a child directory underneath a parent directory without features enabled
+resource "btp_directory" "child" {
+  parent_id   = local.selected_subfolder_id
+  name        = var.project_identifier
+  description = "This is a child directory."
+}
+
 resource "btp_subaccount" "subaccount" {
-  name      = "sa-${var.workspace_identifier}-${var.project_identifier}"
-  subdomain = "sd-${var.workspace_identifier}-${var.project_identifier}"
-  parent_id = var.parent_id
+  name      = "${var.project_identifier}-${local.environment}"
+  subdomain = "${var.project_identifier}-${local.environment}"
+  parent_id = btp_directory.child.id
   region    = var.region
 }
 

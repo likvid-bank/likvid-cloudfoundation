@@ -1,7 +1,7 @@
-variable "aws_account_id" {
-  description = "this is for the tfstates Backend. in our case AWS."
-  type        = string
-}
+# variable "aws_account_id" {
+#   description = "this is for the tfstates Backend. in our case AWS."
+#   type        = string
+# }
 
 variable "globalaccount" {
   type        = string
@@ -27,6 +27,11 @@ variable "project_identifier" {
 variable "parent_id" {
   description = "The ID of the parent resource."
   type        = string
+}
+
+variable "subfolder" {
+  type        = string
+  description = "The subfolder to use for the SAP BTP resources. This is used to create a folder structure in the SAP BTP cockpit."
 }
 
 # note: these permissions are passed in from meshStack and automatically updated whenever something changes
