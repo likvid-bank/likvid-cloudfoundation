@@ -30,7 +30,7 @@ To drive adoption and ensure professional communication, the platform team wants
 Best regards,
 The Likvid Developer Platform Team
 
-Need help? Reach us at [likvid-developer-platform@likvidbank.com](mailto:likvid-developer-platform@likvidbank.com)
+Need help? Reach us at <a href="mailto:likvid-developer-platform@likvidbank.com">likvid-developer-platform@likvidbank.com</a>
 ```
 
 You will be able to preview the email template on the right side of the screen.
