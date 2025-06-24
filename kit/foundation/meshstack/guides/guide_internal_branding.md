@@ -1,20 +1,18 @@
-# **Branding of the Internal Developer Platform**
+# **Branding of E-mails
 
-## **1. Title**
+> This demo story is also available as an [interactive demo](https://app.storylane.io/share/5jjhgbmxckib).
 
-**Branding of the Internal Developer Platform**
-
-## **2. Motivation / Business Context**
+## Motivation / Business Context
 
 **Likvid Bank** is rolling out an Internal Developer Platform (IDP) using meshStack to streamline cloud access for its development teams.
 To drive adoption and ensure professional communication, the platform team wants all email notifications to reflect the company’s internal brand identity.
 
-## **3. Challenges**
+## Challenges
 
 - The platform team needs to establish **brand recognition** and **credibility** through every communication.
 - Developers ignore system-generated emails that feel generic or come from unknown sources.
 
-## **4. Implementation Steps**
+## Implementation Steps
 
 - In **meshPanel**, navigate to **Settings → Appearance → Email**.
 
@@ -37,6 +35,6 @@ You will be able to preview the email template on the right side of the screen.
 
 Click "Save" to apply the changes. meshStack will now use these settings for all email notifications.
 
-## **5. Conclusion**
+## Conclusion
 
 With meshStack’s email customization, Likvid Bank delivers branded, relevant communication that builds developer trust and supports platform adoption.
