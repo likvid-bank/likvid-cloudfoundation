@@ -1,14 +1,6 @@
 data "btp_directories" "all" {}
 
-data "meshstack_tag_definitions" "all" {
-  # no attributes for filtering are supported at the moment
-}
-
-data "meshstack_tag_definition" "example" {
-  name = "meshProject.environment"
-}
-
-data "meshstack_project" "example" {
+data "meshstack_project" "project" {
   metadata = {
     name               = var.project_identifier
     owned_by_workspace = var.workspace_identifier
@@ -31,12 +23,7 @@ locals {
     ]),
     null
   )
-
-  environment = data.meshstack_project.example.spec.tags.environment[0]
-}
-
-output "subfolders" {
-  value = local.selected_subfolder_id
+  environment = data.meshstack_project.project.spec.tags.environment[0]
 }
 
 # iterate through the list of users and redue to a map of user with only their euid
