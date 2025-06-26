@@ -3,9 +3,9 @@ variable "workspace_identifier" {
   type    = string
 }
 
-variable "name" {
+variable "project_identifier" {
   type        = string
-  default     = "testsap"
+  default     = "sapthujun"
   description = "Name of of the resources and the repository to connect."
 }
 
