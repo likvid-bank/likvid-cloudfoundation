@@ -56,7 +56,7 @@ resource "meshstack_tenant" "prod" {
 resource "meshstack_building_block_v2" "subdirectory" {
   spec = {
     building_block_definition_version_ref = {
-      uuid = "18c70b0f-64ae-4009-bb64-b6b9439788a3"
+      uuid = "6986e518-4028-410b-b943-f0550f95150d"
     }
 
     display_name = "subdirectory ${var.project_identifier}"
@@ -84,7 +84,7 @@ resource "meshstack_buildingblock" "subaccount_dev" {
   depends_on = [meshstack_building_block_v2.subdirectory, time_sleep.wait_30_seconds]
   metadata = {
     definition_uuid    = "6214c14c-1bd5-46b1-a91f-7b0939219e4b"
-    definition_version = 36
+    definition_version = 37
     tenant_identifier  = "${meshstack_tenant.dev.metadata.owned_by_workspace}.${meshstack_tenant.dev.metadata.owned_by_project}.${meshstack_tenant.dev.metadata.platform_identifier}"
   }
   spec = {
@@ -100,7 +100,7 @@ resource "meshstack_buildingblock" "subaccount_prod" {
   depends_on = [meshstack_building_block_v2.subdirectory, time_sleep.wait_30_seconds]
   metadata = {
     definition_uuid    = "6214c14c-1bd5-46b1-a91f-7b0939219e4b"
-    definition_version = 36
+    definition_version = 37
     tenant_identifier  = "${meshstack_tenant.prod.metadata.owned_by_workspace}.${meshstack_tenant.prod.metadata.owned_by_project}.${meshstack_tenant.prod.metadata.platform_identifier}"
   }
   spec = {
