@@ -59,18 +59,13 @@ EOF
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/azure/buildingblocks/starterkit-composition/backplane"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/github-actions-terraform-setup/backplane?ref=84cb228c600e06b260ca6508e3d6f4181b3bf7e2"
 }
 
 inputs = {
   application_name = "devops-toolchain-starterkit-composition"
   location         = "germanywestcentral"
   scope            = dependency.sandbox.outputs.sandbox_id
-
-  tfstates_resource_manager_id    = dependency.automation.outputs.resource_manager_id
-  tfstates_resource_group_name    = dependency.automation.outputs.resource_group_name
-  tfstates_storage_account_name   = dependency.automation.outputs.storage_account_name
-  tfstates_storage_container_name = dependency.automation.outputs.container_name
 
   github_app_id              = "654209"
   github_app_installation_id = "44437049"
