@@ -1,4 +1,4 @@
-# **Branding of E-mails
+# Branding of E-mails
 
 > This demo story is also available as an [interactive demo](https://app.storylane.io/share/5jjhgbmxckib).
 
