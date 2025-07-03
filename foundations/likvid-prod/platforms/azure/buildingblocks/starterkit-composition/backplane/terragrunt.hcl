@@ -59,7 +59,7 @@ EOF
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/azure/buildingblocks/starterkit-composition/backplane"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/github-actions-terraform-setup/backplane?ref=e8a6b093eedf2d584017ce1a95f5e49d6226cc2c"
 }
 
 inputs = {
@@ -67,12 +67,7 @@ inputs = {
   location         = "germanywestcentral"
   scope            = dependency.sandbox.outputs.sandbox_id
 
-  tfstates_resource_manager_id    = dependency.automation.outputs.resource_manager_id
-  tfstates_resource_group_name    = dependency.automation.outputs.resource_group_name
-  tfstates_storage_account_name   = dependency.automation.outputs.storage_account_name
-  tfstates_storage_container_name = dependency.automation.outputs.container_name
-
-  github_app_id              = "654209"
-  github_app_installation_id = "44437049"
-  github_org                 = "likvid-bank"
+  # github_app_id              = "654209"
+  # github_app_installation_id = "44437049"
+  # github_org                 = "likvid-bank"
 }
