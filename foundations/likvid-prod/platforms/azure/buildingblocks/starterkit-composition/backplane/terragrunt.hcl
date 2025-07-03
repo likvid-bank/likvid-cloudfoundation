@@ -59,7 +59,7 @@ EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/github-actions-terraform-setup/backplane?ref=84cb228c600e06b260ca6508e3d6f4181b3bf7e2"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/github-actions-terraform-setup/backplane?ref=e8a6b093eedf2d584017ce1a95f5e49d6226cc2c"
 }
 
 inputs = {
@@ -67,7 +67,7 @@ inputs = {
   location         = "germanywestcentral"
   scope            = dependency.sandbox.outputs.sandbox_id
 
-  github_app_id              = "654209"
-  github_app_installation_id = "44437049"
-  github_org                 = "likvid-bank"
+  # github_app_id              = "654209"
+  # github_app_installation_id = "44437049"
+  # github_org                 = "likvid-bank"
 }
