@@ -70,7 +70,7 @@ resource "meshstack_buildingblock" "github_actions_terraform_setup" {
 
   metadata = {
     definition_uuid    = "129bcf9e-180d-471c-bd38-b9a49a320d87"
-    definition_version = 3
+    definition_version = 9
     tenant_identifier  = "${var.workspace_identifier}.${var.project_name}.azure.meshcloud-azure-dev"
   }
 

@@ -59,15 +59,11 @@ EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/github-actions-terraform-setup/backplane?ref=e8a6b093eedf2d584017ce1a95f5e49d6226cc2c"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/github-actions-terraform-setup/backplane?ref=ad4d8743b56517147a5540df9df56ea914b202c3"
 }
 
 inputs = {
   application_name = "devops-toolchain-starterkit-composition"
   location         = "germanywestcentral"
   scope            = dependency.sandbox.outputs.sandbox_id
-
-  # github_app_id              = "654209"
-  # github_app_installation_id = "44437049"
-  # github_org                 = "likvid-bank"
 }
