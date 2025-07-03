@@ -89,10 +89,6 @@ resource "meshstack_buildingblock" "subaccount_dev" {
   }
   spec = {
     display_name = "subaccount ${var.project_identifier}-dev"
-    # parent_building_blocks = [{
-    #   buildingblock_uuid = meshstack_building_block_v2.subdirectory.metadata.uuid
-    #   definition_uuid    = "4ccc9715-f773-4c23-87e0-ae5fa4899176"
-    # }]
     inputs = {
       subfolder = { value_string = var.project_identifier }
     }
@@ -108,9 +104,6 @@ resource "meshstack_buildingblock" "subaccount_prod" {
   }
   spec = {
     display_name = "subaccount ${var.project_identifier}-prod"
-    # parent_building_blocks = [{
-    #   buildingblock_uuid = meshstack_building_block_v2.subdirectory.metadata.uuid
-    #   definition_uuid    = "4ccc9715-f773-4c23-87e0-ae5fa4899176"
     inputs = {
       subfolder = { value_string = var.project_identifier }
     }
