@@ -90,7 +90,7 @@ resource "meshstack_buildingblock" "github_actions_terraform_setup" {
   spec = {
     display_name = "GitHub Actions Terraform Setup"
     parent_building_blocks = [{
-      buildingblock_uuid = meshstack_building_block_v2.repo.metadata.uuid
+      buildingblock_uuid = meshstack_buildingblock.pre_github_actions_terraform_setup.metadata.uuid
       definition_uuid    = "5ef1ac36-72bb-4524-8af7-f28f976038fd"
     }]
 
