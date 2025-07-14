@@ -59,7 +59,7 @@ EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/github-actions-terraform-setup/backplane?ref=ad4d8743b56517147a5540df9df56ea914b202c3"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/github-actions-terraform-setup/backplane?ref=c65ffbfcdfed3f6db503eb99004fce469bd70abe"
 }
 
 inputs = {
