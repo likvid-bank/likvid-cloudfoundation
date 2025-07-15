@@ -17,8 +17,8 @@ resource "time_sleep" "wait" {
 }
 
 resource "meshstack_buildingblock" "pre_github_actions_terraform_setup" {
- depends_on = [time_sleep.wait]
- metadata = {
+  depends_on = [time_sleep.wait]
+  metadata = {
     definition_uuid    = "5ef1ac36-72bb-4524-8af7-f28f976038fd"
     definition_version = 1
     tenant_identifier  = "${var.workspace_identifier}.${var.project_identifier}.azure.meshcloud-azure-dev"
@@ -27,7 +27,7 @@ resource "meshstack_buildingblock" "pre_github_actions_terraform_setup" {
   spec = {
     display_name = "Pre GitHub Actions Terraform Setup"
   }
-   
+}
 
 resource "meshstack_buildingblock" "github_actions_terraform_setup" {
   depends_on = [meshstack_buildingblock.pre_github_actions_terraform_setup]
@@ -44,7 +44,7 @@ resource "meshstack_buildingblock" "github_actions_terraform_setup" {
       buildingblock_uuid = meshstack_building_block_v2.repo.metadata.uuid
       definition_uuid    = "5ef1ac36-72bb-4524-8af7-f28f976038fd"
     }]
-    
+
     inputs = {
       repo_name = { value_string = var.project_identifier }
     }
