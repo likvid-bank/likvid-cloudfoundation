@@ -17,6 +17,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [meshstack_buildingblock.github_actions_terraform_setup](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/buildingblock) | resource |
+| [meshstack_buildingblock.pre_github_actions_terraform_setup](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/buildingblock) | resource |
 | [meshstack_tenant.repo](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
 | [time_sleep.wait](https://registry.terraform.io/providers/hashicorp/time/0.11.1/docs/resources/sleep) | resource |
 

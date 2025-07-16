@@ -46,15 +46,3 @@ resource "meshstack_project_user_binding" "sap_core_platform_project_admins" {
     name = each.key
   }
 }
-
-resource "meshstack_tenant" "sap_core_platform" {
-  provider = meshstack.sap_core_platform
-  metadata = {
-    platform_identifier = "meshcloud-sapbtp-dev.sapbtp"
-    owned_by_project    = meshstack_project.sap_core_platform.metadata.name
-    owned_by_workspace  = meshstack_project.sap_core_platform.metadata.owned_by_workspace
-  }
-  spec = {
-    landing_zone_identifier = "likvid-sapbtp-dev"
-  }
-}
