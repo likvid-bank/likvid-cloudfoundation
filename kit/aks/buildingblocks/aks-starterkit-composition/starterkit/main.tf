@@ -122,13 +122,13 @@ resource "meshstack_building_block_v2" "repo" {
         value_string = var.github_username != null ? var.github_username : "null"
       }
       use_template = {
-        value_bool = false
+        value_bool = true
       }
       template_owner = {
-        value_string = "null"
+        value_string = "likvid-bank"
       }
       template_repo = {
-        value_string = "null"
+        value_string = "aks-starterkit-template"
       }
     }
   }
