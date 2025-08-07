@@ -4,7 +4,7 @@ variable "workspace_identifier" {
 
 variable "name" {
   type        = string
-  description = "Display Name of of the projects and resources created."
+  description = "This name will be used for the projects, AKS namespaces & GitHub repository"
 }
 
 variable "creator" {
@@ -17,11 +17,5 @@ variable "creator" {
     euid        = optional(string)
   })
   description = "Information about the creator of the resources who will be assigned Project Admin role"
-}
-
-variable "github_username" {
-  type        = string
-  default     = null
-  description = "GitHub username that shall be granted admin rights on the created repository"
 }
 
