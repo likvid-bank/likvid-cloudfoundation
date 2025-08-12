@@ -11,7 +11,6 @@ locals {
 }
 
 resource "meshstack_project" "static-website-assets" {
-  provider = meshstack.static_website_assets
   metadata = {
     name               = "static-website-assets-prod"
     owned_by_workspace = "m25-platform"
@@ -28,7 +27,6 @@ resource "meshstack_project" "static-website-assets" {
 }
 
 resource "meshstack_tenant" "static-website-assets" {
-  provider = meshstack.static_website_assets
   metadata = {
     owned_by_project    = meshstack_project.static-website-assets.metadata.name
     owned_by_workspace  = "m25-platform"
@@ -41,7 +39,6 @@ resource "meshstack_tenant" "static-website-assets" {
 }
 
 resource "meshstack_project_user_binding" "static_website_assets_project_admins" {
-  provider = meshstack.static_website_assets
   for_each = toset(local.m25-platform)
 
   metadata = {
@@ -65,7 +62,6 @@ resource "meshstack_project_user_binding" "static_website_assets_project_admins"
 ## Application Team
 
 resource "meshstack_project" "m25_online_banking_app" {
-  provider = meshstack.online_banking_app
   metadata = {
     name               = "online-banking-app-prod"
     owned_by_workspace = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.metadata.name
@@ -82,7 +78,6 @@ resource "meshstack_project" "m25_online_banking_app" {
 }
 
 resource "meshstack_tenant" "m25_online_banking_app" {
-  provider = meshstack.online_banking_app
   metadata = {
     platform_identifier = "aws.aws-meshstack-dev"
     owned_by_project    = meshstack_project.m25_online_banking_app.metadata.name
@@ -95,7 +90,6 @@ resource "meshstack_tenant" "m25_online_banking_app" {
 }
 
 resource "meshstack_project_user_binding" "m25_online_banking_app_admins" {
-  provider = meshstack.online_banking_app
   for_each = toset(local.m25-online-banking-application)
 
   metadata = {

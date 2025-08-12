@@ -8,7 +8,6 @@ locals {
 }
 
 resource "meshstack_project" "likvid_gov_guard_dev" {
-  provider = meshstack.likvid_gov_guard
 
   metadata = {
     name               = "likvid-gov-guard-dev"
@@ -26,7 +25,6 @@ resource "meshstack_project" "likvid_gov_guard_dev" {
 }
 
 resource "meshstack_project" "likvid_gov_guard_prod" {
-  provider = meshstack.likvid_gov_guard
 
   metadata = {
     name               = "likvid-gov-guard-prod"
@@ -44,7 +42,6 @@ resource "meshstack_project" "likvid_gov_guard_prod" {
 }
 
 resource "meshstack_project_user_binding" "likvid_gov_guard_dev_project_admins" {
-  provider = meshstack.likvid_gov_guard
 
   for_each = toset(local.likvid-gov-guard)
 
@@ -67,7 +64,6 @@ resource "meshstack_project_user_binding" "likvid_gov_guard_dev_project_admins" 
 }
 
 resource "meshstack_project_user_binding" "likvid_gov_guard_prod_project_admins" {
-  provider = meshstack.likvid_gov_guard
 
   for_each = toset(local.likvid-gov-guard)
 
@@ -90,7 +86,6 @@ resource "meshstack_project_user_binding" "likvid_gov_guard_prod_project_admins"
 }
 
 resource "meshstack_tenant" "likvid_gov_guard_dev" {
-  provider = meshstack.likvid_gov_guard
 
   metadata = {
     platform_identifier = "meshcloud-ionos-dev.sovereign"
@@ -103,7 +98,6 @@ resource "meshstack_tenant" "likvid_gov_guard_dev" {
 }
 
 resource "meshstack_tenant" "likvid_gov_guard_prod" {
-  provider = meshstack.likvid_gov_guard
 
   metadata = {
     platform_identifier = "meshcloud-ionos-dev.sovereign"

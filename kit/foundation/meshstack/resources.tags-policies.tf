@@ -10,7 +10,6 @@ import {
 # see https://github.com/meshcloud/terraform-provider-meshstack/issues/30
 
 resource "meshstack_tag_definition" "security_contact" {
-  provider = meshstack.cloudfoundation
   spec = {
     target_kind = "meshWorkspace"
     key         = "SecurityContact"
@@ -42,7 +41,6 @@ import {
 }
 
 resource "meshstack_tag_definition" "BusinessUnit" {
-  provider = meshstack.cloudfoundation
   spec = {
     target_kind = "meshWorkspace"
     key         = "BusinessUnit"

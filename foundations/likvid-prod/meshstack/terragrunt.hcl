@@ -60,49 +60,10 @@ provider "azuread" {
 }
 
 provider "meshstack" {
-  alias = "static_website_assets"
-  endpoint  = "https://federation.demo.meshcloud.io"
-  apikey    = "253eb2f8-7589-471b-83f5-0e42312bf98f"
-  apisecret = "${get_env("MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS")}"
-}
-
-provider "meshstack" {
-  alias = "online_banking_app"
-  endpoint  = "https://federation.demo.meshcloud.io"
-  apikey    = "cf4d794d-5176-44eb-9e69-ad80ce9bfedc"
-  apisecret = "${get_env("MESHSTACK_API_KEY_ONLINE_BANKING_APP")}"
-}
-
-provider "meshstack" {
-  alias = "sap_core_platform"
-  endpoint  = "https://federation.demo.meshcloud.io"
-  apikey    = "7a309ce7-439e-4bdb-b75f-e5c4b001b349"
-  apisecret = "${get_env("MESHSTACK_API_KEY_SAP_CORE_PLATFORM")}"
-}
-
-
-provider "meshstack" {
-  alias = "likvid_gov_guard"
-  endpoint  = "https://federation.demo.meshcloud.io"
-  apikey    = "924588a3-2e6e-4afd-910e-8d867a587551"
-  apisecret = "${get_env("MESHSTACK_API_KEY_LIKVID_GOV_GUARD")}"
-}
-
-provider "meshstack" {
-  alias = "quickstart"
-  endpoint  = "https://federation.demo.meshcloud.io"
-  apikey    = "f846470b-3144-47ba-a8e2-fc1f41ce5fca"
-  apisecret = "${get_env("MESHSTACK_API_KEY_QUICKSTART_PROD")}"
-}
-
-# an admin api key that will eventually replace the need for having individual api keys for each workspace
-provider "meshstack" {
-  alias = "cloudfoundation"
   endpoint  = "https://federation.demo.meshcloud.io"
   apikey    = "6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74"
   apisecret = "${get_env("MESHSTACK_API_KEY_CLOUDFOUNDATION")}"
 }
-
 EOF
 }
 
