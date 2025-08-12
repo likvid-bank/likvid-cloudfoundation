@@ -2,6 +2,10 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
+dependency "aws_bootstrap" {
+  config_path = "../platforms/aws/bootstrap"
+}
+
 terraform {
   source = "${get_repo_root()}//kit/foundation/meshstack"
 
@@ -64,6 +68,10 @@ provider "meshstack" {
   apikey    = "6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74"
   apisecret = "${get_env("MESHSTACK_API_KEY_CLOUDFOUNDATION")}"
 }
+
+provider "github" {
+  owner = "likvid-bank"
+}
 EOF
 }
 
@@ -75,4 +83,14 @@ inputs = {
   }
 
   meshpanel_base_url = "https://panel.demo.meshcloud.io"
+
+  static_website_assets_demo = {
+    repository = "static-website-assets"
+    // todo: an API for setting up API keys would be sooo nice
+    api_key_id            = "253eb2f8-7589-471b-83f5-0e42312bf98f"
+    api_key_secret        = get_env("MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS")
+    aws_sso_instance_arn  = dependency.aws_bootstrap.outputs.identity_store_arn
+    aws_identity_store_id = dependency.aws_bootstrap.outputs.identity_store_id
+    gha_aws_role_to_assume = "arn:aws:iam::702461728527:role/likvid-static-website-assets-github-action-role"
+  }
 }

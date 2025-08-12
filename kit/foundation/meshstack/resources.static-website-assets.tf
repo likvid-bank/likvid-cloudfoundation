@@ -1,14 +1,3 @@
-## Platform Team
-
-locals {
-  m25-platform = [
-    "fnowarre@meshcloud.io",
-    "malhussan@meshcloud.io"
-  ]
-
-  m25-online-banking-application = [
-  "likvid-anna@meshcloud.io"]
-}
 
 resource "meshstack_project" "static-website-assets" {
   metadata = {
@@ -26,6 +15,7 @@ resource "meshstack_project" "static-website-assets" {
   }
 }
 
+# the project hosting the s3 buckets, part of the backplane of this service
 resource "meshstack_tenant" "static-website-assets" {
   metadata = {
     owned_by_project    = meshstack_project.static-website-assets.metadata.name
@@ -39,7 +29,7 @@ resource "meshstack_tenant" "static-website-assets" {
 }
 
 resource "meshstack_project_user_binding" "static_website_assets_project_admins" {
-  for_each = toset(local.m25-platform)
+  for_each = toset(local.m25-platform-team)
 
   metadata = {
     name = "static_website_assets_${each.key}"
@@ -60,52 +50,84 @@ resource "meshstack_project_user_binding" "static_website_assets_project_admins"
 }
 
 ## Application Team
-
-resource "meshstack_project" "m25_online_banking_app" {
-  metadata = {
-    name               = "online-banking-app-prod"
-    owned_by_workspace = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.metadata.name
-  }
+resource "meshstack_building_block_v2" "m25_online_banking_app_docs" {
   spec = {
-    display_name              = "Online Banking App"
-    payment_method_identifier = "online-banking"
-    tags = {
-      "environment"          = ["prod"]
-      "Schutzbedarf"         = ["public"]
-      "LandingZoneClearance" = ["cloud-native"]
+    display_name = "docs website"
+
+    target_ref = {
+      kind       = "meshWorkspace"
+      identifier = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.metadata.name
+    }
+
+    building_block_definition_version_ref = {
+      uuid = "4dd39de2-3b2f-43c1-b8ae-584069c425ad"
+    }
+
+    inputs = {
+      # note: bucket names must be globally unique, we probably should use random ids here
+      bucket_name = { value_string = "likvid-docs-website" }
     }
   }
 }
 
-resource "meshstack_tenant" "m25_online_banking_app" {
-  metadata = {
-    platform_identifier = "aws.aws-meshstack-dev"
-    owned_by_project    = meshstack_project.m25_online_banking_app.metadata.name
-    owned_by_workspace  = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.metadata.name
-  }
+resource "meshstack_building_block_v2" "m25_online_banking_app_repo" {
   spec = {
-    landing_zone_identifier = "likvid-aws-prod"
+    display_name = "m25-online-banking"
 
+    target_ref = {
+      kind       = "meshWorkspace"
+      identifier = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.metadata.name
+    }
+
+    building_block_definition_version_ref = {
+      uuid = "4a09ae7f-df0b-4f24-9704-1b5fed0437f6"
+    }
+
+    inputs = {
+      repo_name  = { value_string = "m25-online-banking" }
+      repo_owner = { value_string = "JohannesRudolph" } # not perfect but the current definition version requires this as we don't have support for optional inputs yet
+    }
   }
 }
 
-resource "meshstack_project_user_binding" "m25_online_banking_app_admins" {
-  for_each = toset(local.m25-online-banking-application)
+# Create environment secrets
 
-  metadata = {
-    name = "online_banking_app_${each.key}"
-  }
+data "github_repository" "static_website_assets" {
+  name = var.static_website_assets_demo.repository
 
-  role_ref = {
-    name = "Project Admin"
-  }
+}
+resource "github_actions_secret" "static_website_assets_api_key_secret" {
+  repository      = data.github_repository.static_website_assets.name
+  secret_name     = "BUILDINGBLOCK_API_KEY_SECRET"
+  plaintext_value = var.static_website_assets_demo.api_key_secret
+}
 
-  target_ref = {
-    owned_by_workspace = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.metadata.name
-    name               = meshstack_project.m25_online_banking_app.metadata.name
-  }
+resource "github_actions_variable" "static_website_assets_api_key_id" {
+  repository    = data.github_repository.static_website_assets.name
+  variable_name = "BUILDINGBLOCK_API_CLIENT_ID"
+  value         = var.static_website_assets_demo.api_key_id
+}
 
-  subject = {
-    name = each.key
-  }
+resource "github_actions_variable" "static_website_assets_aws_sso_instance_arn" {
+  repository    = data.github_repository.static_website_assets.name
+  variable_name = "SSO_INSTANCE_ARN"
+  value         = var.static_website_assets_demo.aws_sso_instance_arn
+}
+
+resource "github_actions_variable" "static_website_assets_aws_identity_store_id" {
+  repository    = data.github_repository.static_website_assets.name
+  variable_name = "IDENTITY_STORE_ID"
+  value         = var.static_website_assets_demo.aws_identity_store_id
+}
+
+resource "github_actions_variable" "static_website_assets_aws_account_id" {
+  repository    = data.github_repository.static_website_assets.name
+  variable_name = "AWS_ACCOUNT_ID"
+  value         = meshstack_tenant.static-website-assets.spec.local_id
+}
+
+resource "github_actions_variable" "static_website_assets_aws_role_to_assume" {
+  repository    = data.github_repository.static_website_assets.name
+  variable_name = "AWS_ROLE_TO_ASSUME"
+  value         = var.static_website_assets_demo.gha_aws_role_to_assume
 }

@@ -161,8 +161,6 @@ locals {
       platformDefinitions_github_repository_spec_documentation_url               = local.customPlatformDefinitions.github-repository.spec.documentation-url,
       landingZones_github_repository_spec_displayName                            = local.landingZones.github-repository.spec.displayName,
       meshobjects_import_workspaces_m25_online_banki_yml_output_spec_displayName = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.spec.displayName,
-      meshstack_project_m25_online_banking_app_spec_display_name                 = meshstack_project.m25_online_banking_app.spec.display_name,
-      meshstack_tenant_m25_online_banking_app_docs_repo_spec_local_id            = meshstack_tenant.m25_online_banking_app_docs_repo.spec.local_id
       policy_RestrictLandingZoneToWorkspaceBusinessUnit                          = local.policies.RestrictLandingZoneToWorkspaceBusinessUnit.policy,
       policy_RestrictBuildingBlockToWorkspaceBusinessUnit                        = local.policies.RestrictBuildingBlockToWorkspaceBusinessUnit.policy,
       meshobjects_import_workspaces_m25_platform_yml_output_spec_displayName     = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.spec.displayName,
@@ -219,6 +217,8 @@ locals {
       # API and platform URLs for demo stories
       meshstack_api_url = var.meshstack_api.endpoint,
       meshpanel_url     = var.meshpanel_base_url
+
+      static_website_assets_repo_url = data.github_repository.static_website_assets.html_url
     })
   }
 }
