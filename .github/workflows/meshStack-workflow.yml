@@ -14,7 +14,7 @@ jobs:
       id-token: write
       contents: read
     env:
-      TERRAGRUNT_TFPATH: tofu
+      TG_TF_PATH: tofu
       TF_IN_AUTOMATION: true
       MESHSTACK_API_KEY_LIKVID_MOBILE: ${{ secrets.MESHSTACK_API_KEY_LIKVID_MOBILE }}
       MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS: ${{ secrets.MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS }}
