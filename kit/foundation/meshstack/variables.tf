@@ -1,6 +1,6 @@
 variable "meshstack_api" {
   description = "API user with access to meshStack"
-  default     = null
+  nullable    = false
   type = object({
     endpoint = string,
     username = string,
@@ -10,7 +10,7 @@ variable "meshstack_api" {
 
 variable "meshpanel_base_url" {
   description = "Base URL of the meshPanel"
-  default     = null
+  nullable    = false
   type        = string
 }
 

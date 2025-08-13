@@ -57,8 +57,8 @@ This documentation is intended as a reference documentation for cloud foundation
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_demo_gitops"></a> [demo\_gitops](#input\_demo\_gitops) | Configuration for the static website assets demos | <pre>object({<br/>    repository               = string,<br/>    meshstack_api_key_id     = string,<br/>    meshstack_api_key_secret = string<br/>    aws_sso_instance_arn     = string,<br/>    aws_identity_store_id    = string,<br/>    gha_aws_role_to_assume   = string<br/>  })</pre> | n/a | yes |
-| <a name="input_meshpanel_base_url"></a> [meshpanel\_base\_url](#input\_meshpanel\_base\_url) | Base URL of the meshPanel | `string` | `null` | no |
-| <a name="input_meshstack_api"></a> [meshstack\_api](#input\_meshstack\_api) | API user with access to meshStack | <pre>object({<br/>    endpoint = string,<br/>    username = string,<br/>    password = string<br/>  })</pre> | `null` | no |
+| <a name="input_meshpanel_base_url"></a> [meshpanel\_base\_url](#input\_meshpanel\_base\_url) | Base URL of the meshPanel | `string` | n/a | yes |
+| <a name="input_meshstack_api"></a> [meshstack\_api](#input\_meshstack\_api) | API user with access to meshStack | <pre>object({<br/>    endpoint = string,<br/>    username = string,<br/>    password = string<br/>  })</pre> | n/a | yes |
 
 ## Outputs
 
