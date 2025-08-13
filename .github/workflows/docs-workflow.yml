@@ -61,6 +61,12 @@ jobs:
 
       - name: update docs v2
         working-directory: foundations/${{ inputs.foundation }}/docs
+        env:
+          # the docs tg module does read_terragrunt_config of the meshStack module and that needs this var
+          MESHSTACK_API_PASSWORD: ${{ secrets.MESHSTACK_API_PASSWORD }}
+          MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS: ${{ secrets.MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS }}
+          MESHSTACK_API_KEY_CLOUDFOUNDATION: ${{ secrets.MESHSTACK_API_KEY_CLOUDFOUNDATION }}
+
         # note: this will update files in ./docs-v2 folder used below, this is a bit non-intuitive
         # but that's an artifact of the legacy collie workflow
         run: |
