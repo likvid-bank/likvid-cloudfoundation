@@ -1,4 +1,4 @@
-# Integrating Existing Automation and GitOps Pipelines
+# Integrating Existing GitHub CI/CD Pipelines
 
 This guide shows platform engineers how to integrate existing automation and GitOps workflows with meshStack using Building Blocks.
 
@@ -54,7 +54,7 @@ Create a Building Block Definition that will trigger your existing GitHub Action
 Since we want to communicate status back from the pipeline in a form that's easily consumable
 by application teams, we need to extend the pipeline.
 
-To do so, we will leverage two GitHub actions published by meshcloud that simplify this process
+To do so, we will leverage three GitHub actions published by meshcloud that simplify this process
 
 - [meshcloud/actions-meshstack-auth](https://github.com/meshcloud/actions-meshstack-auth) to authenticate with meshStack using an API key
 - [meshcloud/actions-register-source](https://github.com/meshcloud/actions-register-source) to register the steps of our pipeline

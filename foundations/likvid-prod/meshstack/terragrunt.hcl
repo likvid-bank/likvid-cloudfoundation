@@ -84,13 +84,13 @@ inputs = {
 
   meshpanel_base_url = "https://panel.demo.meshcloud.io"
 
-  static_website_assets_demo = {
+  demo_gitops = {
     repository = "static-website-assets"
     // todo: an API for setting up API keys would be sooo nice
-    api_key_id            = "253eb2f8-7589-471b-83f5-0e42312bf98f"
-    api_key_secret        = get_env("MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS")
-    aws_sso_instance_arn  = dependency.aws_bootstrap.outputs.identity_store_arn
-    aws_identity_store_id = dependency.aws_bootstrap.outputs.identity_store_id
-    gha_aws_role_to_assume = "arn:aws:iam::702461728527:role/likvid-static-website-assets-github-action-role"
+    meshstack_api_key_id     = "253eb2f8-7589-471b-83f5-0e42312bf98f"
+    meshstack_api_key_secret = get_env("MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS")
+    aws_sso_instance_arn     = dependency.aws_bootstrap.outputs.identity_store_arn
+    aws_identity_store_id    = dependency.aws_bootstrap.outputs.identity_store_id
+    gha_aws_role_to_assume   = "arn:aws:iam::702461728527:role/likvid-static-website-assets-github-action-role"
   }
 }

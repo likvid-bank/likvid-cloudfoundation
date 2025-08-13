@@ -15,16 +15,16 @@ variable "meshpanel_base_url" {
 }
 
 
-variable "static_website_assets_demo" {
+variable "demo_gitops" {
   description = "Configuration for the static website assets demos"
   nullable    = false
   sensitive   = true
   type = object({
-    repository            = string,
-    api_key_id            = string,
-    api_key_secret        = string
-    aws_sso_instance_arn  = string,
-    aws_identity_store_id = string,
-    gha_aws_role_to_assume= string
+    repository               = string,
+    meshstack_api_key_id     = string,
+    meshstack_api_key_secret = string
+    aws_sso_instance_arn     = string,
+    aws_identity_store_id    = string,
+    gha_aws_role_to_assume   = string
   })
 }

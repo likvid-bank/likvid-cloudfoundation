@@ -134,93 +134,98 @@ locals {
 }
 
 locals {
-  md_files = fileset("${path.module}/guides", "*.md")
-  md_contents = {
-    for f in local.md_files :
-    replace(basename(f), ".md", "") => templatefile("${path.module}/guides/${f}", {
+  md_template_vars = {
 
-      # new pattern, we generate ready to use markdown depp-links into meshpanel to entities where that makes sense
-      md_workspace_m25_platform_team  = "[${local.workspaces.m25_platform_team.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.m25_platform_team.metadata.name})",
-      md_workspace_likvid_mobile      = "[${local.workspaces.likvid_mobile.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.likvid_mobile.metadata.name})",
-      md_workspace_m25_online_banking = "[${local.workspaces.m25_online_banking.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.m25_online_banking.metadata.name})",
-      md_workspace_cloud_foundation   = "[${local.workspaces.cloud_foundation.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.cloud_foundation.metadata.name})",
-      md_workspace_sap_core_platform  = "[${local.workspaces.sap_core_platform.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.sap_core_platform.metadata.name})",
-      md_workspace_devops_platform    = "[${local.workspaces.devops_platform.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.devops_platform.metadata.name})",
-      md_workspace_likvid_gov_guard   = "[${local.workspaces.likvid_gov_guard.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.likvid_gov_guard.metadata.name})",
+    # new pattern, we generate ready to use markdown depp-links into meshpanel to entities where that makes sense
+    md_workspace_m25_platform_team  = "[${local.workspaces.m25_platform_team.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.m25_platform_team.metadata.name})",
+    md_workspace_likvid_mobile      = "[${local.workspaces.likvid_mobile.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.likvid_mobile.metadata.name})",
+    md_workspace_m25_online_banking = "[${local.workspaces.m25_online_banking.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.m25_online_banking.metadata.name})",
+    md_workspace_cloud_foundation   = "[${local.workspaces.cloud_foundation.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.cloud_foundation.metadata.name})",
+    md_workspace_sap_core_platform  = "[${local.workspaces.sap_core_platform.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.sap_core_platform.metadata.name})",
+    md_workspace_devops_platform    = "[${local.workspaces.devops_platform.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.devops_platform.metadata.name})",
+    md_workspace_likvid_gov_guard   = "[${local.workspaces.likvid_gov_guard.spec.displayName}](${var.meshpanel_base_url}/#/w/${local.workspaces.likvid_gov_guard.metadata.name})",
 
-      md_project_sap_core_platform = "[${meshstack_project.sap_core_platform.spec.display_name}](${var.meshpanel_base_url}/#/w/${meshstack_project.sap_core_platform.metadata.owned_by_workspace}/p/${meshstack_project.sap_core_platform.metadata.name})",
+    md_project_sap_core_platform = "[${meshstack_project.sap_core_platform.spec.display_name}](${var.meshpanel_base_url}/#/w/${meshstack_project.sap_core_platform.metadata.owned_by_workspace}/p/${meshstack_project.sap_core_platform.metadata.name})",
 
-      tags_BusinessUnit    = local.tags.BusinessUnit,
-      tags_SecurityContact = local.tags.SecurityContact,
+    tags_BusinessUnit    = local.tags.BusinessUnit,
+    tags_SecurityContact = local.tags.SecurityContact,
 
-      buildingBlockDefinitions_github_repository_spec_displayName                = local.buildingBlockDefinitions.github-repository.spec.displayName,
-      platformDefinitions_github_repository_spec_displayName                     = local.customPlatformDefinitions.github-repository.spec.displayName,
-      platformDefinitions_github_repository_spec_description                     = local.customPlatformDefinitions.github-repository.spec.description,
-      platformDefinitions_github_repository_spec_web_console_url                 = local.customPlatformDefinitions.github-repository.spec.web-console-url,
-      platformDefinitions_github_repository_spec_support_url                     = local.customPlatformDefinitions.github-repository.spec.support-url,
-      platformDefinitions_github_repository_spec_documentation_url               = local.customPlatformDefinitions.github-repository.spec.documentation-url,
-      landingZones_github_repository_spec_displayName                            = local.landingZones.github-repository.spec.displayName,
-      meshobjects_import_workspaces_m25_online_banki_yml_output_spec_displayName = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.spec.displayName,
-      policy_RestrictLandingZoneToWorkspaceBusinessUnit                          = local.policies.RestrictLandingZoneToWorkspaceBusinessUnit.policy,
-      policy_RestrictBuildingBlockToWorkspaceBusinessUnit                        = local.policies.RestrictBuildingBlockToWorkspaceBusinessUnit.policy,
-      meshobjects_import_workspaces_m25_platform_yml_output_spec_displayName     = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.spec.displayName,
-      landinZones_m25_cloud_native_spec_displayName                              = local.landingZones.m25-cloud-native.spec.displayName,
-      landinZones_m25_cloud_native_spec_tags_BusinessUnit                        = "${local.tags.BusinessUnit}: ${join(", ", local.landingZones.m25-cloud-native.spec.tags.BusinessUnit)}",
-      buildingBlockDefinitions_m25_domain_spec_displayName                       = local.buildingBlockDefinitions.m25-domain.spec.displayName,
-      meshobjects_import_workspaces_likvid_mobile_yml_output_spec_displayName    = terraform_data.meshobjects_import["workspaces/likvid-mobile.yml"].output.spec.displayName,
-      landinZones_m25_cloud_native_spec_name                                     = local.landingZones.m25-cloud-native.name
-      buildingBlockDefinitions_m25_domain_spec_description                       = lower(local.buildingBlockDefinitions.m25-domain.spec.description),
-      buildingBlockDefinitions_m25_domain_spec_tags_businessUnit                 = join(", ", local.buildingBlockDefinitions.m25-domain.spec.tags.BusinessUnit),
-      meshobjects_import_output_spec_tags_BusinessUnit                           = join(", ", terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.spec.tags.BusinessUnit),
-      buildingBlockDefinitions_m25-static-website-assets_spec_displayName        = local.buildingBlockDefinitions.m25-static-website-assets.spec.displayName,
-      meshobjects_import_workspaces_m25-platform_yml_output_spec_displayName     = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.spec.displayName,
+    buildingBlockDefinitions_github_repository_spec_displayName                = local.buildingBlockDefinitions.github-repository.spec.displayName,
+    platformDefinitions_github_repository_spec_displayName                     = local.customPlatformDefinitions.github-repository.spec.displayName,
+    platformDefinitions_github_repository_spec_description                     = local.customPlatformDefinitions.github-repository.spec.description,
+    platformDefinitions_github_repository_spec_web_console_url                 = local.customPlatformDefinitions.github-repository.spec.web-console-url,
+    platformDefinitions_github_repository_spec_support_url                     = local.customPlatformDefinitions.github-repository.spec.support-url,
+    platformDefinitions_github_repository_spec_documentation_url               = local.customPlatformDefinitions.github-repository.spec.documentation-url,
+    landingZones_github_repository_spec_displayName                            = local.landingZones.github-repository.spec.displayName,
+    meshobjects_import_workspaces_m25_online_banki_yml_output_spec_displayName = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.spec.displayName,
+    policy_RestrictLandingZoneToWorkspaceBusinessUnit                          = local.policies.RestrictLandingZoneToWorkspaceBusinessUnit.policy,
+    policy_RestrictBuildingBlockToWorkspaceBusinessUnit                        = local.policies.RestrictBuildingBlockToWorkspaceBusinessUnit.policy,
+    meshobjects_import_workspaces_m25_platform_yml_output_spec_displayName     = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.spec.displayName,
+    landinZones_m25_cloud_native_spec_displayName                              = local.landingZones.m25-cloud-native.spec.displayName,
+    landinZones_m25_cloud_native_spec_tags_BusinessUnit                        = "${local.tags.BusinessUnit}: ${join(", ", local.landingZones.m25-cloud-native.spec.tags.BusinessUnit)}",
+    buildingBlockDefinitions_m25_domain_spec_displayName                       = local.buildingBlockDefinitions.m25-domain.spec.displayName,
+    meshobjects_import_workspaces_likvid_mobile_yml_output_spec_displayName    = terraform_data.meshobjects_import["workspaces/likvid-mobile.yml"].output.spec.displayName,
+    landinZones_m25_cloud_native_spec_name                                     = local.landingZones.m25-cloud-native.name
+    buildingBlockDefinitions_m25_domain_spec_description                       = lower(local.buildingBlockDefinitions.m25-domain.spec.description),
+    buildingBlockDefinitions_m25_domain_spec_tags_businessUnit                 = join(", ", local.buildingBlockDefinitions.m25-domain.spec.tags.BusinessUnit),
+    meshobjects_import_output_spec_tags_BusinessUnit                           = join(", ", terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.spec.tags.BusinessUnit),
+    buildingBlockDefinitions_m25-static-website-assets_spec_displayName        = local.buildingBlockDefinitions.m25-static-website-assets.spec.displayName,
+    meshobjects_import_workspaces_m25-platform_yml_output_spec_displayName     = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.spec.displayName,
 
-      # SAP BTP Custom Platform
-      buildingBlockDefinitions_sapbtp_subaccounts_repository_spec_displayName = local.buildingBlockDefinitions.sapbtp-subaccounts-repository.spec.displayName,
-      landingZones_sap_core_platform_spec_displayName                         = local.landingZones.sap-core-platform.spec.displayName,
-      platformDefinitions_sap_core_platform_spec_displayName                  = local.customPlatformDefinitions.sap-core-platform.spec.displayName,
-      platformDefinitions_sap_core_platform_spec_description                  = local.customPlatformDefinitions.sap-core-platform.spec.description,
-      platformDefinitions_sap_core_platform_spec_support_url                  = local.customPlatformDefinitions.sap-core-platform.spec.support-url,
-      platformDefinitions_sap_core_platform_spec_documentation_url            = local.customPlatformDefinitions.sap-core-platform.spec.documentation-url,
-      platformDefinitions_sap_core_platform_spec_web_console_url              = local.customPlatformDefinitions.sap-core-platform.spec.web-console-url,
+    # SAP BTP Custom Platform
+    buildingBlockDefinitions_sapbtp_subaccounts_repository_spec_displayName = local.buildingBlockDefinitions.sapbtp-subaccounts-repository.spec.displayName,
+    landingZones_sap_core_platform_spec_displayName                         = local.landingZones.sap-core-platform.spec.displayName,
+    platformDefinitions_sap_core_platform_spec_displayName                  = local.customPlatformDefinitions.sap-core-platform.spec.displayName,
+    platformDefinitions_sap_core_platform_spec_description                  = local.customPlatformDefinitions.sap-core-platform.spec.description,
+    platformDefinitions_sap_core_platform_spec_support_url                  = local.customPlatformDefinitions.sap-core-platform.spec.support-url,
+    platformDefinitions_sap_core_platform_spec_documentation_url            = local.customPlatformDefinitions.sap-core-platform.spec.documentation-url,
+    platformDefinitions_sap_core_platform_spec_web_console_url              = local.customPlatformDefinitions.sap-core-platform.spec.web-console-url,
 
-      # IONOS Custom Platform
-      meshobjects_import_workspaces_ionos_yml_output_spec_displayName = terraform_data.meshobjects_import["workspaces/likvid-govguard.yml"].output.spec.displayName,
+    # IONOS Custom Platform
+    meshobjects_import_workspaces_ionos_yml_output_spec_displayName = terraform_data.meshobjects_import["workspaces/likvid-govguard.yml"].output.spec.displayName,
 
-      meshstack_project_likvid_gov_guard_dev_spec_display_name  = meshstack_project.likvid_gov_guard_dev.spec.display_name,
-      meshstack_project_likvid_gov_guard_prod_spec_display_name = meshstack_project.likvid_gov_guard_prod.spec.display_name,
+    meshstack_project_likvid_gov_guard_dev_spec_display_name  = meshstack_project.likvid_gov_guard_dev.spec.display_name,
+    meshstack_project_likvid_gov_guard_prod_spec_display_name = meshstack_project.likvid_gov_guard_prod.spec.display_name,
 
-      buildingBlockDefinitions_ionos_virtual_datacenter_repository_spec_displayName = local.buildingBlockDefinitions.ionos-virtual-data-center.spec.displayName,
-      landingZones_ionos_dev_spec_displayName                                       = local.landingZones.ionos-dev.spec.displayName,
-      landingZones_ionos_prod_spec_displayName                                      = local.landingZones.ionos-prod.spec.displayName,
-      platformDefinitions_ionos_spec_displayName                                    = local.customPlatformDefinitions.ionos.spec.displayName,
-      platformDefinitions_ionos_spec_description                                    = local.customPlatformDefinitions.ionos.spec.description,
-      platformDefinitions_ionos_spec_support_url                                    = local.customPlatformDefinitions.ionos.spec.support-url,
-      platformDefinitions_ionos_spec_documentation_url                              = local.customPlatformDefinitions.ionos.spec.documentation-url,
-      platformDefinitions_ionos_spec_web_console_url                                = local.customPlatformDefinitions.ionos.spec.web-console-url,
+    buildingBlockDefinitions_ionos_virtual_datacenter_repository_spec_displayName = local.buildingBlockDefinitions.ionos-virtual-data-center.spec.displayName,
+    landingZones_ionos_dev_spec_displayName                                       = local.landingZones.ionos-dev.spec.displayName,
+    landingZones_ionos_prod_spec_displayName                                      = local.landingZones.ionos-prod.spec.displayName,
+    platformDefinitions_ionos_spec_displayName                                    = local.customPlatformDefinitions.ionos.spec.displayName,
+    platformDefinitions_ionos_spec_description                                    = local.customPlatformDefinitions.ionos.spec.description,
+    platformDefinitions_ionos_spec_support_url                                    = local.customPlatformDefinitions.ionos.spec.support-url,
+    platformDefinitions_ionos_spec_documentation_url                              = local.customPlatformDefinitions.ionos.spec.documentation-url,
+    platformDefinitions_ionos_spec_web_console_url                                = local.customPlatformDefinitions.ionos.spec.web-console-url,
 
-      # stackit Custom Platform
-      buildingBlockDefinitions_stackit_projects_spec_displayName = local.buildingBlockDefinitions.stackit-projects.spec.displayName,
-      landingZones_stackit_dev_spec_displayName                  = local.landingZones.stackit-dev.spec.displayName,
-      landingZones_stackit_prod_spec_displayName                 = local.landingZones.stackit-prod.spec.displayName,
-      platformDefinitions_stackit_spec_displayName               = local.customPlatformDefinitions.stackit.spec.displayName,
-      platformDefinitions_stackit_spec_description               = local.customPlatformDefinitions.stackit.spec.description,
-      platformDefinitions_stackit_spec_support_url               = local.customPlatformDefinitions.stackit.spec.support-url,
-      platformDefinitions_stackit_spec_documentation_url         = local.customPlatformDefinitions.stackit.spec.documentation-url,
-      platformDefinitions_stackit_spec_web_console_url           = local.customPlatformDefinitions.stackit.spec.web-console-url,
+    # stackit Custom Platform
+    buildingBlockDefinitions_stackit_projects_spec_displayName = local.buildingBlockDefinitions.stackit-projects.spec.displayName,
+    landingZones_stackit_dev_spec_displayName                  = local.landingZones.stackit-dev.spec.displayName,
+    landingZones_stackit_prod_spec_displayName                 = local.landingZones.stackit-prod.spec.displayName,
+    platformDefinitions_stackit_spec_displayName               = local.customPlatformDefinitions.stackit.spec.displayName,
+    platformDefinitions_stackit_spec_description               = local.customPlatformDefinitions.stackit.spec.description,
+    platformDefinitions_stackit_spec_support_url               = local.customPlatformDefinitions.stackit.spec.support-url,
+    platformDefinitions_stackit_spec_documentation_url         = local.customPlatformDefinitions.stackit.spec.documentation-url,
+    platformDefinitions_stackit_spec_web_console_url           = local.customPlatformDefinitions.stackit.spec.web-console-url,
 
-      # Quickstart AWS
-      meshstack_project_quickstart_aws_spec_display_name           = meshstack_project.quickstart.spec.display_name,
-      meshstack_tenant_quickstart_aws_spec_landing_zone_identifier = meshstack_tenant.quickstart_aws.spec.landing_zone_identifier,
-      meshstack_tenant_quickstart_aws_spec_local_id                = meshstack_tenant.quickstart_aws.spec.local_id,
+    # Quickstart AWS
+    meshstack_project_quickstart_aws_spec_display_name           = meshstack_project.quickstart.spec.display_name,
+    meshstack_tenant_quickstart_aws_spec_landing_zone_identifier = meshstack_tenant.quickstart_aws.spec.landing_zone_identifier,
+    meshstack_tenant_quickstart_aws_spec_local_id                = meshstack_tenant.quickstart_aws.spec.local_id,
 
-      # API and platform URLs for demo stories
-      meshstack_api_url = var.meshstack_api.endpoint,
-      meshpanel_url     = var.meshpanel_base_url
-
-      static_website_assets_repo_url = data.github_repository.static_website_assets.html_url
-    })
+    # API and platform URLs for demo stories
+    meshstack_api_url = var.meshstack_api.endpoint,
+    meshpanel_url     = var.meshpanel_base_url
   }
+
+  md_files = fileset("${path.module}/guides", "*.md")
+  md_contents = merge(
+    {
+      for f in local.md_files :
+      replace(basename(f), ".md", "") => templatefile("${path.module}/guides/${f}", local.md_template_vars)
+    },
+
+    # New approach: ship demos as smaller, reusable modules that are more self-contained
+    module.demo_gitops.documentation_guides_md
+  )
 }
 
 output "documentation_guides_md" {

@@ -90,44 +90,16 @@ resource "meshstack_building_block_v2" "m25_online_banking_app_repo" {
   }
 }
 
-# Create environment secrets
 
-data "github_repository" "static_website_assets" {
-  name = var.static_website_assets_demo.repository
+module "demo_gitops" {
+  source = "./demos/gitops"
 
-}
-resource "github_actions_secret" "static_website_assets_api_key_secret" {
-  repository      = data.github_repository.static_website_assets.name
-  secret_name     = "BUILDINGBLOCK_API_KEY_SECRET"
-  plaintext_value = var.static_website_assets_demo.api_key_secret
-}
-
-resource "github_actions_variable" "static_website_assets_api_key_id" {
-  repository    = data.github_repository.static_website_assets.name
-  variable_name = "BUILDINGBLOCK_API_CLIENT_ID"
-  value         = var.static_website_assets_demo.api_key_id
-}
-
-resource "github_actions_variable" "static_website_assets_aws_sso_instance_arn" {
-  repository    = data.github_repository.static_website_assets.name
-  variable_name = "SSO_INSTANCE_ARN"
-  value         = var.static_website_assets_demo.aws_sso_instance_arn
-}
-
-resource "github_actions_variable" "static_website_assets_aws_identity_store_id" {
-  repository    = data.github_repository.static_website_assets.name
-  variable_name = "IDENTITY_STORE_ID"
-  value         = var.static_website_assets_demo.aws_identity_store_id
-}
-
-resource "github_actions_variable" "static_website_assets_aws_account_id" {
-  repository    = data.github_repository.static_website_assets.name
-  variable_name = "AWS_ACCOUNT_ID"
-  value         = meshstack_tenant.static-website-assets.spec.local_id
-}
-
-resource "github_actions_variable" "static_website_assets_aws_role_to_assume" {
-  repository    = data.github_repository.static_website_assets.name
-  variable_name = "AWS_ROLE_TO_ASSUME"
-  value         = var.static_website_assets_demo.gha_aws_role_to_assume
+  repository               = var.demo_gitops.repository
+  meshstack_api_key_id     = var.demo_gitops.meshstack_api_key_id
+  meshstack_api_key_secret = var.demo_gitops.meshstack_api_key_secret
+  aws_sso_instance_arn     = var.demo_gitops.aws_sso_instance_arn
+  aws_identity_store_id    = var.demo_gitops.aws_identity_store_id
+  gha_aws_role_to_assume   = var.demo_gitops.gha_aws_role_to_assume
+  aws_account_id           = meshstack_tenant.static-website-assets.spec.local_id
+  documentation_vars       = local.md_template_vars
 }
