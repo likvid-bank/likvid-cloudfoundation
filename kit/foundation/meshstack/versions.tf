@@ -11,5 +11,10 @@ terraform {
       source                = "meshcloud/meshstack"
       version               = "~> 0.8.0"
     }
+
+    github = {
+      source  = "integrations/github"
+      version = "6.3.0"
+    }
   }
 }
