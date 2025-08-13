@@ -15,6 +15,9 @@ jobs:
       contents: read
     env:
       TG_TF_PATH: tofu
+      TG_PROVIDER_CACHE: 1 # enable provider caching for a speeding up tf inits
+      TG_NON_INTERACTIVE: true
+      
       TF_IN_AUTOMATION: true
       MESHSTACK_API_KEY_LIKVID_MOBILE: ${{ secrets.MESHSTACK_API_KEY_LIKVID_MOBILE }}
       MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS: ${{ secrets.MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS }}
