@@ -71,6 +71,16 @@ provider "meshstack" {
 
 provider "github" {
   owner = "likvid-bank"
+
+
+  %{if try(get_env("CI", "false") == "true")}
+  app_auth {
+    id              = "1776290"
+    installation_id = "80774688"
+    # pem_file sourced from env var GITHUB_APP_PEM_FILE
+  }
+  %{endif}
+  
 }
 EOF
 }
