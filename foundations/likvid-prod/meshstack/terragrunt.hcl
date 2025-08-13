@@ -80,7 +80,7 @@ provider "github" {
     # pem_file sourced from env var GITHUB_APP_PEM_FILE
   }
   %{endif}
-  
+
 }
 EOF
 }

@@ -65,7 +65,7 @@ jobs:
         # but that's an artifact of the legacy collie workflow
         run: |
           terragrunt apply --auto-approve
-        
+
       - name: build docs v2
         working-directory: foundations/${{ inputs.foundation }}/.docs-v2
         run: |
