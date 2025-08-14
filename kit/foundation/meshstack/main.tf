@@ -13,6 +13,14 @@ locals {
 
 # todo: replace by tag definition resources once supported
 locals {
+
+  ## Platform Team
+  m25-platform-team = [
+    "malhussan@meshcloud.io",
+    "fnowarre@meshcloud.io",
+    "jrudolph@meshcloud.io"
+  ]
+
   tags = {
     BusinessUnit    = meshstack_tag_definition.BusinessUnit.spec.key
     SecurityContact = meshstack_tag_definition.security_contact.spec.key

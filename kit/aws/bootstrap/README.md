@@ -69,6 +69,8 @@ No modules.
 |------|-------------|
 | <a name="output_baseline_cloudformation_template"></a> [baseline\_cloudformation\_template](#output\_baseline\_cloudformation\_template) | n/a |
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
+| <a name="output_identity_store_arn"></a> [identity\_store\_arn](#output\_identity\_store\_arn) | The ARN of the AWS SSO identity store |
+| <a name="output_identity_store_id"></a> [identity\_store\_id](#output\_identity\_store\_id) | The ID of the AWS SSO identity store |
 | <a name="output_management_account_id"></a> [management\_account\_id](#output\_management\_account\_id) | The id of your AWS Organization's root account |
 | <a name="output_networking_account_id"></a> [networking\_account\_id](#output\_networking\_account\_id) | The id of the networking account |
 | <a name="output_tf_backend_account_id"></a> [tf\_backend\_account\_id](#output\_tf\_backend\_account\_id) | The id of the management account |

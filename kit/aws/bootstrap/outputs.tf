@@ -17,3 +17,13 @@ output "networking_account_id" {
   value       = var.networking_account_id
   description = "The id of the networking account"
 }
+
+output "identity_store_arn" {
+  value       = local.identity_store_arn
+  description = "The ARN of the AWS SSO identity store"
+}
+
+output "identity_store_id" {
+  value       = local.identity_store_id
+  description = "The ID of the AWS SSO identity store"
+}

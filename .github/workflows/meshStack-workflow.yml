@@ -14,16 +14,15 @@ jobs:
       id-token: write
       contents: read
     env:
-      TERRAGRUNT_TFPATH: tofu
+      TG_TF_PATH: tofu
+      TG_PROVIDER_CACHE: 1 # enable provider caching for a speeding up tf inits
+      TG_NON_INTERACTIVE: true
+
       TF_IN_AUTOMATION: true
-      MESHSTACK_API_KEY_LIKVID_MOBILE: ${{ secrets.MESHSTACK_API_KEY_LIKVID_MOBILE }}
       MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS: ${{ secrets.MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS }}
-      MESHSTACK_API_KEY_ONLINE_BANKING_APP: ${{ secrets.MESHSTACK_API_KEY_ONLINE_BANKING_APP }}
-      MESHSTACK_API_KEY_SAP_CORE_PLATFORM: ${{ secrets.MESHSTACK_API_KEY_SAP_CORE_PLATFORM }}
-      MESHSTACK_API_KEY_LIKVID_GOV_GUARD: ${{ secrets.MESHSTACK_API_KEY_LIKVID_GOV_GUARD }}
-      MESHSTACK_API_KEY_QUICKSTART_PROD: ${{ secrets.MESHSTACK_API_KEY_QUICKSTART_PROD }}
       MESHSTACK_API_KEY_CLOUDFOUNDATION: ${{ secrets.MESHSTACK_API_KEY_CLOUDFOUNDATION }}
       MESHSTACK_API_PASSWORD: ${{ secrets.MESHSTACK_API_PASSWORD }}
+      GITHUB_APP_PEM_FILE: ${{ secrets.ACTIONS_GITHUB_APP_PEM_FILE }} # required for the github terraform provider
 
     steps:
       - uses: actions/checkout@v4

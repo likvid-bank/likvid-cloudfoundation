@@ -1,0 +1,63 @@
+name: Destroy Resources
+
+on:
+  workflow_dispatch:
+    inputs:
+      buildingBlockRun:
+        description: "Building Block Run Object"
+        required: true
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup meshstack auth
+        id: setup-meshstack-auth
+        uses: meshcloud/actions-register-source@v0.1.0
+        with:
+          client_id: ${{ vars.BUILDINGBLOCK_API_CLIENT_ID }}
+          key_secret: ${{ secrets.BUILDINGBLOCK_API_KEY_SECRET }}
+          steps: |
+            [
+              {
+                "id": "delete-bucket-stack",
+                "displayName": "Delete Bucket"
+              }
+            ]
+
+      - name: Setup aws auth
+        uses: aws-actions/configure-aws-credentials@v4
+        continue-on-error: true
+        with:
+          aws-region: eu-central-1
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Update BB Run / delete-bucket-stack / in progress
+        uses: meshcloud/actions-send-status@v2
+        with:
+          step_id: "delete-bucket-stack"
+          step_status: 'IN_PROGRESS'
+
+      - name: Delete bucket stack
+        id: delete-bucket
+        continue-on-error: true
+        run: aws cloudformation delete-stack --stack-name "s3-${{ steps.setup-meshstack-auth.outputs.bucket_name }}"
+
+      - name: Update BB Run / delete-bucket-stack / complete
+        if: ${{ always() }}
+        uses: meshcloud/actions-send-status@v2
+        with:
+          step_id: "delete-bucket-stack"
+          step_status: ${{ steps.delete-bucket.outcome == 'success' && 'SUCCEEDED' || 'FAILED' }}
+          user_message: ${{ steps.delete-bucket.outcome == 'success' && 'Successfully deleted bucket stack.' || 'Failed to delete bucket stack.' }}
+          system_message: ${{ steps.delete-bucket.outcome == 'success' && 'Successfully deleted bucket stack.' || 'Failed to delete bucket stack, please check the GitHub actions log for more details.' }}
+
+      - name: Update BB Run / complete
+        if: ${{ always() }}
+        uses: meshcloud/actions-send-status@v2
+        with:
+          run_status: ${{ job.status == 'success' && 'SUCCEEDED' || 'FAILED' }}

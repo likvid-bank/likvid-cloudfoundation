@@ -1,5 +1,4 @@
 resource "meshstack_project" "quickstart" {
-  provider = meshstack.quickstart
   metadata = {
     name               = "quickstart-infra-prod"
     owned_by_workspace = "m25-platform"
@@ -17,7 +16,6 @@ resource "meshstack_project" "quickstart" {
 }
 
 resource "meshstack_tenant" "quickstart_aws" {
-  provider = meshstack.quickstart
   metadata = {
     owned_by_project    = meshstack_project.quickstart.metadata.name
     owned_by_workspace  = "m25-platform"

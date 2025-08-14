@@ -70,7 +70,7 @@ They tag this building block `${tags_BusinessUnit}: ${buildingBlockDefinitions_m
 ## Onboarding an M25 Application Team
 
 To verify that the configured Policies work as intended to deliver the desired application team experience,
-we'll create the workspace `${meshstack_project_m25_online_banking_app_spec_display_name}`
+we'll create the workspace ${md_workspace_m25_online_banking}
 and tag it with `${tags_BusinessUnit}: ${meshobjects_import_output_spec_tags_BusinessUnit}`.
 
 This workspace now has access to only the `${landinZones_m25_cloud_native_spec_displayName}` Landing Zone and can create tenants on it
