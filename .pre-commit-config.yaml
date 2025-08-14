@@ -34,6 +34,7 @@ repos:
           - --args=provider hashicorp/time
           - --args=--version "0.11.1"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
+          - --args=--ignore-path "kit/.*/demos/.*"
 
       - id: tfupdate
         name: tfupdate hashicorp/azurerm
@@ -41,6 +42,7 @@ repos:
           - --args=provider hashicorp/azurerm
           - --args=--version "3.116.0"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
+          - --args=--ignore-path "kit/.*/demos/.*"
 
       - id: tfupdate
         name: tfupdate hashicorp/azuread
@@ -48,6 +50,7 @@ repos:
           - --args=provider hashicorp/azuread
           - --args=--version "3.0.2"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
+          - --args=--ignore-path "kit/.*/demos/.*"
 
       - id: tfupdate
         name: tfupdate hashicorp/aws
@@ -55,6 +58,7 @@ repos:
           - --args=provider hashicorp/aws
           - --args=--version "5.65.0"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
+          - --args=--ignore-path "kit/.*/demos/.*"
 
       - id: tfupdate
         name: tfupdate hashicorp/random
@@ -62,6 +66,7 @@ repos:
           - --args=provider hashicorp/random
           - --args=--version "3.6.0"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
+          - --args=--ignore-path "kit/.*/demos/.*"
 
       - id: tfupdate
         name: tfupdate hashicorp/time
@@ -69,6 +74,7 @@ repos:
           - --args=provider hashicorp/time
           - --args=--version "0.11.1"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
+          - --args=--ignore-path "kit/.*/demos/.*"
 
       - id: tfupdate
         name: tfupdate hashicorp/null
@@ -76,6 +82,7 @@ repos:
           - --args=provider hashicorp/null
           - --args=--version "3.2.2"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
+          - --args=--ignore-path "kit/.*/demos/.*"
 
       - id: tfupdate
         name: tfupdate hashicorp/local
@@ -83,6 +90,7 @@ repos:
           - --args=provider hashicorp/local
           - --args=--version "2.5.1"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
+          - --args=--ignore-path "kit/.*/demos/.*"
 
 
       - id: tfupdate
@@ -91,6 +99,7 @@ repos:
           - --args=provider integrations/github
           - --args=--version "5.42.0"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
+          - --args=--ignore-path "kit/.*/demos/.*"
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0  # Use the ref you want to point at
