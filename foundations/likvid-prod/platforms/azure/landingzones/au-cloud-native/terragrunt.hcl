@@ -7,12 +7,12 @@ include "platform" {
   expose = true
 }
 
-dependency "organization-hierarchy" {
-  config_path = "../../organization-hierarchy"
+dependency "corp_online" {
+  config_path = "../corp-online"
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/azure/landingzones/container-platform"
+  source = "${get_repo_root()}//kit/azure/landingzones/au-cloud-native"
 }
 
 generate "provider" {
@@ -21,7 +21,7 @@ generate "provider" {
   contents  = <<EOF
 provider "azurerm" {
   features {}
-  skip_provider_registration = true
+  resource_provider_registrations = "none"
   tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
   subscription_id = "${include.platform.locals.platform.azure.subscriptionId}"
   }
@@ -29,7 +29,6 @@ EOF
 }
 
 inputs = {
-  # todo: set input variables
-  parent_management_group_id = "${dependency.organization-hierarchy.outputs.landingzones_id}"
-  location                   = "${try(include.platform.locals.tfstateconfig.location, "could not read location from stateconfig. configure it explicitly")}"
+  name                       = "au-cloudnative"
+  parent_management_group_id = dependency.corp_online.outputs.online_id
 }

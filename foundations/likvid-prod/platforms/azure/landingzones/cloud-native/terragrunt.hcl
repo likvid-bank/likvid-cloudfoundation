@@ -7,10 +7,6 @@ include "platform" {
   expose = true
 }
 
-dependency "bootstrap" {
-  config_path = "../../bootstrap"
-}
-
 dependency "corp_online" {
   config_path = "../corp-online"
 }

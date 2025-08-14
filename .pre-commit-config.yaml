@@ -43,6 +43,8 @@ repos:
           - --args=--version "3.116.0"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
           - --args=--ignore-path "kit/.*/demos/.*"
+          - --args=--ignore-path "kit/azure/meshplatform-au"
+          - --args=--ignore-path "kit/azure/landingzones/au-cloud-native"
 
       - id: tfupdate
         name: tfupdate hashicorp/azuread
@@ -51,6 +53,8 @@ repos:
           - --args=--version "3.0.2"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
           - --args=--ignore-path "kit/.*/demos/.*"
+          - --args=--ignore-path "kit/azure/meshplatform-au"
+
 
       - id: tfupdate
         name: tfupdate hashicorp/aws
