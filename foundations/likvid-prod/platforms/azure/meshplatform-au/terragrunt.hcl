@@ -29,12 +29,6 @@ provider "azurerm" {
   tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
   subscription_id = "${include.platform.locals.platform.azure.subscriptionId}"
 }
-
-provider "azapi" {
-  skip_provider_registration = false
-  tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
-  subscription_id = "${include.platform.locals.platform.azure.subscriptionId}"
-}
 EOF
 }
 
