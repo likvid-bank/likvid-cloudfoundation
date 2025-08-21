@@ -81,10 +81,20 @@ inputs = {
     "arn:aws:organizations::${include.platform.locals.platform.aws.accountId}:ou/o-0asb1bd1jb/ou-rpqz-iq2j0zhi" # likvid-mobile OU
   ]
 
-  can_close_accounts_in_resource_org_paths = [
-    # Ideally this should be restricted to specific landing zones, but that results in a 400 error from AWS.
-    "${dependency.organization.outputs.org_id}/${dependency.organization.outputs.org_root_id}/*",
-  ]
+  can_close_accounts_with_tags = {
+    # for now, restrict closing to workspaces that had AWS tenants.
+    "wident" = [
+      "meshi-s-website",
+      "m25-platform",
+      "m25-cloud-native",
+      "likvid-operations",
+      "likvid-mobile",
+      "likvid-data-scie",
+      "devops-platform",
+      "cloud-foundation",
+      "backchannel-bank"
+    ]
+  }
 
   create_access_keys = true
 }
