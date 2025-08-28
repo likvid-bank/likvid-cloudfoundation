@@ -1,39 +1,26 @@
-data "ovh_me_identity_users" "users" {}
-
-data "ovh_me_identity_user" "user" {
-  for_each = toset(data.ovh_me_identity_users.users.users)
-  user     = each.value
-}
 locals {
   processed_users = {
-    for user in var.users : user.email => merge(user, {
-      login = split("@", user.email)[0],
-      group = "DEFAULT"
-    })
+    for user in var.users : user.email => user
   }
 
-  user_urns = {
-    for k, v in data.ovh_me_identity_user.user :
-    k => v.urn if v.group == "DEFAULT"
-  }
-
-  admin_urns = compact([
+  # For SAML federated users - correct URN format from logs
+  admin_urns = [
     for email, user in local.processed_users :
-    lookup(local.user_urns, user.login, null)
+    "urn:v1:eu:identity:user:${var.ovh_account_id}/provider/${user.email}"
     if contains(user.roles, "admin")
-  ])
+  ]
 
-  editor_urns = compact([
+  user_urns = [
     for email, user in local.processed_users :
-    lookup(local.user_urns, user.login, null)
-    if contains(user.roles, "editor")
-  ])
+    "urn:v1:eu:identity:user:${var.ovh_account_id}/provider/${user.email}"
+    if contains(user.roles, "user")
+  ]
 
-  reader_urns = compact([
+  reader_urns = [
     for email, user in local.processed_users :
-    lookup(local.user_urns, user.login, null)
+    "urn:v1:eu:identity:user:${var.ovh_account_id}/provider/${user.email}"
     if contains(user.roles, "reader")
-  ])
+  ]
 }
 
 data "ovh_me" "myaccount" {}
@@ -59,45 +46,70 @@ resource "ovh_cloud_project" "cloud_project" {
   }
 }
 
+# Admin: full access
 resource "ovh_iam_policy" "admin" {
   for_each    = length(local.admin_urns) > 0 ? { "admin" = true } : {}
   name        = "${var.workspace_id}-${var.project_id}-admin"
   description = "Administrator full access policy for ${var.workspace_id}-${var.project_id}"
   identities  = local.admin_urns
   resources   = [ovh_cloud_project.cloud_project.urn]
-  allow       = ["publicCloudProject:apiovh:*"]
-}
 
-resource "ovh_iam_policy" "editor" {
-  for_each    = length(local.editor_urns) > 0 ? { "editor" = true } : {}
-  name        = "${var.workspace_id}-${var.project_id}-editor"
-  description = "Editor access policy for ${var.workspace_id}-${var.project_id}"
-  identities  = local.editor_urns
-  resources   = [ovh_cloud_project.cloud_project.urn]
   allow = [
-    "publicCloudProject:apiovh:containerRegistry/*",
-    "publicCloudProject:apiovh:dataProcessing/notebooks/*",
-    "publicCloudProject:apiovh:dataProcessing/jobs/*",
-    "publicCloudProject:apiovh:rancher/*",
-    "publicCloudProject:apiovh:kubernetes/*",
-    "publicCloudProject:apiovh:instance/*",
-    "publicCloudProject:apiovh:storage/*"
+    "publicCloudProject:apiovh:*"
   ]
 }
 
+resource "ovh_iam_policy" "user" {
+  for_each    = length(local.user_urns) > 0 ? { "user" = true } : {}
+  name        = "${var.workspace_id}-${var.project_id}-user"
+  description = "User operate policy for ${var.workspace_id}-${var.project_id}"
+  identities  = local.user_urns
+  resources   = [ovh_cloud_project.cloud_project.urn]
+
+  # broad allow for operations
+  allow = [
+    "publicCloudProject:apiovh:*"
+  ]
+
+  # lock down risky stuff
+  except = [
+    # general
+    "publicCloudProject:apiovh:*/delete",
+    "publicCloudProject:apiovh:*/edit",
+    "publicCloudProject:apiovh:*iam/*",
+    "publicCloudProject:apiovh:user/*",
+    "publicCloudProject:apiovh:*role/*",
+    "publicCloudProject:apiovh:*confirmTermination",
+    "publicCloudProject:apiovh:*terminate",
+
+    # object storage deletes (explicit)
+    "publicCloudProject:apiovh:storage/delete",
+    "publicCloudProject:apiovh:region/storage/delete",
+    "publicCloudProject:apiovh:region/storage/object/delete",
+    "publicCloudProject:apiovh:region/storage/object/version/delete",
+    "publicCloudProject:apiovh:region/storage/bulkDeleteObjects",
+
+    # block assuming OpenStack roles (objectstoreOperator etc.)
+    "publicCloudProject:openstack:*"
+  ]
+
+  # belt & suspenders: hard deny
+  deny = [
+    "publicCloudProject:apiovh:*/delete",
+    "publicCloudProject:openstack:*"
+  ]
+}
+
+# Reader: read-only (GET)
 resource "ovh_iam_policy" "reader" {
   for_each    = length(local.reader_urns) > 0 ? { "reader" = true } : {}
   name        = "${var.workspace_id}-${var.project_id}-reader"
-  description = "Reader access policy for ${var.workspace_id}-${var.project_id}"
+  description = "Read-only access policy for ${var.workspace_id}-${var.project_id}"
   identities  = local.reader_urns
   resources   = [ovh_cloud_project.cloud_project.urn]
+
   allow = [
-    "publicCloudProject:apiovh:containerRegistry/get",
-    "publicCloudProject:apiovh:dataProcessing/notebooks/get",
-    "publicCloudProject:apiovh:dataProcessing/jobs/get",
-    "publicCloudProject:apiovh:rancher/get",
-    "publicCloudProject:apiovh:kube/get",
-    "publicCloudProject:apiovh:instance/get",
-    "publicCloudProject:apiovh:storage/get"
+    "publicCloudProject:apiovh:get",
+    "publicCloudProject:apiovh:*:get"
   ]
 }

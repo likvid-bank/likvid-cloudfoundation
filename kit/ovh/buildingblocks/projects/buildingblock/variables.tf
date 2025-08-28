@@ -8,8 +8,8 @@ variable "project_id" {
   description = "Projects last block in name"
 }
 
-variable "aws_account_id" {
-  description = "this is for the tfstates Backend. in our case AWS."
+variable "ovh_account_id" {
+  description = "OVH account ID for SAML URN construction"
   type        = string
 }
 

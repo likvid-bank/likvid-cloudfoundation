@@ -30,11 +30,6 @@ variable "parent_container_id" {
   description = "The stackit Cloud parent container id for the project"
 }
 
-variable "aws_account_id" {
-  description = "this is for the tfstates Backend. in our case AWS."
-  type        = string
-}
-
 variable "users" {
   type = list(object(
     {
