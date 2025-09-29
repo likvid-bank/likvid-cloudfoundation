@@ -114,3 +114,24 @@ resource "aws_ssoadmin_account_assignment" "admin" {
   target_id   = split("|", each.key)[1]
   target_type = "AWS_ACCOUNT"
 }
+
+resource "aws_organizations_policy" "deny_cloudtrail_deactivation" {
+  name        = "DenyDisableCloudTrail"
+  description = "deny deactivation of cloud trail"
+  content     = <<POLICY
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "cloudtrail:StopLogging",
+                "cloudtrail:DeleteTrail"
+            ],
+            "Resource": "*",
+            "Effect": "Deny"
+        }
+    ]
+}
+POLICY
+  type        = "SERVICE_CONTROL_POLICY"
+}

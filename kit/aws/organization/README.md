@@ -33,6 +33,7 @@ No modules.
 | [aws_organizations_organizational_unit.landingzones](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
 | [aws_organizations_organizational_unit.management](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
 | [aws_organizations_organizational_unit.parent](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
+| [aws_organizations_policy.deny_cloudtrail_deactivation](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_policy) | resource |
 | [aws_ssoadmin_account_assignment.admin](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/ssoadmin_account_assignment) | resource |
 | [aws_identitystore_user.users](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/data-sources/identitystore_user) | data source |
 | [aws_organizations_organization.org](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/data-sources/organizations_organization) | data source |
