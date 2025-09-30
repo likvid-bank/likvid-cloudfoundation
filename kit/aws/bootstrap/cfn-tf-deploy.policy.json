@@ -11,6 +11,13 @@
     {
       "Effect": "Allow",
       "Action": [
+        "cloudtrail:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
         "organizations:*"
       ],
       "Resource": "*"
