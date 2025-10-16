@@ -31,7 +31,6 @@ This documentation is intended as a reference documentation for cloud foundation
 | Name | Type |
 |------|------|
 | [meshstack_building_block_v2.m25_online_banking_app_docs](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/building_block_v2) | resource |
-| [meshstack_building_block_v2.m25_online_banking_app_repo](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/building_block_v2) | resource |
 | [meshstack_project.buildingblocks-testing](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
 | [meshstack_project.likvid_gov_guard_dev](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
 | [meshstack_project.likvid_gov_guard_prod](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
@@ -50,6 +49,8 @@ This documentation is intended as a reference documentation for cloud foundation
 | [meshstack_tenant.likvid_gov_guard_prod](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
 | [meshstack_tenant.quickstart_aws](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
 | [meshstack_tenant.static-website-assets](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
+| [meshstack_tenant_v4.quickstart_azure](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant_v4) | resource |
+| [meshstack_tenant_v4.quickstart_gcp](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant_v4) | resource |
 | [terraform_data.meshobjects_import](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
 
 ## Inputs

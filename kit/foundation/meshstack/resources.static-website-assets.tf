@@ -70,27 +70,6 @@ resource "meshstack_building_block_v2" "m25_online_banking_app_docs" {
   }
 }
 
-resource "meshstack_building_block_v2" "m25_online_banking_app_repo" {
-  spec = {
-    display_name = "m25-online-banking"
-
-    target_ref = {
-      kind       = "meshWorkspace"
-      identifier = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.metadata.name
-    }
-
-    building_block_definition_version_ref = {
-      uuid = "4a09ae7f-df0b-4f24-9704-1b5fed0437f6"
-    }
-
-    inputs = {
-      repo_name  = { value_string = "m25-online-banking" }
-      repo_owner = { value_string = "JohannesRudolph" } # not perfect but the current definition version requires this as we don't have support for optional inputs yet
-    }
-  }
-}
-
-
 module "demo_gitops" {
   source = "./demos/gitops"
 

@@ -26,9 +26,9 @@ EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/collie-hub.git//kit/aws/buildingblocks/s3_bucket/buildingblock?ref=v0.5.5"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/aws/s3_bucket/buildingblock?ref=dae10261fe831dcc00a3a9a4fc6b3b00d9018da3"
 }
 
 inputs = {
-  bucket_name = "s3-bucket-bb-terragrunt-test-likvid" # used for testing
+  # defined in the test
 }

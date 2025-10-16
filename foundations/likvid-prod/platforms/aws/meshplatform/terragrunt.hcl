@@ -83,7 +83,7 @@ inputs = {
 
   can_close_accounts_with_tags = {
     # for now, restrict closing to workspaces that had AWS tenants.
-    "wident" = [
+    "meshstack_wident" = [
       "meshi-s-website",
       "m25-platform",
       "m25-cloud-native",
