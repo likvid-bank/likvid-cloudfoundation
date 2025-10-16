@@ -2,7 +2,7 @@
 
 ${md_workspace_m25_platform_team} wants to start offering AWS services to application teams through meshStack's building blocks functionality. To try it out first, they have decided to start small, and provide a simple S3 bucket to consumers.
 
-They start their journey by checking out [AWS Building Block Quickstart Guide](https://docs.meshcloud.io/docs/meshstack.building-aws-quickstart-guide.html), and ensure they meet all the listed prerequisites.
+They start their journey by checking out [AWS Building Block Quickstart Guide](https://docs.meshcloud.io/getting-started/building-aws-quickstart-guide/), and ensure they meet all the listed prerequisites.
 
 ## AWS Account Pre-requisites
 
@@ -12,4 +12,4 @@ In the created AWS account, they create an IAM user with necessary permissions f
 
 ## Conclusion
 
-Now that they have all prerequisites ready, they continue following the [AWS Building Block Quickstart Guide](https://docs.meshcloud.io/docs/meshstack.building-aws-quickstart-guide.html)
+Now that they have all prerequisites ready, they continue following the [AWS Building Block Quickstart Guide](https://docs.meshcloud.io/getting-started/building-aws-quickstart-guide/)
