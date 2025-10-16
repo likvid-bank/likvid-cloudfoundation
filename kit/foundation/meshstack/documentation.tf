@@ -211,6 +211,12 @@ locals {
     meshstack_tenant_quickstart_aws_spec_landing_zone_identifier = meshstack_tenant.quickstart_aws.spec.landing_zone_identifier,
     meshstack_tenant_quickstart_aws_spec_local_id                = meshstack_tenant.quickstart_aws.spec.local_id,
 
+    # Quickstart Azure
+    meshstack_tenant_quickstart_azure_spec_local_id = meshstack_tenant_v4.quickstart_azure.spec.platform_tenant_id
+
+    # Quickstart GCP
+    meshstack_tenant_quickstart_gcp_spec_local_id = meshstack_tenant_v4.quickstart_gcp.spec.platform_tenant_id
+
     # API and platform URLs for demo stories
     meshstack_api_url = var.meshstack_api.endpoint,
     meshpanel_url     = var.meshpanel_base_url
