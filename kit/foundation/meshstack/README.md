@@ -18,7 +18,8 @@ This documentation is intended as a reference documentation for cloud foundation
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 3.0.2 |
 | <a name="requirement_github"></a> [github](#requirement\_github) | 5.42.0 |
-| <a name="requirement_meshstack"></a> [meshstack](#requirement\_meshstack) | ~> 0.8.0 |
+| <a name="requirement_meshstack"></a> [meshstack](#requirement\_meshstack) | ~> 0.12.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | 3.6.0 |
 
 ## Modules
 
@@ -51,6 +52,7 @@ This documentation is intended as a reference documentation for cloud foundation
 | [meshstack_tenant.static-website-assets](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
 | [meshstack_tenant_v4.quickstart_azure](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant_v4) | resource |
 | [meshstack_tenant_v4.quickstart_gcp](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant_v4) | resource |
+| [random_id.bucket_id](https://registry.terraform.io/providers/hashicorp/random/3.6.0/docs/resources/id) | resource |
 | [terraform_data.meshobjects_import](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
 
 ## Inputs

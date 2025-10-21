@@ -9,12 +9,16 @@ terraform {
 
     meshstack = {
       source  = "meshcloud/meshstack"
-      version = "~> 0.8.0"
+      version = "~> 0.12.0"
     }
 
     github = {
       source  = "integrations/github"
       version = "5.42.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.6.0"
     }
   }
 }

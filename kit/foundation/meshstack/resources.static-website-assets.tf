@@ -50,9 +50,13 @@ resource "meshstack_project_user_binding" "static_website_assets_project_admins"
 }
 
 ## Application Team
+resource "random_id" "bucket_id" {
+  byte_length = 4
+}
+
 resource "meshstack_building_block_v2" "m25_online_banking_app_docs" {
   spec = {
-    display_name = "docs website"
+    display_name = "Docs Website"
 
     target_ref = {
       kind       = "meshWorkspace"
@@ -64,8 +68,7 @@ resource "meshstack_building_block_v2" "m25_online_banking_app_docs" {
     }
 
     inputs = {
-      # note: bucket names must be globally unique, we probably should use random ids here
-      bucket_name = { value_string = "likvid-docs-website" }
+      bucket_name = { value_string = "likvid-docs-website-${random_id.bucket_id.hex}" }
     }
   }
 }

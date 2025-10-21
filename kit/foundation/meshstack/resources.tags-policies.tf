@@ -5,10 +5,6 @@ import {
   to = meshstack_tag_definition.security_contact
 }
 
-# !!!! NOTE: currently the replicationKey setting is not supported by the tf provider, so you have to manually
-# enable the replication key in the meshPanel UI after applying this resource.
-# see https://github.com/meshcloud/terraform-provider-meshstack/issues/30
-
 resource "meshstack_tag_definition" "security_contact" {
   spec = {
     target_kind = "meshWorkspace"
@@ -16,15 +12,12 @@ resource "meshstack_tag_definition" "security_contact" {
 
     display_name = "Security Contact"
 
+    replication_key = "SecurityContact"
+
     value_type = {
       # todo: should this been an email address instead? switching type is currently not allowed
       # see https://meshcloud.canny.io/feature-requests/p/support-change-of-tag-type
-      string = {
-        # these have to be empty strings, not null due to https://github.com/meshcloud/terraform-provider-meshstack/issues/37
-        validation_regex = "",
-        default_value    = ""
-
-      }
+      string = {}
     }
 
     description = "Define a person or group inbox to be contacted in case of security findings or incidents."
@@ -46,6 +39,8 @@ resource "meshstack_tag_definition" "BusinessUnit" {
     key         = "BusinessUnit"
 
     display_name = "Business Unit"
+
+    replication_key = "BusinessUnit"
 
     value_type = {
       single_select = {
