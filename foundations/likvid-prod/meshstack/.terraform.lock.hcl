@@ -62,7 +62,7 @@ provider "registry.opentofu.org/integrations/github" {
 
 provider "registry.opentofu.org/meshcloud/meshstack" {
   version     = "0.12.0"
-  constraints = "~> 0.12.0"
+  constraints = "0.12.0"
   hashes = [
     "h1:PUKn7PxHCx/PKlSowNrxalo9PTOTlZVxEiajv/G8Yuw=",
     "zh:0858f2bd8bc5d6e3b625a7a78607646df16eac847ec05fff3f5b57940561d6f2",

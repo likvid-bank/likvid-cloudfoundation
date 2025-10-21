@@ -6,6 +6,14 @@ dependency "aws_bootstrap" {
   config_path = "../platforms/aws/bootstrap"
 }
 
+dependency "azure_meshplatform" {
+  config_path = "../platforms/azure/meshplatform"
+}
+
+dependency "azure_sandbox_landingzone" {
+  config_path = "../platforms/azure/landingzones/sandbox"
+}
+
 terraform {
   source = "${get_repo_root()}//kit/foundation/meshstack"
 
@@ -103,4 +111,52 @@ inputs = {
     aws_identity_store_id    = dependency.aws_bootstrap.outputs.identity_store_id
     gha_aws_role_to_assume   = "arn:aws:iam::702461728527:role/likvid-static-website-assets-github-action-role"
   }
+
+  # Uncomment to enable Azure M25 platform setup
+  azure_m25_platform = {
+    platform_identifier = "azure-m25"
+    display_name        = "Azure M25"
+    description         = "Microsoft Azure cloud platform managed by the M25 Platform Team. Provides access to Azure services with M25-specific governance and policies."
+    documentation_url   = "https://likvid-bank.github.io/likvid-cloudfoundation/platforms/azure/meshplatform.html"
+    location_ref_name   = "meshcloud-azure-dev" # Reference to a meshLocation defined in meshStack
+
+    tenant_id            = dependency.azure_meshplatform.outputs.azure_ad_tenant_id
+    replicator_auth_type = "WORKLOAD_IDENTITY"
+    replicator_client_id = dependency.azure_meshplatform.outputs.replicator_credentials.Application_Client_ID
+    replicator_object_id = dependency.azure_meshplatform.outputs.replicator_credentials.Enterprise_Application_Object_ID
+
+    subscription_owner_object_ids = [
+      # todo: should be changed to a group instead of replicator object ID
+      dependency.azure_meshplatform.outputs.replicator_credentials.Enterprise_Application_Object_ID
+    ]
+
+    subscription_name_pattern = "#{workspaceIdentifier}.#{projectIdentifier}"
+    group_name_pattern        = "#{workspaceIdentifier}.#{projectIdentifier}-#{platformGroupAlias}"
+
+    azure_role_mappings = [
+      {
+        project_role_ref = { name = "admin" }
+        azure_role       = { alias = "Owner", id = "8e3af657-a8ff-443c-a75c-2fe8c4bcb635" }
+      },
+      {
+        project_role_ref = { name = "user" }
+        azure_role       = { alias = "Contributor", id = "b24988ac-6180-42a0-ab88-20f7382dd24c" }
+      },
+      {
+        project_role_ref = { name = "reader" }
+        azure_role       = { alias = "Reader", id = "acdd72a7-3385-48ef-bd42-f606fba81ae7" }
+      }
+    ]
+
+    sandbox_landing_zone = {
+      identifier                    = "azure-m25-sandbox"
+      display_name                  = "Azure M25 Sandbox"
+      description                   = "Sandbox environment for M25 developers to experiment with Azure services"
+      parent_management_group_id    = basename(dependency.azure_sandbox_landingzone.outputs.sandbox_id)
+      automate_deletion_approval    = false
+      automate_deletion_replication = false
+    }
+  }
 }
+
+
