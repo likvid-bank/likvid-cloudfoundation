@@ -7,10 +7,6 @@ include "platform" {
   expose = true
 }
 
-dependency "bootstrap" {
-  config_path = "../../bootstrap"
-}
-
 dependency "organization-hierarchy" {
   config_path = "../../organization-hierarchy"
 }

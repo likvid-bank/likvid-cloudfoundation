@@ -147,6 +147,8 @@ locals {
 
     md_project_sap_core_platform = "[${meshstack_project.sap_core_platform.spec.display_name}](${var.meshpanel_base_url}/#/w/${meshstack_project.sap_core_platform.metadata.owned_by_workspace}/p/${meshstack_project.sap_core_platform.metadata.name})",
 
+    md_platform_azure_m25 = local.azure_m25_enabled ? "[${nonsensitive(var.azure_m25_platform.display_name)}](${var.meshpanel_base_url}/#/admin/platforms/${nonsensitive(meshstack_platform.azure_m25[0].metadata.name)})" : "Azure M25",
+
     tags_BusinessUnit    = local.tags.BusinessUnit,
     tags_SecurityContact = local.tags.SecurityContact,
 

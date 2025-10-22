@@ -7,10 +7,6 @@ include "platform" {
   expose = true
 }
 
-dependency "bootstrap" {
-  config_path = "../bootstrap"
-}
-
 terraform {
   source = "${get_repo_root()}//kit/azure/organization-hierarchy"
 }

@@ -24,6 +24,9 @@ jobs:
       MESHSTACK_API_PASSWORD: ${{ secrets.MESHSTACK_API_PASSWORD }}
       GITHUB_APP_PEM_FILE: ${{ secrets.ACTIONS_GITHUB_APP_PEM_FILE }} # required for the github terraform provider
 
+      ARM_USE_OIDC: true
+      ARM_CLIENT_ID: ${{ vars.azure_client_id }}
+
     steps:
       - uses: actions/checkout@v4
 

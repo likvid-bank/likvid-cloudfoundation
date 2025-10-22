@@ -18,7 +18,7 @@ This documentation is intended as a reference documentation for cloud foundation
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 3.0.2 |
 | <a name="requirement_github"></a> [github](#requirement\_github) | 5.42.0 |
-| <a name="requirement_meshstack"></a> [meshstack](#requirement\_meshstack) | ~> 0.12.0 |
+| <a name="requirement_meshstack"></a> [meshstack](#requirement\_meshstack) | 0.12.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | 3.6.0 |
 
 ## Modules
@@ -31,27 +31,29 @@ This documentation is intended as a reference documentation for cloud foundation
 
 | Name | Type |
 |------|------|
-| [meshstack_building_block_v2.m25_online_banking_app_docs](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/building_block_v2) | resource |
-| [meshstack_project.buildingblocks-testing](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
-| [meshstack_project.likvid_gov_guard_dev](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
-| [meshstack_project.likvid_gov_guard_prod](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
-| [meshstack_project.quickstart](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
-| [meshstack_project.sap_core_platform](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
-| [meshstack_project.static-website-assets](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |
-| [meshstack_project_user_binding.likvid_gov_guard_dev_project_admins](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project_user_binding) | resource |
-| [meshstack_project_user_binding.likvid_gov_guard_prod_project_admins](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project_user_binding) | resource |
-| [meshstack_project_user_binding.sap_core_platform_project_admins](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project_user_binding) | resource |
-| [meshstack_project_user_binding.static_website_assets_project_admins](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project_user_binding) | resource |
-| [meshstack_tag_definition.BusinessUnit](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tag_definition) | resource |
-| [meshstack_tag_definition.security_contact](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tag_definition) | resource |
-| [meshstack_tenant.buildingblocks-testing-aws](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
-| [meshstack_tenant.buildingblocks-testing-gcp](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
-| [meshstack_tenant.likvid_gov_guard_dev](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
-| [meshstack_tenant.likvid_gov_guard_prod](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
-| [meshstack_tenant.quickstart_aws](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
-| [meshstack_tenant.static-website-assets](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant) | resource |
-| [meshstack_tenant_v4.quickstart_azure](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant_v4) | resource |
-| [meshstack_tenant_v4.quickstart_gcp](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/tenant_v4) | resource |
+| [meshstack_building_block_v2.m25_online_banking_app_docs](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/building_block_v2) | resource |
+| [meshstack_landingzone.azure_m25_sandbox](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/landingzone) | resource |
+| [meshstack_platform.azure_m25](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/platform) | resource |
+| [meshstack_project.buildingblocks-testing](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/project) | resource |
+| [meshstack_project.likvid_gov_guard_dev](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/project) | resource |
+| [meshstack_project.likvid_gov_guard_prod](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/project) | resource |
+| [meshstack_project.quickstart](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/project) | resource |
+| [meshstack_project.sap_core_platform](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/project) | resource |
+| [meshstack_project.static-website-assets](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/project) | resource |
+| [meshstack_project_user_binding.likvid_gov_guard_dev_project_admins](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/project_user_binding) | resource |
+| [meshstack_project_user_binding.likvid_gov_guard_prod_project_admins](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/project_user_binding) | resource |
+| [meshstack_project_user_binding.sap_core_platform_project_admins](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/project_user_binding) | resource |
+| [meshstack_project_user_binding.static_website_assets_project_admins](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/project_user_binding) | resource |
+| [meshstack_tag_definition.BusinessUnit](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/tag_definition) | resource |
+| [meshstack_tag_definition.security_contact](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/tag_definition) | resource |
+| [meshstack_tenant.buildingblocks-testing-aws](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/tenant) | resource |
+| [meshstack_tenant.buildingblocks-testing-gcp](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/tenant) | resource |
+| [meshstack_tenant.likvid_gov_guard_dev](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/tenant) | resource |
+| [meshstack_tenant.likvid_gov_guard_prod](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/tenant) | resource |
+| [meshstack_tenant.quickstart_aws](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/tenant) | resource |
+| [meshstack_tenant.static-website-assets](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/tenant) | resource |
+| [meshstack_tenant_v4.quickstart_azure](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/tenant_v4) | resource |
+| [meshstack_tenant_v4.quickstart_gcp](https://registry.terraform.io/providers/meshcloud/meshstack/0.12.0/docs/resources/tenant_v4) | resource |
 | [random_id.bucket_id](https://registry.terraform.io/providers/hashicorp/random/3.6.0/docs/resources/id) | resource |
 | [terraform_data.meshobjects_import](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
 
@@ -59,6 +61,7 @@ This documentation is intended as a reference documentation for cloud foundation
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_azure_m25_platform"></a> [azure\_m25\_platform](#input\_azure\_m25\_platform) | Configuration for Azure M25 platform and landing zones | <pre>object({<br/>    platform_identifier           = string<br/>    display_name                  = string<br/>    description                   = string<br/>    documentation_url             = string<br/>    location_ref_name             = string<br/>    tenant_id                     = string<br/>    replicator_auth_type          = string # Either "CREDENTIALS" or "WORKLOAD_IDENTITY"<br/>    replicator_client_id          = string<br/>    replicator_client_secret      = optional(string) # Only required if auth_type is "CREDENTIALS"<br/>    replicator_object_id          = string<br/>    subscription_owner_object_ids = list(string)<br/>    subscription_name_pattern     = string<br/>    group_name_pattern            = string<br/>    azure_role_mappings = list(object({<br/>      project_role_ref = object({<br/>        name = string<br/>      })<br/>      azure_role = object({<br/>        alias = string<br/>        id    = string<br/>      })<br/>    }))<br/>    sandbox_landing_zone = object({<br/>      identifier                    = string<br/>      display_name                  = string<br/>      description                   = optional(string, "Sandbox environment for M25 developers")<br/>      parent_management_group_id    = string<br/>      automate_deletion_approval    = optional(bool, false)<br/>      automate_deletion_replication = optional(bool, false)<br/>      # Reuse the platform's role mappings for the landing zone<br/>    })<br/>  })</pre> | `null` | no |
 | <a name="input_demo_gitops"></a> [demo\_gitops](#input\_demo\_gitops) | Configuration for the static website assets demos | <pre>object({<br/>    repository               = string,<br/>    meshstack_api_key_id     = string,<br/>    meshstack_api_key_secret = string<br/>    aws_sso_instance_arn     = string,<br/>    aws_identity_store_id    = string,<br/>    gha_aws_role_to_assume   = string<br/>  })</pre> | n/a | yes |
 | <a name="input_meshpanel_base_url"></a> [meshpanel\_base\_url](#input\_meshpanel\_base\_url) | Base URL of the meshPanel | `string` | n/a | yes |
 | <a name="input_meshstack_api"></a> [meshstack\_api](#input\_meshstack\_api) | API user with access to meshStack | <pre>object({<br/>    endpoint = string,<br/>    username = string,<br/>    password = string<br/>  })</pre> | n/a | yes |
