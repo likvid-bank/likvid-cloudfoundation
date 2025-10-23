@@ -39,10 +39,8 @@ locals {
   platform_engineers_emails = [
     "jrudolph@meshcloud.io",
     "fnowarre@meshcloud.io",
-    "pmoore@meshcloud.io",
     "jdburger@meshcloud.io",
     "malhussan@meshcloud.io",
-    "fzieger@meshcloud.io",
     "hdettmer@meshcloud.io",
   ]
 
