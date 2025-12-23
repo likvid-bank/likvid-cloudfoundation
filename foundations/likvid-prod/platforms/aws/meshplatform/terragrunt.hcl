@@ -82,17 +82,18 @@ inputs = {
   ]
 
   can_close_accounts_with_tags = {
-    # for now, restrict closing to workspaces that had AWS tenants.
-    "meshstack_wident" = [
-      "meshi-s-website",
-      "m25-platform",
+    "meshstack_lzident" = [
+      "sandbox-landing-zone",
       "m25-cloud-native",
-      "likvid-operations",
-      "likvid-mobile",
-      "likvid-data-scie",
-      "devops-platform",
-      "cloud-foundation",
-      "backchannel-bank"
+      "likvid-aws-prod",
+      "likvid-aws-onprem-prod",
+      "likvid-aws-onprem-dev",
+      "likvid-aws-dev",
+      "lift-and-shift-landing-zone-with-connection-to-on-prem",
+      "idp-prod",
+      "idp-landing-zone-dev",
+      "meshcloud-demo-stackset",
+      "bedrock"
     ]
   }
 
