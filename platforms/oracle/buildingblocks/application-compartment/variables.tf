@@ -23,6 +23,11 @@ variable "project_id" {
   description = "Project identifier (e.g., application name)"
 }
 
+variable "region" {
+  type        = string
+  description = "OCI region identifier (e.g., eu-frankfurt-1, us-ashburn-1)"
+}
+
 variable "users" {
   description = "List of users from authoritative system"
   type = list(object({

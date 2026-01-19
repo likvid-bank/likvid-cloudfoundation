@@ -42,3 +42,8 @@ output "policy_id" {
   description = "OCID of the access policy"
   value       = oci_identity_policy.application.id
 }
+
+output "console_url" {
+  value = "https://console.eu-frankfurt-1.oraclecloud.com/?tenant=${var.tenancy_name}&region=${var.region}&compartmentId=${oci_identity_compartment.
+  application.id}"
+}
