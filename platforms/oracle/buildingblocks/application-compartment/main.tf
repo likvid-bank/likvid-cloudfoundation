@@ -57,13 +57,13 @@ resource "oci_identity_policy" "application" {
   description    = "Access policies for ${local.compartment_name}"
 
   statements = [
-    "Allow group ${oci_identity_group.readers.name} to read all-resources in compartment ${oci_identity_compartment.application.name}",
-    "Allow group ${oci_identity_group.users.name} to manage instance-family in compartment ${oci_identity_compartment.application.name}",
-    "Allow group ${oci_identity_group.users.name} to manage virtual-network-family in compartment ${oci_identity_compartment.application.name}",
-    "Allow group ${oci_identity_group.users.name} to manage volume-family in compartment ${oci_identity_compartment.application.name}",
-    "Allow group ${oci_identity_group.users.name} to manage object-family in compartment ${oci_identity_compartment.application.name}",
-    "Allow group ${oci_identity_group.users.name} to manage load-balancers in compartment ${oci_identity_compartment.application.name}",
-    "Allow group ${oci_identity_group.users.name} to read all-resources in compartment ${oci_identity_compartment.application.name}",
-    "Allow group ${oci_identity_group.admins.name} to manage all-resources in compartment ${oci_identity_compartment.application.name}",
+    "Allow group ${oci_identity_group.readers.name} to read all-resources in compartment id ${oci_identity_compartment.application.id}",
+    "Allow group ${oci_identity_group.users.name} to manage instance-family in compartment id ${oci_identity_compartment.application.id}",
+    "Allow group ${oci_identity_group.users.name} to manage virtual-network-family in compartment id ${oci_identity_compartment.application.id}",
+    "Allow group ${oci_identity_group.users.name} to manage volume-family in compartment id ${oci_identity_compartment.application.id}",
+    "Allow group ${oci_identity_group.users.name} to manage object-family in compartment id ${oci_identity_compartment.application.id}",
+    "Allow group ${oci_identity_group.users.name} to manage load-balancers in compartment id ${oci_identity_compartment.application.id}",
+    "Allow group ${oci_identity_group.users.name} to read all-resources in compartment id ${oci_identity_compartment.application.id}",
+    "Allow group ${oci_identity_group.admins.name} to manage all-resources in compartment id ${oci_identity_compartment.application.id}",
   ]
 }
