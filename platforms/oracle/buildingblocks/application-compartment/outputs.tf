@@ -44,6 +44,6 @@ output "policy_id" {
 }
 
 output "console_url" {
-  value = "https://console.eu-frankfurt-1.oraclecloud.com/?tenant=${var.tenancy_name}&region=${var.region}&compartmentId=${oci_identity_compartment.
-  application.id}"
+  description = "OCI Console URL for direct access to the compartment"
+  value       = "https://console.${var.region}.oraclecloud.com/?region=${var.region}&compartmentId=${oci_identity_compartment.application.id}"
 }
