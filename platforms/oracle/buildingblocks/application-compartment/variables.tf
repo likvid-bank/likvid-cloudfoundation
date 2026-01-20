@@ -3,10 +3,11 @@ variable "tenancy_ocid" {
   description = "OCID of the OCI tenancy"
 }
 
-variable "parent_compartment_id" {
-  type        = string
-  description = "OCID of the parent compartment where the application compartment will be created"
-}
+# variable "parent_compartment_id" {
+#   type        = string
+#   description = "DEPRECATED: Use tag_relations variable instead. This is kept for backwards compatibility."
+#   default     = ""
+# }
 
 variable "foundation" {
   type        = string
@@ -41,3 +42,36 @@ variable "users" {
   }))
   default = []
 }
+
+variable "tag_relations" {
+  type        = string
+  description = "YAML configuration for tag-based compartment mapping"
+  default     = <<-EOT
+    # meshStack tag names to read
+    tag_names:
+      environment: "Environment"
+      landing_zone: "landingzone_family"
+
+    # Landing zone configurations
+    landing_zones:
+      # Sandbox: single compartment for all environments
+      sandbox:
+        compartment_id: "ocid1.compartment.oc1..aaaaaaaa...sandbox"
+      
+      # Cloud-native: per-environment compartments
+      cloud-native:
+        environments:
+          dev:
+            compartment_id: "ocid1.compartment.oc1..aaaaaaaa...cloudnative-dev"
+          qa:
+            compartment_id: "ocid1.compartment.oc1..aaaaaaaa...cloudnative-qa"
+          test:
+            compartment_id: "ocid1.compartment.oc1..aaaaaaaa...cloudnative-test"
+          prod:
+            compartment_id: "ocid1.compartment.oc1..aaaaaaaa...cloudnative-prod"
+
+    # Fallback if no match
+    default_compartment_id: "ocid1.compartment.oc1..aaaaaaaa...default"
+  EOT
+}
+

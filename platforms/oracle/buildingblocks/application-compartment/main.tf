@@ -1,8 +1,35 @@
+data "meshstack_project" "project" {
+  metadata = {
+    name               = var.project_id
+    owned_by_workspace = var.workspace_id
+  }
+}
+
 data "oci_identity_users" "all_users" {
   compartment_id = var.tenancy_ocid
 }
 
 locals {
+  config = yamldecode(var.tag_relations)
+
+  project_tags = data.meshstack_project.project.spec.tags
+  environment  = try(local.project_tags[local.config.tag_names.environment][0], "")
+  landing_zone = try(local.project_tags[local.config.tag_names.landing_zone][0], "")
+
+  landing_zone_config = try(local.config.landing_zones[local.landing_zone], null)
+  
+  has_environments = local.landing_zone_config != null ? can(local.landing_zone_config.environments) : false
+  
+  selected_parent_compartment_id = (
+    local.landing_zone_config != null
+    ? (
+      local.has_environments
+      ? try(local.landing_zone_config.environments[lower(local.environment)].compartment_id, local.config.default_compartment_id)
+      : local.landing_zone_config.compartment_id
+    )
+    : local.config.default_compartment_id
+  )
+
   compartment_name = "${var.foundation}-${var.workspace_id}-${var.project_id}"
 
   user_ocid_map = {
@@ -16,9 +43,9 @@ locals {
 }
 
 resource "oci_identity_compartment" "application" {
-  compartment_id = var.parent_compartment_id
+  compartment_id = local.selected_parent_compartment_id
   name           = local.compartment_name
-  description    = "Application compartment for ${var.workspace_id}/${var.project_id}"
+  description    = "Application compartment for ${var.workspace_id}/${var.project_id} [${local.landing_zone}${local.environment != "" ? "/${local.environment}" : ""}]"
 }
 
 resource "oci_identity_group" "readers" {
