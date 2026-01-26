@@ -33,7 +33,7 @@ output "manual_setup_instructions" {
   value       = <<-EOT
     ⚠️  MANUAL SETUP REQUIRED ⚠️
 
-    Due to OCI Terraform Provider Bug #2072, the Identity Provider must be created manually.
+    Due to OCI Terraform Provider Bug #2072 (https://github.com/oracle/terraform-provider-oci/issues/2072), the Identity Provider must be created manually.
 
     STEP 1: Download Azure AD Metadata
       URL: ${module.azuread_saml_app.saml_metadata_url}
