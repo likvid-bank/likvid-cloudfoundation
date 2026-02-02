@@ -28,13 +28,13 @@ EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/meshstack-hub.git//modules/aws/s3_bucket/backplane?ref=dae10261fe831dcc00a3a9a4fc6b3b00d9018da3"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/aws/s3_bucket/backplane?ref=6e683a081f3c4f7cd584afd7faebddb8277e1ae1"
 }
 
 inputs = {
   workload_identity_federation = {
     issuer   = "https://container.googleapis.com/v1/projects/meshcloud-meshcloud--bc0/locations/europe-west1/clusters/meshstacks-ha"
     audience = "aws-workload-identity-provider:meshcloud-demo"
-    subject  = "system:serviceaccount:meshcloud-demo:tfrunner-66ddc814-1e69-4dad-b5f1-3a5bce51c01f"
+    subjects = ["system:serviceaccount:meshcloud-demo:workspace.m25-platform.buildingblockdefinition.2599ac45-0cd7-4f19-9b8a-490df6654833"]
   }
 }
