@@ -21,7 +21,7 @@ This documentation is intended as a reference documentation for cloud foundation
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_meshplatform"></a> [meshplatform](#module\_meshplatform) | meshcloud/meshplatform/aws | 0.4.0 |
+| <a name="module_meshplatform"></a> [meshplatform](#module\_meshplatform) | meshcloud/meshplatform/aws | 0.5.1 |
 
 ## Resources
 
@@ -33,7 +33,7 @@ No resources.
 |------|-------------|------|---------|:--------:|
 | <a name="input_automation_account_service_role_name"></a> [automation\_account\_service\_role\_name](#input\_automation\_account\_service\_role\_name) | Name of the custom role in the automation account. See https://docs.meshcloud.io/docs/meshstack.how-to.integrate-meshplatform-aws-manually.html#set-up-aws-account-3-automation | `string` | `"MeshfedAutomationRole"` | no |
 | <a name="input_aws_sso_instance_arn"></a> [aws\_sso\_instance\_arn](#input\_aws\_sso\_instance\_arn) | AWS SSO Instance ARN. Needs to be of the form arn:aws:sso:::instance/ssoins-xxxxxxxxxxxxxxx. Setup instructions https://docs.meshcloud.io/docs/meshstack.aws.sso-setup.html. | `string` | n/a | yes |
-| <a name="input_can_close_accounts_in_resource_org_paths"></a> [can\_close\_accounts\_in\_resource\_org\_paths](#input\_can\_close\_accounts\_in\_resource\_org\_paths) | AWS ResourceOrgPaths that are used in Landing Zones and where meshStack is allowed to close accounts. | `list(string)` | `[]` | no |
+| <a name="input_can_close_accounts_with_tags"></a> [can\_close\_accounts\_with\_tags](#input\_can\_close\_accounts\_with\_tags) | Map of tag keys to lists of tag values that restrict account closure. If not set or empty, accounts can be closed without tag-based restrictions. Example: { "Environment" = ["dev", "staging"], "Team" = ["platform"] } | `map(list(string))` | `{}` | no |
 | <a name="input_control_tower_enrollment_enabled"></a> [control\_tower\_enrollment\_enabled](#input\_control\_tower\_enrollment\_enabled) | Set to true, to allow meshStack to enroll Accounts via AWS Control Tower for the meshPlatform. | `bool` | `false` | no |
 | <a name="input_control_tower_portfolio_id"></a> [control\_tower\_portfolio\_id](#input\_control\_tower\_portfolio\_id) | Must be set for AWS Control Tower | `string` | `""` | no |
 | <a name="input_cost_explorer_management_account_service_role_name"></a> [cost\_explorer\_management\_account\_service\_role\_name](#input\_cost\_explorer\_management\_account\_service\_role\_name) | Name of the custom role in the management account used by the cost explorer user. | `string` | `"MeshCostExplorerServiceRole"` | no |
@@ -45,7 +45,7 @@ No resources.
 | <a name="input_meshcloud_account_service_user_name"></a> [meshcloud\_account\_service\_user\_name](#input\_meshcloud\_account\_service\_user\_name) | Name of the meshfed-service user. This user is responsible for replication. | `string` | `"meshfed-service-user"` | no |
 | <a name="input_replicator_privileged_external_id"></a> [replicator\_privileged\_external\_id](#input\_replicator\_privileged\_external\_id) | Set this variable to a random UUID version 4. The external id is a secondary key to make an AssumeRole API call. | `string` | n/a | yes |
 | <a name="input_support_root_account_via_aws_sso"></a> [support\_root\_account\_via\_aws\_sso](#input\_support\_root\_account\_via\_aws\_sso) | Set to true to allow meshStack to manage the Organization's AWS Root account's access via AWS SSO. | `bool` | `false` | no |
-| <a name="input_workload_identity_federation"></a> [workload\_identity\_federation](#input\_workload\_identity\_federation) | n/a | <pre>object({<br>    issuer             = string,<br>    audience           = string,<br>    thumbprint         = string,<br>    replicator_subject = string,<br>    kraken_subject     = string<br>  })</pre> | `null` | no |
+| <a name="input_workload_identity_federation"></a> [workload\_identity\_federation](#input\_workload\_identity\_federation) | n/a | <pre>object({<br/>    issuer             = string,<br/>    audience           = string,<br/>    thumbprint         = string,<br/>    replicator_subject = string,<br/>    kraken_subject     = string<br/>  })</pre> | `null` | no |
 
 ## Outputs
 

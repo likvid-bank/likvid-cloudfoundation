@@ -1,6 +1,6 @@
 module "meshplatform" {
   source  = "meshcloud/meshplatform/aws"
-  version = "0.4.0"
+  version = "0.5.1"
 
   providers = {
     aws.management = aws.management
@@ -24,7 +24,7 @@ module "meshplatform" {
   control_tower_portfolio_id       = var.control_tower_portfolio_id
   landing_zone_ou_arns             = var.landing_zone_ou_arns
 
-  can_close_accounts_in_resource_org_paths = var.can_close_accounts_in_resource_org_paths
+  can_close_accounts_with_tags = var.can_close_accounts_with_tags
 
   create_access_keys           = var.create_access_keys
   workload_identity_federation = var.workload_identity_federation

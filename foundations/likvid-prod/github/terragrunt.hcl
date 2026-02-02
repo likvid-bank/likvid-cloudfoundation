@@ -1,3 +1,7 @@
+include "common" {
+  path = find_in_parent_folders("common.hcl")
+}
+
 terraform {
   source = "${get_repo_root()}//kit/foundation/github"
 }
@@ -54,6 +58,7 @@ EOF
 inputs = {
   github_repo = "likvid-cloudfoundation"
   foundation  = "likvid-prod"
+
   actions_variables = {
     aws_iam_role = dependency.aws_bootstrap.outputs.validation_iam_role_arn
 
@@ -63,5 +68,13 @@ inputs = {
 
     gcp_service_account            = dependency.gcp_bootstrap.outputs.github_actions_validation_sa_email
     gcp_workload_identity_provider = dependency.gcp_bootstrap.outputs.github_actions_workload_identity_provider
+  }
+
+  actions_secrets = {
+    MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS = get_env("MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS")
+    MESHSTACK_API_KEY_CLOUDFOUNDATION       = get_env("MESHSTACK_API_KEY_CLOUDFOUNDATION")
+    MESHSTACK_API_PASSWORD                  = get_env("MESHSTACK_API_PASSWORD")
+    ACTIONS_GITHUB_APP_PEM_FILE             = get_env("GITHUB_APP_PEM_FILE") # note: secrets may not start with GITHUB_ prefix
+    # note: there's currently some more secrets managed outside of this repo still
   }
 }

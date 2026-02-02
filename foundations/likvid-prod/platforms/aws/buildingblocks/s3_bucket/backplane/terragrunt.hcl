@@ -1,3 +1,7 @@
+include "common" {
+  path = find_in_parent_folders("common.hcl")
+}
+
 include "platform" {
   path   = find_in_parent_folders("platform.hcl")
   expose = true
@@ -12,11 +16,11 @@ generate "provider" {
 provider "aws" {
   region = "eu-central-1"
   assume_role {
-    role_arn     = "arn:aws:iam::495599748622:role/${include.platform.locals.active_role.meshstack_managed_account}"
+    role_arn     = "arn:aws:iam::874618049110:role/${include.platform.locals.active_role.meshstack_managed_account}"
     session_name = "cloudfoundation_tf_deploy"
   }
   allowed_account_ids = [
-    "495599748622" # account created via meshstack (meshcloud-demo -> m25-platform workspace -> quickstart-infra-prod project)
+    "874618049110" # account created via meshstack (meshcloud-demo -> m25-platform workspace -> quickstart-infra-likvid project)
   ]
 }
 
@@ -24,7 +28,7 @@ EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/collie-hub.git//kit/aws/buildingblocks/s3_bucket/backplane?ref=v0.5.5"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/aws/s3_bucket/backplane?ref=dae10261fe831dcc00a3a9a4fc6b3b00d9018da3"
 }
 
 inputs = {}

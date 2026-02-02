@@ -8,9 +8,17 @@ terraform {
     }
 
     meshstack = {
-      source                = "meshcloud/meshstack"
-      version               = "~> 0.6.0"
-      configuration_aliases = [meshstack.azure_marketdata_connector, meshstack.static_website_assets, meshstack.likvid_gov_guard, meshstack.sap_core_platform]
+      source  = "meshcloud/meshstack"
+      version = "0.12.0"
+    }
+
+    github = {
+      source  = "integrations/github"
+      version = "5.42.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.6.0"
     }
   }
 }

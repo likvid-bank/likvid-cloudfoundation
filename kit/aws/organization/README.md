@@ -33,6 +33,7 @@ No modules.
 | [aws_organizations_organizational_unit.landingzones](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
 | [aws_organizations_organizational_unit.management](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
 | [aws_organizations_organizational_unit.parent](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_organizational_unit) | resource |
+| [aws_organizations_policy.deny_cloudtrail_deactivation](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/organizations_policy) | resource |
 | [aws_ssoadmin_account_assignment.admin](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/resources/ssoadmin_account_assignment) | resource |
 | [aws_identitystore_user.users](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/data-sources/identitystore_user) | data source |
 | [aws_organizations_organization.org](https://registry.terraform.io/providers/hashicorp/aws/5.65.0/docs/data-sources/organizations_organization) | data source |
@@ -48,7 +49,7 @@ No modules.
 | <a name="input_management_account_email"></a> [management\_account\_email](#input\_management\_account\_email) | root user email for the management aws account | `string` | n/a | yes |
 | <a name="input_meshstack_account_email"></a> [meshstack\_account\_email](#input\_meshstack\_account\_email) | root user email for the meshstack aws account | `string` | n/a | yes |
 | <a name="input_network_management_account_email"></a> [network\_management\_account\_email](#input\_network\_management\_account\_email) | root user email for the network management aws account | `string` | n/a | yes |
-| <a name="input_parent_ou_name"></a> [parent\_ou\_name](#input\_parent\_ou\_name) | Create a OU of the specified name and treat it as the root of all resources managed as part of this kit.<br>    This is good for separation, in particular if you don't have exclusive control over the AWS organization because<br>    it is supporting non-cloudfoundation workloads as well. | `string` | n/a | yes |
+| <a name="input_parent_ou_name"></a> [parent\_ou\_name](#input\_parent\_ou\_name) | Create a OU of the specified name and treat it as the root of all resources managed as part of this kit.<br/>    This is good for separation, in particular if you don't have exclusive control over the AWS organization because<br/>    it is supporting non-cloudfoundation workloads as well. | `string` | n/a | yes |
 
 ## Outputs
 

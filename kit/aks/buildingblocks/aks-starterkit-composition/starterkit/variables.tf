@@ -2,12 +2,20 @@ variable "workspace_identifier" {
   type = string
 }
 
-variable "repo_name" {
+variable "name" {
   type        = string
-  description = "Name of the repository to connect."
+  description = "This name will be used for the projects, AKS namespaces & GitHub repository"
 }
 
-variable "name_prefix" {
-  type        = string
-  description = "prefix for name of the resources"
+variable "creator" {
+  type = object({
+    type        = string
+    identifier  = string
+    displayName = string
+    username    = optional(string)
+    email       = optional(string)
+    euid        = optional(string)
+  })
+  description = "Information about the creator of the resources who will be assigned Project Admin role"
 }
+

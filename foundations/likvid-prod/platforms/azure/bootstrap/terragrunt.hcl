@@ -1,6 +1,17 @@
+include "common" {
+  path = find_in_parent_folders("common.hcl")
+}
+
 include "platform" {
   path   = find_in_parent_folders("platform.hcl")
   expose = true
+}
+
+# exclude bootstrap module for all operations when run in a stack
+# bootstrap modules must be run individually via `terragrunt apply`
+exclude {
+  if      = true
+  actions = ["all"]
 }
 
 # this is a bootstrap module, so we set up a provider
@@ -28,10 +39,8 @@ locals {
   platform_engineers_emails = [
     "jrudolph@meshcloud.io",
     "fnowarre@meshcloud.io",
-    "pmoore@meshcloud.io",
     "jdburger@meshcloud.io",
     "malhussan@meshcloud.io",
-    "fzieger@meshcloud.io",
     "hdettmer@meshcloud.io",
   ]
 

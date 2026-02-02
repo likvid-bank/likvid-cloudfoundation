@@ -1,3 +1,7 @@
+include "common" {
+  path = find_in_parent_folders("common.hcl")
+}
+
 include "platform" {
   path   = find_in_parent_folders("platform.hcl")
   expose = true
@@ -77,10 +81,21 @@ inputs = {
     "arn:aws:organizations::${include.platform.locals.platform.aws.accountId}:ou/o-0asb1bd1jb/ou-rpqz-iq2j0zhi" # likvid-mobile OU
   ]
 
-  can_close_accounts_in_resource_org_paths = [
-    # Ideally this should be restricted to specific landing zones, but that results in a 400 error from AWS.
-    "${dependency.organization.outputs.org_id}/${dependency.organization.outputs.org_root_id}/*",
-  ]
+  can_close_accounts_with_tags = {
+    "meshstack_lzident" = [
+      "sandbox-landing-zone",
+      "m25-cloud-native",
+      "likvid-aws-prod",
+      "likvid-aws-onprem-prod",
+      "likvid-aws-onprem-dev",
+      "likvid-aws-dev",
+      "lift-and-shift-landing-zone-with-connection-to-on-prem",
+      "idp-prod",
+      "idp-landing-zone-dev",
+      "meshcloud-demo-stackset",
+      "bedrock"
+    ]
+  }
 
   create_access_keys = true
 }

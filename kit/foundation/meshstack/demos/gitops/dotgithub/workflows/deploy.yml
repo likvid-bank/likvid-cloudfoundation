@@ -1,0 +1,227 @@
+name: Deploy Resources
+
+on:
+  workflow_dispatch:
+    inputs:
+      buildingBlockRun:
+        description: "Building Block Run Object"
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup meshstack auth
+        id: setup-meshstack-auth
+        uses: meshcloud/actions-register-source@v0.1.0
+        with:
+          client_id: ${{ vars.BUILDINGBLOCK_API_CLIENT_ID }}
+          key_secret: ${{ secrets.BUILDINGBLOCK_API_KEY_SECRET }}
+          steps: |
+            [
+              {
+                "id": "create-bucket-stack",
+                "displayName": "Create Bucket"
+              },
+              {
+                "id": "grant-access-to-bucket",
+                "displayName": "Grant Access to Bucket"
+              }
+            ]
+       # You can use the parsed values in subsequent steps
+      - name: Extract Variables
+        id: variables
+        run: |
+          # Transform newlines into spaces
+          admin_users_space_separated=$(echo "${{ steps.setup-meshstack-auth.outputs.admin_users }}" | tr '\n' ' ')
+          # Optionally trim trailing spaces
+          usernames_space_separated=$(echo "$admin_users_space_separated" | sed 's/ *$//')
+          echo "admin_users=$usernames_space_separated" >> $GITHUB_OUTPUT
+
+
+      - name: Setup aws auth
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-central-1
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Update BB run / create-bucket-stack / in progress
+        uses: meshcloud/actions-send-status@v2
+        with:
+          step_id: "create-bucket-stack"
+          step_status: 'IN_PROGRESS'
+
+      - name: Create bucket stack
+        id: create-bucket-stack
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: "s3-${{ steps.setup-meshstack-auth.outputs.bucket_name }}"
+          template: cloudformation-s3-static-website.yml
+          parameter-overrides: "BucketName=m25-${{ steps.setup-meshstack-auth.outputs.bucket_name }}"
+          no-fail-on-empty-changeset: "1"
+
+      - name: Get Stack output
+        if: ${{ steps.create-bucket-stack.outcome == 'success' }}
+        id: get-output
+        run: |
+          BUCKET_NAME=$(aws cloudformation describe-stacks \
+            --stack-name "s3-${{ steps.setup-meshstack-auth.outputs.bucket_name }}" \
+            --query "Stacks[0].Outputs[?OutputKey=='BucketName'].OutputValue" \
+            --output text)
+          WEBSITE_URL=$(aws cloudformation describe-stacks \
+            --stack-name "s3-${{ steps.setup-meshstack-auth.outputs.bucket_name }}" \
+            --query "Stacks[0].Outputs[?OutputKey=='WebsiteURL'].OutputValue" \
+            --output text)
+
+          echo "bucket_name=$BUCKET_NAME" >> $GITHUB_OUTPUT
+          echo "website_url=$WEBSITE_URL" >> $GITHUB_OUTPUT
+
+      - name: Prepare website instructions
+        if: ${{ steps.create-bucket-stack.outcome == 'success' }}
+        id: prepare-website-instructions
+        run: |
+          INSTRUCTIONS="### You are almost there! 🚀
+
+          Login via [AWS SSO](https://meshcloud-dev.awsapps.com/start/#)
+          to AWS account **${{ vars.AWS_ACCOUNT_ID }}** and navigate to the [following link](https://eu-central-1.console.aws.amazon.com/s3/upload/${{ steps.get-output.outputs.bucket_name }})
+          to upload files to your S3 bucket (you can drag and drop an index.html file to test it)
+
+          For more details on the file structure, check out https://docs.aws.amazon.com/AmazonS3/latest/userguide/IndexDocumentSupport.html#IndexDocumentsandFolders
+
+          🚀 Once you upload your files, you can view your website at: ${{ steps.get-output.outputs.website_url }} 🚀"
+
+          echo "$INSTRUCTIONS" >> $GITHUB_STEP_SUMMARY
+
+          outputs_json=$(jq -nc \
+            --arg summary "$INSTRUCTIONS" \
+            --arg website_url "${{ steps.get-output.outputs.website_url }}" \
+            '{
+              summary: {
+                value: $summary,
+                type: "STRING"
+              },
+              website_url: {
+                value: $website_url,
+                type: "STRING"
+              }
+            }')
+          echo "outputs_json=$outputs_json" >> $GITHUB_OUTPUT
+
+      - name: Update BB Run / create-bucket-stack / complete
+        if: ${{ steps.create-bucket-stack.outcome == 'success' || steps.create-bucket-stack.outcome == 'failure' }}
+        uses: meshcloud/actions-send-status@v2
+        with:
+          step_id: "create-bucket-stack"
+          step_status: ${{ steps.create-bucket-stack.outcome == 'success' && 'SUCCEEDED' || 'FAILED' }}
+          user_message: ${{ steps.create-bucket-stack.outcome == 'success' && 'Successful create bucket.' || 'Failed create bucket.' }}
+          system_message:  ${{ steps.create-bucket-stack.outcome == 'success' && 'Successful create bucket.' || 'Failed to create bucket stack, please check the GitHub actions log for more details.' }}
+          outputs_json: ${{ steps.create-bucket-stack.outcome == 'success' && steps.prepare-website-instructions.outputs.outputs_json || '{}' }}
+
+      - name: Update BB Run / grant-access-to-bucket / in progress
+        uses: meshcloud/actions-send-status@v2
+        with:
+          step_id: "grant-access-to-bucket"
+          step_status: 'IN_PROGRESS'
+
+
+      - name: Setup aws auth for granting access
+        id: setup-aws-auth-for-granting-access
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-central-1
+          role-to-assume: ${{ vars.AWS_ROLE_TO_ASSUME }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Grant Access to bucket
+        id: grant-access-to-bucket
+        run: |
+          set -o errexit
+          set -o errtrace
+          set -o pipefail
+          set -o nounset
+
+          # Store the truncated bucket name (limit to 19 characters to not exceed the 32 limit)
+          PERMISSION_SET_NAME=$(echo "${{ steps.setup-meshstack-auth.outputs.bucket_name }}" | cut -c1-19)
+
+          # Ensure the final name is no longer than 32 characters
+          FINAL_PERMISSION_SET_NAME="AccessBucket-$PERMISSION_SET_NAME"
+
+          # List all permission set ARNs (as an array; since ARNs have special chars)
+          PERMISSION_SETS=($(aws sso-admin list-permission-sets --instance-arn ${{ vars.SSO_INSTANCE_ARN }} --query 'PermissionSets' | jq -r 'join(" ")'))
+
+          FOUND="false"
+          # Loop through each permission set ARN to find the one with the matching name
+          for ARN in "${PERMISSION_SETS[@]}"; do
+            NAME=$(aws sso-admin describe-permission-set --instance-arn ${{ vars.SSO_INSTANCE_ARN }} --permission-set-arn "$ARN" --query 'PermissionSet.Name' --output text)
+            if [[ "$NAME" == "$FINAL_PERMISSION_SET_NAME" ]]; then
+              echo "Permission Set ARN for $FINAL_PERMISSION_SET_NAME: $ARN"
+              AWS_PERMISSION_SET_ARN="$ARN"
+              FOUND="true"
+              break
+            fi
+          done
+
+          if [[ "$FOUND" == "false" ]]; then
+            AWS_PERMISSION_SET_ARN=$(aws sso-admin create-permission-set \
+              --instance-arn ${{ vars.SSO_INSTANCE_ARN }} \
+              --name "$FINAL_PERMISSION_SET_NAME" | jq -r '.PermissionSet.PermissionSetArn' )
+          fi
+
+          aws sso-admin put-inline-policy-to-permission-set \
+            --instance-arn ${{ vars.SSO_INSTANCE_ARN }} \
+            --permission-set-arn $AWS_PERMISSION_SET_ARN \
+            --inline-policy '{
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Sid": "AccessBucket",
+                        "Effect": "Allow",
+                        "Action": [
+                            "s3:*"
+                        ],
+                        "Resource": [
+                            "arn:aws:s3:::m25-${{ steps.setup-meshstack-auth.outputs.bucket_name }}",
+                            "arn:aws:s3:::m25-${{ steps.setup-meshstack-auth.outputs.bucket_name }}/*"
+                        ]
+                    }
+                ]
+            }'
+
+          echo "Found admin users: ${{ steps.variables.outputs.admin_users }}"
+
+          users="${{ steps.variables.outputs.admin_users }}"
+          for user in $users; do
+            echo "granting access for $user..."
+            user_principal_id=$(aws identitystore list-users --identity-store-id "${{ vars.IDENTITY_STORE_ID  }}" | jq -r --arg user "$user" '.Users[] | select(.UserName == $user) | .UserId')
+            if [ -n "$user_principal_id" ]; then
+                aws sso-admin create-account-assignment \
+                    --instance-arn "${{ vars.SSO_INSTANCE_ARN }}" \
+                    --target-id "${{ vars.AWS_ACCOUNT_ID }}" \
+                    --target-type AWS_ACCOUNT \
+                    --permission-set-arn "$AWS_PERMISSION_SET_ARN" \
+                    --principal-type USER \
+                    --principal-id "$user_principal_id"
+            else
+                echo "User $user not found in identity store."
+            fi
+          done
+
+      - name: Update BB Run / grant-access-to-bucket / complete
+        if: ${{ steps.grant-access-to-bucket.outcome == 'success' || steps.grant-access-to-bucket.outcome == 'failure' }}
+        uses: meshcloud/actions-send-status@v2
+        with:
+          step_id: "grant-access-to-bucket"
+          step_status: ${{ steps.grant-access-to-bucket.outcome == 'success' && 'SUCCEEDED' || 'FAILED' }}
+          user_message: ${{ steps.grant-access-to-bucket.outcome == 'success' && 'Step was successful.' || 'Step was failed' }}
+          system_message:  ${{ steps.grant-access-to-bucket.outcome == 'success' && 'Step was successful.' || 'Step Failed, please check the GitHub actions log for more details.' }}
+
+      - name: Update BB Run / complete
+        if: ${{ always() }}
+        uses: meshcloud/actions-send-status@v2
+        with:
+          run_status: ${{ job.status == 'success' && 'SUCCEEDED' || 'FAILED' }}

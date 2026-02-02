@@ -1,3 +1,7 @@
+include "common" {
+  path = find_in_parent_folders("common.hcl")
+}
+
 include "platform" {
   path   = find_in_parent_folders("platform.hcl")
   expose = true
@@ -56,7 +60,7 @@ inputs = {
   carbon_export_module_enabled = true
   carbon_footprint_dataset_id  = include.platform.locals.platform.gcp.carbonExport.dataset
 
-  service_account_keys = true
+  service_account_keys = false
   workload_identity_federation = {
     workload_identity_pool_identifier = "meshcloud-demo"
     issuer                            = "https://container.googleapis.com/v1/projects/meshcloud-meshcloud--bc0/locations/europe-west1/clusters/meshstacks-ha"

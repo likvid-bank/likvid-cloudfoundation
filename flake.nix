@@ -2,7 +2,7 @@
   description = "Flake for likvid-cloudfoundation";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
   };
 
 
@@ -55,7 +55,26 @@
           pre-commit
         ];
 
-      importNixpkgs = system: import nixpkgs { inherit system; };
+      # packages not preinstalled in github actions and necessary outside of CI
+      developer_packages = pkgs:
+        with pkgs;
+        [
+          # needed to access secrets
+          vault-bin
+        ];
+
+
+      importNixpkgs = system:
+        import nixpkgs
+          {
+            inherit system;
+            config = {
+              allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
+                "vault-bin" # vault uses bsl-11 which is unfree
+              ];
+            };
+          };
+
 
       defaultShellForSystem = system:
         let
@@ -64,7 +83,7 @@
         {
           default = pkgs.mkShell {
             name = "likvid-cloudfoundation";
-            packages = (github_actions_preinstalled pkgs) ++ (core_packages pkgs);
+            packages = (github_actions_preinstalled pkgs) ++ (core_packages pkgs) ++ (developer_packages pkgs);
           };
         };
 

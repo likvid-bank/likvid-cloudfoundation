@@ -4,8 +4,7 @@ locals {
     if(
       !strcontains(x, ".terragrunt-cache") && # this might not be required, check
       !strcontains(x, "/tenants/") &&         # we don't document individual tenants, though maybe we should?
-      !strcontains(x, ".test")                # exclude folders with .test in the name
-
+      !strcontains(x, "/test/")               # we don't document tests
     )
   ])
 

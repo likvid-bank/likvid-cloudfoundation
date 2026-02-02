@@ -8,7 +8,7 @@ This guide explains how to manage and provision secure workloads for government 
 
 At Likvid Bank, the Platform team is tasked with creating an exclusive service for state-affiliated clients who handle sensitive data and operate under strict regulatory environments. Likvid Government Guard leverages the IONOS Cloud to provide:
 
-- **DSGVO Compliance**: Ensuring all hosted data complies with the European Union’s General Data Protection Regulation.
+- **DSGVO Compliance**: Ensuring all hosted data complies with the European Union's General Data Protection Regulation.
 - **Enhanced Security**: Offering preconfigured compliance settings and secure access for government-affiliated users.
 - **Custom Access Zones**: Tailored environments for authorized users with distinct roles and privileges.
 
@@ -18,7 +18,7 @@ At Likvid Bank, the Platform team is tasked with creating an exclusive service f
 
 The Platform team has identified the following challenges in deploying Likvid Government Guard:
 
-- **Ease of Use:** Ensuring discoverability and usability of the custom platform via meshStack’s marketplace.
+- **Ease of Use:** Ensuring discoverability and usability of the custom platform via meshStack's marketplace.
 - **Compliance** Enforcing compliance policies and high-security standards through automated configurations.
 - **Self-Service** Providing seamless onboarding and management for application teams, ensuring ease of use and consistency.
 
@@ -38,10 +38,7 @@ The Platform team has identified the following challenges in deploying Likvid Go
 
 #### Create a Custom Building Block Definition
 
-1. Navigate to the "Service Management Area" in the Platform team’s workspace:
-   ```bash
-   ${meshobjects_import_workspaces_ionos_yml_output_spec_displayName}
-   ```
+1. Navigate to the "Platform Builder" in the Platform team's workspace ${md_workspace_likvid_gov_guard}:
 
 2. Create a new Building Block Definition with the following configuration:
    - **Implementation Type**: Terraform

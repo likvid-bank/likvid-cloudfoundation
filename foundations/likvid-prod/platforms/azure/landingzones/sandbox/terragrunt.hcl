@@ -1,14 +1,14 @@
+include "common" {
+  path = find_in_parent_folders("common.hcl")
+}
+
 include "platform" {
   path   = find_in_parent_folders("platform.hcl")
   expose = true
 }
 
-dependency "bootstrap" {
-  config_path = "${path_relative_from_include()}/bootstrap"
-}
-
 dependency "organization-hierarchy" {
-  config_path = "${path_relative_from_include()}/organization-hierarchy"
+  config_path = "../../organization-hierarchy"
 }
 
 terraform {

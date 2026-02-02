@@ -59,12 +59,14 @@ EOT
   }
 }
 
+# there is now a resource for assign user roles to the project
+# https://github.com/stackitcloud/terraform-provider-stackit/pull/665
 resource "stackit_resourcemanager_project" "projects" {
   parent_container_id = var.parent_container_id
   name                = "${var.workspace_id}-${var.project_id}"
-  # labels = {
-  #   "Label1" = "foo"
-  # }
+  #labels = {
+  #  "networkArea" = "id-of-network-area"
+  #}
   owner_email = local.owner_email
   depends_on  = [null_resource.create_user]
 }
@@ -109,6 +111,8 @@ EOT
   depends_on = [resource.stackit_resourcemanager_project.projects]
 }
 
+# there is now a resource for assign user roles to the project
+# https://github.com/stackitcloud/terraform-provider-stackit/pull/665
 resource "null_resource" "project_editor" {
   # Trigger creation and destruction of resources based on the lifecycle
   triggers = {
@@ -150,6 +154,8 @@ EOT
   depends_on = [resource.stackit_resourcemanager_project.projects]
 }
 
+# there is now a resource for assign user roles to the project
+# https://github.com/stackitcloud/terraform-provider-stackit/pull/665
 resource "null_resource" "project_reader" {
   # Trigger creation and destruction of resources based on the lifecycle
   triggers = {

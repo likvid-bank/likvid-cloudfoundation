@@ -1,7 +1,7 @@
 # Likvid Bank Cloud Foundation
 
-This is the cloud foundation infrastructure as code repository defining all landing zones of Likvid Bank
-using [collie](https://collie.cloudfoundation.org/).
+This is the cloud foundation infrastructure as code repository defining the internal developer platform of Likvid Bank as IaC
+using terraform and terragrunt.
 
 This repository is maintained by the cloud foundation team. To learn more about our cloud foundation, please
 review our documentation at https://likvid-bank.github.io/likvid-cloudfoundation/
@@ -12,7 +12,7 @@ review our documentation at https://likvid-bank.github.io/likvid-cloudfoundation
 
 ### Development Environment
 
-This repo includes a nix flake devShell with all required dependencies, except collie-cli.
+This repo includes a nix flake devShell with all required dependencies.
 You can open a devShell using `nix develop`.
 
 ### Authenticating to Cloud Platforms
