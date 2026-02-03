@@ -37,7 +37,7 @@ EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/meshstack-hub.git//modules/aws/budget-alert/backplane?ref=e71a223f981884536aaeb2f4ef081d08bb4623ba"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/aws/budget-alert/backplane?ref=5868eeeb7c48fdbda139ec0127e0cb6547f73361"
 }
 
 inputs = {
