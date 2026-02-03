@@ -36,7 +36,7 @@ dependency "organization-hierarchy" {
 }
 
 terraform {
-  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/budget-alert/backplane?ref=e960738253a03d63619d27f593e293ccb963f776"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/budget-alert/backplane?ref=5868eeeb7c48fdbda139ec0127e0cb6547f73361"
 }
 
 inputs = {
