@@ -20,6 +20,10 @@ provider "azurerm" {
   subscription_id = "${include.platform.locals.platform.azure.subscriptionId}"
   storage_use_azuread = true
 }
+
+provider "azuread" {
+  tenant_id = "${include.platform.locals.platform.azure.aadTenantId}"
+}
 EOF
 }
 
@@ -31,53 +35,17 @@ dependency "organization-hierarchy" {
   config_path = "../../../organization-hierarchy"
 }
 
-dependency "automation" {
-  config_path = "../../automation"
-}
-
 terraform {
-  source = "https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/budget-alert/backplane?ref=v0.5.3"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/budget-alert/backplane?ref=e960738253a03d63619d27f593e293ccb963f776"
 }
 
 inputs = {
-  name          = "budget-alert"
-  scope         = dependency.organization-hierarchy.outputs.landingzones_id
-  principal_ids = toset([dependency.automation.outputs.principal_id])
-}
+  name                          = "buildingblock-budget-alert-deploy"
+  scope                         = dependency.organization-hierarchy.outputs.landingzones_id
+  create_service_principal_name = "buildingblock-budget-alert-deploy"
 
-# generate a config.tf file for automating building block deployments via meshStack
-generate "config" {
-  path      = "${get_terragrunt_dir()}/../test/config.tf"
-  if_exists = "overwrite"
-  contents  = <<EOF
-terraform {
-  backend "azurerm" {
-    use_azuread_auth      = true
-    tenant_id             = "${dependency.automation.outputs.tenant_id}"
-    subscription_id       = "${dependency.automation.outputs.subscription_id}"
-    resource_group_name   = "${dependency.automation.outputs.resource_group_name}"
-    storage_account_name  = "${dependency.automation.outputs.storage_account_name}"
-    container_name        = "${dependency.automation.outputs.container_name}"
-    key                   = "budget-alert.tfstate"
-
-    client_id             = "${dependency.automation.outputs.client_id}"
-    client_secret         = "${dependency.automation.outputs.client_secret}"
+  workload_identity_federation = {
+    issuer  = "https://container.googleapis.com/v1/projects/meshcloud-meshcloud--bc0/locations/europe-west1/clusters/meshstacks-ha"
+    subject = "system:serviceaccount:meshcloud-demo:workspace.likvid-cloud.buildingblockdefinition.8b806194-e3b1-41b3-aa56-7cb170234719"
   }
-}
-
-provider "azurerm" {
-  features {}
-
-  skip_provider_registration = false
-  storage_use_azuread        = true
-
-  tenant_id       = "${dependency.automation.outputs.tenant_id}"
-
-  # this var will be injected by the buildingblock runner
-  subscription_id = var.subscription_id
-
-  client_id             = "${dependency.automation.outputs.client_id}"
-  client_secret         = "${dependency.automation.outputs.client_secret}"
-}
-EOF
 }
