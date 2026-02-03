@@ -20,6 +20,10 @@ provider "azurerm" {
   subscription_id = "${include.platform.locals.platform.azure.subscriptionId}"
   storage_use_azuread = true
 }
+
+provider "azuread" {
+  tenant_id = "${include.platform.locals.platform.azure.aadTenantId}"
+}
 EOF
 }
 
@@ -31,61 +35,24 @@ dependency "organization-hierarchy" {
   config_path = "../../../organization-hierarchy"
 }
 
-dependency "automation" {
-  config_path = "../../automation"
-}
-
 terraform {
-  source = "https://github.com/meshcloud/collie-hub.git//kit/azure/buildingblocks/key-vault/backplane?ref=main"
-
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/key-vault/backplane?ref=f5c30bdcee12cc36a434c92e0015e4d83092b60c"
 }
 
 inputs = {
-  name          = "key-vault"
-  scope         = dependency.organization-hierarchy.outputs.landingzones_id
-  principal_ids = toset([dependency.automation.outputs.principal_id])
-}
+  name                              = "buildingblock-key-vault-deploy"
+  scope                             = dependency.organization-hierarchy.outputs.landingzones_id
+  hub_scope                         = "/subscriptions/5066eff7-4173-4fea-8c67-268456b4a4f7"
+  create_service_principal_name     = "buildingblock-key-vault-deploy"
+  create_hub_service_principal_name = "buildingblock-key-vault-deploy-hub-connection"
 
-# generate a config.tf file for automating building block deployments via meshStack
-generate "config" {
-  path      = "${get_terragrunt_dir()}/../test/config.tf"
-  if_exists = "overwrite"
-  contents  = <<EOF
-terraform {
-  backend "azurerm" {
-    use_azuread_auth      = true
-    tenant_id             = "${dependency.automation.outputs.tenant_id}"
-    subscription_id       = "${dependency.automation.outputs.subscription_id}"
-    resource_group_name   = "${dependency.automation.outputs.resource_group_name}"
-    storage_account_name  = "${dependency.automation.outputs.storage_account_name}"
-    container_name        = "${dependency.automation.outputs.container_name}"
-    key                   = "key-vault.tfstate"
-
-    client_id             = "${dependency.automation.outputs.client_id}"
-    client_secret         = "${dependency.automation.outputs.client_secret}"
+  workload_identity_federation = {
+    issuer  = "https://container.googleapis.com/v1/projects/meshcloud-meshcloud--bc0/locations/europe-west1/clusters/meshstacks-ha"
+    subject = "system:serviceaccount:meshcloud-demo:workspace.m25-platform.buildingblockdefinition.e11b29dd-a05e-44bc-9ac5-365ebbf06004"
   }
-}
 
-provider "azurerm" {
-  features {}
-
-  skip_provider_registration = false
-  storage_use_azuread        = true
-
-  tenant_id       = "${dependency.automation.outputs.tenant_id}"
-
-  # this var will be injected by the buildingblock runner
-  subscription_id = var.subscription_id
-
-  client_id             = "${dependency.automation.outputs.client_id}"
-  client_secret         = "${dependency.automation.outputs.client_secret}"
-}
-
-provider "azuread" {
-  tenant_id       = "${dependency.automation.outputs.tenant_id}"
-
-  client_id       = "${dependency.automation.outputs.client_id}"
-  client_secret   = "${dependency.automation.outputs.client_secret}"
-}
-EOF
+  hub_workload_identity_federation = {
+    issuer  = "https://container.googleapis.com/v1/projects/meshcloud-meshcloud--bc0/locations/europe-west1/clusters/meshstacks-ha"
+    subject = "system:serviceaccount:meshcloud-demo:workspace.m25-platform.buildingblockdefinition.e11b29dd-a05e-44bc-9ac5-365ebbf06004"
+  }
 }

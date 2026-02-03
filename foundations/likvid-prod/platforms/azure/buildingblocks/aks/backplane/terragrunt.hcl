@@ -29,12 +29,8 @@ dependency "organization-hierarchy" {
   config_path = "../../../organization-hierarchy"
 }
 
-dependency "automation" {
-  config_path = "../../automation"
-}
-
 terraform {
-  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/aks/backplane?ref=0b9a29f34b47499e0352169e072bc7bf60a35346"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/aks/backplane?ref=f5c30bdcee12cc36a434c92e0015e4d83092b60c"
 }
 
 inputs = {
