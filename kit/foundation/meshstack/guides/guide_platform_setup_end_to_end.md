@@ -33,7 +33,10 @@ The M25 Platform Team will implement the complete platform setup using Terraform
 For this guide, you will need:
 
 - Access to the ${md_workspace_m25_platform_team} workspace in meshStack
-- An API Key that has read, write, delete permissions for platforms and landing zones in meshStack in the workspace
+- An API Key in meshStack that has the following permissions:
+  - read, write, delete for platforms in workspace
+  - read, write, delete for landing zones in workspace
+  - read integrations in workspace
 - Azure CLI authenticated with permissions to create resources in the target subscription
 - kubectl configured to access the target AKS cluster
 - OpenTofu installed locally to execute Terraform code
@@ -56,17 +59,61 @@ code work. The following changes need to be made:
   - If you don't have an API Key already, create on in meshStack and copy it into the provider block or set it as an environment variable.
 - Make sure you are logged in with your Azure CLI and have sufficient permission in the target subscription.
 - Make sure you are logged in with your kubectl and have access to the target AKS cluster. Also make sure you configure the provider to use this cluster.
-- Under `locals` update the `aks_base_url` to `https://dev-oug61sf3.hcp.germanywestcentral.azmk8s.io`.
-- Under `locals` update the `aks_subscription_id` to `7490f509-073d-42cd-a720-a7f599a3fd0b`.
-- Under `locals` update the `aks_cluster_name` to `aks`.
-- Under `locals` update the `aks_resource_group` to `aks-rg`.
-- Under `locals` update the `aks_platform_workspace` to `m25-platform`.
-- Under `module "aks_meshplatform"` we need to add two additional variables because the roles in the cluster already exist. Add these two lines at the end of the module block:
-```hcl
-  existing_clusterrole_name_metering = "meshfed-metering"
-  existing_clusterrole_name_replicator = "meshfed-service"
-```
+  For example, you can use this provider config if you are authenticated via kubectl:
+  ```hcl
+  provider "kubernetes" {
+    config_path    = "~/.kube/config"
+    config_context = "aks"
+  }
+  ```
+- We also need to set the local variables correctly. You can copy the following locals block and replace it in the code:
+  ```hcl
+  locals {
 
+    # Existing AKS cluster config.
+    aks_base_url        = "https://dev-oug61sf3.hcp.germanywestcentral.azmk8s.io"
+    aks_subscription_id = "7490f509-073d-42cd-a720-a7f599a3fd0b"
+    aks_cluster_name    = "aks"
+    aks_resource_group  = "aks-rg"
+
+    # meshStack workspace that will manage the platform
+    aks_platform_workspace  = "m25-platform"
+    aks_platform_identifier = "aks-likvid-demo-story" # NOTE: This one is already used, make sure to change it!
+    aks_location_identifier = "global"
+  }
+  ```
+- Under `module "aks_meshplatform"` we need to add four additional variables because the roles in the cluster already exist. Add these four lines at the end of the module block:
+  ```hcl
+
+    # This makes sure the role binding does not conflict with the existing one
+    kubernetes_name_suffix_metering = "meshfed-metering-demo-story"
+    kubernetes_name_suffix_replicator = "meshfed-service-demo-story"
+
+    # This makes sure the module reuses the existing role in the cluster
+    existing_clusterrole_name_metering = "meshfed-metering"
+    existing_clusterrole_name_replicator = "meshfed-service"
+  ```
+- In the `module "aks_meshplatform"` also make sure to set the `namespace` variable to something else to prevent conflicts. For example pick:
+  ```hcl
+    namespace = "meshcloud-aks-demo-story"
+  ```
+- Make sure the platform will be unpublished (meaning in a draft state). To do so replace the availability block in the `meshstack_platform` resource with the following code:
+  ```hcl
+    availability = {
+      restricted_to_workspaces = [local.aks_platform_workspace]
+      restriction       = "PRIVATE"
+      publication_state = "UNPUBLISHED"
+    }
+  ```
+- Make sure you set all mandatory tags for the landing zone resource. At the moment of writing these are the
+  only mandatory tags. Add the following block to the `meshstack_landingzone` resource under `metadata.tags`:
+  ```hcl
+    tags = {
+      "LandingZoneFamily" = ["container-platform"]
+      "environment" = ["prod", "dev", "qa", "test"] # This one is not required but otherwise policies do not match
+      "confidentiality" = ["public", "internal", "confidential", "VS-NfD", "Grundschutz-hoch", "Grundschutz-normal"] # This one is not required but otherwise policies do not match
+    }
+  ```
 
 ### Step 2: Execute the Terraform Code
 
