@@ -110,6 +110,8 @@ code work. The following changes need to be made:
   ```hcl
     tags = {
       "LandingZoneFamily" = ["container-platform"]
+      "environment" = ["prod", "dev", "qa", "test"] # This one is not required but otherwise policies do not match
+      "confidentiality" = ["public", "internal", "confidential", "VS-NfD", "Grundschutz-hoch", "Grundschutz-normal"] # This one is not required but otherwise policies do not match
     }
   ```
 
