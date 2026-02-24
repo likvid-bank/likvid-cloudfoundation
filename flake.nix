@@ -2,11 +2,12 @@
   description = "Flake for likvid-cloudfoundation";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
   };
 
 
-  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs, nixpkgs-unstable }:
 
     let
       # These tools are pre-installed in github actions, so we can save the time for installing them.
@@ -21,8 +22,8 @@
           # note: google cloud sdk is not preinstalled in github actions
         ];
 
-      # core packages required in CI and not preinstalled in github actions
-      core_packages = pkgs:
+      # core packasges required in CI and not preinstalled in github actions
+      core_packages = pkgs: pkgsUnstable:
         let
           # fake opentofu as terraform so that tools like terraform-docs pre-commit hook (which doesn't have tofu support)
           # fall back to tofu
@@ -41,7 +42,7 @@
         with pkgs;
         [
           # terraform tools
-          opentofu
+          pkgsUnstable.opentofu
           terragrunt
           tflint
           tfupdate
@@ -50,7 +51,11 @@
           # fake tofu as terraform
           tofu_terraform
 
+          # cli tools not already pre-installed
+          google-cloud-sdk # we authenticate to GCP via the specific github action
+
           # script dependencies
+          gnused # sed acts inconsistently on macOS, so we always use GNU sed
           jq
           pre-commit
         ];
@@ -59,10 +64,16 @@
       developer_packages = pkgs:
         with pkgs;
         [
+          # cloud platforms currently not deployed by CI
+          kubelogin # for AKS
+
           # needed to access secrets
           vault-bin
         ];
 
+
+      importNixpkgsUnstable = system:
+        import nixpkgs-unstable { inherit system; };
 
       importNixpkgs = system:
         import nixpkgs
@@ -75,15 +86,15 @@
             };
           };
 
-
       defaultShellForSystem = system:
         let
           pkgs = importNixpkgs system;
+          pkgsUnstable = importNixpkgsUnstable system;
         in
         {
           default = pkgs.mkShell {
             name = "likvid-cloudfoundation";
-            packages = (github_actions_preinstalled pkgs) ++ (core_packages pkgs) ++ (developer_packages pkgs);
+            packages = (github_actions_preinstalled pkgs) ++ (core_packages pkgs pkgsUnstable) ++ (developer_packages pkgs);
           };
         };
 
@@ -97,10 +108,11 @@
           github_actions =
             let
               pkgs = importNixpkgs "x86_64-linux";
+              pkgsUnstable = importNixpkgsUnstable "x86_64-linux";
             in
             pkgs.mkShell {
               name = "likvid-cloudfoundation-ghactions";
-              packages = (core_packages pkgs);
+              packages = (core_packages pkgs pkgsUnstable);
             };
         };
       };
