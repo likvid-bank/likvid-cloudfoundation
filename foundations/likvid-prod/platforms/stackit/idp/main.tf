@@ -26,7 +26,7 @@ data "meshstack_workspace" "devops_platform" {
 
 module "buildingblock_git_repo" {
   # todo replace with reference to hub once published there
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/stackit/git-repository?ref=c5d88df9f6d5b736316effc13172e3c50819c79a"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/stackit/git-repository?ref=main"
 
   gitea_token = var.gitea_token
 
