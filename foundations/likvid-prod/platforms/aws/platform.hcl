@@ -10,7 +10,7 @@ locals {
       "jrudolph@meshcloud.io",
       "fnowarre@meshcloud.io",
       "malhussan@meshcloud.io",
-    ] 
+    ]
 
     billing_export_admins = [
       "tfelix@meshcloud.io",
