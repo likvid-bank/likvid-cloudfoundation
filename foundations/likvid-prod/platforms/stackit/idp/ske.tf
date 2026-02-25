@@ -1,7 +1,7 @@
-# __generated__ by OpenTofu
-# Please review these resources and move them into your main configuration files.
-
-# __generated__ by OpenTofu
+# The deployment of the platform backplane lives at 
+# https://github.com/meshcloud/stackit-idp-demo/tree/main/platform/01-ske/module
+# and https://github.com/meshcloud/stackit-idp-demo/blob/main/platform/02-meshstack/module/main.tf
+# and needs to be incorporated here in the future
 resource "meshstack_platform" "ske" {
   metadata = {
     name               = "ske1"
