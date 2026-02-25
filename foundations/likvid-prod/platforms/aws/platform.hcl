@@ -10,7 +10,7 @@ locals {
       "jrudolph@meshcloud.io",
       "fnowarre@meshcloud.io",
       "malhussan@meshcloud.io",
-    ]
+    ] 
 
     billing_export_admins = [
       "tfelix@meshcloud.io",
@@ -21,6 +21,7 @@ locals {
       "jrudolph@meshcloud.io",
       "malhussan@meshcloud.io",
       "fnowarre@meshcloud.io",
+      "agrub@meshcloud.io"
     ]
 
     # foundation engineers can deploy kit modules, but can't bootstrap
