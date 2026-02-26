@@ -19,7 +19,6 @@ terraform {
   %{if local.tfstateconfig != null}
   backend "azurerm" {
     use_azuread_auth      = true
-    tenant_id             = "${local.platform.azure.aadTenantId}"
     subscription_id       = "${local.platform.azure.subscriptionId}"
     resource_group_name   = "${try(local.tfstateconfig.resource_group_name, "")}"
     storage_account_name  = "${try(local.tfstateconfig.storage_account_name, "")}"

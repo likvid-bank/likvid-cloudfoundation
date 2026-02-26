@@ -17,3 +17,6 @@ config.tf
 .aider*
 
 .idea
+
+# osx specific
+.DS_Store
