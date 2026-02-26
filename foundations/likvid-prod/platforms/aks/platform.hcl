@@ -16,7 +16,6 @@ generate "backend" {
 terraform {
   backend "azurerm" {
     use_azuread_auth      = true
-    tenant_id             = "${local.platform_azure.azure.aadTenantId}"
     subscription_id       = "${local.platform_azure.azure.subscriptionId}"
     resource_group_name   = "${local.tfstateconfig.resource_group_name}"
     storage_account_name  = "${local.tfstateconfig.storage_account_name}"

@@ -26,7 +26,6 @@ generate "config" {
 terraform {
   backend "azurerm" {
     use_azuread_auth      = true
-    tenant_id             = "${dependency.automation.outputs.tenant_id}"
     subscription_id       = "${dependency.automation.outputs.subscription_id}"
     resource_group_name   = "${dependency.automation.outputs.resource_group_name}"
     storage_account_name  = "${dependency.automation.outputs.storage_account_name}"
