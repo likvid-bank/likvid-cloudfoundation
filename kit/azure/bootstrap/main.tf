@@ -21,6 +21,13 @@ resource "azurerm_role_assignment" "tfstates_engineers" {
   scope                = module.terraform_state.container_id
 }
 
+resource "azurerm_role_assignment" "tfstates_engineers_read_all" {
+  role_definition_name = "Reader"
+  principal_id         = azuread_group.platform_engineers.object_id
+  scope                = data.azurerm_subscription.current.id
+}
+
+
 resource "azurerm_role_definition" "cloudfoundation_deploy" {
   name        = var.platform_engineers_group
   scope       = data.azurerm_management_group.parent.id
