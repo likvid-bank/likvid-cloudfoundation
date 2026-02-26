@@ -1,6 +1,9 @@
 # Place your module's terraform resources here as usual.
 # Note that you should typically not put a terraform{} block into cloud foundation kit modules,
 # these will be provided by the platform implementations using this kit module.
+# TODO This should probably reference https://hub.meshcloud.io/definitions/aks-starterkit
+# The mesh_integration.tf file needs to be turned into a proper module, see
+# https://github.com/meshcloud/meshstack-hub/blob/main/modules/aks/starterkit/meshstack_integration.tf
 module "meshplatform" {
   source = "git::https://github.com/meshcloud/terraform-aks-meshplatform.git?ref=88fc6ed79457cd7c52c730df50abba451df5e2ac"
 
