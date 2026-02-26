@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.88.4
+    rev: v1.105.0
     hooks:
       - id: terraform_docs
         args:
@@ -106,7 +106,7 @@ repos:
           - --args=--ignore-path "kit/.*/demos/.*"
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0  # Use the ref you want to point at
+    rev: v6.0.0  # Use the ref you want to point at
     hooks:
       - id: trailing-whitespace
         exclude: "^compliance/"
