@@ -20,3 +20,4 @@ config.tf
 
 # osx specific
 .DS_Store
+.worktrees/
