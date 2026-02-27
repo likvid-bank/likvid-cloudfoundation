@@ -1,6 +1,8 @@
 locals {
   # make platform config available
-  platform        = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file(".//README.md"))[0])
+  platform        = {
+    organization_id = "05d7eb3f-f875-4bcd-ad0d-a07d62787f21"
+  }
   cloudfoundation = "likvid"
 }
 
