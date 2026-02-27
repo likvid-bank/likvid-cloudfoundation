@@ -7,6 +7,10 @@ include "platform" {
   expose = true
 }
 
+locals {
+  hub_git_ref = "main"
+}
+
 dependency "automation" {
   config_path = "../../../../azure/buildingblocks/automation"
 }
@@ -16,6 +20,10 @@ generate "provider" {
   if_exists = "overwrite"
   contents  = <<EOF
 
+provider "azuread" {
+  tenant_id             = "${dependency.automation.outputs.tenant_id}"
+}
+
 provider "azurerm" {
   features {}
 
@@ -24,11 +32,16 @@ provider "azurerm" {
   # this subscription is managed via meshStack, we hence do not track it as a tenant in this repo
   subscription_id       = "7490f509-073d-42cd-a720-a7f599a3fd0b"
 }
+
+provider "kubernetes" {
+  config_path = "~/.kube/config"
+  config_context = "aks"
+}
 EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/collie-hub.git//kit/aks/buildingblocks/github-connector/backplane?ref=v0.5.3"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/aks/github-connector/backplane?ref=${local.hub_git_ref}"
 }
 
 inputs = {
