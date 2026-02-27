@@ -7,8 +7,11 @@ include "platform" {
   expose = true
 }
 
-# todo: setup providers as needed by your kit module, typically referencing outputs of the bootstrap module
-# note: this block is generated as a fallback, since the kit module provided no explicit terragrunt.hcl template
+locals {
+  # Pin hub ref for both module source and BBD implementation ref_name
+  hub_git_ref = "main"
+}
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
@@ -20,7 +23,7 @@ provider "kubernetes" {
 }
 
 provider "azuread" {
-  tenant_id       = "${include.platform.locals.platform_azure.azure.aadTenantId}"
+  tenant_id = "${include.platform.locals.platform_azure.azure.aadTenantId}"
 }
 
 provider "azurerm" {
@@ -29,24 +32,42 @@ provider "azurerm" {
   tenant_id       = "${include.platform.locals.platform_azure.azure.aadTenantId}"
   subscription_id = "${include.platform.locals.platform_azure.azure.subscriptionId}"
 }
-EOF
 
+provider "meshstack" {
+  endpoint  = "https://federation.demo.meshcloud.io"
+  apikey    = "6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74"
+  apisecret = "${get_env("MESHSTACK_API_KEY_CLOUDFOUNDATION")}"
+}
+EOF
 }
 
 terraform {
-  source = "${get_repo_root()}//kit/aks/meshplatform"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/aks?ref=${local.hub_git_ref}"
 }
 
 inputs = {
-  # metering and replicator are enabled in dev ICF
-  metering_enabled   = false
-  replicator_enabled = false
+  aks = {
+    base_url        = "https://dev-oug61sf3.hcp.germanywestcentral.azmk8s.io:443"
+    subscription_id = include.platform.locals.platform_azure.azure.subscriptionId
+    cluster_name    = "dev-oug61sf3"
+    resource_group  = "aks-rg"
 
-  service_principal_name = "aks_replicator.${include.platform.locals.cloudfoundation}.meshcloud.io"
-  create_password        = false
-  workload_identity_federation = {
-    issuer         = "https://container.googleapis.com/v1/projects/meshcloud-meshcloud--bc0/locations/europe-west1/clusters/meshstacks-ha"
-    access_subject = "system:serviceaccount:meshcloud-demo:replicator"
+    service_principal_name = "aks_replicator.${include.platform.locals.cloudfoundation}.meshcloud.io"
+    create_password        = false
+    workload_identity_federation = {
+      issuer         = "https://container.googleapis.com/v1/projects/meshcloud-meshcloud--bc0/locations/europe-west1/clusters/meshstacks-ha"
+      access_subject = "system:serviceaccount:meshcloud-demo:replicator"
+    }
+
+    metering_enabled   = false
+    replicator_enabled = false
   }
-  scope = "7490f509-073d-42cd-a720-a7f599a3fd0b"
+
+  meshstack_platform = {
+    owning_workspace_identifier = "admin"
+    platform_identifier         = "aks"
+    location_identifier         = "meshcloud-azure-dev"
+    display_name                = "AKS Namespace"
+    description                 = "Azure Kubernetes Service (AKS). Create a k8s namespace in our AKS cluster."
+  }
 }
