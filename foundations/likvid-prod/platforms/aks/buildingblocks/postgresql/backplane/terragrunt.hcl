@@ -6,6 +6,10 @@ dependency "automation" {
   config_path = "../../../../azure/buildingblocks/automation"
 }
 
+locals {
+  hub_git_ref = "main"
+}
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
@@ -32,8 +36,7 @@ EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/meshstack-hub.git//modules/aks/postgresql/backplane?ref=42a9bc3904e9221493f8b98cd8c720b181731c8b"
-
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/aks/postgresql/backplane?ref=${local.hub_git_ref}"
 }
 
 inputs = {
