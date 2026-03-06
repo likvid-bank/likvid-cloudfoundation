@@ -15,8 +15,9 @@ generate "provider" {
   if_exists = "overwrite"
   contents  = <<EOF
 provider "stackit" {
-  default_region      = "eu01"
-  service_account_key = ${jsonencode(get_env("STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY"))}
+  default_region        = "eu01"
+  service_account_key   = ${jsonencode(get_env("STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY"))}
+  enable_beta_resources = true # required for stackit_git resource
 }
 EOF
 }
