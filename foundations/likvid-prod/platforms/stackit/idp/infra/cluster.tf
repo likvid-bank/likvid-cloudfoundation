@@ -8,7 +8,7 @@ terraform {
 }
 
 variable "stackit_project_id" {
-  description = "STACKIT project UUID – passed in by terragrunt from the meshstack/ dependency output"
+  description = "STACKIT project UUID"
   type        = string
 }
 
@@ -39,17 +39,12 @@ resource "stackit_ske_cluster" "starterkit" {
   }
 }
 
-# Long-lived kubeconfig used by the platform/ step to configure k8s service accounts.
 resource "stackit_ske_kubeconfig" "starterkit" {
   project_id   = var.stackit_project_id
   cluster_name = stackit_ske_cluster.starterkit.name
   expiration   = "15552000" # 180 days
   refresh      = true
 }
-
-# ---------------------------------------------------------------------------
-# Outputs consumed by platform/ via terragrunt dependency
-# ---------------------------------------------------------------------------
 
 output "kube_host" {
   description = "Kubernetes API server URL"
