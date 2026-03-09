@@ -12,7 +12,7 @@ terraform {
 }
 
 variable "kube_host" {
-  description = "Kubernetes API server URL – passed in by terragrunt from the infra/ dependency output"
+  description = "Kubernetes API server URL"
   type        = string
 }
 
