@@ -1,6 +1,6 @@
-# STACKIT SKE
+# STACKIT Kubernetes Engine
 
-This contains all resources required to set up STACKIT SKE.
+This contains all resources required to set up STACKIT Kubernetes Engine (SKE).
 
 ## State Backend
 
@@ -24,9 +24,9 @@ Helps in knowing order of execution (arrow = depends on).
 
 Generate the graph with: `terragrunt dag graph  | dot -Tpng > dep.png`
 
-## Access SKE cluster
+## Access Kubernetes cluster
 
-To access the SKE cluster, use the `stackit` CLI tool. Run:
+To access the cluster, use the `stackit` CLI tool. Run:
 
 ```bash
 stackit auth login
