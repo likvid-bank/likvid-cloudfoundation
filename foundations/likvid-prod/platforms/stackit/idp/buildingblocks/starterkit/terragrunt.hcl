@@ -10,6 +10,10 @@ dependency "platform" {
   config_path = "../../platform"
 }
 
+terraform {
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/ske/ske-starterkit?ref=6bfe3de5b2ad56fea9e007900f25f16d8597ea1a"
+}
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
@@ -23,8 +27,21 @@ EOF
 }
 
 inputs = {
-  owned_by_workspace           = dependency.platform.outputs.owned_by_workspace
+  meshstack = {
+    owning_workspace_identifier = dependency.platform.outputs.owned_by_workspace
+  }
   full_platform_identifier     = dependency.platform.outputs.full_platform_identifier
   landing_zone_dev_identifier  = dependency.platform.outputs.landing_zone_dev_identifier
   landing_zone_prod_identifier = dependency.platform.outputs.landing_zone_prod_identifier
+  hub                          = { git_ref = "6bfe3de5b2ad56fea9e007900f25f16d8597ea1a" }
+  tags                         = {}
+  notification_subscribers     = []
+  project_tags_yaml            = <<-YAML
+    dev:
+      environment:
+        - "dev"
+    prod:
+      environment:
+        - "prod"
+  YAML
 }
