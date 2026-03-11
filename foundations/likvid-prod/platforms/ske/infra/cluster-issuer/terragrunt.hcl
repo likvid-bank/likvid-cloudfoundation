@@ -2,12 +2,18 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-include "idp" {
-  path = find_in_parent_folders("idp.hcl")
+include "ske" {
+  path = find_in_parent_folders("ske.hcl")
 }
 
 dependency "infra" {
   config_path = ".."
+  mock_outputs = {
+    kube_host              = "https://mock-host"
+    cluster_ca_certificate = "bW9jaw=="
+    client_certificate     = "bW9jaw=="
+    client_key             = "bW9jaw=="
+  }
 }
 
 dependency "resources" {

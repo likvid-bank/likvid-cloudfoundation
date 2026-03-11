@@ -2,12 +2,15 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-include "idp" {
-  path = find_in_parent_folders("idp.hcl")
+include "ske" {
+  path = find_in_parent_folders("ske.hcl")
 }
 
 dependency "project" {
   config_path = "../tenant"
+  mock_outputs = {
+    stackit_project_id = "00000000-0000-0000-0000-000000000000"
+  }
 }
 
 generate "provider" {
@@ -17,7 +20,6 @@ generate "provider" {
 provider "stackit" {
   default_region        = "eu01"
   service_account_key   = ${jsonencode(get_env("STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY"))}
-  enable_beta_resources = true
 }
 EOF
 }

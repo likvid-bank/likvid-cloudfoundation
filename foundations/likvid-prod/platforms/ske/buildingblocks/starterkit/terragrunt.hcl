@@ -2,12 +2,18 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-include "idp" {
-  path = find_in_parent_folders("idp.hcl")
+include "ske" {
+  path = find_in_parent_folders("ske.hcl")
 }
 
 dependency "platform" {
   config_path = "../../platform"
+  mock_outputs = {
+    owned_by_workspace           = "mock-workspace"
+    full_platform_identifier     = "mock-platform"
+    landing_zone_dev_identifier  = "mock-lz-dev"
+    landing_zone_prod_identifier = "mock-lz-prod"
+  }
 }
 
 terraform {

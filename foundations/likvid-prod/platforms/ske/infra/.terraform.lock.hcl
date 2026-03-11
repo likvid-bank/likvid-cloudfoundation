@@ -5,6 +5,7 @@ provider "registry.opentofu.org/stackitcloud/stackit" {
   version     = "0.83.0"
   constraints = "~> 0.83"
   hashes = [
+    "h1:Il9GhUPIzR7PkT1Iz6TQcbG+yZziYuhNgRYZJAidVJc=",
     "h1:nVbdjT4Ew2nENU03NGoa9B6ME6NOy2RbzpIdj4orMeA=",
     "zh:0dde99e7b343fa01f8eefc378171fb8621bedb20f59157d6cc8e3d46c738105f",
     "zh:302894aea6a2d4a2808360a859f3dfc89d09d7865706a5fd9653fa8cf5de6a92",

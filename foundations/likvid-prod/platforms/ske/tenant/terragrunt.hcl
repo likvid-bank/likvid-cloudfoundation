@@ -2,8 +2,8 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-include "idp" {
-  path = find_in_parent_folders("idp.hcl")
+include "ske" {
+  path = find_in_parent_folders("ske.hcl")
 }
 
 generate "provider" {

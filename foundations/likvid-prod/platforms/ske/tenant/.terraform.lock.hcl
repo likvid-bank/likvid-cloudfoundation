@@ -6,6 +6,7 @@ provider "registry.opentofu.org/meshcloud/meshstack" {
   constraints = "~> 0.19.3"
   hashes = [
     "h1:+dhLFp1/eKjqnzbAAY7TTQFqe0uxvqvfJsi7zJldFgg=",
+    "h1:nzYCmgzVoZHqc8D5akupX4fL7+oZ/orIz+ODyZeJYx0=",
     "zh:000efee839faa7173317075cf1e3a16b509b251c363cc3e338bf6aa5763ab27d",
     "zh:109676554aa303c6fdeff9bffaa7502262d12f99becc1f02f377b227e8d8e41d",
     "zh:12385d9f133670f19426d4b73b5c5de75be201d1ae35c6f7f93368ce662fbe56",

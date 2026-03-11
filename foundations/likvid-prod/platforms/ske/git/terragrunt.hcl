@@ -2,12 +2,15 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-include "idp" {
-  path = find_in_parent_folders("idp.hcl")
+include "ske" {
+  path = find_in_parent_folders("ske.hcl")
 }
 
 dependency "project" {
   config_path = "../tenant"
+  mock_outputs = {
+    stackit_project_id = "00000000-0000-0000-0000-000000000000"
+  }
 }
 
 generate "provider" {

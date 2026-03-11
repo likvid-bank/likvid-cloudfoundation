@@ -1,10 +1,10 @@
-# STACKIT IDP
+# STACKIT SKE
 
-This contains all resources required to set up STACKIT IDP.
+This contains all resources required to set up STACKIT SKE.
 
 ## State Backend
 
-Existing GCS bucket `meshcloud-tf-states`, prefix `path/to/<module>`. Configured in [idp.hcl](idp.hcl).
+Existing GCS bucket `meshcloud-tf-states`, prefix `path/to/<module>`. Configured in [ske.hcl](ske.hcl).
 
 ## Apply
 
