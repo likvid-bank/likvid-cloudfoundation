@@ -2,6 +2,6 @@
 terraform {
   backend "gcs" {
     bucket = "meshcloud-tf-states"
-    prefix = "likvid-cloudfoundation/foundations/likvid-prod/platforms/ske/infra/cluster-issuer"
+    prefix = "likvid-cloudfoundation/foundations/likvid-prod/platforms/ske/kubernetes/addons/certmanager"
   }
 }

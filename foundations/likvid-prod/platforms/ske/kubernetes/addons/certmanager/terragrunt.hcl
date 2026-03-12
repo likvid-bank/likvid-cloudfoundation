@@ -2,7 +2,7 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-include "ske" {
+include "tfstate" {
   path = find_in_parent_folders("tfstate.hcl")
 }
 

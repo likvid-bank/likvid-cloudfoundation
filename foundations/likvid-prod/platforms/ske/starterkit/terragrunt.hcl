@@ -2,14 +2,20 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-include "ske" {
+include "tfstate" {
   path = find_in_parent_folders("tfstate.hcl")
 }
 
-dependency "platform" {
-  config_path = "../platform"
+dependency "meshstack" {
+  config_path = "../meshstack"
   mock_outputs = {
-    owned_by_workspace           = "mock-workspace"
+    owning_workspace_identifier = "mock-workspace"
+  }
+}
+
+dependency "platform" {
+  config_path = "../meshstack/platform"
+  mock_outputs = {
     full_platform_identifier     = "mock-platform"
     landing_zone_dev_identifier  = "mock-lz-dev"
     landing_zone_prod_identifier = "mock-lz-prod"
@@ -34,7 +40,7 @@ EOF
 
 inputs = {
   meshstack = {
-    owning_workspace_identifier = dependency.platform.outputs.owned_by_workspace
+    owning_workspace_identifier = dependency.meshstack.outputs.owning_workspace_identifier
   }
   full_platform_identifier     = dependency.platform.outputs.full_platform_identifier
   landing_zone_dev_identifier  = dependency.platform.outputs.landing_zone_dev_identifier

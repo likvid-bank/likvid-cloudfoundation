@@ -17,12 +17,14 @@ terragrunt run --all apply
 Terragrunt resolves the dependency order automatically. To target a single module: `cd <module> && terragrunt apply`, e.g. `cd kubernetes && terragrunt apply`.
 Use the graph in section [Module Dependencies](#module-dependencies) to know which modules need to be applied first.
 
-## Module Dependencies
+## Terragrunt Dependencies
 
-Helps in knowing order of execution (arrow = depends on).
+* `meshstack/platform` separate from `meshstack` as it needs `kubernetes`.
+* `kubernetes/addons/certmanager` exists as adding the `ClusterIssuer` custom resource needs the CRD from `kubernetes/addons/certmanager.tf`.
 
 ![dependency graph](dep.png)
 
+Helps in knowing order of execution (arrow = depends on).
 Generate the graph with: `terragrunt dag graph | dot -Tpng > dep.png`
 
 ## Access Kubernetes cluster

@@ -1,14 +1,5 @@
-terraform {
-  required_providers {
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "~> 3.0.1"
-    }
-    meshstack = {
-      source  = "meshcloud/meshstack"
-      version = "~> 0.19.3"
-    }
-  }
+variable "owning_workspace_identifier" {
+  type = string
 }
 
 variable "kube_host" {
@@ -16,20 +7,27 @@ variable "kube_host" {
   type        = string
 }
 
-module "backplane" {
-  source = "./backplane"
+output "full_platform_identifier" {
+  description = "The meshstack platform identifier for SKE namespaces"
+  value       = meshstack_platform.ske.metadata.name
 }
 
-data "meshstack_workspace" "devops_platform" {
-  metadata = {
-    name = "devops-platform"
-  }
+module "meshplatform" {
+  source = "git::https://github.com/meshcloud/terraform-kubernetes-meshplatform.git?ref=v0.2.0"
+
+  replicator_enabled = true
+  metering_enabled   = true
+}
+
+moved {
+  from = module.backplane.module.meshplatform
+  to   = module.meshplatform
 }
 
 resource "meshstack_platform" "ske" {
   metadata = {
     name               = "ske-namespace"
-    owned_by_workspace = data.meshstack_workspace.devops_platform.metadata.name
+    owned_by_workspace = var.owning_workspace_identifier
   }
 
   spec = {
@@ -59,7 +57,7 @@ resource "meshstack_platform" "ske" {
         replication = {
           client_config = {
             access_token = {
-              secret_value = module.backplane.replicator_token
+              secret_value = module.meshplatform.replicator_token
             }
           }
           namespace_name_pattern = "#{workspaceIdentifier}-#{projectIdentifier}"
@@ -68,7 +66,7 @@ resource "meshstack_platform" "ske" {
         metering = {
           client_config = {
             access_token = {
-              secret_value = module.backplane.metering_token
+              secret_value = module.meshplatform.metering_token
             }
           }
           processing = {
@@ -137,110 +135,6 @@ resource "meshstack_platform" "ske" {
         max_value               = 4
         auto_approval_threshold = 2
       },
-    ]
-  }
-}
-
-resource "meshstack_landingzone" "dev" {
-  metadata = {
-    name               = "ske-namespace-dev"
-    owned_by_workspace = data.meshstack_workspace.devops_platform.metadata.name
-    tags = {
-      "LandingZoneFamily" = ["cloud-native"]
-      "environment"       = ["dev"]
-      "confidentiality"   = ["internal", "public"]
-    }
-  }
-
-  spec = {
-    display_name                  = "SKE Kubernetes Namespace – Development"
-    description                   = "Landing zone for development."
-    automate_deletion_approval    = true
-    automate_deletion_replication = true
-    info_link                     = "https://likvid-bank.github.io/likvid-cloudfoundation/platforms/stackit/landingzones/dev.html"
-
-    platform_ref = {
-      uuid = meshstack_platform.ske.metadata.uuid
-    }
-
-    platform_properties = {
-      kubernetes = {
-        kubernetes_role_mappings = [
-          {
-            project_role_ref = { name = "admin" }
-            platform_roles   = ["admin"]
-          },
-          {
-            project_role_ref = { name = "user" }
-            platform_roles   = ["edit"]
-          },
-          {
-            project_role_ref = { name = "reader" }
-            platform_roles   = ["view"]
-          },
-        ]
-      }
-    }
-
-    quotas = [
-      { key = "limits.cpu", value = 500 },
-      { key = "requests.cpu", value = 250 },
-      { key = "limits.memory", value = 512 },
-      { key = "requests.memory", value = 256 },
-      { key = "requests.storage", value = 1 },
-      { key = "persistentvolumeclaims", value = 2 },
-    ]
-  }
-}
-
-resource "meshstack_landingzone" "prod" {
-  metadata = {
-    name               = "ske-namespace-prod"
-    owned_by_workspace = data.meshstack_workspace.devops_platform.metadata.name
-    tags = {
-      "LandingZoneFamily" = ["cloud-native"]
-      "environment"       = ["prod"]
-      "confidentiality"   = ["internal", "public"]
-    }
-  }
-
-  spec = {
-    display_name                  = "SKE Kubernetes Namespace – Production"
-    description                   = "Landing zone for production workloads."
-    automate_deletion_approval    = true
-    automate_deletion_replication = true
-    info_link                     = "https://likvid-bank.github.io/likvid-cloudfoundation/platforms/stackit/landingzones/prod.html"
-
-    platform_ref = {
-      uuid = meshstack_platform.ske.metadata.uuid
-    }
-
-    platform_properties = {
-      kubernetes = {
-        kubernetes_role_mappings = [
-          {
-            project_role_ref = { name = "admin" }
-            platform_roles   = ["admin"]
-          },
-          {
-            project_role_ref = { name = "user" }
-            platform_roles   = ["edit"]
-          },
-          {
-            project_role_ref = { name = "reader" }
-            platform_roles   = ["view"]
-          },
-        ]
-      }
-    }
-
-    quotas = [
-      { key = "limits.cpu", value = 1000 },
-      { key = "requests.cpu", value = 500 },
-      { key = "limits.memory", value = 1024 },
-      { key = "requests.memory", value = 512 },
-      { key = "requests.storage", value = 2 },
-      { key = "persistentvolumeclaims", value = 4 },
     ]
   }
 }

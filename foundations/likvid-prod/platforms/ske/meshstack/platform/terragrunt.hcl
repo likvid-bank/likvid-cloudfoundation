@@ -2,12 +2,19 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-include "ske" {
+include "tfstate" {
   path = find_in_parent_folders("tfstate.hcl")
 }
 
+dependency "meshstack" {
+  config_path = ".."
+  mock_outputs = {
+    owning_workspace_identifier = "owning-workspace"
+  }
+}
+
 dependency "kubernetes" {
-  config_path = "../kubernetes"
+  config_path = "../../kubernetes"
   mock_outputs = {
     kube_host              = "https://mock-host"
     cluster_ca_certificate = "bW9jaw=="
@@ -38,5 +45,6 @@ EOF
 }
 
 inputs = {
-  kube_host = dependency.kubernetes.outputs.kube_host
+  owning_workspace_identifier = dependency.meshstack.outputs.owning_workspace_identifier
+  kube_host                   = dependency.kubernetes.outputs.kube_host
 }

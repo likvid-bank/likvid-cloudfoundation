@@ -2,12 +2,12 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-include "ske" {
+include "tfstate" {
   path = find_in_parent_folders("tfstate.hcl")
 }
 
-dependency "project" {
-  config_path = "../tenant"
+dependency "meshstack" {
+  config_path = "../meshstack"
   mock_outputs = {
     stackit_project_id = "00000000-0000-0000-0000-000000000000"
   }
@@ -25,5 +25,5 @@ EOF
 }
 
 inputs = {
-  stackit_project_id = dependency.project.outputs.stackit_project_id
+  stackit_project_id = dependency.meshstack.outputs.stackit_project_id
 }
