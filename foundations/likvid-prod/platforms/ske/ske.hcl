@@ -8,6 +8,6 @@ remote_state {
 
   config = {
     bucket = "meshcloud-tf-states"
-     prefix = "${basename(get_repo_root())}/${trimprefix(get_terragrunt_dir(), "${get_repo_root()}/")}"
+    prefix = "${basename(get_repo_root())}/${trimprefix(get_terragrunt_dir(), "${get_repo_root()}/")}"
   }
 }

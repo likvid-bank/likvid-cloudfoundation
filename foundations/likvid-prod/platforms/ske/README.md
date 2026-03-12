@@ -22,7 +22,7 @@ Helps in knowing order of execution (arrow = depends on).
 
 ![dependency graph](dep.png)
 
-Generate the graph with: `terragrunt dag graph  | dot -Tpng > dep.png`
+Generate the graph with: `terragrunt dag graph | dot -Tpng > dep.png`
 
 ## Access Kubernetes cluster
 
