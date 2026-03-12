@@ -1,6 +1,4 @@
 locals {
-  # make platform config available
-  platform        = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file(".//README.md"))[0])
   cloudfoundation = "likvid"
 }
 
@@ -13,7 +11,7 @@ remote_state {
 
   config = {
     bucket = "likvid-tf-state"
-    # note: we put in a platforms/aws prefix into the bucket key because we also put state for foundation modules
+    # note: we put in a platforms/stackit prefix into the bucket key because we also put state for foundation modules
     # into this same bucket
     key            = "platforms/stackit/${path_relative_to_include()}.tfstate"
     region         = "eu-central-1"
