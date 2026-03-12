@@ -3,11 +3,11 @@ include "common" {
 }
 
 include "ske" {
-  path = find_in_parent_folders("ske.hcl")
+  path = find_in_parent_folders("tfstate.hcl")
 }
 
 dependency "platform" {
-  config_path = "../../platform"
+  config_path = "../platform"
   mock_outputs = {
     owned_by_workspace           = "mock-workspace"
     full_platform_identifier     = "mock-platform"

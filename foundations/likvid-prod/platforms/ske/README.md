@@ -4,7 +4,7 @@ This contains all resources required to set up STACKIT Kubernetes Engine (SKE).
 
 ## State Backend
 
-Existing GCS bucket `meshcloud-tf-states`, prefix `path/to/<module>`. Configured in [ske.hcl](ske.hcl).
+Existing GCS bucket `meshcloud-tf-states`, prefix `path/to/<module>`. Configured in [tfstate.hcl](tfstate.hcl).
 
 ## Apply
 
@@ -14,7 +14,8 @@ Requires a Vault port-forward to `localhost:8200`. Load credentials with `source
 terragrunt run --all apply
 ```
 
-Terragrunt resolves the dependency order automatically. To target a single module: `cd <module> && terragrunt apply`, e.g. `cd infra && terragrunt apply`. Use the graph in section [Module Dependencies](#module-dependencies) to know which modules need to be applied first.
+Terragrunt resolves the dependency order automatically. To target a single module: `cd <module> && terragrunt apply`, e.g. `cd kubernetes && terragrunt apply`.
+Use the graph in section [Module Dependencies](#module-dependencies) to know which modules need to be applied first.
 
 ## Module Dependencies
 

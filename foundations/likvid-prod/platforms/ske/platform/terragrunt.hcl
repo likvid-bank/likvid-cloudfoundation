@@ -3,11 +3,11 @@ include "common" {
 }
 
 include "ske" {
-  path = find_in_parent_folders("ske.hcl")
+  path = find_in_parent_folders("tfstate.hcl")
 }
 
-dependency "infra" {
-  config_path = "../infra"
+dependency "kubernetes" {
+  config_path = "../kubernetes"
   mock_outputs = {
     kube_host              = "https://mock-host"
     cluster_ca_certificate = "bW9jaw=="
@@ -23,10 +23,10 @@ generate "provider" {
   if_exists = "overwrite"
   contents  = <<EOF
 provider "kubernetes" {
-  host                   = "${dependency.infra.outputs.kube_host}"
-  cluster_ca_certificate = base64decode("${dependency.infra.outputs.cluster_ca_certificate}")
-  client_certificate     = base64decode("${dependency.infra.outputs.client_certificate}")
-  client_key             = base64decode("${dependency.infra.outputs.client_key}")
+  host                   = "${dependency.kubernetes.outputs.kube_host}"
+  cluster_ca_certificate = base64decode("${dependency.kubernetes.outputs.cluster_ca_certificate}")
+  client_certificate     = base64decode("${dependency.kubernetes.outputs.client_certificate}")
+  client_key             = base64decode("${dependency.kubernetes.outputs.client_key}")
 }
 
 provider "meshstack" {
@@ -38,5 +38,5 @@ EOF
 }
 
 inputs = {
-  kube_host = dependency.infra.outputs.kube_host
+  kube_host = dependency.kubernetes.outputs.kube_host
 }

@@ -3,7 +3,7 @@ include "common" {
 }
 
 include "ske" {
-  path = find_in_parent_folders("ske.hcl")
+  path = find_in_parent_folders("tfstate.hcl")
 }
 
 dependency "project" {

@@ -45,6 +45,6 @@ resource "meshstack_tenant_v4" "stackit" {
 }
 
 output "stackit_project_id" {
-  description = "STACKIT project UUID provisioned by meshStack replication – consumed by infra/"
+  description = "STACKIT project UUID provisioned by meshStack replication – consumed by kubernetes/"
   value       = meshstack_tenant_v4.stackit.spec.platform_tenant_id
 }
