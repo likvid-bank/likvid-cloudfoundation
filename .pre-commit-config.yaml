@@ -65,7 +65,7 @@ repos:
         name: tfupdate hashicorp/random
         args:
           - --args=provider hashicorp/random
-          - --args=--version "3.6.0"
+          - --args=--version "3.8.1"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
           - --args=--ignore-path "kit/.*/demos/.*"
 
