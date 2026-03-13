@@ -1,15 +1,7 @@
-variable "owning_workspace_identifier" {
-  type = string
-}
-
-variable "kube_host" {
-  description = "Kubernetes API server URL"
-  type        = string
-}
-
 output "full_platform_identifier" {
   description = "The meshstack platform identifier for SKE namespaces"
-  value       = meshstack_platform.ske.metadata.name
+  # Sad that this it not a an output of the meshstack_platform resource
+  value = "${meshstack_platform.this.metadata.name}.${meshstack_platform.this.spec.location_ref.name}"
 }
 
 module "meshplatform" {
@@ -20,14 +12,14 @@ module "meshplatform" {
 }
 
 moved {
-  from = module.backplane.module.meshplatform
-  to   = module.meshplatform
+  from = meshstack_platform.ske
+  to   = meshstack_platform.this
 }
 
-resource "meshstack_platform" "ske" {
+resource "meshstack_platform" "this" {
   metadata = {
     name               = "ske-namespace"
-    owned_by_workspace = var.owning_workspace_identifier
+    owned_by_workspace = var.meshstack.owning_workspace_identifier
   }
 
   spec = {
@@ -38,7 +30,7 @@ resource "meshstack_platform" "ske" {
     support_url       = ""
 
     location_ref = {
-      name = "sovereign"
+      name = var.meshstack.location_identifier
     }
 
     availability = {

@@ -4,10 +4,9 @@ terraform {
       source  = "stackitcloud/stackit"
       version = "~> 0.83"
     }
+    restapi = {
+      source  = "Mastercard/restapi"
+      version = "3.0.0"
+    }
   }
-}
-
-variable "stackit_project_id" {
-  description = "STACKIT project UUID"
-  type        = string
 }

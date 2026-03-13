@@ -16,14 +16,33 @@ dependency "meshstack" {
 dependency "platform" {
   config_path = "../meshstack/platform"
   mock_outputs = {
-    full_platform_identifier     = "mock-platform"
-    landing_zone_dev_identifier  = "mock-lz-dev"
-    landing_zone_prod_identifier = "mock-lz-prod"
+    full_platform_identifier = "mock-platform"
+    landing_zone_identifiers = {
+      dev  = "mock-lz-dev"
+      prod = "mock-lz-prod"
+    }
+  }
+}
+
+dependency "git" {
+  config_path = "../git"
+  mock_outputs = {
+    forgejo_token        = "mock-token"
+    forgejo_base_url     = "https://mock-git-instance.git.onstackit.cloud"
+    forgejo_organization = "mock-org"
+  }
+}
+
+locals {
+  hub = {
+    # TODO version pin and change bbd_draft to false once dev is completely done
+    git_ref   = "main"
+    bbd_draft = true
   }
 }
 
 terraform {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/ske/ske-starterkit?ref=6bfe3de5b2ad56fea9e007900f25f16d8597ea1a"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/ske/ske-starterkit?ref=${local.hub.git_ref}"
 }
 
 generate "provider" {
@@ -42,18 +61,30 @@ inputs = {
   meshstack = {
     owning_workspace_identifier = dependency.meshstack.outputs.owning_workspace_identifier
   }
-  full_platform_identifier     = dependency.platform.outputs.full_platform_identifier
-  landing_zone_dev_identifier  = dependency.platform.outputs.landing_zone_dev_identifier
-  landing_zone_prod_identifier = dependency.platform.outputs.landing_zone_prod_identifier
-  hub                          = { git_ref = "6bfe3de5b2ad56fea9e007900f25f16d8597ea1a" }
-  tags                         = {}
-  notification_subscribers     = []
-  project_tags_yaml            = <<-YAML
-    dev:
-      environment:
-        - "dev"
-    prod:
-      environment:
-        - "prod"
-  YAML
+  hub = local.hub
+
+  full_platform_identifier = dependency.platform.outputs.full_platform_identifier
+  landing_zone_identifiers = dependency.platform.outputs.landing_zone_identifiers
+
+  forgejo_token        = dependency.git.outputs.forgejo_token
+  forgejo_base_url     = dependency.git.outputs.forgejo_base_url
+  forgejo_organization = dependency.git.outputs.forgejo_organization
+
+  # TODO provision this from public https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer
+  git_repository_template_path = "likvid/starterkit-template-stackit-ai-summarizer"
+
+  project_tags = {
+    owner_tag_key = "projectOwner"
+
+    dev = merge(dependency.meshstack.outputs.required_project_tags, {
+      "environment"  = ["dev"]
+      "Schutzbedarf" = ["internal"] # overwrites default
+    })
+    prod = merge(dependency.meshstack.outputs.required_project_tags, {
+      "environment" = ["prod"]
+    })
+  }
+
+  tags                     = {}
+  notification_subscribers = []
 }

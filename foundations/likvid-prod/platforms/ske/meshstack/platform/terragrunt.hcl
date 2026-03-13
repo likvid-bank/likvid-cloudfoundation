@@ -10,6 +10,7 @@ dependency "meshstack" {
   config_path = ".."
   mock_outputs = {
     owning_workspace_identifier = "owning-workspace"
+    location_identifier         = "mock-location"
   }
 }
 
@@ -45,6 +46,6 @@ EOF
 }
 
 inputs = {
-  owning_workspace_identifier = dependency.meshstack.outputs.owning_workspace_identifier
-  kube_host                   = dependency.kubernetes.outputs.kube_host
+  meshstack = dependency.meshstack.outputs
+  kube_host = dependency.kubernetes.outputs.kube_host
 }

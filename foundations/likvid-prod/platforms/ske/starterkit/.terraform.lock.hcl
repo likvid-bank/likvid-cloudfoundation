@@ -1,25 +1,43 @@
 # This file is maintained automatically by "tofu init".
 # Manual edits may be lost in future updates.
 
-provider "registry.opentofu.org/meshcloud/meshstack" {
-  version     = "0.19.4"
-  constraints = "~> 0.19.3"
+provider "registry.opentofu.org/hashicorp/http" {
+  version     = "3.5.0"
+  constraints = "~> 3.4"
   hashes = [
-    "h1:riuMMVbTkc2svyadGnu+sFDoz6MM1Lc3omnTm5GtGi0=",
-    "zh:05643deffed31bf21549b0aec1b423f13706871d15db98202b56befceaaf4b11",
-    "zh:0a1fee94aecc9aaa8232edd2fd7ca0e7a79ee9dd13f5d1a66f44f9edb2d8f550",
-    "zh:0ba7df67fa45f4eb98aaac45ee87781aed54acbdcc9967626cee2602ebc2c03c",
-    "zh:17b3a11386521e13108a36ecd54930628778887fdf0203d78a35814becdf55fb",
-    "zh:19f04b0f19f54eb6df05b14c82024781ca4bf5b008f27db867166b4c344da963",
-    "zh:1d7f9e213413257f2487e67ac563e9c4799fa96bffa5589172bc111379fe513b",
-    "zh:33e1b595ed5f06026f1611e4931193993c6aedb4a50e93dee542bb85045e3f1c",
-    "zh:3726513dda5aaf99679881ac00c5615562b9e72ffdf891e4bcaeed5b5a41b3ae",
-    "zh:54e88a1311091634f0632121ddfe94d48d2b0f77abb9ddb0649bad750c1f33d3",
-    "zh:6e4943d95bca1c89d974ec7177cd5325ec036471b185fc58fcd6f0568ed006df",
-    "zh:6efa31f6fefb68a46ef615e83ef253a09773a89d61a7347c5de7b2360fd204eb",
-    "zh:879ddf51813b6f51960b5f7f2ed9d390c0b098b5f7733770414d28f6e694e8ba",
+    "h1:yvwvVZ0vdbsTUMru+7Cr0On1FVgDJHAaC6TNvy/OWzM=",
+    "zh:0a2b33494eec6a91a183629cf217e073be063624c5d3f70870456ddb478308e9",
+    "zh:180f40124fa01b98b3d2f79128646b151818e09d6a1a9ca08e0b032a0b1e9cb1",
+    "zh:3e29e1de149dc10bf78620526c7cb8c62cd76087f5630dfaba0e93cda1f3aa7b",
+    "zh:4420950200cf86042ec940d0e2c9b7c89966bf556bf8038ba36217eae663bca5",
+    "zh:5d1f7d02109b2e2dca7ec626e5563ee765583792d0fd64081286f16f9433bd0d",
+    "zh:8500b138d338b1994c4206aa577b5c44e1d7260825babcf43245a7075bfa52a5",
+    "zh:b42165a6c4cfb22825938272d12b676e4a6946ac4e750f85df870c947685df2d",
+    "zh:b919bf3ee8e3b01051a0da3433b443a925e272893d3724ee8fc0f666ec7012c9",
+    "zh:d13b81ea6755cae785b3e11634936cdff2dc1ec009dc9610d8e3c7eb32f42e69",
+    "zh:f1c9d2eb1a6b618ae77ad86649679241bd8d6aacec06d0a68d86f748687f4eb3",
+  ]
+}
+
+provider "registry.opentofu.org/meshcloud/meshstack" {
+  version     = "0.20.0"
+  constraints = "~> 0.20.0"
+  hashes = [
+    "h1:AHnoC2voZjHFPLYG8rgopgMukE7b0DDPIuhfsBJhloQ=",
+    "zh:089bc74cefb87a06bf012f88769c8749d26d06c69bd1220eb4a55f060d485614",
+    "zh:19533f6a67c3ebea12c6ac0c2dd94dc5d4aa82e8986c9005b4197f4653fd3436",
+    "zh:252989236a503ed47cbcb3d440ac0d3825289d47e7d0c204506a89cb5a5810ae",
+    "zh:2a41fa05065cd6bdb45795df8099ecffb53f7fc852c6a42438c55805e77a6eb3",
+    "zh:3f570121334cfd8f9cbcef10bc15094ea08d02c5ca6784243efd2c3d728afb32",
+    "zh:46df1d45c180a7d3cd566ad8cf5e2a3e61a68c2c829120c46cada652a5f86282",
+    "zh:705cfebfd9adfbbaccaf010389eb6be55957fe0dd12ef9dece0c84f4593a1f3e",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:bc0a77580c8fa69eb4417c8f61cfc5f4705faa1844026b03662c5654990c1bb4",
-    "zh:eda508cb852b0e75178597abfa39f301c9c5953871101d145ea57b2eb13ce091",
+    "zh:9e62f025499b760001446d835fd96d6d191b4cb549bc86efb900177d24d59812",
+    "zh:a7bf70e5db7bfeb341180996ffa2965373a6d03d12edc034b789a7eb7445c04a",
+    "zh:d51d2dcba14b683c044f6864328475ae51e18479130bf14d83bf6b922706d13d",
+    "zh:efda90425f8e1a38876759a85b3239713f51ec534d4d3508e85789c12b468bce",
+    "zh:f1f62a68a670073786eba2b66f84812bcfbe6130871bc4d1c048a155337ff9a5",
+    "zh:f98129d29543bc9d92afd91f08a5fdd27e04bb465d059c5534c9f080560f694a",
+    "zh:fc560effc51473f125f8ca7ba9103ca562c8af321fa4bbf1d7caa4dc0be8161a",
   ]
 }

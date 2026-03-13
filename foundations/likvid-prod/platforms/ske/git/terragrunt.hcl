@@ -27,4 +27,6 @@ EOF
 
 inputs = {
   stackit_project_id = dependency.meshstack.outputs.stackit_project_id
+  # TODO: This is a workaround that we need to create a PAT for the created STACKIT git instance
+  forgejo_token = get_env("STACKIT_GIT_FORGEJO_TOKEN")
 }

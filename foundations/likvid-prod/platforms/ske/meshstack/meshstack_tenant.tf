@@ -1,12 +1,17 @@
 output "stackit_project_id" {
   description = "STACKIT project UUID provisioned by meshStack replication – consumed by kubernetes/"
-  value       = meshstack_tenant_v4.stackit.spec.platform_tenant_id
+  value       = meshstack_tenant_v4.this.spec.platform_tenant_id
 }
 
-resource "meshstack_tenant_v4" "stackit" {
+moved {
+  from = meshstack_tenant_v4.stackit
+  to   = meshstack_tenant_v4.this
+}
+
+resource "meshstack_tenant_v4" "this" {
   metadata = {
-    owned_by_workspace = data.meshstack_workspace.devops_platform.metadata.name
-    owned_by_project   = meshstack_project.stackit.metadata.name
+    owned_by_workspace = local.owning_workspace_identifier
+    owned_by_project   = meshstack_project.this.metadata.name
   }
 
   spec = {
