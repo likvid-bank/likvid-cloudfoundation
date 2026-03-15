@@ -55,6 +55,14 @@
     {
       "Effect": "Allow",
       "Action": [
+        "identitystore:GetUserId",
+        "identitystore:DescribeUser"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
         "access-analyzer:*"
       ],
       "Resource": "*"
