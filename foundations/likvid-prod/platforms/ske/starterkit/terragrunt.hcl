@@ -70,8 +70,7 @@ inputs = {
   forgejo_base_url     = dependency.git.outputs.forgejo_base_url
   forgejo_organization = dependency.git.outputs.forgejo_organization
 
-  # TODO provision this from public https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer
-  git_repository_template_path = "likvid/starterkit-template-stackit-ai-summarizer"
+  repo_clone_addr = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
 
   project_tags = {
     owner_tag_key = "projectOwner"
