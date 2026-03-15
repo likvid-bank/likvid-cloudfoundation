@@ -44,8 +44,7 @@ resource "restapi_object" "forgejo_organization" {
     username   = var.forgejo_organization
     visibility = "private"
   })
-  force_new = ["data"]
-  debug     = true
+  ignore_server_additions = true
 }
 
 import {
