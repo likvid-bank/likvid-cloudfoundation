@@ -93,7 +93,6 @@ module "starterkit" {
     "git-repository" : module.git_repository.building_block_definition_version_ref
     "forgejo-connector" : module.forgejo_connector.building_block_definition_version_ref
   }
-  git_repository_definition_uuid = module.git_repository.building_block_definition_uuid
 
   full_platform_identifier = var.full_platform_identifier
   landing_zone_identifiers = var.landing_zone_identifiers
