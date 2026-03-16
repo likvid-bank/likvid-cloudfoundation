@@ -69,3 +69,9 @@ output "client_key" {
   value       = yamldecode(stackit_ske_kubeconfig.starterkit.kube_config)["users"][0]["user"]["client-key-data"]
   sensitive   = true
 }
+
+output "cluster_kubeconfig" {
+  description = "Raw kubeconfig content for starterkit access."
+  value       = stackit_ske_kubeconfig.starterkit.kube_config
+  sensitive   = true
+}

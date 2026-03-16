@@ -37,6 +37,31 @@ variable "forgejo_base_url" {
   type = string
 }
 
+variable "cluster_host" {
+  type      = string
+  sensitive = true
+}
+
+variable "cluster_ca_certificate" {
+  type      = string
+  sensitive = true
+}
+
+variable "client_certificate" {
+  type      = string
+  sensitive = true
+}
+
+variable "client_key" {
+  type      = string
+  sensitive = true
+}
+
+variable "cluster_kubeconfig" {
+  type      = string
+  sensitive = true
+}
+
 variable "stackit_harbor_registry" {
   type = string
 }
@@ -66,7 +91,9 @@ module "starterkit" {
 
   building_block_definition_version_refs = {
     "git-repository" : module.git_repository.building_block_definition_version_ref
+    "forgejo-connector" : module.forgejo_connector.building_block_definition_version_ref
   }
+  git_repository_definition_uuid = module.git_repository.building_block_definition_uuid
 
   full_platform_identifier = var.full_platform_identifier
   landing_zone_identifiers = var.landing_zone_identifiers
@@ -101,6 +128,27 @@ module "git_repository" {
     HARBOR_USERNAME   = var.stackit_harbor_push_robot_user
     HARBOR_PASSWORD   = var.stackit_harbor_push_robot_password
   }
+}
+
+module "forgejo_connector" {
+  source = "../../../../../../meshstack-hub/modules/ske/forgejo-connector" # TODO replace with URL and ?ref=${var.hub.git_ref}
+
+  meshstack = var.meshstack
+  hub       = var.hub
+
+  cluster_host           = var.cluster_host
+  cluster_ca_certificate = var.cluster_ca_certificate
+  client_certificate     = var.client_certificate
+  client_key             = var.client_key
+  cluster_kubeconfig     = var.cluster_kubeconfig
+
+  forgejo_host                 = var.forgejo_base_url
+  forgejo_api_token            = var.forgejo_token
+  forgejo_repo_definition_uuid = module.git_repository.building_block_definition_uuid
+
+  harbor_host     = var.stackit_harbor_registry
+  harbor_username = var.stackit_harbor_push_robot_user
+  harbor_password = var.stackit_harbor_push_robot_password
 }
 
 moved {

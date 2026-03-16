@@ -33,6 +33,17 @@ dependency "git" {
   }
 }
 
+dependency "kubernetes" {
+  config_path = "../kubernetes"
+  mock_outputs = {
+    kube_host              = "https://mock-kube-host"
+    cluster_ca_certificate = "bW9jaw=="
+    client_certificate     = "bW9jaw=="
+    client_key             = "bW9jaw=="
+    cluster_kubeconfig     = "apiVersion: v1"
+  }
+}
+
 locals {
   hub = {
     # TODO version pin and change bbd_draft to false once dev is completely done
@@ -63,6 +74,12 @@ inputs = {
   forgejo_token        = dependency.git.outputs.forgejo_token
   forgejo_base_url     = dependency.git.outputs.forgejo_base_url
   forgejo_organization = dependency.git.outputs.forgejo_organization
+
+  cluster_host           = dependency.kubernetes.outputs.kube_host
+  cluster_ca_certificate = dependency.kubernetes.outputs.cluster_ca_certificate
+  client_certificate     = dependency.kubernetes.outputs.client_certificate
+  client_key             = dependency.kubernetes.outputs.client_key
+  cluster_kubeconfig     = dependency.kubernetes.outputs.cluster_kubeconfig
 
   stackit_harbor_registry            = "registry.onstackit.cloud"
   stackit_harbor_project             = "stackit_kubernetes_platform" # Note: this project name is globally shared across all STACKIT, so maybe we should have used 'likvid-ske' as some prefix?
