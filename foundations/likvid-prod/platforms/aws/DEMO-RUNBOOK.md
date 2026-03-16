@@ -9,26 +9,13 @@
 
 ---
 
-## Background: Landing Zones vs. Platform Engineering
+## Background
 
-The [Landing Zone Ultimate Guide whitepaper](./Whitepaper%20LZ%20Ultimate%Guide.md) frames landing zones
-as the foundational product of a **cloud foundation team** (now more commonly called a **platform engineering**
-team). The key insight is that a landing zone is not a one-off project — it is a **continuously evolved
-platform product** with five governance functions:
+This demo shows three capabilities of the Likvid Cloud Foundation AWS platform, all managed as IaC in this repo:
 
-| Governance Function | Example in this Demo |
-|---|---|
-| Tenant Management | OU hierarchy, account vending via meshStack |
-| Identity & Access Management | SSO assignments, `DenyCreateIAMUser` SCP |
-| Security & Compliance | `DenyDisableCloudTrail` SCP, audit log bucket |
-| Cost Management | Budget alert building block |
-| Service Ecosystem | Bedrock landing zone, S3 bucket building block |
-
-> **Platform engineering note:** The whitepaper pre-dates the widespread adoption of Internal Developer
-> Platforms (IDPs). Modern teams no longer treat landing zones as static ITSM deliverables but as
-> **self-service platform products** — the IaC repository _is_ the platform backlog. The distributed
-> `kit/` + `foundations/` layout in LCF embodies exactly this: reusable, versioned modules (`kit/`)
-> composed into an environment-specific stack (`foundations/likvid-prod/`).
+1. **Organization hierarchy** — OU structure, management accounts and SCPs (`platforms/aws/organization`)
+2. **Centralized audit logs** — org-wide CloudTrail writing to a locked-down S3 bucket (`platforms/aws/organization-trail`)
+3. **Bedrock landing zone** — a dedicated OU for GenAI workloads provisioned via an external meshstack-hub module (`platforms/aws/landingzones/bedrock`)
 
 ---
 
