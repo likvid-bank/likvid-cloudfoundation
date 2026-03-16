@@ -33,6 +33,8 @@ terragrunt --version   # 0.99.x
 tofu --version         # 1.11.x
 ```
 
+SSO start page: **<https://meshcloud-dev.awsapps.com/start>** — select the `702461728527` management account for console access. All console links below require this account to be active in your browser session.
+
 State is stored in an S3 bucket `likvid-tf-state` (eu-central-1) in automation account `302263042172`.
 Remote state key pattern: `platforms/aws/<relative-path>.tfstate`.
 
@@ -117,6 +119,14 @@ Landing zones OU   : ou-rpqz-ni6mptmu
 M25 platform OU    : ou-rpqz-k5htaeoe
 ```
 
+> **Console:**
+> - [Organization root — full OU tree](https://us-east-1.console.aws.amazon.com/organizations/v2/home/root)
+> - [likvid parent OU (`ou-rpqz-vx54f60i`)](https://us-east-1.console.aws.amazon.com/organizations/v2/home/organizational-units/ou-rpqz-vx54f60i)
+> - [likvid-landingzones OU (`ou-rpqz-ni6mptmu`)](https://us-east-1.console.aws.amazon.com/organizations/v2/home/organizational-units/ou-rpqz-ni6mptmu)
+> - [cloud-native OU (`ou-rpqz-zb7gu2r4`)](https://us-east-1.console.aws.amazon.com/organizations/v2/home/organizational-units/ou-rpqz-zb7gu2r4)
+> - [M25 platform OU (`ou-rpqz-k5htaeoe`)](https://us-east-1.console.aws.amazon.com/organizations/v2/home/organizational-units/ou-rpqz-k5htaeoe)
+> - [All member accounts](https://us-east-1.console.aws.amazon.com/organizations/v2/home/accounts)
+
 ### Security guardrail already enforced at this level
 
 The organization module attaches a **Service Control Policy (SCP)** that prevents any account in the
@@ -132,6 +142,8 @@ organization from disabling CloudTrail — even with admin permissions:
   }]
 }
 ```
+
+> **Console:** [Service Control Policies list](https://us-east-1.console.aws.amazon.com/organizations/v2/home/policies/service-control-policy)
 
 ### Demo commands (read-only)
 
@@ -203,6 +215,11 @@ Trail ARN  : arn:aws:cloudtrail:eu-central-1:702461728527:trail/likvid-prod-trai
 S3 Bucket  : likvid-prod-organization-trail-bucket
 ```
 
+> **Console:**
+> - [CloudTrail trail: likvid-prod-trail](https://eu-central-1.console.aws.amazon.com/cloudtrail/home?region=eu-central-1#/trails/arn:aws:cloudtrail:eu-central-1:702461728527:trail/likvid-prod-trail)
+> - [CloudTrail event history](https://eu-central-1.console.aws.amazon.com/cloudtrail/home?region=eu-central-1#/events)
+> - [S3 audit bucket: likvid-prod-organization-trail-bucket](https://s3.console.aws.amazon.com/s3/buckets/likvid-prod-organization-trail-bucket?region=eu-central-1)
+
 ### Demo commands (read-only)
 
 ```bash
@@ -262,6 +279,10 @@ Bedrock OU: ou-rpqz-du12whhh
 ```
 organizational_unit_id = "ou-rpqz-du12whhh"
 ```
+
+> **Console:**
+> - [Bedrock OU (`ou-rpqz-du12whhh`)](https://us-east-1.console.aws.amazon.com/organizations/v2/home/organizational-units/ou-rpqz-du12whhh)
+> - [AWS Bedrock model access (eu-central-1)](https://eu-central-1.console.aws.amazon.com/bedrock/home?region=eu-central-1#/modelaccess)
 
 ### What the meshstack-hub module does
 
