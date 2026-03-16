@@ -45,6 +45,10 @@ variable "stackit_harbor_project" {
   type = string
 }
 
+variable "stackit_harbor_image_name" {
+  type = string
+}
+
 variable "stackit_harbor_push_robot_user" {
   type = string
 }
@@ -91,10 +95,11 @@ module "git_repository" {
   forgejo_base_url     = var.forgejo_base_url
 
   action_secrets = {
-    HARBOR_REGISTRY         = var.stackit_harbor_registry
-    HARBOR_IMAGE_REPOSITORY = "${var.stackit_harbor_registry}/${var.stackit_harbor_project}"
-    HARBOR_USERNAME         = var.stackit_harbor_push_robot_user
-    HARBOR_PASSWORD         = var.stackit_harbor_push_robot_password
+    HARBOR_REGISTRY   = var.stackit_harbor_registry
+    HARBOR_PROJECT    = var.stackit_harbor_project
+    HARBOR_IMAGE_NAME = var.stackit_harbor_image_name
+    HARBOR_USERNAME   = var.stackit_harbor_push_robot_user
+    HARBOR_PASSWORD   = var.stackit_harbor_push_robot_password
   }
 }
 

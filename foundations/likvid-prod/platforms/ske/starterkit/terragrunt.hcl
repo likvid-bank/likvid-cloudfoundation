@@ -66,6 +66,7 @@ inputs = {
 
   stackit_harbor_registry            = "registry.onstackit.cloud"
   stackit_harbor_project             = "stackit_kubernetes_platform" # Note: this project name is globally shared across all STACKIT, so maybe we should have used 'likvid-ske' as some prefix?
+  stackit_harbor_image_name          = "ai-summarizer"
   stackit_harbor_push_robot_user     = get_env("STACKIT_HARBOR_PUSH_ROBOT_USER")
   stackit_harbor_push_robot_password = get_env("STACKIT_HARBOR_PUSH_ROBOT_PASSWORD")
 
