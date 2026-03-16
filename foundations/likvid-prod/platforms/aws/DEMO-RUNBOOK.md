@@ -22,15 +22,8 @@ This demo shows three capabilities of the Likvid Cloud Foundation AWS platform, 
 ## Prerequisites
 
 ```bash
-# 1. Single Sign-On (SSO) login (token valid ~8 hours)
+# SSO login (token valid ~8 hours)
 aws sso login --profile likvid
-
-# 2. Verify access
-aws sts get-caller-identity --profile likvid
-
-# 3. Confirm Terragrunt version
-terragrunt --version   # 0.99.x
-tofu --version         # 1.11.x
 ```
 
 SSO start page: **<https://meshcloud-dev.awsapps.com/start>** — select the `702461728527` management account for console access. All console links below require this account to be active in your browser session.
@@ -145,22 +138,11 @@ organization from disabling CloudTrail — even with admin permissions:
 
 > **Console:** [Service Control Policies list](https://us-east-1.console.aws.amazon.com/organizations/v2/home/policies/service-control-policy)
 
-### Demo commands (read-only)
+### Demo commands
 
 ```bash
 cd foundations/likvid-prod/platforms/aws/organization
-
-# Show current OU structure
 AWS_PROFILE=likvid terragrunt output
-
-# Inspect the SCP
-aws organizations list-policies --filter SERVICE_CONTROL_POLICY --profile likvid
-
-# Inspect OU tree
-aws organizations list-children \
-  --parent-id ou-rpqz-vx54f60i \
-  --child-type ORGANIZATIONAL_UNIT \
-  --profile likvid
 ```
 
 ### Talking points
@@ -220,26 +202,11 @@ S3 Bucket  : likvid-prod-organization-trail-bucket
 > - [CloudTrail event history](https://eu-central-1.console.aws.amazon.com/cloudtrail/home?region=eu-central-1#/events)
 > - [S3 audit bucket: likvid-prod-organization-trail-bucket](https://s3.console.aws.amazon.com/s3/buckets/likvid-prod-organization-trail-bucket?region=eu-central-1)
 
-### Demo commands (read-only)
+### Demo commands
 
 ```bash
 cd foundations/likvid-prod/platforms/aws/organization-trail
-
-# Show trail details
 AWS_PROFILE=likvid terragrunt output
-
-# Describe the trail via AWS CLI
-aws cloudtrail describe-trails \
-  --trail-name-list likvid-prod-trail \
-  --profile likvid
-
-# Show trail status (is logging active?)
-aws cloudtrail get-trail-status \
-  --name likvid-prod-trail \
-  --profile likvid
-
-# Confirm the SCP blocks disabling (expect AccessDenied)
-# aws cloudtrail stop-logging --name likvid-prod-trail --profile likvid  ← DON'T RUN — will fail as intended
 ```
 
 ### Talking points
@@ -293,25 +260,11 @@ application teams who need:
 - Guardrails specific to AI workloads (data residency, model usage limits)
 - An isolated OU so Bedrock-specific SCPs can be applied without affecting other landing zones
 
-### Demo commands (read-only)
+### Demo commands
 
 ```bash
 cd foundations/likvid-prod/platforms/aws/landingzones/bedrock
-
-# Show the OU created
 AWS_PROFILE=likvid terragrunt output
-
-# Inspect accounts in the bedrock OU
-aws organizations list-children \
-  --parent-id ou-rpqz-du12whhh \
-  --child-type ACCOUNT \
-  --profile likvid
-
-# Compare with cloud-native landing zone OUs
-aws organizations list-children \
-  --parent-id ou-rpqz-zb7gu2r4 \
-  --child-type ORGANIZATIONAL_UNIT \
-  --profile likvid
 ```
 
 ### Talking points
