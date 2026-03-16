@@ -36,13 +36,9 @@ dependency "git" {
 locals {
   hub = {
     # TODO version pin and change bbd_draft to false once dev is completely done
-    git_ref   = "main"
+    git_ref   = "feature/ske-starter-kit-harbor-integration"
     bbd_draft = true
   }
-}
-
-terraform {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/ske/ske-starterkit?ref=${local.hub.git_ref}"
 }
 
 generate "provider" {
@@ -58,10 +54,8 @@ EOF
 }
 
 inputs = {
-  meshstack = {
-    owning_workspace_identifier = dependency.meshstack.outputs.owning_workspace_identifier
-  }
-  hub = local.hub
+  meshstack = dependency.meshstack.outputs
+  hub       = local.hub
 
   full_platform_identifier = dependency.platform.outputs.full_platform_identifier
   landing_zone_identifiers = dependency.platform.outputs.landing_zone_identifiers
@@ -69,6 +63,11 @@ inputs = {
   forgejo_token        = dependency.git.outputs.forgejo_token
   forgejo_base_url     = dependency.git.outputs.forgejo_base_url
   forgejo_organization = dependency.git.outputs.forgejo_organization
+
+  stackit_harbor_registry            = "registry.onstackit.cloud"
+  stackit_harbor_project             = "stackit_kubernetes_platform" # Note: this project name is globally shared across all STACKIT, so maybe we should have used 'likvid-ske' as some prefix?
+  stackit_harbor_push_robot_user     = get_env("STACKIT_HARBOR_PUSH_ROBOT_USER")
+  stackit_harbor_push_robot_password = get_env("STACKIT_HARBOR_PUSH_ROBOT_PASSWORD")
 
   repo_clone_addr = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
 

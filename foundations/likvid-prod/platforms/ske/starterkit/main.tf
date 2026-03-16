@@ -1,0 +1,109 @@
+variable "meshstack" {
+  type = object({
+    owning_workspace_identifier = string
+    required_project_tags       = map(list(string))
+  })
+}
+
+variable "hub" {
+  type = object({
+    git_ref   = string
+    bbd_draft = bool
+  })
+}
+
+variable "full_platform_identifier" {
+  type = string
+}
+
+variable "landing_zone_identifiers" {
+  type = object({
+    dev  = string
+    prod = string
+  })
+  description = "Identifiers of meshLandingZones for dev and prod."
+}
+
+variable "forgejo_token" {
+  type      = string
+  sensitive = true
+}
+
+variable "forgejo_organization" {
+  type = string
+}
+
+variable "forgejo_base_url" {
+  type = string
+}
+
+variable "stackit_harbor_registry" {
+  type = string
+}
+
+variable "stackit_harbor_project" {
+  type = string
+}
+
+variable "stackit_harbor_push_robot_user" {
+  type = string
+}
+
+variable "stackit_harbor_push_robot_password" {
+  type      = string
+  sensitive = true
+}
+
+module "starterkit" {
+  source = "../../../../../../meshstack-hub/modules/ske/ske-starterkit" # TODO replace with URL and ?ref=${var.hub.git_ref}
+
+  meshstack = var.meshstack
+  hub       = var.hub
+
+  building_block_definition_version_refs = {
+    "git-repository" : module.git_repository.building_block_definition_version_ref
+  }
+
+  full_platform_identifier = var.full_platform_identifier
+  landing_zone_identifiers = var.landing_zone_identifiers
+  project_tags = {
+    owner_tag_key = "projectOwner" # tag value is the creator of the starter kit building block
+    dev = merge(var.meshstack.required_project_tags, {
+      "environment"  = ["dev"]
+      "Schutzbedarf" = ["internal"] # overwrites default
+    })
+    prod = merge(var.meshstack.required_project_tags, {
+      "environment" = ["prod"]
+    })
+  }
+
+  repo_clone_addr = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
+}
+
+module "git_repository" {
+  source = "../../../../../../meshstack-hub/modules/stackit/git-repository" # TODO replace with URL and ?ref=${var.hub.git_ref}
+
+  meshstack = var.meshstack
+  hub       = var.hub
+
+  forgejo_token        = var.forgejo_token
+  forgejo_organization = var.forgejo_organization
+  forgejo_base_url     = var.forgejo_base_url
+
+  action_secrets = {
+    HARBOR_REGISTRY         = var.stackit_harbor_registry
+    HARBOR_IMAGE_REPOSITORY = "${var.stackit_harbor_registry}/${var.stackit_harbor_project}"
+    HARBOR_USERNAME         = var.stackit_harbor_push_robot_user
+    HARBOR_PASSWORD         = var.stackit_harbor_push_robot_password
+  }
+}
+
+moved {
+  from = module.backplane.module.git_repository.meshstack_building_block_definition.this
+  to   = module.git_repository.meshstack_building_block_definition.this
+}
+
+moved {
+  from = meshstack_building_block_definition.this
+  to   = module.starterkit.meshstack_building_block_definition.this
+}
