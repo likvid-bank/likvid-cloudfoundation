@@ -67,8 +67,8 @@ environment-specific inputs. Changes flow as Pull Requests (PRs) through `kit/` 
 
 ## Capability 1 — Organization Hierarchy
 
-**Kit module:** `kit/aws/organization`
-**Foundation stack:** `foundations/likvid-prod/platforms/aws/organization/terragrunt.hcl`
+**Kit module:** [`kit/aws/organization`](../../../../kit/aws/organization)
+**Foundation stack:** [`organization/terragrunt.hcl`](organization/terragrunt.hcl)
 
 ### What it provisions
 
@@ -164,8 +164,8 @@ aws organizations list-children \
 
 ## Capability 2 — Centralized Audit Logs
 
-**Kit module:** `kit/aws/organization-trail`
-**Foundation stack:** `foundations/likvid-prod/platforms/aws/organization-trail/terragrunt.hcl`
+**Kit module:** [`kit/aws/organization-trail`](../../../../kit/aws/organization-trail)
+**Foundation stack:** [`organization-trail/terragrunt.hcl`](organization-trail/terragrunt.hcl)
 
 ### What it provisions
 
@@ -241,8 +241,8 @@ aws cloudtrail get-trail-status \
 
 ## Capability 3 — Individual Service Provisioning: AWS Bedrock Landing Zone
 
-**Source module:** `meshstack-hub` (external, pinned commit `d709611025f677071308e6d0798bfbe6a47a1321`)
-**Foundation stack:** `foundations/likvid-prod/platforms/aws/landingzones/bedrock/terragrunt.hcl`
+**Source module:** [`meshstack-hub/modules/aws/agentic-coding-sandbox/backplane/landingzone`](../../../../../../meshstack-hub/modules/aws/agentic-coding-sandbox/backplane/landingzone) (external, pinned commit `d709611025f677071308e6d0798bfbe6a47a1321`)
+**Foundation stack:** [`landingzones/bedrock/terragrunt.hcl`](landingzones/bedrock/terragrunt.hcl)
 
 ### What it provisions
 
@@ -317,7 +317,7 @@ explicitly intended.**
 
 ### Change 1 — Add a Region Restriction SCP to the Cloud-Native Prod OU
 
-**File to edit:** `kit/aws/landingzones/cloud-native/main.tf`
+**File to edit:** [`kit/aws/landingzones/cloud-native/main.tf`](../../../../kit/aws/landingzones/cloud-native/main.tf)
 
 **Why:** Demonstrate that SCPs attached at the OU level provide guardrails without application
 team involvement. Adding a `DenyNonEURegion` policy to the `prod` OU (not `dev`) shows the
@@ -361,7 +361,7 @@ resource "aws_organizations_policy_attachment" "deny_non_eu_prod" {
 
 ### Change 2 — Enable Multi-Region CloudTrail
 
-**File to edit:** `foundations/likvid-prod/platforms/aws/organization-trail/terragrunt.hcl`
+**File to edit:** [`organization-trail/terragrunt.hcl`](organization-trail/terragrunt.hcl) and [`kit/aws/organization-trail/variables.tf`](../../../../kit/aws/organization-trail/variables.tf)
 
 **Why:** Demonstrate how a single input change in the Terragrunt stack propagates to infrastructure.
 Also a genuine security improvement (global services like IAM are always logged, but Elastic Compute Cloud (EC2) in
@@ -456,7 +456,7 @@ Then add a separate SCP for sandboxes (e.g., monthly spend cap via Service Quota
 
 ### Change 4 — Add a Tagging Policy to Enforce Cost Attribution
 
-**File to edit:** `kit/aws/organization/main.tf`
+**File to edit:** [`kit/aws/organization/main.tf`](../../../../kit/aws/organization/main.tf)
 
 **Why:** Show another type of AWS Organizations policy (Tag Policies, not SCPs) and connect to
 the *Cost Management* governance function.
