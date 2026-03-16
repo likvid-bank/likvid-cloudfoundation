@@ -1,6 +1,6 @@
 # AWS Landing Zone Workshop — Demo Runbook
 
-> **Scope:** This runbook guides a live demo of the Likvid Bank Cloud Foundation (LCF) AWS platform.
+> **Scope:** This runbook guides a live demo of the Likvid Bank Cloud Foundation (LCF) Amazon Web Services (AWS) platform.
 > It covers three landing zone capabilities deployed via the `foundations/likvid-prod/platforms/aws`
 > Terragrunt stack, plus proposals for quick demonstrable changes.
 >
@@ -13,16 +13,16 @@
 
 This demo shows three capabilities of the Likvid Cloud Foundation AWS platform, all managed as IaC in this repo:
 
-1. **Organization hierarchy** — OU structure, management accounts and SCPs (`platforms/aws/organization`)
-2. **Centralized audit logs** — org-wide CloudTrail writing to a locked-down S3 bucket (`platforms/aws/organization-trail`)
-3. **Bedrock landing zone** — a dedicated OU for GenAI workloads provisioned via an external meshstack-hub module (`platforms/aws/landingzones/bedrock`)
+1. **Organization hierarchy** — Organizational Unit (OU) structure, management accounts and Service Control Policies (SCPs) (`platforms/aws/organization`)
+2. **Centralized audit logs** — org-wide CloudTrail writing to a locked-down Simple Storage Service (S3) bucket (`platforms/aws/organization-trail`)
+3. **Bedrock landing zone** — a dedicated OU for Generative AI (GenAI) workloads provisioned via an external meshstack-hub module (`platforms/aws/landingzones/bedrock`)
 
 ---
 
 ## Prerequisites
 
 ```bash
-# 1. SSO login (token valid ~8 hours)
+# 1. Single Sign-On (SSO) login (token valid ~8 hours)
 aws sso login --profile likvid
 
 # 2. Verify access
@@ -33,7 +33,7 @@ terragrunt --version   # 0.99.x
 tofu --version         # 1.11.x
 ```
 
-State is stored in S3 bucket `likvid-tf-state` (eu-central-1) in automation account `302263042172`.
+State is stored in an S3 bucket `likvid-tf-state` (eu-central-1) in automation account `302263042172`.
 Remote state key pattern: `platforms/aws/<relative-path>.tfstate`.
 
 ---
@@ -48,6 +48,7 @@ likvid-cloudfoundation/
 ├── kit/aws/
 │   ├── organization/        # [Demo 1] OU hierarchy, management accounts, SCPs
 │   ├── organization-trail/  # [Demo 2] Organization-wide CloudTrail + audit S3 bucket
+
 │   └── landingzones/
 │       └── (bedrock via external meshstack-hub module)  # [Demo 3]
 └── foundations/likvid-prod/platforms/aws/
@@ -59,8 +60,8 @@ likvid-cloudfoundation/
 ```
 
 **Key design principle:** `kit/` defines *what* to build; `foundations/` defines *where* with
-environment-specific inputs. Changes flow as PRs through `kit/` and are consumed by one or more
-`foundations/` stacks — the same pattern used across AWS, Azure, GCP and other clouds in this repo.
+environment-specific inputs. Changes flow as Pull Requests (PRs) through `kit/` and are consumed by one or more
+`foundations/` stacks — the same pattern used across AWS, Azure, Google Cloud Platform (GCP) and other clouds in this repo.
 
 ---
 
@@ -77,7 +78,7 @@ aws_organizations_organizational_unit "parent"      # "likvid"
   └── aws_organizations_organizational_unit "management"   # "likvid-management"
   │     ├── aws_organizations_account "management"         # Payer/management
   │     ├── aws_organizations_account "networking"         # Hub networking account
-  │     ├── aws_organizations_account "automation"         # Terraform state + IAM user
+  │     ├── aws_organizations_account "automation"         # Terraform state + Identity and Access Management (IAM) user
   │     └── aws_organizations_account "meshstack"          # meshStack replicator
   └── aws_organizations_organizational_unit "landingzones"  # "likvid-landingzones"
         ├── cloud-native/ (managed by cloud-native kit)
@@ -173,8 +174,8 @@ CloudTrail (management account 702461728527)
   name: likvid-prod-trail
   is_organization_trail: true          ← covers ALL accounts in the org
   is_multi_region_trail: false         ← eu-central-1 only (can be changed)
-  enable_log_file_validation: true     ← tamper detection via SHA-256 digest files
-  include_global_service_events: true  ← captures IAM, STS, etc.
+  enable_log_file_validation: true     ← tamper detection via Secure Hash Algorithm 256-bit (SHA-256) digest files
+  include_global_service_events: true  ← captures IAM, Security Token Service (STS), etc.
   → writes to →
 S3 Bucket (audit account, cross-account write)
   name: likvid-prod-organization-trail-bucket
@@ -264,8 +265,8 @@ organizational_unit_id = "ou-rpqz-du12whhh"
 
 ### What the meshstack-hub module does
 
-The `agentic-coding-sandbox` module enables AWS Bedrock model access and associated IAM policies
-within accounts placed in this OU. This is a purpose-built **service provisioning** for AI/ML
+The `agentic-coding-sandbox` module enables AWS Bedrock model access and associated Identity and Access Management (IAM) policies
+within accounts placed in this OU. This is a purpose-built **service provisioning** for AI/Machine Learning (ML)
 application teams who need:
 - Pre-approved Bedrock model access (avoids per-team manual service enablement)
 - Guardrails specific to AI workloads (data residency, model usage limits)
@@ -363,7 +364,7 @@ resource "aws_organizations_policy_attachment" "deny_non_eu_prod" {
 **File to edit:** `foundations/likvid-prod/platforms/aws/organization-trail/terragrunt.hcl`
 
 **Why:** Demonstrate how a single input change in the Terragrunt stack propagates to infrastructure.
-Also a genuine security improvement (global services like IAM are always logged, but EC2 in
+Also a genuine security improvement (global services like IAM are always logged, but Elastic Compute Cloud (EC2) in
 non-eu regions would currently be missed).
 
 ```hcl
@@ -446,7 +447,7 @@ Then add a separate SCP for sandboxes (e.g., monthly spend cap via Service Quota
 `AllowListServices` approach restricting to only inexpensive services).
 
 **Platform engineering discussion:**
-- Reuses the existing `cloud-native` kit module — DRY principle
+- Reuses the existing `cloud-native` kit module — Don't Repeat Yourself (DRY) principle
 - Sandbox OU gets different (more permissive) SCPs than `prod` — tailored landing zones
 - This is a 10-minute change — the heavy lifting is already done in `kit/`
 - meshStack can expose a "Request Sandbox" self-service tile that provisions into this OU
@@ -535,11 +536,11 @@ engineering audience:
 
 | Whitepaper Framing | Modern Platform Engineering Update |
 |---|---|
-| Landing zones as ITSM deliverables | Landing zones as **continuously evolved platform products** with a team owning them long-term |
+| Landing zones as IT Service Management (ITSM) deliverables | Landing zones as **continuously evolved platform products** with a team owning them long-term |
 | Four use case archetypes (cloud-native, lift&shift, container, data science) | Add a fifth: **Agentic/GenAI** (Bedrock, Vertex AI, Azure OpenAI) — requires distinct service allowlists and model governance |
-| IaC in a git repo as "individual service provisioning" | This is the **baseline**, not the ceiling — the LCF `kit/` pattern shows how to evolve individual IaC into a reusable module catalog |
-| Focus on Terraform/ClickOps spectrum | The IDP/platform product layer (e.g., meshStack) adds a **self-service** layer *on top of* IaC — developers don't touch Terragrunt; they click "Request environment" |
-| Landing zone design = one-time architecture work | Platform engineering = **continuous delivery of platform changes** via PRs, GitOps pipelines and automated `terragrunt plan` in CI |
+| Infrastructure as Code (IaC) in a git repo as "individual service provisioning" | This is the **baseline**, not the ceiling — the LCF `kit/` pattern shows how to evolve individual IaC into a reusable module catalog |
+| Focus on Terraform/ClickOps spectrum | The Internal Developer Platform (IDP)/platform product layer (e.g., meshStack) adds a **self-service** layer *on top of* IaC — developers don't touch Terragrunt; they click "Request environment" |
+| Landing zone design = one-time architecture work | Platform engineering = **continuous delivery of platform changes** via Pull Requests (PRs), GitOps pipelines and automated `terragrunt plan` in Continuous Integration (CI) |
 | CloudTrail as optional security enhancement | CloudTrail (+ SCPs preventing its removal) is table stakes — the SCP pattern shown in `kit/aws/organization` enforces this non-negotiably |
 
 ---
