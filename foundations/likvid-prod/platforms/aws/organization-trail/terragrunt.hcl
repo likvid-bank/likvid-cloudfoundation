@@ -42,4 +42,5 @@ EOF
 inputs = {
   trail_name     = "likvid-prod-trail"
   s3_bucket_name = "likvid-prod-organization-trail-bucket"
+  auditors       = include.platform.locals.foundation_pam.audit_log_auditors
 }

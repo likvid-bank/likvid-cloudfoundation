@@ -9,6 +9,46 @@ data "aws_caller_identity" "audit" {
 data "aws_partition" "current" {}
 
 
+# SSO read-only access to the audit account for auditors
+data "aws_ssoadmin_instances" "sso" {
+  provider = aws.org_mgmt
+}
+
+data "aws_ssoadmin_permission_set" "readonly" {
+  provider     = aws.org_mgmt
+  instance_arn = tolist(data.aws_ssoadmin_instances.sso.arns)[0]
+  name         = "AWSReadOnlyAccess"
+}
+
+data "aws_identitystore_user" "auditors" {
+  provider = aws.org_mgmt
+  for_each = toset(var.auditors)
+
+  identity_store_id = tolist(data.aws_ssoadmin_instances.sso.identity_store_ids)[0]
+
+  alternate_identifier {
+    unique_attribute {
+      attribute_path  = "UserName"
+      attribute_value = each.key
+    }
+  }
+}
+
+resource "aws_ssoadmin_account_assignment" "auditors" {
+  provider = aws.org_mgmt
+  for_each = toset(var.auditors)
+
+  instance_arn       = tolist(data.aws_ssoadmin_instances.sso.arns)[0]
+  permission_set_arn = data.aws_ssoadmin_permission_set.readonly.arn
+
+  principal_id   = data.aws_identitystore_user.auditors[each.key].user_id
+  principal_type = "USER"
+
+  target_id   = data.aws_caller_identity.audit.account_id
+  target_type = "AWS_ACCOUNT"
+}
+
+
 # S3 Bucket im Audit Account
 resource "aws_s3_bucket" "cloudtrail" {
   provider = aws.audit
