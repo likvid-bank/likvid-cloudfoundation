@@ -28,12 +28,6 @@ locals {
     foundation_engineers = [
       "malhussan@meshcloud.io",
     ]
-
-    # audit log auditors get ReadOnlyAccess to the audit account
-    audit_log_auditors = [
-      "jrudolph@meshcloud.io",
-      "agrub@meshcloud.io",
-    ]
   }
 
   roles = {
