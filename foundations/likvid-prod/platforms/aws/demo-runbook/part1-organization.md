@@ -1,6 +1,6 @@
 # Part 1 — Organization Hierarchy
 
-**Kit module:** [`kit/aws/organization`](../../../../kit/aws/organization)
+**Kit module:** [`kit/aws/organization`](../../../../../kit/aws/organization)
 **Foundation stack:** [`organization/terragrunt.hcl`](../organization/terragrunt.hcl)
 
 ## What it provisions
