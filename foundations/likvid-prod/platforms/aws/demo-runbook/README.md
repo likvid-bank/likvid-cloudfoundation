@@ -22,7 +22,7 @@ state. Run `terragrunt apply` in this directory to regenerate them:
 
 ```bash
 cd foundations/likvid-prod/platforms/aws/demo-runbook
-AWS_PROFILE=likvid terragrunt apply
+terragrunt apply
 ```
 
 ---

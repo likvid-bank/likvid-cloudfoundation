@@ -1,6 +1,6 @@
 # Part 2 — Centralized Audit Logs
 
-**Kit module:** [`kit/aws/organization-trail`](../../../../kit/aws/organization-trail)
+**Kit module:** [`kit/aws/organization-trail`](../../../../../kit/aws/organization-trail)
 **Foundation stack:** [`organization-trail/terragrunt.hcl`](../organization-trail/terragrunt.hcl)
 
 ## What it provisions
@@ -43,13 +43,6 @@ S3 Bucket  : likvid-prod-organization-trail-bucket
 > - [CloudTrail trail: likvid-prod-trail](https://eu-central-1.console.aws.amazon.com/cloudtrail/home?region=eu-central-1#/trails/arn:aws:cloudtrail:eu-central-1:702461728527:trail/likvid-prod-trail)
 > - [CloudTrail event history](https://eu-central-1.console.aws.amazon.com/cloudtrail/home?region=eu-central-1#/events)
 > - [S3 audit bucket: likvid-prod-organization-trail-bucket](https://s3.console.aws.amazon.com/s3/buckets/likvid-prod-organization-trail-bucket?region=eu-central-1)
-
-## Demo commands
-
-```bash
-cd foundations/likvid-prod/platforms/aws/organization-trail
-AWS_PROFILE=likvid terragrunt output
-```
 
 ## Talking points
 

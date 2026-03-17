@@ -42,3 +42,8 @@ output "meshstack_account_id" {
   value       = aws_organizations_account.meshstack.id
   description = "id of the meshstack account"
 }
+
+output "deny_cloudtrail_deactivation_policy_id" {
+  value       = aws_organizations_policy.deny_cloudtrail_deactivation.id
+  description = "id of the DenyDisableCloudTrail SCP"
+}

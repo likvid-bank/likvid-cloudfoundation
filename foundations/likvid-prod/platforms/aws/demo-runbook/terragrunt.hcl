@@ -58,6 +58,9 @@ inputs = {
   automation_account_id = dependency.organization.outputs.automation_account_id
   meshstack_account_id  = dependency.organization.outputs.meshstack_account_id
 
+  # SCP
+  deny_cloudtrail_deactivation_policy_id = dependency.organization.outputs.deny_cloudtrail_deactivation_policy_id
+
   # landing zones
   cloud_native_ou_id      = dependency.cloud_native.outputs.cloud_native_ou_id
   cloud_native_dev_ou_id  = dependency.cloud_native.outputs.dev_ou_id
