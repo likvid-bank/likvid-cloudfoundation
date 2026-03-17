@@ -50,6 +50,11 @@ variable "meshstack_account_id" {
   description = "ID of the meshStack account"
 }
 
+variable "deny_cloudtrail_deactivation_policy_id" {
+  type        = string
+  description = "ID of the DenyDisableCloudTrail SCP"
+}
+
 # --- landing zones ---
 
 variable "cloud_native_ou_id" {

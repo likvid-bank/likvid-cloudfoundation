@@ -50,12 +50,8 @@ M25 platform OU    : ou-rpqz-k5htaeoe
 ```
 
 > **Console:**
-> - [Organization root — full OU tree](https://us-east-1.console.aws.amazon.com/organizations/v2/home/root)
-> - [likvid parent OU (`ou-rpqz-vx54f60i`)](https://us-east-1.console.aws.amazon.com/organizations/v2/home/organizational-units/ou-rpqz-vx54f60i)
+> - [likvid parent OU (`ou-rpqz-vx54f60i`)](https://us-east-1.console.aws.amazon.com/organizations/v2/home/organizational-units/ou-rpqz-vx54f60i) (UI Bug: Switch Tabs to show Children)
 > - [likvid-landingzones OU (`ou-rpqz-ni6mptmu`)](https://us-east-1.console.aws.amazon.com/organizations/v2/home/organizational-units/ou-rpqz-ni6mptmu)
-> - [cloud-native OU (`ou-rpqz-zb7gu2r4`)](https://us-east-1.console.aws.amazon.com/organizations/v2/home/organizational-units/ou-rpqz-zb7gu2r4)
-> - [M25 platform OU (`ou-rpqz-k5htaeoe`)](https://us-east-1.console.aws.amazon.com/organizations/v2/home/organizational-units/ou-rpqz-k5htaeoe)
-> - [All member accounts](https://us-east-1.console.aws.amazon.com/organizations/v2/home/accounts)
 
 ## Security guardrail already enforced at this level
 
@@ -74,13 +70,6 @@ organization from disabling CloudTrail — even with admin permissions:
 ```
 
 > **Console:** [Service Control Policies list](https://us-east-1.console.aws.amazon.com/organizations/v2/home/policies/service-control-policy)
-
-## Demo commands
-
-```bash
-cd foundations/likvid-prod/platforms/aws/organization
-AWS_PROFILE=likvid terragrunt output
-```
 
 ## Talking points
 
