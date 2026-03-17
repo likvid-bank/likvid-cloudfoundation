@@ -1,0 +1,92 @@
+# Part 1 — Organization Hierarchy
+
+**Kit module:** `kit/aws/organization`
+**Foundation stack:** `organization/terragrunt.hcl`
+
+## What it provisions
+
+```
+aws_organizations_organizational_unit "parent"      # "likvid"
+  └── aws_organizations_organizational_unit "management"   # "likvid-management"
+  │     ├── aws_organizations_account "management"         # Payer/management
+  │     ├── aws_organizations_account "networking"         # Hub networking account
+  │     ├── aws_organizations_account "automation"         # Terraform state + IAM user
+  │     └── aws_organizations_account "meshstack"          # meshStack replicator
+  └── aws_organizations_organizational_unit "landingzones"  # "likvid-landingzones"
+        ├── cloud-native/ (managed by cloud-native kit)
+        ├── on-prem/      (managed by on-prem kit)
+        └── bedrock/      (managed by bedrock kit)
+```
+
+Additionally, a separate `m25/` module adds:
+```
+likvid (root)
+  └── likvid-m25-platform   # M25 acquisition — integrated into payer, own platform team
+```
+
+## Live state
+
+```
+Organization ID   : ${org_id}
+Org root          : ${org_root_id}
+Parent OU (likvid): ${parent_ou_id}
+
+Management account   : ${management_account_id}
+Networking account   : ${networking_account_id}
+Automation account   : ${automation_account_id}
+meshStack account    : ${meshstack_account_id}
+Management account   : ${payer_account_id}  (payer / management)
+
+Landing zones OU   : ${landingzones_ou_id}
+  cloud-native OU  : ${cloud_native_ou_id}
+    └── dev        : ${cloud_native_dev_ou_id}
+    └── prod       : ${cloud_native_prod_ou_id}
+  on-prem OU       : (see on-prem kit)
+    └── dev        : ${on_prem_dev_ou_id}
+    └── prod       : ${on_prem_prod_ou_id}
+  bedrock OU       : ${bedrock_ou_id}
+
+M25 platform OU    : ${m25_platform_ou_id}
+```
+
+> **Console:**
+> - [Organization root — full OU tree](https://us-east-1.console.aws.amazon.com/organizations/v2/home/root)
+> - [likvid parent OU (`${parent_ou_id}`)](https://us-east-1.console.aws.amazon.com/organizations/v2/home/organizational-units/${parent_ou_id})
+> - [likvid-landingzones OU (`${landingzones_ou_id}`)](https://us-east-1.console.aws.amazon.com/organizations/v2/home/organizational-units/${landingzones_ou_id})
+> - [cloud-native OU (`${cloud_native_ou_id}`)](https://us-east-1.console.aws.amazon.com/organizations/v2/home/organizational-units/${cloud_native_ou_id})
+> - [M25 platform OU (`${m25_platform_ou_id}`)](https://us-east-1.console.aws.amazon.com/organizations/v2/home/organizational-units/${m25_platform_ou_id})
+> - [All member accounts](https://us-east-1.console.aws.amazon.com/organizations/v2/home/accounts)
+
+## Security guardrail already enforced at this level
+
+The organization module attaches a **Service Control Policy (SCP)** that prevents any account in the
+organization from disabling CloudTrail — even with admin permissions:
+
+```json
+{
+  "Statement": [{
+    "Action": ["cloudtrail:StopLogging", "cloudtrail:DeleteTrail"],
+    "Effect": "Deny",
+    "Resource": "*"
+  }]
+}
+```
+
+> **Console:** [Service Control Policies list](https://us-east-1.console.aws.amazon.com/organizations/v2/home/policies/service-control-policy)
+
+## Demo commands
+
+```bash
+cd foundations/likvid-prod/platforms/aws/organization
+AWS_PROFILE=likvid terragrunt output
+```
+
+## Talking points
+
+- The OU hierarchy **separates platform/admin workloads from application workloads** — a critical first
+  step that the whitepaper identifies as *Resource Hierarchy* maturity.
+- The management, networking, automation and meshStack accounts are placed under a dedicated
+  `likvid-management` OU, keeping them isolated from application team accounts.
+- M25 (acquisition) gets its own OU but is **integrated into the payer account** — cost visibility and
+  security posture centralized without disrupting M25's own platform team autonomy.
+- The SCP is applied at the org level — no account in any OU can escape CloudTrail logging.
