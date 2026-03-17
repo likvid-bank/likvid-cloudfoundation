@@ -261,7 +261,7 @@ resource "aws_organizations_policy_attachment" "require_cost_tags" {
 - Tag policies are *reporting policies* (non-blocking) vs SCPs which are *hard deny*
 - `CostCenter` tag enables cost allocation in AWS Cost Explorer — links cloud spend to business units
 - Applied at `likvid-landingzones` OU: all application accounts inherit it automatically
-- This is the infrastructure-as-code expression of a *Cloud Tenant Database* — the whitepaper
+- This is the infrastructure-as-code expression of a *Cloud Tenant Database* — the Ultimate Landing Zone Guide
   identifies this as a foundational capability that scales better than spreadsheets
 
 ---
@@ -297,13 +297,13 @@ SCPs applied:
 
 ---
 
-## Whitepaper Notes & Update Suggestions
+## Ultimate Landing Zone Guide Notes & Update Suggestions
 
 The [Landing Zone Ultimate Guide](../Whitepaper%20LZ%20Ultimate%20Guide.md) is a solid foundation
 but reflects a ~2022 perspective. The following points deserve an update for a modern platform
 engineering audience:
 
-| Whitepaper Framing | Modern Platform Engineering Update |
+| Guide Framing | Modern Platform Engineering Update |
 |---|---|
 | Landing zones as ITSM deliverables | Landing zones as **continuously evolved platform products** with a team owning them long-term |
 | Four use case archetypes (cloud-native, lift&shift, container, data science) | Add a fifth: **Agentic/GenAI** (Bedrock, Vertex AI, Azure OpenAI) — requires distinct service allowlists and model governance |

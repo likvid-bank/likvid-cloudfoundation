@@ -38,7 +38,7 @@ application teams who need:
 
 ## Talking points
 
-- **Individual Service Provisioning pattern** — the whitepaper describes this as the entry point for
+- **Individual Service Provisioning pattern** — the Ultimate Landing Zone Guide describes this as the entry point for
   service ecosystem maturity: start with IaC in a git repo, mature into self-service later.
 - **External module pinning** — the `bedrock/terragrunt.hcl` references a commit SHA from
   `meshstack-hub`. This is intentional: platform engineering teams can pin to stable versions and
@@ -46,7 +46,7 @@ application teams who need:
 - **Use-case tailoring** — instead of allowing every account to enable Bedrock manually, the platform
   team creates a dedicated OU. SCPs can then enforce Bedrock-specific guardrails (e.g., only
   `anthropic.claude-*` models, only `eu-central-1`) without affecting cloud-native workloads.
-- **AI/ML as a first-class landing zone type** — this extends the whitepaper's four use cases
+- **AI/ML as a first-class landing zone type** — this extends the Ultimate Landing Zone Guide's four use cases
   (Cloud-native, Lift&Shift, Container, Data Science) to include **Agentic/GenAI** as a fifth.
-  The whitepaper's 2024 edition pre-dates the Bedrock GA era — this is a concrete example of how
+  The Ultimate Landing Zone Guide's 2024 edition pre-dates the Bedrock GA era — this is a concrete example of how
   platform engineering teams must continuously extend their portfolio.
