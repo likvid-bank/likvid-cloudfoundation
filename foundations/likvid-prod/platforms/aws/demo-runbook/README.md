@@ -16,9 +16,9 @@ state. Run `terragrunt apply` in this directory to regenerate them:
 
 | File | Capability | Source dependency |
 |---|---|---|
-| [`out/part1-organization.md`](out/part1-organization.md) | Organization Hierarchy | `organization`, `landingzones/*`, `m25` |
-| [`out/part2-audit-logs.md`](out/part2-audit-logs.md) | Centralized Audit Logs | `organization-trail` |
-| [`out/part3-bedrock.md`](out/part3-bedrock.md) | Bedrock Landing Zone | `landingzones/bedrock` |
+| [`part1-organization.md`](part1-organization.md) | Organization Hierarchy | `organization`, `landingzones/*`, `m25` |
+| [`part2-audit-logs.md`](part2-audit-logs.md) | Centralized Audit Logs | `organization-trail` |
+| [`part3-bedrock.md`](part3-bedrock.md) | Bedrock Landing Zone | `landingzones/bedrock` |
 
 ```bash
 cd foundations/likvid-prod/platforms/aws/demo-runbook

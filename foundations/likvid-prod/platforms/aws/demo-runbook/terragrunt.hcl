@@ -44,6 +44,8 @@ EOF
 }
 
 inputs = {
+  output_dir = get_terragrunt_dir()
+
   payer_account_id = include.platform.locals.platform.aws.accountId
 
   # organization
