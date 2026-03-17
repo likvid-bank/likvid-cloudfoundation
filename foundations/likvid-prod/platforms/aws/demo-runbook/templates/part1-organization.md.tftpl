@@ -1,7 +1,7 @@
 # Part 1 — Organization Hierarchy
 
-**Kit module:** `kit/aws/organization`
-**Foundation stack:** `organization/terragrunt.hcl`
+**Kit module:** [`kit/aws/organization`](../../../../kit/aws/organization)
+**Foundation stack:** [`organization/terragrunt.hcl`](../organization/terragrunt.hcl)
 
 ## What it provisions
 
@@ -18,7 +18,7 @@ aws_organizations_organizational_unit "parent"      # "likvid"
         └── bedrock/      (managed by bedrock kit)
 ```
 
-Additionally, a separate `m25/` module adds:
+Additionally, a separate [`m25/`](../m25/terragrunt.hcl) module adds:
 ```
 likvid (root)
   └── likvid-m25-platform   # M25 acquisition — integrated into payer, own platform team
@@ -63,6 +63,7 @@ The organization module attaches a **Service Control Policy (SCP)** that prevent
 organization from disabling CloudTrail — even with admin permissions:
 
 ```json
+// kit/aws/organization/main.tf  →  aws_organizations_policy "deny_cloudtrail_deactivation"
 {
   "Statement": [{
     "Action": ["cloudtrail:StopLogging", "cloudtrail:DeleteTrail"],

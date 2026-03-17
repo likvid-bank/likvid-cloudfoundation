@@ -1,3 +1,8 @@
+variable "output_dir" {
+  type        = string
+  description = "Absolute path to the demo-runbook source directory (set by Terragrunt via get_terragrunt_dir)"
+}
+
 variable "payer_account_id" {
   type        = string
   description = "AWS payer / management account ID"

@@ -1,15 +1,15 @@
 # Part 3 — Individual Service Provisioning: AWS Bedrock Landing Zone
 
-**Source module:** `meshstack-hub/modules/aws/agentic-coding-sandbox/backplane/landingzone` (external, pinned commit)
-**Foundation stack:** `landingzones/bedrock/terragrunt.hcl`
+**Source module:** [`meshstack-hub/.../landingzone`](https://github.com/meshcloud/meshstack-hub/tree/d709611025f677071308e6d0798bfbe6a47a1321/modules/aws/agentic-coding-sandbox/backplane/landingzone) (external, pinned commit)
+**Foundation stack:** [`landingzones/bedrock/terragrunt.hcl`](../landingzones/bedrock/terragrunt.hcl)
 
 ## What it provisions
 
 The bedrock landing zone creates a dedicated **Organizational Unit** for agentic AI / coding sandbox
-workloads, sourced from the `meshstack-hub` module:
+workloads, sourced from the [`meshstack-hub`](https://github.com/meshcloud/meshstack-hub) module:
 
 ```
-module source: meshstack-hub//modules/aws/agentic-coding-sandbox/backplane/landingzone
+module source: [meshstack-hub//modules/aws/agentic-coding-sandbox/backplane/landingzone](https://github.com/meshcloud/meshstack-hub/tree/d709611025f677071308e6d0798bfbe6a47a1321/modules/aws/agentic-coding-sandbox/backplane/landingzone)
                (github.com/meshcloud/meshstack-hub)
 
 Parent OU: likvid-landingzones (${landingzones_ou_id})

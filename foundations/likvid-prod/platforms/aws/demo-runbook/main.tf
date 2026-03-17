@@ -1,5 +1,5 @@
 resource "local_file" "part1_organization" {
-  filename = "${path.module}/out/part1-organization.md"
+  filename = "${var.output_dir}/part1-organization.md"
   content = templatefile("${path.module}/templates/part1-organization.md.tftpl", {
     org_id                  = var.org_id
     org_root_id             = var.org_root_id
@@ -21,7 +21,7 @@ resource "local_file" "part1_organization" {
 }
 
 resource "local_file" "part2_audit_logs" {
-  filename = "${path.module}/out/part2-audit-logs.md"
+  filename = "${var.output_dir}/part2-audit-logs.md"
   content = templatefile("${path.module}/templates/part2-audit-logs.md.tftpl", {
     payer_account_id      = var.payer_account_id
     management_account_id = var.management_account_id
@@ -31,7 +31,7 @@ resource "local_file" "part2_audit_logs" {
 }
 
 resource "local_file" "part3_bedrock" {
-  filename = "${path.module}/out/part3-bedrock.md"
+  filename = "${var.output_dir}/part3-bedrock.md"
   content = templatefile("${path.module}/templates/part3-bedrock.md.tftpl", {
     landingzones_ou_id = var.landingzones_ou_id
     bedrock_ou_id      = var.bedrock_ou_id
