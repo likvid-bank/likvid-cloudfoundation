@@ -56,10 +56,11 @@ M25 platform OU    : ou-rpqz-k5htaeoe
 ## Security guardrail already enforced at this level
 
 The organization module attaches a **Service Control Policy (SCP)** that prevents any account in the
-organization from disabling CloudTrail — even with admin permissions:
+organization from disabling CloudTrail — even with admin permissions
+([source](../../../../../kit/aws/organization/main.tf)):
 
 ```json
-// kit/aws/organization/main.tf  →  aws_organizations_policy "deny_cloudtrail_deactivation"
+// aws_organizations_policy "deny_cloudtrail_deactivation"
 {
   "Statement": [{
     "Action": ["cloudtrail:StopLogging", "cloudtrail:DeleteTrail"],
@@ -69,7 +70,7 @@ organization from disabling CloudTrail — even with admin permissions:
 }
 ```
 
-> **Console:** [Service Control Policies list](https://us-east-1.console.aws.amazon.com/organizations/v2/home/policies/service-control-policy)
+> **Console:** [DenyDisableCloudTrail SCP](https://us-east-1.console.aws.amazon.com/organizations/v2/home/policies/service-control-policy/p-ksoypwhk)
 
 ## Talking points
 

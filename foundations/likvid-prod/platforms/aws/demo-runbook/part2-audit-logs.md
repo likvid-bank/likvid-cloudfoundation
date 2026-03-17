@@ -40,7 +40,6 @@ S3 Bucket  : likvid-prod-organization-trail-bucket
 ```
 
 > **Console:**
-> - [CloudTrail trail: likvid-prod-trail](https://eu-central-1.console.aws.amazon.com/cloudtrail/home?region=eu-central-1#/trails/arn:aws:cloudtrail:eu-central-1:702461728527:trail/likvid-prod-trail)
 > - [CloudTrail event history](https://eu-central-1.console.aws.amazon.com/cloudtrail/home?region=eu-central-1#/events)
 > - [S3 audit bucket: likvid-prod-organization-trail-bucket](https://s3.console.aws.amazon.com/s3/buckets/likvid-prod-organization-trail-bucket?region=eu-central-1)
 
