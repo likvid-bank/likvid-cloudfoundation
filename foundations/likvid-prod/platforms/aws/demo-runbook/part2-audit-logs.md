@@ -72,3 +72,49 @@ S3 Bucket  : likvid-prod-organization-trail-bucket
 - **Guide alignment:** *Centralized Audit Logs* is classified as a Security & Compliance
   capability. The Ultimate Landing Zone Guide recommends a dedicated audit account as a proven pattern — this setup
   uses the management account for separation, demonstrating the platform choice tradeoff.
+
+## Proposed demo change — Enable Multi-Region CloudTrail
+
+**Why not enabled yet?** From git history: `is_multi_region_trail = false` was introduced in the
+initial `organization-trail` commit (`ca44cb23`, 2025-09-29), with no explicit rationale recorded.
+Most likely drivers were keeping scope/cost low while focusing on EU-central usage.
+
+**Why:** Demonstrate how a single input change in the Terragrunt stack propagates to infrastructure.
+Also a genuine security improvement (global services like IAM are always logged, but EC2 in
+non-eu regions would currently be missed).
+
+### Step 1 (kit): make CloudTrail multi-region configurable
+
+Edit [`kit/aws/organization-trail/variables.tf`](../../../../../kit/aws/organization-trail/variables.tf):
+
+```hcl
+variable "is_multi_region_trail" {
+  type        = bool
+  default     = false
+  description = "Whether the organization trail should capture events in all AWS regions."
+}
+```
+
+Edit [`kit/aws/organization-trail/main.tf`](../../../../../kit/aws/organization-trail/main.tf):
+
+```hcl
+resource "aws_cloudtrail" "organization" {
+  # ...
+  is_multi_region_trail = var.is_multi_region_trail
+}
+```
+
+### Step 2 (foundation): enable it in this environment
+
+Edit [`organization-trail/terragrunt.hcl`](../organization-trail/terragrunt.hcl):
+
+```hcl
+# In foundations/likvid-prod/platforms/aws/organization-trail/terragrunt.hcl
+inputs = {
+  trail_name     = "likvid-prod-trail"
+  s3_bucket_name = "likvid-prod-organization-trail-bucket"
+  auditors       = include.platform.locals.foundation_pam.audit_log_auditors
+  # CHANGE:
+  is_multi_region_trail = true
+}
+```
