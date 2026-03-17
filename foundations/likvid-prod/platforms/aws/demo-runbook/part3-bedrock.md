@@ -1,6 +1,6 @@
 # Part 3 — Individual Service Provisioning: AWS Bedrock Landing Zone
 
-**Source module:** [`meshstack-hub/.../landingzone`](https://github.com/meshcloud/meshstack-hub/tree/d709611025f677071308e6d0798bfbe6a47a1321/modules/aws/agentic-coding-sandbox/backplane/landingzone) (external, pinned commit)
+**Source module:** [`aws/agentic-coding-sandbox/backplane/landingzone`](https://github.com/meshcloud/meshstack-hub/tree/d709611025f677071308e6d0798bfbe6a47a1321/modules/aws/agentic-coding-sandbox/backplane/landingzone) (external, pinned commit)
 **Foundation stack:** [`landingzones/bedrock/terragrunt.hcl`](../landingzones/bedrock/terragrunt.hcl)
 
 ## What it provisions
@@ -9,9 +9,6 @@ The bedrock landing zone creates a dedicated **Organizational Unit** for agentic
 workloads, sourced from the [`meshstack-hub`](https://github.com/meshcloud/meshstack-hub) module:
 
 ```
-module source: [meshstack-hub//modules/aws/agentic-coding-sandbox/backplane/landingzone](https://github.com/meshcloud/meshstack-hub/tree/d709611025f677071308e6d0798bfbe6a47a1321/modules/aws/agentic-coding-sandbox/backplane/landingzone)
-               (github.com/meshcloud/meshstack-hub)
-
 Parent OU: likvid-landingzones (ou-rpqz-ni6mptmu)
 Bedrock OU: ou-rpqz-du12whhh
 ```
@@ -24,7 +21,51 @@ organizational_unit_id = "ou-rpqz-du12whhh"
 
 > **Console:**
 > - [Bedrock OU (`ou-rpqz-du12whhh`)](https://us-east-1.console.aws.amazon.com/organizations/v2/home/organizational-units/ou-rpqz-du12whhh)
-> - [AWS Bedrock model access (eu-central-1)](https://eu-central-1.console.aws.amazon.com/bedrock/home?region=eu-central-1#/modelaccess)
+
+## Guardrail code examples (from meshstack-hub)
+
+Module source with guardrails:
+[`main.tf`](https://github.com/meshcloud/meshstack-hub/blob/d709611025f677071308e6d0798bfbe6a47a1321/modules/aws/agentic-coding-sandbox/backplane/landingzone/main.tf)
+
+Data residency guardrail (EU regions only):
+
+```hcl
+locals {
+  allowed_eu_regions = [
+    "eu-west-1", "eu-west-2", "eu-west-3", "eu-central-1",
+    "eu-north-1", "eu-south-1", "eu-south-2", "eu-central-2",
+  ]
+}
+
+data "aws_iam_policy_document" "only_bedrock" {
+  statement {
+    sid    = "DenyBedrockOutsideEURegions"
+    effect = "Deny"
+    actions = ["bedrock:*"]
+    resources = ["*"]
+    condition {
+      test     = "ForAnyValue:StringNotEquals"
+      variable = "aws:RequestedRegion"
+      values   = local.allowed_eu_regions
+    }
+  }
+}
+```
+
+Module usage guardrail (policy attached to the Bedrock OU):
+
+```hcl
+resource "aws_organizations_policy" "only_bedrock" {
+  name        = "only_bedrock"
+  description = "Block access to all services except AWS Bedrock and related services for LLM model access."
+  content     = data.aws_iam_policy_document.only_bedrock.json
+}
+
+resource "aws_organizations_policy_attachment" "only_bedrock" {
+  policy_id = aws_organizations_policy.only_bedrock.id
+  target_id = aws_organizations_organizational_unit.bedrock.id
+}
+```
 
 ## What the meshstack-hub module does
 
