@@ -44,13 +44,6 @@ S3 Bucket  : ${trail_s3_bucket}
 > - [CloudTrail event history](https://eu-central-1.console.aws.amazon.com/cloudtrail/home?region=eu-central-1#/events)
 > - [S3 audit bucket: ${trail_s3_bucket}](https://s3.console.aws.amazon.com/s3/buckets/${trail_s3_bucket}?region=eu-central-1)
 
-## Demo commands
-
-```bash
-cd foundations/likvid-prod/platforms/aws/organization-trail
-AWS_PROFILE=likvid terragrunt output
-```
-
 ## Talking points
 
 - **One trail, all accounts** — the `is_organization_trail` flag means every new AWS account

@@ -36,13 +36,6 @@ application teams who need:
 - Guardrails specific to AI workloads (data residency, model usage limits)
 - An isolated OU so Bedrock-specific SCPs can be applied without affecting other landing zones
 
-## Demo commands
-
-```bash
-cd foundations/likvid-prod/platforms/aws/landingzones/bedrock
-AWS_PROFILE=likvid terragrunt output
-```
-
 ## Talking points
 
 - **Individual Service Provisioning pattern** — the whitepaper describes this as the entry point for
