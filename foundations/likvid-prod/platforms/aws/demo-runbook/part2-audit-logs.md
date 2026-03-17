@@ -32,6 +32,20 @@ The Terragrunt file uses two AWS providers with different roles:
 This is the **key platform engineering decision**: logs land in a separate account that application
 teams and even most platform engineers cannot access — satisfying audit segregation requirements.
 
+```shell
+resource "aws_cloudtrail" "organization" {
+  provider                      = aws.org_mgmt
+  name                          = var.trail_name
+  s3_bucket_name                = aws_s3_bucket.cloudtrail.bucket
+  is_organization_trail         = true
+  is_multi_region_trail         = false
+  enable_log_file_validation    = true
+  include_global_service_events = true
+
+  depends_on = [aws_s3_bucket_policy.cloudtrail]
+}
+```
+
 ## Live state
 
 ```
@@ -44,7 +58,7 @@ S3 Bucket  : likvid-prod-organization-trail-bucket
 > - [S3 audit bucket: likvid-prod-organization-trail-bucket](https://s3.console.aws.amazon.com/s3/buckets/likvid-prod-organization-trail-bucket?region=eu-central-1)
 
 ## Talking points
-
+- **Why "Access Denied"** with current login? See Part 1! Switch to Browser session with account `490004649140`.
 - **One trail, all accounts** — the `is_organization_trail` flag means every new AWS account
   provisioned by meshStack is automatically covered. No per-account setup required.
 - **Tamper-proof by design** — the S3 bucket policy only allows `cloudtrail.amazonaws.com` to write.
