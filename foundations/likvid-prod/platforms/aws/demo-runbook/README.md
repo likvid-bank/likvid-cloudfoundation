@@ -87,7 +87,7 @@ explicitly intended.**
 
 ### Change 1 — Add a Region Restriction SCP to the Cloud-Native Prod OU
 
-**File to edit:** [`kit/aws/landingzones/cloud-native/main.tf`](../../../../kit/aws/landingzones/cloud-native/main.tf)
+**File to edit:** [`kit/aws/landingzones/cloud-native/main.tf`](../../../../../kit/aws/landingzones/cloud-native/main.tf)
 
 **Why:** Demonstrate that SCPs attached at the OU level provide guardrails without application
 team involvement. Adding a `DenyNonEURegion` policy to the `prod` OU (not `dev`) shows the
@@ -131,7 +131,7 @@ resource "aws_organizations_policy_attachment" "deny_non_eu_prod" {
 
 ### Change 2 — Enable Multi-Region CloudTrail
 
-**File to edit:** [`organization-trail/terragrunt.hcl`](../organization-trail/terragrunt.hcl) and [`kit/aws/organization-trail/variables.tf`](../../../../kit/aws/organization-trail/variables.tf)
+**File to edit:** [`organization-trail/terragrunt.hcl`](../organization-trail/terragrunt.hcl) and [`kit/aws/organization-trail/variables.tf`](../../../../../kit/aws/organization-trail/variables.tf)
 
 **Why:** Demonstrate how a single input change in the Terragrunt stack propagates to infrastructure.
 Also a genuine security improvement (global services like IAM are always logged, but EC2 in
@@ -226,7 +226,7 @@ Then add a separate SCP for sandboxes (e.g., monthly spend cap via Service Quota
 
 ### Change 4 — Add a Tagging Policy to Enforce Cost Attribution
 
-**File to edit:** [`kit/aws/organization/main.tf`](../../../../kit/aws/organization/main.tf)
+**File to edit:** [`kit/aws/organization/main.tf`](../../../../../kit/aws/organization/main.tf)
 
 **Why:** Show another type of AWS Organizations policy (Tag Policies, not SCPs) and connect to
 the *Cost Management* governance function.
