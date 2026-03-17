@@ -37,6 +37,13 @@ teams and even most platform engineers cannot access — satisfying audit segreg
 [`kit/aws/organization-trail/main.tf`](../../../../../kit/aws/organization-trail/main.tf):
 
 ```hcl
+resource "aws_s3_bucket" "cloudtrail" {
+  provider = aws.audit
+  bucket   = var.s3_bucket_name
+}
+```
+
+```hcl
 resource "aws_cloudtrail" "organization" {
   provider                      = aws.org_mgmt
   name                          = var.trail_name
