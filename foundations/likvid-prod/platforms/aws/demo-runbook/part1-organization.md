@@ -75,7 +75,7 @@ organization from disabling CloudTrail — even with admin permissions
 ## Talking points
 
 - The OU hierarchy **separates platform/admin workloads from application workloads** — a critical first
-  step that the whitepaper identifies as *Resource Hierarchy* maturity.
+  step that the Ultimate Landing Zone Guide identifies as *Resource Hierarchy* maturity.
 - The management, networking, automation and meshStack accounts are placed under a dedicated
   `likvid-management` OU, keeping them isolated from application team accounts.
 - M25 (acquisition) gets its own OU but is **integrated into the payer account** — cost visibility and

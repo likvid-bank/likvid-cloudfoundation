@@ -68,6 +68,6 @@ S3 Bucket  : ${trail_s3_bucket}
   if someone modifies a log file after the fact.
 - **Terragrunt dependency graph** — `organization-trail` declares a `dependency` on `organization` to
   read the management account ID dynamically. This shows how the stack self-documents its dependencies.
-- **Whitepaper alignment:** *Centralized Audit Logs* is classified as a Security & Compliance
-  capability. The whitepaper recommends a dedicated audit account as a proven pattern — this setup
+- **Guide alignment:** *Centralized Audit Logs* is classified as a Security & Compliance
+  capability. The Ultimate Landing Zone Guide recommends a dedicated audit account as a proven pattern — this setup
   uses the management account for separation, demonstrating the platform choice tradeoff.
