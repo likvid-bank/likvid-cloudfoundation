@@ -7,14 +7,19 @@ include "tfstate" {
 }
 
 dependency "meshstack" {
-  config_path = "../meshstack"
+  config_path                             = "../meshstack"
+  skip_outputs                            = get_terraform_command() == "init"
+  mock_outputs_allowed_terraform_commands = ["init", "validate"]
   mock_outputs = {
     owning_workspace_identifier = "mock-workspace"
+    required_project_tags       = {}
   }
 }
 
 dependency "platform" {
-  config_path = "../meshstack/platform"
+  config_path                             = "../meshstack/platform"
+  skip_outputs                            = get_terraform_command() == "init"
+  mock_outputs_allowed_terraform_commands = ["init", "validate"]
   mock_outputs = {
     full_platform_identifier = "mock-platform"
     landing_zone_identifiers = {
@@ -25,7 +30,9 @@ dependency "platform" {
 }
 
 dependency "git" {
-  config_path = "../git"
+  config_path                             = "../git"
+  skip_outputs                            = get_terraform_command() == "init"
+  mock_outputs_allowed_terraform_commands = ["init", "validate"]
   mock_outputs = {
     forgejo_token        = "mock-token"
     forgejo_base_url     = "https://mock-git-instance.git.onstackit.cloud"
@@ -34,7 +41,9 @@ dependency "git" {
 }
 
 dependency "kubernetes" {
-  config_path = "../kubernetes"
+  config_path                             = "../kubernetes"
+  skip_outputs                            = get_terraform_command() == "init"
+  mock_outputs_allowed_terraform_commands = ["init", "validate"]
   mock_outputs = {
     kube_host              = "https://mock-kube-host"
     cluster_ca_certificate = "bW9jaw=="
