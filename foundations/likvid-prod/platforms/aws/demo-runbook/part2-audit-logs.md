@@ -1,0 +1,65 @@
+# Part 2 — Centralized Audit Logs
+
+**Kit module:** [`kit/aws/organization-trail`](../../../../kit/aws/organization-trail)
+**Foundation stack:** [`organization-trail/terragrunt.hcl`](../organization-trail/terragrunt.hcl)
+
+## What it provisions
+
+```
+CloudTrail (management account 702461728527)
+  name: likvid-prod-trail
+  is_organization_trail: true          ← covers ALL accounts in the org
+  is_multi_region_trail: false         ← eu-central-1 only (can be changed)
+  enable_log_file_validation: true     ← tamper detection via SHA-256 digest files
+  include_global_service_events: true  ← captures IAM, STS, etc.
+  → writes to →
+S3 Bucket (audit account, cross-account write)
+  name: likvid-prod-organization-trail-bucket
+  versioning: Enabled
+  public_access_block: all blocked
+  bucket_policy: only CloudTrail service principal can write
+```
+
+## Cross-account architecture
+
+The Terragrunt file uses two AWS providers with different roles:
+
+| Provider alias | Account | Role |
+|---|---|---|
+| `aws.org_mgmt` | `702461728527` (management) | Creates and manages the CloudTrail trail |
+| `aws.audit` | `490004649140` (management/audit) | Owns the S3 bucket receiving logs |
+
+This is the **key platform engineering decision**: logs land in a separate account that application
+teams and even most platform engineers cannot access — satisfying audit segregation requirements.
+
+## Live state
+
+```
+Trail ARN  : arn:aws:cloudtrail:eu-central-1:702461728527:trail/likvid-prod-trail
+S3 Bucket  : likvid-prod-organization-trail-bucket
+```
+
+> **Console:**
+> - [CloudTrail trail: likvid-prod-trail](https://eu-central-1.console.aws.amazon.com/cloudtrail/home?region=eu-central-1#/trails/arn:aws:cloudtrail:eu-central-1:702461728527:trail/likvid-prod-trail)
+> - [CloudTrail event history](https://eu-central-1.console.aws.amazon.com/cloudtrail/home?region=eu-central-1#/events)
+> - [S3 audit bucket: likvid-prod-organization-trail-bucket](https://s3.console.aws.amazon.com/s3/buckets/likvid-prod-organization-trail-bucket?region=eu-central-1)
+
+## Demo commands
+
+```bash
+cd foundations/likvid-prod/platforms/aws/organization-trail
+AWS_PROFILE=likvid terragrunt output
+```
+
+## Talking points
+
+- **One trail, all accounts** — the `is_organization_trail` flag means every new AWS account
+  provisioned by meshStack is automatically covered. No per-account setup required.
+- **Tamper-proof by design** — the S3 bucket policy only allows `cloudtrail.amazonaws.com` to write.
+  The SCP prevents stopping the trail. Log file validation (`enable_log_file_validation`) detects
+  if someone modifies a log file after the fact.
+- **Terragrunt dependency graph** — `organization-trail` declares a `dependency` on `organization` to
+  read the management account ID dynamically. This shows how the stack self-documents its dependencies.
+- **Whitepaper alignment:** *Centralized Audit Logs* is classified as a Security & Compliance
+  capability. The whitepaper recommends a dedicated audit account as a proven pattern — this setup
+  uses the management account for separation, demonstrating the platform choice tradeoff.
