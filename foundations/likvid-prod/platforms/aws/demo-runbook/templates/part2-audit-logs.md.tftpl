@@ -12,7 +12,9 @@ CloudTrail (management account ${payer_account_id})
   is_multi_region_trail: false         ← eu-central-1 only (can be changed)
   enable_log_file_validation: true     ← tamper detection via SHA-256 digest files
   include_global_service_events: true  ← captures IAM, STS, etc.
-  → writes to →
+
+  ➡️ writes to ➡️
+
 S3 Bucket (audit account, cross-account write)
   name: ${trail_s3_bucket}
   versioning: Enabled
@@ -56,11 +58,10 @@ S3 Bucket  : ${trail_s3_bucket}
 ```
 
 > **Console:**
-> - [CloudTrail event history](https://eu-central-1.console.aws.amazon.com/cloudtrail/home?region=eu-central-1#/events)
 > - [S3 audit bucket: ${trail_s3_bucket}](https://s3.console.aws.amazon.com/s3/buckets/${trail_s3_bucket}?region=eu-central-1)
 
 ## Talking points
-- **Why "Access Denied"** with current login? See Part 1! Switch to Browser session with account `${management_account_id}`.
+- **Why "Access Denied"** with current login? See above! Switch to Browser session with account `${management_account_id}`.
 - **One trail, all accounts** — the `is_organization_trail` flag means every new AWS account
   provisioned by meshStack is automatically covered. No per-account setup required.
 - **Tamper-proof by design** — the S3 bucket policy only allows `cloudtrail.amazonaws.com` to write.
