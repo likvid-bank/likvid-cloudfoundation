@@ -78,6 +78,15 @@ dependency "kubernetes" {
   }
 }
 
+dependency "dns" {
+  config_path                             = "../dns"
+  skip_outputs                            = get_terraform_command() == "init"
+  mock_outputs_allowed_terraform_commands = ["init", "validate"]
+  mock_outputs = {
+    apps_base_domain = "likvid.stackit.run"
+  }
+}
+
 locals {
   hub = {
     # TODO version pin and change bbd_draft to false once dev is completely done
@@ -120,7 +129,7 @@ inputs = {
   # Image name and base template repository should align
   stackit_harbor_image_name = "ai-summarizer"
   repo_clone_addr           = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
-  apps_base_domain          = "likvid.stackit.run"
+  apps_base_domain          = dependency.dns.outputs.apps_base_domain
 
   project_tags = {
     owner_tag_key = "projectOwner"

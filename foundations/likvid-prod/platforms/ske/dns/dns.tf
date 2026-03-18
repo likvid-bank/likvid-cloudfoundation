@@ -37,3 +37,7 @@ moved {
 output "dns_zone_id" {
   value = stackit_dns_zone.this.zone_id
 }
+
+output "apps_base_domain" {
+  value = stackit_dns_zone.this.dns_name
+}
