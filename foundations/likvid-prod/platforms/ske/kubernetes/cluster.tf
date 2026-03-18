@@ -56,8 +56,25 @@ moved {
   to   = stackit_ske_kubeconfig.this
 }
 
+locals {
+  kubeconfig            = yamldecode(stackit_ske_kubeconfig.this.kube_config)
+  kubeconfig_cluster    = one(local.kubeconfig.clusters).cluster
+  kubeconfig_admin_user = one(local.kubeconfig.users).user
+}
+
 output "kubeconfig" {
   description = "Raw kubeconfig content for starterkit access."
-  value       = yamldecode(stackit_ske_kubeconfig.this.kube_config)
+  value       = local.kubeconfig
   sensitive   = true
+}
+
+output "provider_config" {
+  description = "Kubernetes provider config values derived from kubeconfig for Terragrunt wiring."
+  value = {
+    host                   = local.kubeconfig_cluster.server
+    cluster_ca_certificate = base64decode(local.kubeconfig_cluster["certificate-authority-data"])
+    client_certificate     = base64decode(local.kubeconfig_admin_user["client-certificate-data"])
+    client_key             = base64decode(local.kubeconfig_admin_user["client-key-data"])
+  }
+  sensitive = true
 }
