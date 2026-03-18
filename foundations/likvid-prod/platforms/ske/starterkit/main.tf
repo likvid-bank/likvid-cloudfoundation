@@ -63,8 +63,12 @@ variable "stackit_harbor_push_robot_password" {
   sensitive = true
 }
 
-variable "apps_base_domain" {
+variable "dns_zone_name" {
   type = string
+}
+
+variable "add_random_name_suffix" {
+  type = bool
 }
 
 module "starterkit" {
@@ -91,8 +95,9 @@ module "starterkit" {
     })
   }
 
-  repo_clone_addr  = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
-  apps_base_domain = var.apps_base_domain
+  repo_clone_addr        = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
+  dns_zone_name          = var.dns_zone_name
+  add_random_name_suffix = var.add_random_name_suffix
 }
 
 module "git_repository" {

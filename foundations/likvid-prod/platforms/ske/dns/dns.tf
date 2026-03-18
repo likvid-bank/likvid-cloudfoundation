@@ -34,6 +34,6 @@ moved {
   to   = stackit_dns_zone.this
 }
 
-output "zone_name" {
+output "dns_zone_name" {
   value = stackit_dns_zone.this.dns_name
 }
