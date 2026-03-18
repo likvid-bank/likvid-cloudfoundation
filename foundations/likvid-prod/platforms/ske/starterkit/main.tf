@@ -127,6 +127,14 @@ module "forgejo_connector" {
   harbor_host     = var.stackit_harbor_registry
   harbor_username = var.stackit_harbor_push_robot_user
   harbor_password = var.stackit_harbor_push_robot_password
+
+  additional_kubernetes_secrets = {
+    "stackit-ai" = {
+      STACKIT_AI_BASE_URL = "https://example.invalid/v1"
+      STACKIT_AI_API_KEY  = "dummy-api-key"
+      STACKIT_AI_MODEL    = "dummy-model"
+    }
+  }
 }
 
 moved {
