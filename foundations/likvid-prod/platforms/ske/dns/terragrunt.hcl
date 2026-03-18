@@ -13,6 +13,13 @@ dependency "meshstack" {
   }
 }
 
+dependency "addons" {
+  config_path = "../kubernetes/addons"
+  mock_outputs = {
+    haproxy_lb_ip = "127.0.0.1"
+  }
+}
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
@@ -28,4 +35,5 @@ EOF
 inputs = {
   stackit_project_id = dependency.meshstack.outputs.stackit_project_id
   dns_name           = "likvid"
+  haproxy_lb_ip      = dependency.addons.outputs.haproxy_lb_ip
 }

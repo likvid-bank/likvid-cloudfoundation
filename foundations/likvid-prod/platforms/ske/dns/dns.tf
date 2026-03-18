@@ -2,6 +2,14 @@ variable "dns_name" {
   type = string
 }
 
+variable "stackit_project_id" {
+  type = string
+}
+
+variable "haproxy_lb_ip" {
+  type = string
+}
+
 
 resource "stackit_dns_zone" "this" {
   project_id    = var.stackit_project_id
@@ -10,6 +18,15 @@ resource "stackit_dns_zone" "this" {
   contact_email = "support@meshcloud.io"
   type          = "primary"
   default_ttl   = 300
+}
+
+resource "stackit_dns_record_set" "wildcard_apps" {
+  project_id = var.stackit_project_id
+  zone_id    = stackit_dns_zone.this.zone_id
+  name       = "*.${var.dns_name}.stackit.run"
+  type       = "A"
+  records    = [var.haproxy_lb_ip]
+  comment    = "Wildcard app routing to HAProxy ingress load balancer"
 }
 
 moved {
