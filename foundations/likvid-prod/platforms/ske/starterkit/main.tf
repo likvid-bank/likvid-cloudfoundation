@@ -24,6 +24,11 @@ variable "landing_zone_identifiers" {
   description = "Identifiers of meshLandingZones for dev and prod."
 }
 
+variable "kubeconfig" {
+  type      = any
+  sensitive = true
+}
+
 variable "forgejo_token" {
   type      = string
   sensitive = true
@@ -35,31 +40,6 @@ variable "forgejo_organization" {
 
 variable "forgejo_base_url" {
   type = string
-}
-
-variable "cluster_host" {
-  type      = string
-  sensitive = true
-}
-
-variable "cluster_ca_certificate" {
-  type      = string
-  sensitive = true
-}
-
-variable "client_certificate" {
-  type      = string
-  sensitive = true
-}
-
-variable "client_key" {
-  type      = string
-  sensitive = true
-}
-
-variable "cluster_kubeconfig" {
-  type      = string
-  sensitive = true
 }
 
 variable "stackit_harbor_registry" {
@@ -135,11 +115,7 @@ module "forgejo_connector" {
   meshstack = var.meshstack
   hub       = var.hub
 
-  cluster_host           = var.cluster_host
-  cluster_ca_certificate = var.cluster_ca_certificate
-  client_certificate     = var.client_certificate
-  client_key             = var.client_key
-  cluster_kubeconfig     = var.cluster_kubeconfig
+  kubeconfig = var.kubeconfig
 
   forgejo_host                 = var.forgejo_base_url
   forgejo_api_token            = var.forgejo_token

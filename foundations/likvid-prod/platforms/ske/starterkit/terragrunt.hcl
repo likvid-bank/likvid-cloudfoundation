@@ -45,11 +45,36 @@ dependency "kubernetes" {
   skip_outputs                            = get_terraform_command() == "init"
   mock_outputs_allowed_terraform_commands = ["init", "validate"]
   mock_outputs = {
-    kube_host              = "https://mock-kube-host"
-    cluster_ca_certificate = "bW9jaw=="
-    client_certificate     = "bW9jaw=="
-    client_key             = "bW9jaw=="
-    cluster_kubeconfig     = "apiVersion: v1"
+    kubeconfig = {
+      current-context = "mock-context"
+      clusters = [
+        {
+          name = "mock-cluster"
+          cluster = {
+            server                     = "https://mock-kube-host"
+            certificate-authority-data = "bW9jaw=="
+          }
+        }
+      ]
+      users = [
+        {
+          name = "mock-user"
+          user = {
+            client-certificate-data = "bW9jaw=="
+            client-key-data         = "bW9jaw=="
+          }
+        }
+      ]
+      contexts = [
+        {
+          name = "mock-context"
+          context = {
+            cluster = "mock-cluster"
+            user    = "mock-user"
+          }
+        }
+      ]
+    }
   }
 }
 
@@ -80,23 +105,21 @@ inputs = {
   full_platform_identifier = dependency.platform.outputs.full_platform_identifier
   landing_zone_identifiers = dependency.platform.outputs.landing_zone_identifiers
 
+  kubeconfig = dependency.kubernetes.outputs.kubeconfig
+
   forgejo_token        = dependency.git.outputs.forgejo_token
   forgejo_base_url     = dependency.git.outputs.forgejo_base_url
   forgejo_organization = dependency.git.outputs.forgejo_organization
 
-  cluster_host           = dependency.kubernetes.outputs.kube_host
-  cluster_ca_certificate = dependency.kubernetes.outputs.cluster_ca_certificate
-  client_certificate     = dependency.kubernetes.outputs.client_certificate
-  client_key             = dependency.kubernetes.outputs.client_key
-  cluster_kubeconfig     = dependency.kubernetes.outputs.cluster_kubeconfig
-
-  stackit_harbor_registry            = "registry.onstackit.cloud"
-  stackit_harbor_project             = "stackit_kubernetes_platform" # Note: this project name is globally shared across all STACKIT, so maybe we should have used 'likvid-ske' as some prefix?
-  stackit_harbor_image_name          = "ai-summarizer"
+  stackit_harbor_registry = "registry.onstackit.cloud"
+  # Note: the Harbor project name is globally shared across all STACKIT, so maybe we should have used 'likvid-ske' as some prefix?
+  stackit_harbor_project             = "stackit_kubernetes_platform"
   stackit_harbor_push_robot_user     = get_env("STACKIT_HARBOR_PUSH_ROBOT_USER")
   stackit_harbor_push_robot_password = get_env("STACKIT_HARBOR_PUSH_ROBOT_PASSWORD")
 
-  repo_clone_addr = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
+  # Image name and base template repository should align
+  stackit_harbor_image_name = "ai-summarizer"
+  repo_clone_addr           = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
 
   project_tags = {
     owner_tag_key = "projectOwner"
