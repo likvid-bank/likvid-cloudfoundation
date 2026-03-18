@@ -69,9 +69,9 @@ module "starterkit" {
   meshstack = var.meshstack
   hub       = var.hub
 
-  building_block_definition_version_refs = {
-    "git-repository" : module.git_repository.building_block_definition_version_ref
-    "forgejo-connector" : module.forgejo_connector.building_block_definition_version_ref
+  building_block_definitions = {
+    "git-repository" : module.git_repository.building_block_definition
+    "forgejo-connector" : module.forgejo_connector.building_block_definition
   }
 
   full_platform_identifier = var.full_platform_identifier
@@ -119,7 +119,7 @@ module "forgejo_connector" {
 
   forgejo_host                 = var.forgejo_base_url
   forgejo_api_token            = var.forgejo_token
-  forgejo_repo_definition_uuid = module.git_repository.building_block_definition_uuid
+  forgejo_repo_definition_uuid = module.git_repository.building_block_definition.uuid
 
   harbor_host     = var.stackit_harbor_registry
   harbor_username = var.stackit_harbor_push_robot_user
