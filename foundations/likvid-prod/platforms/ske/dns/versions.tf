@@ -6,8 +6,3 @@ terraform {
     }
   }
 }
-
-variable "stackit_project_id" {
-  description = "STACKIT project UUID"
-  type        = string
-}

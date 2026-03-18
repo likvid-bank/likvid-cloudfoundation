@@ -20,7 +20,7 @@ resource "stackit_dns_zone" "this" {
   default_ttl   = 300
 }
 
-resource "stackit_dns_record_set" "wildcard_apps" {
+resource "stackit_dns_record_set" "A" {
   project_id = var.stackit_project_id
   zone_id    = stackit_dns_zone.this.zone_id
   name       = "*.${var.dns_name}.stackit.run"
