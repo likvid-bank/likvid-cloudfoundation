@@ -27,4 +27,5 @@ EOF
 
 inputs = {
   stackit_project_id = dependency.meshstack.outputs.stackit_project_id
+  dns_name           = "likvid"
 }
