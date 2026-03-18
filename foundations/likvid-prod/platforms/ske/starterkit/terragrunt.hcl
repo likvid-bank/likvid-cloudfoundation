@@ -83,7 +83,7 @@ dependency "dns" {
   skip_outputs                            = get_terraform_command() == "init"
   mock_outputs_allowed_terraform_commands = ["init", "validate"]
   mock_outputs = {
-    apps_base_domain = "likvid.stackit.run"
+    zone_name = "mock-zone.stackit.run"
   }
 }
 
@@ -129,7 +129,7 @@ inputs = {
   # Image name and base template repository should align
   stackit_harbor_image_name = "ai-summarizer"
   repo_clone_addr           = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
-  apps_base_domain          = dependency.dns.outputs.apps_base_domain
+  apps_base_domain          = dependency.dns.outputs.zone_name
 
   project_tags = {
     owner_tag_key = "projectOwner"
