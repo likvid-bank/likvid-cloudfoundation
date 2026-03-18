@@ -63,6 +63,10 @@ variable "stackit_harbor_push_robot_password" {
   sensitive = true
 }
 
+variable "apps_base_domain" {
+  type = string
+}
+
 module "starterkit" {
   source = "../../../../../../meshstack-hub/modules/ske/ske-starterkit" # TODO replace with URL and ?ref=${var.hub.git_ref}
 
@@ -87,7 +91,8 @@ module "starterkit" {
     })
   }
 
-  repo_clone_addr = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
+  repo_clone_addr  = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
+  apps_base_domain = var.apps_base_domain
 }
 
 module "git_repository" {

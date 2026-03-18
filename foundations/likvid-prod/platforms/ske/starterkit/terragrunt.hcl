@@ -120,6 +120,7 @@ inputs = {
   # Image name and base template repository should align
   stackit_harbor_image_name = "ai-summarizer"
   repo_clone_addr           = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
+  apps_base_domain          = "likvid.stackit.run"
 
   project_tags = {
     owner_tag_key = "projectOwner"
