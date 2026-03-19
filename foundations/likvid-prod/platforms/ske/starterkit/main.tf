@@ -133,9 +133,9 @@ module "git_repository" {
   }
 
   action_variables = {
-    HARBOR_REGISTRY   = local.stackit_harbor_registry
-    HARBOR_PROJECT    = var.stackit_harbor_project
-    HARBOR_IMAGE_NAME = var.template_name
+    HARBOR_REGISTRY = local.stackit_harbor_registry
+    HARBOR_PROJECT  = var.stackit_harbor_project
+    APP_NAME        = var.template_name
   }
 }
 
