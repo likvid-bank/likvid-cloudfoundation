@@ -97,7 +97,6 @@ module "starterkit" {
   building_block_definitions = {
     "git-repository" : module.git_repository.building_block_definition
     "forgejo-connector" : module.forgejo_connector.building_block_definition
-    "git-connector" : module.git_connector.building_block_definition
   }
 
   full_platform_identifier = var.full_platform_identifier
@@ -138,6 +137,8 @@ module "git_repository" {
     HARBOR_PROJECT  = var.stackit_harbor_project
     APP_NAME        = var.template_name
   }
+
+  stackit_project_id = var.stackit_project_id
 }
 
 module "forgejo_connector" {
@@ -159,16 +160,6 @@ module "forgejo_connector" {
   additional_kubernetes_secrets = local.ai_kubernetes_secrets
 }
 
-module "git_connector" {
-  source = "../../../../../../meshstack-hub/modules/stackit/git-connector" # TODO replace with URL and ?ref=${var.hub.git_ref}
-
-  meshstack = var.meshstack
-  hub       = var.hub
-
-  forgejo_token                = var.forgejo_token
-  forgejo_base_url             = var.forgejo_base_url
-  forgejo_repo_definition_uuid = module.git_repository.building_block_definition.uuid
-}
 
 moved {
   from = module.backplane.module.git_repository.meshstack_building_block_definition.this
