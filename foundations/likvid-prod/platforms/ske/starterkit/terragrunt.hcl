@@ -108,7 +108,7 @@ provider "meshstack" {
 
 provider "stackit" {
   default_region      = "eu01"
-  service_account_key = ${jsonencode(get_env("STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY"))}
+  service_account_key = "${get_env("STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY")}"
 }
 EOF
 }
