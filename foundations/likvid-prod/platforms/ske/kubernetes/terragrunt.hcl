@@ -26,4 +26,5 @@ EOF
 
 inputs = {
   stackit_project_id = dependency.meshstack.outputs.stackit_project_id
+  cluster_name       = "starterkit"
 }
