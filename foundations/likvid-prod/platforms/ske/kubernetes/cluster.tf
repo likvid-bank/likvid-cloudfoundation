@@ -12,13 +12,13 @@ variable "stackit_project_id" {
   type        = string
 }
 
-locals {
-  cluster_name = "starterkit"
+variable "cluster_name" {
+  type = string
 }
 
-resource "stackit_ske_cluster" "starterkit" {
+resource "stackit_ske_cluster" "this" {
   project_id = var.stackit_project_id
-  name       = local.cluster_name
+  name       = var.cluster_name # TODO check if a random suffix would be a good idea here (if it's a global name shared across whole STACKIT)?
 
   node_pools = [
     {
@@ -39,33 +39,42 @@ resource "stackit_ske_cluster" "starterkit" {
   }
 }
 
-resource "stackit_ske_kubeconfig" "starterkit" {
+moved {
+  from = stackit_ske_cluster.starterkit
+  to   = stackit_ske_cluster.this
+}
+
+resource "stackit_ske_kubeconfig" "this" {
   project_id   = var.stackit_project_id
-  cluster_name = stackit_ske_cluster.starterkit.name
+  cluster_name = stackit_ske_cluster.this.name
   expiration   = "15552000" # 180 days
   refresh      = true
 }
 
-output "kube_host" {
-  description = "Kubernetes API server URL"
-  value       = yamldecode(stackit_ske_kubeconfig.starterkit.kube_config)["clusters"][0]["cluster"]["server"]
+moved {
+  from = stackit_ske_kubeconfig.starterkit
+  to   = stackit_ske_kubeconfig.this
+}
+
+locals {
+  kubeconfig            = yamldecode(stackit_ske_kubeconfig.this.kube_config)
+  kubeconfig_cluster    = one(local.kubeconfig.clusters).cluster
+  kubeconfig_admin_user = one(local.kubeconfig.users).user
+}
+
+output "kubeconfig" {
+  description = "Raw kubeconfig content for starterkit access."
+  value       = local.kubeconfig
   sensitive   = true
 }
 
-output "cluster_ca_certificate" {
-  description = "Base64-encoded cluster CA certificate"
-  value       = yamldecode(stackit_ske_kubeconfig.starterkit.kube_config)["clusters"][0]["cluster"]["certificate-authority-data"]
-  sensitive   = true
-}
-
-output "client_certificate" {
-  description = "Base64-encoded client certificate"
-  value       = yamldecode(stackit_ske_kubeconfig.starterkit.kube_config)["users"][0]["user"]["client-certificate-data"]
-  sensitive   = true
-}
-
-output "client_key" {
-  description = "Base64-encoded client key"
-  value       = yamldecode(stackit_ske_kubeconfig.starterkit.kube_config)["users"][0]["user"]["client-key-data"]
-  sensitive   = true
+output "provider_config" {
+  description = "Kubernetes provider config values derived from kubeconfig for Terragrunt wiring."
+  value = {
+    host                   = local.kubeconfig_cluster.server
+    cluster_ca_certificate = base64decode(local.kubeconfig_cluster["certificate-authority-data"])
+    client_certificate     = base64decode(local.kubeconfig_admin_user["client-certificate-data"])
+    client_key             = base64decode(local.kubeconfig_admin_user["client-key-data"])
+  }
+  sensitive = true
 }
