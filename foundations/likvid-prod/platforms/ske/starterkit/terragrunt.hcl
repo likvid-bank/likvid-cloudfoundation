@@ -108,7 +108,7 @@ provider "meshstack" {
 
 provider "stackit" {
   default_region      = "eu01"
-  service_account_key = "${get_env("STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY")}"
+  service_account_key = ${jsonencode(get_env("STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY"))}
 }
 EOF
 }
@@ -126,7 +126,8 @@ inputs = {
   forgejo_base_url     = dependency.git.outputs.forgejo_base_url
   forgejo_organization = dependency.git.outputs.forgejo_organization
 
-  stackit_project_id = dependency.meshstack.outputs.stackit_project_id
+  stackit_project_id          = dependency.meshstack.outputs.stackit_project_id
+  stackit_service_account_key = get_env("STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY")
 
   # Note: the Harbor project name is globally shared across all STACKIT,
   # so maybe we should have used 'likvid-ske' as some prefix?

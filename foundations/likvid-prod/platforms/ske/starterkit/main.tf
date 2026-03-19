@@ -68,6 +68,11 @@ variable "stackit_project_id" {
   type = string
 }
 
+variable "stackit_service_account_key" {
+  type      = string
+  sensitive = true
+}
+
 variable "dns_zone_name" {
   type = string
 }
@@ -138,7 +143,8 @@ module "git_repository" {
     APP_NAME        = var.template_name
   }
 
-  stackit_project_id = var.stackit_project_id
+  stackit_project_id          = var.stackit_project_id
+  stackit_service_account_key = var.stackit_service_account_key
 }
 
 module "forgejo_connector" {
