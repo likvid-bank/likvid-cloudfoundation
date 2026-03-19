@@ -13,6 +13,7 @@ dependency "meshstack" {
   mock_outputs = {
     owning_workspace_identifier = "mock-workspace"
     required_project_tags       = {}
+    stackit_project_id          = "00000000-0000-0000-0000-000000000000"
   }
 }
 
@@ -104,6 +105,11 @@ provider "meshstack" {
   apikey    = "ebeb67c1-aaa6-4fd5-9b0b-f70e975b7fef"
   apisecret = "${get_env("MESHSTACK_API_SECRET_STACKIT_IDP")}"
 }
+
+provider "stackit" {
+  default_region      = "eu01"
+  service_account_key = ${jsonencode(get_env("STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY"))}
+}
 EOF
 }
 
@@ -120,17 +126,23 @@ inputs = {
   forgejo_base_url     = dependency.git.outputs.forgejo_base_url
   forgejo_organization = dependency.git.outputs.forgejo_organization
 
-  stackit_harbor_registry = "registry.onstackit.cloud"
-  # Note: the Harbor project name is globally shared across all STACKIT, so maybe we should have used 'likvid-ske' as some prefix?
-  stackit_harbor_project             = "stackit_kubernetes_platform"
+  stackit_project_id = dependency.meshstack.outputs.stackit_project_id
+
+  # Note: the Harbor project name is globally shared across all STACKIT,
+  # so maybe we should have used 'likvid-ske' as some prefix?
+  stackit_harbor_project = "stackit_kubernetes_platform"
+
+  # No way to provision those robot users with TF at the moment :(
   stackit_harbor_push_robot_user     = get_env("STACKIT_HARBOR_PUSH_ROBOT_USER")
   stackit_harbor_push_robot_password = get_env("STACKIT_HARBOR_PUSH_ROBOT_PASSWORD")
+  stackit_harbor_pull_robot_user     = get_env("STACKIT_HARBOR_PULL_ROBOT_USER")
+  stackit_harbor_pull_robot_password = get_env("STACKIT_HARBOR_PULL_ROBOT_PASSWORD")
 
-  # Image name and base template repository should align
-  stackit_harbor_image_name = "ai-summarizer"
-  repo_clone_addr           = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
-  dns_zone_name             = dependency.dns.outputs.zone_name
-  add_random_name_suffix    = false
+  # Template name and base template repository should align
+  template_name           = "ai-summarizer"
+  template_repo_clone_url = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
+  dns_zone_name           = dependency.dns.outputs.zone_name
+  add_random_name_suffix  = false
 
   project_tags = {
     owner_tag_key = "projectOwner"
@@ -143,7 +155,4 @@ inputs = {
       "environment" = ["prod"]
     })
   }
-
-  tags                     = {}
-  notification_subscribers = []
 }

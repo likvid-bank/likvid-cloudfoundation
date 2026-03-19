@@ -42,15 +42,7 @@ variable "forgejo_base_url" {
   type = string
 }
 
-variable "stackit_harbor_registry" {
-  type = string
-}
-
 variable "stackit_harbor_project" {
-  type = string
-}
-
-variable "stackit_harbor_image_name" {
   type = string
 }
 
@@ -63,12 +55,37 @@ variable "stackit_harbor_push_robot_password" {
   sensitive = true
 }
 
+variable "stackit_harbor_pull_robot_user" {
+  type = string
+}
+
+variable "stackit_harbor_pull_robot_password" {
+  type      = string
+  sensitive = true
+}
+
+variable "stackit_project_id" {
+  type = string
+}
+
 variable "dns_zone_name" {
   type = string
 }
 
 variable "add_random_name_suffix" {
   type = bool
+}
+
+variable "template_name" {
+  type = string
+}
+
+variable "template_repo_clone_url" {
+  type = string
+}
+
+locals {
+  stackit_harbor_registry = "registry.onstackit.cloud" # hard-coded for all container images in STACKIT
 }
 
 module "starterkit" {
@@ -95,7 +112,7 @@ module "starterkit" {
     })
   }
 
-  repo_clone_addr        = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
+  repo_clone_addr        = var.template_repo_clone_url
   dns_zone_name          = var.dns_zone_name
   add_random_name_suffix = var.add_random_name_suffix
 }
@@ -116,9 +133,9 @@ module "git_repository" {
   }
 
   action_variables = {
-    HARBOR_REGISTRY   = var.stackit_harbor_registry
+    HARBOR_REGISTRY   = local.stackit_harbor_registry
     HARBOR_PROJECT    = var.stackit_harbor_project
-    HARBOR_IMAGE_NAME = var.stackit_harbor_image_name
+    HARBOR_IMAGE_NAME = var.template_name
   }
 }
 
@@ -134,17 +151,11 @@ module "forgejo_connector" {
   forgejo_api_token            = var.forgejo_token
   forgejo_repo_definition_uuid = module.git_repository.building_block_definition.uuid
 
-  harbor_host     = var.stackit_harbor_registry
-  harbor_username = var.stackit_harbor_push_robot_user
-  harbor_password = var.stackit_harbor_push_robot_password
+  harbor_host     = local.stackit_harbor_registry
+  harbor_username = var.stackit_harbor_pull_robot_user
+  harbor_password = var.stackit_harbor_pull_robot_password
 
-  additional_kubernetes_secrets = {
-    "stackit-ai" = {
-      STACKIT_AI_BASE_URL = "https://example.invalid/v1"
-      STACKIT_AI_API_KEY  = "dummy-api-key"
-      STACKIT_AI_MODEL    = "dummy-model"
-    }
-  }
+  additional_kubernetes_secrets = local.ai_kubernetes_secrets
 }
 
 moved {
