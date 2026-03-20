@@ -90,9 +90,8 @@ dependency "dns" {
 
 locals {
   hub = {
-    # TODO version pin and change bbd_draft to false once dev is completely done
-    git_ref   = "feature/ske-starter-kit-harbor-integration"
-    bbd_draft = true
+    git_ref   = "365f93efc1454f207efd0565063b24c94c0ee0e3"
+    bbd_draft = false
   }
 }
 
