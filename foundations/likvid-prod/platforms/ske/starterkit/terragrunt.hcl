@@ -7,90 +7,28 @@ include "tfstate" {
 }
 
 dependency "meshstack" {
-  config_path                             = "../meshstack"
-  skip_outputs                            = get_terraform_command() == "init"
-  mock_outputs_allowed_terraform_commands = ["init", "validate"]
-  mock_outputs = {
-    owning_workspace_identifier = "mock-workspace"
-    required_project_tags       = {}
-    stackit_project_id          = "00000000-0000-0000-0000-000000000000"
-  }
+  config_path = "../meshstack"
 }
 
 dependency "platform" {
-  config_path                             = "../meshstack/platform"
-  skip_outputs                            = get_terraform_command() == "init"
-  mock_outputs_allowed_terraform_commands = ["init", "validate"]
-  mock_outputs = {
-    full_platform_identifier = "mock-platform"
-    landing_zone_identifiers = {
-      dev  = "mock-lz-dev"
-      prod = "mock-lz-prod"
-    }
-  }
+  config_path = "../meshstack/platform"
 }
 
 dependency "git" {
-  config_path                             = "../git"
-  skip_outputs                            = get_terraform_command() == "init"
-  mock_outputs_allowed_terraform_commands = ["init", "validate"]
-  mock_outputs = {
-    forgejo_token        = "mock-token"
-    forgejo_base_url     = "https://mock-git-instance.git.onstackit.cloud"
-    forgejo_organization = "mock-org"
-  }
+  config_path = "../git"
 }
 
 dependency "kubernetes" {
-  config_path                             = "../kubernetes"
-  skip_outputs                            = get_terraform_command() == "init"
-  mock_outputs_allowed_terraform_commands = ["init", "validate"]
-  mock_outputs = {
-    kubeconfig = {
-      current-context = "mock-context"
-      clusters = [
-        {
-          name = "mock-cluster"
-          cluster = {
-            server                     = "https://mock-kube-host"
-            certificate-authority-data = "bW9jaw=="
-          }
-        }
-      ]
-      users = [
-        {
-          name = "mock-user"
-          user = {
-            client-certificate-data = "bW9jaw=="
-            client-key-data         = "bW9jaw=="
-          }
-        }
-      ]
-      contexts = [
-        {
-          name = "mock-context"
-          context = {
-            cluster = "mock-cluster"
-            user    = "mock-user"
-          }
-        }
-      ]
-    }
-  }
+  config_path = "../kubernetes"
 }
 
 dependency "dns" {
-  config_path                             = "../dns"
-  skip_outputs                            = get_terraform_command() == "init"
-  mock_outputs_allowed_terraform_commands = ["init", "validate"]
-  mock_outputs = {
-    zone_name = "mock-zone.stackit.run"
-  }
+  config_path = "../dns"
 }
 
 locals {
   hub = {
-    git_ref   = "365f93efc1454f207efd0565063b24c94c0ee0e3"
+    git_ref   = "fa243ac8d91396a21d79a709d39d7a1e9b271ba4"
     bbd_draft = false
   }
 }
