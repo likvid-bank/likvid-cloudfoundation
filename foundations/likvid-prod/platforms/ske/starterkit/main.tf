@@ -24,6 +24,15 @@ variable "landing_zone_identifiers" {
   description = "Identifiers of meshLandingZones for dev and prod."
 }
 
+variable "project_tags" {
+  type = object({
+    dev : map(list(string))
+    prod : map(list(string))
+
+    owner_tag_key = optional(string, null)
+  })
+}
+
 variable "kubeconfig" {
   type      = any
   sensitive = true
@@ -106,16 +115,7 @@ module "starterkit" {
 
   full_platform_identifier = var.full_platform_identifier
   landing_zone_identifiers = var.landing_zone_identifiers
-  project_tags = {
-    owner_tag_key = "projectOwner" # tag value is the creator of the starter kit building block
-    dev = merge(var.meshstack.required_project_tags, {
-      "environment"  = ["dev"]
-      "Schutzbedarf" = ["internal"] # overwrites default
-    })
-    prod = merge(var.meshstack.required_project_tags, {
-      "environment" = ["prod"]
-    })
-  }
+  project_tags             = var.project_tags
 
   repo_clone_addr        = var.template_repo_clone_url
   dns_zone_name          = var.dns_zone_name
