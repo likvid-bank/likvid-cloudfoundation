@@ -5,6 +5,7 @@ provider "registry.opentofu.org/hashicorp/http" {
   version     = "3.5.0"
   constraints = "~> 3.4"
   hashes = [
+    "h1:eClUBisXme48lqiUl3U2+H2a2mzDawS9biqfkd9synw=",
     "h1:yvwvVZ0vdbsTUMru+7Cr0On1FVgDJHAaC6TNvy/OWzM=",
     "zh:0a2b33494eec6a91a183629cf217e073be063624c5d3f70870456ddb478308e9",
     "zh:180f40124fa01b98b3d2f79128646b151818e09d6a1a9ca08e0b032a0b1e9cb1",
@@ -24,6 +25,7 @@ provider "registry.opentofu.org/meshcloud/meshstack" {
   constraints = "~> 0.20.0"
   hashes = [
     "h1:YjnBX5xyVErtb1zlB94eNVeVq5OOPk8klJbqf/Hf8yk=",
+    "h1:w6dXSecUbqaVCAf1vmrR9F0OLAkorLWuay5kiORuJaA=",
     "zh:0b2bab9172bd6b61b94e5657f8659ae4c15773120e78e616c0d2a7b5a67edbf9",
     "zh:28a60fa7275f4f3dbf425701f8b55bdcaf5775e3875eb2277098b8ef2621b5bd",
     "zh:4639aaa5814ab4697426a5c21cd2c8c529802ba87dc2b80948dd85bb3a5cacec",
@@ -46,6 +48,7 @@ provider "registry.opentofu.org/stackitcloud/stackit" {
   version     = "0.88.0"
   constraints = "~> 0.83"
   hashes = [
+    "h1:T7I6/hOXpAybYnSFZ8HnvcSF19a90wlCmlIJvk1hNJg=",
     "h1:WtWrtUvmvOYCpoh384SBn7M74y2Ts4iy0HPIkE7UEy4=",
     "zh:0816b3d5173894e942f0b4aa178eb99ac69b4f6983c44444f923bb57469d29c3",
     "zh:0dde99e7b343fa01f8eefc378171fb8621bedb20f59157d6cc8e3d46c738105f",
