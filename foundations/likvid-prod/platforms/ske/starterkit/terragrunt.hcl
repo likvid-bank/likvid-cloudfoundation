@@ -28,7 +28,7 @@ dependency "dns" {
 
 locals {
   hub = {
-    git_ref   = "9b80809e3e92c81b93e3f94969548b95429a4e6a"
+    git_ref   = "43c0b2aac6e328af7968839c9e81c85af2c88cc6"
     bbd_draft = false
   }
 }
@@ -63,8 +63,7 @@ inputs = {
   forgejo_base_url     = dependency.git.outputs.forgejo_base_url
   forgejo_organization = dependency.git.outputs.forgejo_organization
 
-  stackit_project_id          = dependency.meshstack.outputs.stackit_project_id
-  stackit_service_account_key = get_env("STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY")
+  stackit_project_id = dependency.meshstack.outputs.stackit_project_id
 
   # Note: the Harbor project name is globally shared across all STACKIT,
   # so maybe we should have used 'likvid-ske' as some prefix?
