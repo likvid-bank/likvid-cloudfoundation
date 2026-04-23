@@ -16,7 +16,7 @@ source <(
   set -euo pipefail
 
   # Find the correct kubectl context created by gcloud
-  kubeContext=$(kubectl config get-contexts -o name | grep '^gke_meshstack-infra' | head -n1)
+  kubeContext=$(kubectl config get-contexts -o name | grep '^gke_meshstack-infra.*_meshstack-infra$' | head -n1)
   if [[ -z "$kubeContext" ]]; then
     echo "Failed to find kubectl context with prefix gke_meshstack-infra, try connecting by running: " >&2
     echo "gcloud container clusters get-credentials meshstack-infra --region europe-west3 --project meshstack-infra" >&2
