@@ -4,6 +4,7 @@
 provider "registry.opentofu.org/hashicorp/azuread" {
   version = "3.7.0"
   hashes = [
+    "h1:AfmFZ2QhegudEUduMo/zYb62tzkmdbigUgxQ0vwWTuk=",
     "h1:d2qjcNKfJc4OsPURsamsGc9WbL7TUPzhNASdhHTYOBQ=",
     "zh:12f3c9dc6ea10afda080aecf555af2074158f4ae63a02a76e852dbc64c6f484d",
     "zh:14b22ba28708b92ed0d9736bdfb87f8d91c081c00cb819cfa97773d8fc56c4a4",
@@ -22,6 +23,7 @@ provider "registry.opentofu.org/hashicorp/azurerm" {
   constraints = "~> 4.36.0"
   hashes = [
     "h1:wgqe+S211yDyRggyGfmPY9F4hLyAPL7uLiT9hiAi28I=",
+    "h1:z3vbTN8p5m7WZ43uKqvhAt+Hyb8aAmeIjNsUyrVzUiM=",
     "zh:1000f6ecb00288cc276ef01e830a0ff5ea9fe097ba21351b9e9a525d3e1026c8",
     "zh:5f5f8574bddf467eefc267683fedcec75ff2eeaf30ca6d079f74a66f1d9bbd82",
     "zh:668dd61b11a71ff6ba2160e44db3ab2738ce506228adef1a1fcfaf4b82fcc5ff",

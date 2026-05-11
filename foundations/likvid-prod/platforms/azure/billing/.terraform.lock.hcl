@@ -6,6 +6,7 @@ provider "registry.opentofu.org/hashicorp/azuread" {
   constraints = "3.0.2"
   hashes = [
     "h1:PR5jdxyT2yWQdEUvQgKja9G67S6MD5CNnrZcRE7kGNU=",
+    "h1:eXsdLcyHK81qpkmSv75A3WQlGLV5l0nj7T82ySs3sOU=",
     "zh:2d90764d50b3539b0275de0ae8470a1d024f081a58e48fe695d52908228ae93c",
     "zh:308de133e725b081fbcdb8df983e6cd43afbf5f64e1323ae6ccae1a42adf6add",
     "zh:66314a7874ab548f20a1f7981c9807cbbffc4753f361d7effe8f28e201521c31",

@@ -5,6 +5,7 @@ provider "registry.opentofu.org/hashicorp/azuread" {
   version     = "3.8.0"
   constraints = "~> 3.8"
   hashes = [
+    "h1:rqAjqkA5dloKFuETW2+/jaFrnUFIPKJkTAkpQFUFh6k=",
     "h1:uKY1ayU2Hj1FnoGozP3r5gqtFH83wSFX0mqNyi3+ebc=",
     "zh:0cb139a86c05254ad19d6fe7e287758121300d85f6093e5da2fc4e5bc3905b1e",
     "zh:28a656a84534c5f954a0c77133737890a1923ff077cdde38a5c99073bffb5ec8",
@@ -22,6 +23,7 @@ provider "registry.opentofu.org/hashicorp/azurerm" {
   version     = "4.64.0"
   constraints = "~> 4.64"
   hashes = [
+    "h1:bPhfhhSKZuAdGJqy1hv4sp8cCiETQ1rSyUdMQooc52E=",
     "h1:gVHQcxZG6SDx+FHaDTQttv/qD3Z9yz/HbZ4hRwFCuME=",
     "zh:1f7ee0204f0ce2aec341ab08e75fd37ca5b8d20cf76cacd0eec9b0f88db1728d",
     "zh:379c7e60c0769f795f815bd1251407435b1ec43b19d45fd98df5cc29ab67e160",
@@ -45,6 +47,7 @@ provider "registry.opentofu.org/meshcloud/meshstack" {
   version     = "0.19.4"
   constraints = "~> 0.19.3"
   hashes = [
+    "h1:riuMMVbTkc2svyadGnu+sFDoz6MM1Lc3omnTm5GtGi0=",
     "h1:zFkcf8SzcgbS6Zz1efok0VVEm9EssQ2KTwvuXgJw0zc=",
     "zh:05643deffed31bf21549b0aec1b423f13706871d15db98202b56befceaaf4b11",
     "zh:0a1fee94aecc9aaa8232edd2fd7ca0e7a79ee9dd13f5d1a66f44f9edb2d8f550",
