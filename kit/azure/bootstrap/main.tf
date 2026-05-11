@@ -71,6 +71,9 @@ resource "azurerm_role_definition" "cloudfoundation_deploy" {
       "Microsoft.Consumption/budgets/write",
       "Microsoft.Consumption/budgets/delete",
 
+      # Permissions for managing diagnostic settings (e.g. Activity Log export)
+      "Microsoft.Insights/diagnosticSettings/*",
+
       # Permission we need to activate/register required Resource Providers
       "*/register/action"
     ]
