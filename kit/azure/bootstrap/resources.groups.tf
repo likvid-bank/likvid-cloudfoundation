@@ -10,4 +10,8 @@ resource "azuread_group" "platform_engineers" {
   security_enabled = true
   owners           = [data.azuread_client_config.current.object_id]
   members          = toset(data.azuread_users.platform_engineers_members.object_ids)
+
+  lifecycle {
+    ignore_changes = [owners]
+  }
 }
