@@ -1,0 +1,91 @@
+# Part 1 — Management Group Hierarchy
+
+**Kit module:** [`kit/azure/organization-hierarchy`](../../../../../kit/azure/organization-hierarchy)
+**Foundation stack:** [`organization-hierarchy/terragrunt.hcl`](../organization-hierarchy/terragrunt.hcl)
+
+## What it provisions
+
+```
+azurerm_management_group "parent"          # "${parent_mg_name}" (likvid-foundation)
+  ├── azurerm_management_group "platform"        # "${platform_mg_name}"
+  │     ├── azurerm_management_group "connectivity"   # "${connectivity_mg_name}" → Hub VNet, Firewall
+  │     ├── azurerm_management_group "identity"       # "${identity_mg_name}" → Identity management
+  │     └── azurerm_management_group "management"     # "${management_mg_name}" → Management subscription
+  └── azurerm_management_group "landingzones"    # "${landingzones_mg_name}"
+        ├── corp-online/     (managed by corp-online kit)
+        │   └── cloudnative/ (managed by cloud-native kit)
+        ├── sandbox/         (managed by sandbox kit)
+        ├── container-platform/
+        └── lift-and-shift/
+```
+
+## Live state
+
+```
+Tenant ID                     : ${tenant_id}
+
+Parent MG (likvid-foundation) : ${parent_mg_name}
+  ID                          : ${parent_mg_id}
+
+Platform MG                   : ${platform_mg_name}
+  ID                          : ${platform_mg_id}
+  ├── Connectivity MG         : ${connectivity_mg_name}
+  │   ID                      : ${connectivity_mg_id}
+  ├── Identity MG             : ${identity_mg_name}
+  │   ID                      : ${identity_mg_id}
+  └── Management MG           : ${management_mg_name}
+      ID                      : ${management_mg_id}
+
+Landing Zones MG              : ${landingzones_mg_name}
+  ID                          : ${landingzones_mg_id}
+```
+
+> **Portal:**
+> - [${parent_mg_name} Management Group](https://portal.azure.com/#view/Microsoft_Azure_ManagementGroups/ManagmentGroupDrilldownMenuBlade/~/overview/tenantId/${tenant_id}/mgId/${parent_mg_name})
+> - [${landingzones_mg_name} Management Group](https://portal.azure.com/#view/Microsoft_Azure_ManagementGroups/ManagmentGroupDrilldownMenuBlade/~/overview/tenantId/${tenant_id}/mgId/${landingzones_mg_name})
+> - [${platform_mg_name} Management Group](https://portal.azure.com/#view/Microsoft_Azure_ManagementGroups/ManagmentGroupDrilldownMenuBlade/~/overview/tenantId/${tenant_id}/mgId/${platform_mg_name})
+
+## Azure Policies enforced at this level
+
+The organization-hierarchy module assigns several Azure Policy sets at the `${parent_mg_name}`
+management group, enforcing guardrails across the entire organization
+([source](../../../../../kit/azure/organization-hierarchy/main.tf)):
+
+### Allowed Locations
+
+Restricts all resource and resource group creation to approved EU regions:
+
+```json
+// policy_assignment_es_deny_resource_locations
+{
+  "allowedLocations": ["germanywestcentral", "westeurope"]
+}
+```
+
+### Deny Classic Resources
+
+Prevents deployment of legacy (ASM) resources — only Azure Resource Manager (ARM) is allowed.
+
+### Deny Subnet without NSG
+
+Every subnet must have a Network Security Group attached — no unprotected subnets allowed.
+
+### Enforce TLS/SSL
+
+Policy set enforcing minimum TLS versions across Storage, SQL, MySQL, PostgreSQL, Redis,
+App Service and Key Vault.
+
+> **Portal:** [Policy Assignments on ${parent_mg_name}](https://portal.azure.com/#view/Microsoft_Azure_ManagementGroups/ManagmentGroupDrilldownMenuBlade/~/policyAssignments/tenantId/${tenant_id}/mgId/${parent_mg_name})
+
+## Talking points
+
+- The Management Group hierarchy **mirrors Azure's Cloud Adoption Framework (CAF)** recommended
+  structure — platform workloads are separated from landing zone workloads under a common root.
+- **Platform vs. Landing Zones split** is the Azure equivalent of the AWS "management OU vs.
+  landing zones OU" pattern shown in the AWS demo. The concept is universal across clouds.
+- Azure Policies at the root MG function like **AWS Service Control Policies (SCPs)** — they
+  set guardrails that no subscription underneath can circumvent.
+- The `connectivity`, `identity` and `management` MGs under `platform` follow the CAF
+  recommended separation of concerns for platform subscriptions.
+- Unlike AWS where each landing zone is an OU with accounts, Azure uses **MGs with subscriptions**.
+  The IaC pattern (`kit/` module + `foundations/` wiring) stays the same.

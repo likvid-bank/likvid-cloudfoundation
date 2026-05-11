@@ -1,0 +1,144 @@
+# Part 2 — Centralized Logging
+
+**Kit module:** [`kit/azure/logging`](../../../../../kit/azure/logging)
+**Foundation stack:** [`logging/terragrunt.hcl`](../logging/terragrunt.hcl)
+
+## What it provisions
+
+```
+Log Analytics Workspace (management subscription)
+  name: log-analytics-workspace
+  sku: PerGB2018
+  retention: 180 days
+
+  ➡️ collects ➡️
+
+Activity Log Diagnostic Settings (management group level)
+  scope: likvid-foundation (root management group)
+  categories: Administrative (enabled), Policy (disabled)
+  destination: Log Analytics Workspace
+
+Azure Policy Assignment
+  "Deploy-AzActivity-Log" → auto-deploys Activity Log collection
+  on new subscriptions added under likvid-foundation
+
+Security RBAC Groups
+  likvid-cloudfoundation-security-admins  → Security Admin + Log Analytics Contributor
+  likvid-cloudfoundation-security-auditors → Security Reader + Log Analytics Reader
+```
+
+## Dedicated subscription architecture
+
+The logging module runs in a **dedicated subscription** placed under the `0cbc9f7f-45e9-4908-827a-d4b30edae974`
+Management Group. This subscription hosts the Log Analytics Workspace and is isolated from
+application team subscriptions.
+
+[`kit/azure/logging/main.tf`](../../../../../kit/azure/logging/main.tf):
+
+```hcl
+resource "azurerm_log_analytics_workspace" "law" {
+  name                = "log-analytics-workspace"
+  location            = azurerm_resource_group.law_rg.location
+  resource_group_name = azurerm_resource_group.law_rg.name
+  sku                 = "PerGB2018"
+  retention_in_days   = var.log_retention_in_days
+}
+```
+
+```hcl
+resource "azapi_resource" "diag_setting_management_group" {
+  type      = "Microsoft.Insights/diagnosticSettings@2021-05-01-preview"
+  name      = "toLogAnalyticsWorkspace"
+  parent_id = var.scope  # management group level
+  body = jsonencode({
+    properties = {
+      workspaceId = azurerm_log_analytics_workspace.law.id
+      logs = [{
+        category = "Administrative"
+        enabled  = true
+      }]
+    }
+  })
+}
+```
+
+## Live state
+
+```
+Log Analytics Workspace ID : /subscriptions/e4a6af88-cd23-4785-acd6-d7221f755be7/resourceGroups/law-rg-likvid-foundation/providers/Microsoft.OperationalInsights/workspaces/log-analytics-workspace
+Logging Subscription       : /subscriptions/e4a6af88-cd23-4785-acd6-d7221f755be7
+Log Retention              : 180 days
+Diagnostic Setting Scope   : likvid-foundation (management group)
+```
+
+> **Portal:**
+> - [Log Analytics Workspace](https://portal.azure.com/#@703c8d27-13e0-4836-8b2e-8390c588cf80/resource/subscriptions/e4a6af88-cd23-4785-acd6-d7221f755be7/resourceGroups/law-rg-likvid-foundation/providers/Microsoft.OperationalInsights/workspaces/log-analytics-workspace/overview)
+> - [Activity Log on likvid-foundation](https://portal.azure.com/#view/Microsoft_Azure_ManagementGroups/ManagmentGroupDrilldownMenuBlade/~/activityLog/tenantId/703c8d27-13e0-4836-8b2e-8390c588cf80/mgId/likvid-foundation)
+
+## Talking points
+
+- **One workspace, all subscriptions** — the Activity Log diagnostic setting at the management
+  group level means every new subscription provisioned by meshStack is automatically covered.
+  No per-subscription setup required. This is the Azure equivalent of AWS's
+  `is_organization_trail = true`.
+- **Azure Policy auto-remediation** — the `Deploy-AzActivity-Log` policy assignment ensures that
+  even if a subscription is created outside of Terraform, Activity Logs are still forwarded to
+  the central LAW. The policy identity has `Monitoring Contributor` and `Log Analytics Contributor`
+  roles to perform remediation.
+- **Security role separation** — two Entra ID groups (`security-admins` and `security-auditors`)
+  with different RBAC assignments implement the principle of least privilege for audit access.
+  Admins can modify the LAW; auditors can only read.
+- **Terragrunt dependency graph** — `logging` declares a `dependency` on `organization-hierarchy`
+  and `bootstrap`, reading the management group ID and deploy principal dynamically. This shows
+  how the stack self-documents its dependencies.
+- **Guide alignment:** *Centralized Logging* is classified as a Security & Compliance capability.
+  Azure's LAW + diagnostic settings pattern is the equivalent of AWS's CloudTrail + S3 bucket
+  pattern shown in the AWS demo — both achieve centralized, tamper-resistant audit logging.
+
+## Proposed demo change — Extend log categories
+
+**Current state:** Only `Administrative` Activity Log category is forwarded to the LAW.
+
+**Why:** Demonstrate how a single input change propagates to infrastructure, and capture a broader
+set of audit events (Security, ServiceHealth, Alert, Recommendation, Policy, Autoscale,
+ResourceHealth).
+
+### Step 1 (kit): make log categories configurable
+
+Edit [`kit/azure/logging/main.tf`](../../../../../kit/azure/logging/main.tf) — extend the
+`azapi_resource` diagnostic setting to include additional categories:
+
+```hcl
+resource "azapi_resource" "diag_setting_management_group" {
+  # ...
+  body = jsonencode({
+    properties = {
+      workspaceId = azurerm_log_analytics_workspace.law.id
+      logs = [for cat in var.activity_log_categories : {
+        category = cat
+        enabled  = true
+      }]
+    }
+  })
+}
+```
+
+### Step 2 (foundation): enable all categories
+
+Edit [`logging/terragrunt.hcl`](../logging/terragrunt.hcl):
+
+```hcl
+inputs = {
+  # ...
+  activity_log_categories = [
+    "Administrative",
+    "Security",
+    "ServiceHealth",
+    "Alert",
+    "Recommendation",
+    "Policy",
+    "Autoscale",
+    "ResourceHealth"
+  ]
+}
+```
