@@ -28,7 +28,7 @@ dependency "dns" {
 
 locals {
   hub = {
-    git_ref   = "e30e33cfeb5b671f2d478b0880cf4ba960c82e93"
+    git_ref   = "3e7b99115e0d9edc74a14105e67e40638ea5aa33"
     bbd_draft = false
   }
 }
