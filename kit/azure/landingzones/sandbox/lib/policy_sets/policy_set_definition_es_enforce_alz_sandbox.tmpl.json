@@ -56,6 +56,16 @@
     },
     "policyDefinitions": [
       {
+        "policyDefinitionReferenceId": "SandboxDenyVnetPeering",
+        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/Deny-VNET-Peer-Cross-Sub",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('effectDenyVnetPeering')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
         "policyDefinitionReferenceId": "SandboxNotAllowed",
         "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6c112d4e-5bc7-47ae-a041-ea2d9dccd749",
         "parameters": {
@@ -64,16 +74,6 @@
           },
           "listOfResourceTypesNotAllowed": {
             "value": "[parameters('listOfResourceTypesNotAllowed')]"
-          }
-        },
-        "groupNames": []
-      },
-      {
-        "policyDefinitionReferenceId": "SandboxDenyVnetPeering",
-        "policyDefinitionId": "${root_scope_resource_id}/providers/Microsoft.Authorization/policyDefinitions/Deny-VNET-Peer-Cross-Sub",
-        "parameters": {
-          "effect": {
-            "value": "[parameters('effectDenyVnetPeering')]"
           }
         },
         "groupNames": []
