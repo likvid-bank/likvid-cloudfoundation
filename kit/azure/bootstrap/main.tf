@@ -74,6 +74,9 @@ resource "azurerm_role_definition" "cloudfoundation_deploy" {
       # Permissions for managing diagnostic settings (e.g. Activity Log export)
       "Microsoft.Insights/diagnosticSettings/*",
 
+      # Permission to read activity log entries at management group scope
+      "Microsoft.Insights/eventtypes/values/Read",
+
       # Permission we need to activate/register required Resource Providers
       "*/register/action"
     ]
