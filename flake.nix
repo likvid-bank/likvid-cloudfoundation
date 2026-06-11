@@ -67,6 +67,7 @@
           # cloud platforms currently not deployed by CI
           kubelogin # for AKS
           stackit-cli # for Stackit
+          kubectl
 
           # needed to access secrets
           vault-bin

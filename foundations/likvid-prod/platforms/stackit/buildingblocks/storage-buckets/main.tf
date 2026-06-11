@@ -1,7 +1,8 @@
 locals {
   hub = {
-    git_ref   = "559cace646280110dd577eb69cd65e2f4e4a47f1"
-    bbd_draft = false
+    module    = "stackit/storage-bucket"
+    git_ref   = "e84b9f002830a7e6aefc199b00ac57f64ea08ff5"
+    bbd_draft = true
   }
   meshstack = {
     owning_workspace_identifier = "devops-platform"
@@ -41,9 +42,9 @@ resource "meshstack_tenant_v4" "stackit_storage_buckets" {
 }
 
 module "stackit_storage_bucket_bb" {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/stackit/storage-bucket?ref=${local.hub.git_ref}"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/${local.hub.module}?ref=${local.hub.git_ref}"
 
-  hub        = local.hub
-  project_id = meshstack_tenant_v4.stackit_storage_buckets.spec.platform_tenant_id
-  meshstack  = local.meshstack
+  hub                = local.hub
+  stackit_project_id = meshstack_tenant_v4.stackit_storage_buckets.spec.platform_tenant_id
+  meshstack          = local.meshstack
 }

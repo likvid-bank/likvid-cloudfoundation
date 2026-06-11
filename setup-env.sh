@@ -54,5 +54,10 @@ source <(
   vault kv get -format=json "$vaultSecret" |
     jq -r '.data.data | to_entries[] | "\(.key)='\''\(.value)'\''"' |
     tee >(tr '\n' '\0' | sed "s/='[^']*'//g" | tr '\0' '\n' >/dev/stderr)
+
 )
+
+# STACKIT unfortunately does nto support a user-level auth, which is our default for local development work (CI uses WIF)
+# By convention, we expect platform engineers to have a service account key in this location
+export STACKIT_SERVICE_ACCOUNT_KEY_PATH=~/.stackit/credentials.json
 set +a
