@@ -33,6 +33,9 @@ jobs:
 
       # required for meshstack e2e tests (stackit platform)
       MESHSTACK_API_KEY_CLOUDFOUNDATION: ${{ secrets.MESHSTACK_API_KEY_CLOUDFOUNDATION }}
+      # required for stackit provider initialization in e2e tests — even in foundation mode
+      # where no STACKIT resources are created, the provider still initializes and needs credentials
+      STACKIT_SERVICE_ACCOUNT_TOKEN: ${{ secrets.STACKIT_SERVICE_ACCOUNT_TOKEN }}
     permissions:
       id-token: write
       contents: read
