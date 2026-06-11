@@ -19,7 +19,7 @@ terraform {
 }
 
 locals {
-  token = get_env("STACKIT_SERVICE_ACCOUNT_TOKEN")
+  token = get_env("STACKIT_SERVICE_ACCOUNT_TOKEN", "")
 }
 
 generate "provider" {
