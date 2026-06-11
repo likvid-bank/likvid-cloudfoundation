@@ -28,7 +28,7 @@ which terragrunt  # should resolve to a nix store path
 Claude Code's Bash tool runs bash. Always wrap commands that need Vault credentials:
 
 ```bash
-/bin/zsh -c "source setup-env.sh && export STACKIT_SERVICE_ACCOUNT_KEY_PATH=~/.stackit/credentials.json && terragrunt apply -auto-approve"
+/bin/zsh -c "source setup-env.sh && terragrunt apply -auto-approve"
 ```
 
 After sourcing, these env vars are available (verified 2026-06-10):
@@ -39,7 +39,7 @@ After sourcing, these env vars are available (verified 2026-06-10):
 | `STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY` | SKE-related modules |
 | `STACKIT_S3_ACCESS_KEY_ID` / `STACKIT_S3_SECRET_ACCESS_KEY` | S3-compatible storage |
 
-**`STACKIT_SERVICE_ACCOUNT_KEY_PATH` is not populated in Vault** — STACKIT SA key auth for storage-buckets/other modules requires a separate credentials file at `~/.stackit/credentials.json`. Always export it explicitly after sourcing setup-env.sh.
+**`STACKIT_SERVICE_ACCOUNT_KEY_PATH`** is set by `setup-env.sh` itself (pointing to `~/.stackit/credentials.json`) — it is not in Vault because STACKIT's provider doesn't support user-level auth. If the file doesn't exist, `setup-env.sh` will print instructions for creating a STACKIT service account key as a personal-access-token workaround.
 
 ---
 
@@ -47,14 +47,14 @@ After sourcing, these env vars are available (verified 2026-06-10):
 
 ```bash
 cd foundations/likvid-prod/<module-path>
-/bin/zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh && export STACKIT_SERVICE_ACCOUNT_KEY_PATH=~/.stackit/credentials.json && terragrunt plan"
+/bin/zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh && terragrunt plan"
 ```
 
 Real example (storage-buckets):
 
 ```bash
 cd foundations/likvid-prod/platforms/stackit/buildingblocks/storage-buckets
-/bin/zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh && export STACKIT_SERVICE_ACCOUNT_KEY_PATH=~/.stackit/credentials.json && terragrunt plan"
+/bin/zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh && terragrunt plan"
 ```
 
 ---
@@ -62,7 +62,7 @@ cd foundations/likvid-prod/platforms/stackit/buildingblocks/storage-buckets
 ## Applying
 
 ```bash
-/bin/zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh && export STACKIT_SERVICE_ACCOUNT_KEY_PATH=~/.stackit/credentials.json && terragrunt apply -auto-approve"
+/bin/zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh && terragrunt apply -auto-approve"
 ```
 
 ---
@@ -101,7 +101,7 @@ Then re-init (module source changed) and apply:
 
 ```bash
 cd foundations/likvid-prod/platforms/<provider>/buildingblocks/<service>
-/bin/zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh && export STACKIT_SERVICE_ACCOUNT_KEY_PATH=~/.stackit/credentials.json && terragrunt run -- init -upgrade && terragrunt apply -auto-approve"
+/bin/zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh && terragrunt run -- init -upgrade && terragrunt apply -auto-approve"
 ```
 
 The apply updates the Building Block Definition in meshStack with the new content hash. Verify the output shows the BBD updated with a new `content_hash`.
@@ -113,7 +113,7 @@ The `e2e/` sibling directory sources the hub's own `e2e/` module at the same git
 ```bash
 cd foundations/likvid-prod/platforms/<provider>/buildingblocks/<service>/e2e
 rm -rf .terragrunt-cache   # always clear — stale cache refers to old git ref
-/bin/zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh && export STACKIT_SERVICE_ACCOUNT_KEY_PATH=~/.stackit/credentials.json && terragrunt init -upgrade && terragrunt test"
+/bin/zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh && terragrunt init -upgrade && terragrunt test"
 ```
 
 Expected output when passing:
@@ -323,15 +323,11 @@ terraform {
 
 - **Stale lock file after hub upgrade** — terragrunt copies the committed `.terraform.lock.hcl` into its cache and `terragrunt plan` fails with "locked provider X does not match configured version constraint". Fix: `terragrunt run -- init -upgrade`.
 
-- **AWS provider v5 sends LocationConstraint to STACKIT StorageGRID** — AWS Terraform provider `>= 5.0` uses SDK Go v2, which sends `CreateBucketConfiguration { LocationConstraint = region }` for ALL regions, including `us-east-1`. STACKIT's StorageGRID rejects any LocationConstraint value with `InvalidLocationConstraint`. The fix is to pin the AWS provider to `~> 4.0` in `buildingblock/versions.tf`; SDK Go v1 omits LocationConstraint for `us-east-1`, which StorageGRID accepts.
-
-- **`invalid AWS Region: X`** — AWS provider validates region names against the known AWS region list. Non-AWS region names (like `eu01`) are rejected at startup. Adding `skip_region_validation = true` bypasses the validation but does NOT fix the StorageGRID LocationConstraint problem — StorageGRID still rejects the non-AWS region value. The only working solution for STACKIT S3 is AWS provider `~> 4.0` with `region = "us-east-1"`.
-
 - **`provider.tf` gets overwritten by `generate`** — if `terragrunt.hcl` has a `generate "provider"` block targeting `provider.tf`, any committed `provider.tf` is overwritten (and editing it is pointless — your change vanishes on the next run). Move `terraform { required_providers {} }` to `terraform.tf` instead, and **gitignore the generated `provider.tf`** so it is never committed. The storage-buckets module now has a `.gitignore` with `provider.tf` for exactly this reason (it had previously committed a stale generated file containing a hardcoded `apisecret`).
 
 - **`~> X.Y.0` constraints from hub modules combine unsatisfiably** — `~> 0.88.0` (patch-locked) combined with `>= 0.98.0` (from newer hub module) has no solution. Fix: change the local constraint to `>= 0.88.0` in `terraform.tf`.
 
-- **STACKIT credentials for local dev** — `STACKIT_SERVICE_ACCOUNT_KEY_PATH` is not in Vault. For modules using the STACKIT provider locally, either populate `~/.stackit/credentials.json` or set `STACKIT_SERVICE_ACCOUNT_KEY_PATH` to a valid key file. Always export it alongside sourcing `setup-env.sh`.
+- **STACKIT credentials for local dev** — `STACKIT_SERVICE_ACCOUNT_KEY_PATH` is set by `setup-env.sh` to `~/.stackit/credentials.json`. If that file is missing, sourcing `setup-env.sh` will print instructions for creating a STACKIT service account key (the workaround for STACKIT not supporting user-level auth in its provider).
 
 - **meshstack 401 on API key** — the hardcoded `apikey = "6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74"` in `terragrunt.hcl` is paired with `MESHSTACK_API_KEY_CLOUDFOUNDATION` as the secret. A 401 means the key ID and secret don't match (key was rotated). Check the meshStack panel for the current API key ID for the `likvid-prod` service account.
 
@@ -350,9 +346,7 @@ terraform {
 | `~> X.Y.0, >= X.Z.0` unsatisfiable | Change local constraint from `~> X.Y.0` to `>= X.Y.0` in `terraform.tf` |
 | `unsupported meshStack version: requires 2026.24.0+` | Cap meshstack provider to `~> 0.21.0` |
 | `invalid_client` 401 on meshstack | API key ID rotated — update `apikey` in `terragrunt.hcl` |
-| `STACKIT_SERVICE_ACCOUNT_TOKEN not set` | Set `STACKIT_SERVICE_ACCOUNT_KEY_PATH=~/.stackit/credentials.json` |
-| `InvalidLocationConstraint` on STACKIT S3 CreateBucket | Pin AWS provider to `~> 4.0` in `buildingblock/versions.tf` and use `region = "us-east-1"` |
-| `invalid AWS Region: eu01` | Either use a real AWS region name + `~> 4.0`, or add `skip_region_validation = true` |
+| `STACKIT_SERVICE_ACCOUNT_TOKEN not set` | `~/.stackit/credentials.json` is missing — source `setup-env.sh` for instructions on creating a STACKIT service account key |
 | Building block reached FAILED state | Get the BB UUID from the error message; fetch logs with `node tools/debug/get-bb-run-logs.mjs <uuid>` from meshstack-hub (needs `MESHSTACK_ENDPOINT`, `MESHSTACK_API_KEY`, `MESHSTACK_API_SECRET`) |
 | `var.test_context.name_suffix` breaks in tftest assertion | Caused by TF_VAR_* raw-string delivery — use `generate "smoke_tfvars"` with `auto.tfvars.json` instead of `inputs` |
 | 403 Forbidden ordering BBD instance | Draft BBD can only be ordered by its owning workspace — set `workspace` to the owning workspace, not `smoke-test` |
