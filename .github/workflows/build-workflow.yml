@@ -46,7 +46,7 @@ jobs:
           prepare_terraform: true
 
       - name: Setup gcloud auth
-        if: ${{ inputs.platform == 'gcp' }}
+        if: ${{ inputs.platform == 'gcp' || inputs.platform == 'stackit' }}
         id: 'auth'
         uses: 'google-github-actions/auth@v2'
         with:
@@ -62,7 +62,7 @@ jobs:
           subscription-id: ${{ vars.azure_subscription_id }}
 
       - name: Setup aws auth
-        if: ${{ inputs.platform == 'aws' || inputs.platform == 'stackit' }}
+        if: ${{ inputs.platform == 'aws' }}
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: eu-central-1
