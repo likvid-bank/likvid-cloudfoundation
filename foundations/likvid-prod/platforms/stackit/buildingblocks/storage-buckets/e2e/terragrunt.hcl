@@ -29,6 +29,23 @@ provider "meshstack" {
 EOF
 }
 
+# The hub's e2e main.tf always declares a stackit provider (needed in build-from-source mode).
+# In foundation mode no STACKIT resources are created (module count = 0), but the provider
+# still initializes and requires credentials. We use a Terraform override file to merge
+# service_account_token into the provider block so the STACKIT provider can initialize via
+# token auth rather than falling back to ~/.stackit/credentials.json (absent in CI).
+# The token defaults to "placeholder" when not set; no STACKIT API calls are made in
+# foundation mode so the placeholder is never validated by the STACKIT API.
+generate "stackit_provider_override" {
+  path      = "stackit_provider_override.tf"
+  if_exists = "overwrite"
+  contents  = <<EOF
+provider "stackit" {
+  service_account_token = "${get_env("STACKIT_SERVICE_ACCOUNT_TOKEN", "placeholder")}"
+}
+EOF
+}
+
 generate "versions_override" {
   path      = "versions_override.tf"
   if_exists = "overwrite"
