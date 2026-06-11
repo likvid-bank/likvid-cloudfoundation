@@ -34,19 +34,23 @@ terraform {
 EOF
 }
 
-# `tofu test` does not type-decode complex TF_VAR_* env vars — use auto.tfvars.json so
-# structured variables like test_context arrive correctly typed in test assertion scope.
+# `tofu test` does not type-decode complex TF_VAR_* env vars — use auto.tfvars.json so the
+# structured `test_context` variable arrives correctly typed in test assertion scope.
+#
+# Foundation mode: the deployment (`../`) already created the BBD, so we set `bbd_version_ref` to
+# order an ephemeral building block against it. Setting `bbd_version_ref` (and omitting `fixtures`)
+# selects foundation mode; the e2e module rejects setting both. See the meshstack-hub `e2e-test`
+# skill for the invocation protocol.
 generate "smoke_tfvars" {
   path              = "smoke.auto.tfvars.json"
   if_exists         = "overwrite"
   disable_signature = true
   contents = jsonencode({
-    bbd_version_ref             = dependency.deployment.outputs.e2e.building_block_definition.version_ref
-    # todo: this hardcoding is probably not ideal and will break in CI - we're not there yet though so this can be fixed later
-    stackit_service_account_key = file("~/.stackit/credentials.json")
     test_context = {
-      workspace   = dependency.deployment.outputs.e2e.owning_workspace
-      name_suffix = run_cmd("--terragrunt-quiet", "date", "-u", "+%Y%m%d%H%M%S")
+      workspace       = dependency.deployment.outputs.e2e.owning_workspace
+      name_suffix     = run_cmd("--terragrunt-quiet", "date", "-u", "+%Y%m%d%H%M%S")
+      hub_git_ref     = dependency.deployment.outputs.e2e.hub.git_ref
+      bbd_version_ref = dependency.deployment.outputs.e2e.building_block_definition.version_ref
     }
   })
 }
