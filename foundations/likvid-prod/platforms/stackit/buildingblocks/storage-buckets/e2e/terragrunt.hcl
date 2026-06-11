@@ -50,7 +50,7 @@ generate "smoke_tfvars" {
       workspace       = dependency.deployment.outputs.e2e.owning_workspace
       name_suffix     = run_cmd("--terragrunt-quiet", "date", "-u", "+%Y%m%d%H%M%S")
       hub_git_ref     = dependency.deployment.outputs.e2e.hub.git_ref
-      bbd_version_ref = dependency.deployment.outputs.e2e.building_block_definition.version_ref
+      bbd_version_ref = { uuid = dependency.deployment.outputs.e2e.building_block_definition.version_ref.uuid }
     }
   })
 }
