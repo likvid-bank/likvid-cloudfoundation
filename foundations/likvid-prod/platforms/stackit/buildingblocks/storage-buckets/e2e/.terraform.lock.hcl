@@ -37,7 +37,7 @@ provider "registry.opentofu.org/meshcloud/meshstack" {
 
 provider "registry.opentofu.org/stackitcloud/stackit" {
   version     = "0.98.0"
-  constraints = ">= 0.98.0"
+  constraints = ">= 0.98.0, ~> 0.98.0"
   hashes = [
     "h1:+Z8/Wyu2G8j5FU0xfYbJM5duGCkk8I0g40+sfdj/vSk=",
     "h1:/FB0wBnvmjumjykX+j90kSck6LMScDaYo1STO5Vp/kw=",
