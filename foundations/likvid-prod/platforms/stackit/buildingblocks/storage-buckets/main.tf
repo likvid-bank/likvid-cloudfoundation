@@ -1,7 +1,7 @@
 locals {
   hub = {
     module    = "stackit/storage-bucket"
-    git_ref   = "5960d4552cd126ca133e2b8d6e0514aa15d809f9"
+    git_ref   = "44e21d6830aa7c6a23c2579506b4b61bf4aa69be"
     bbd_draft = true
   }
   meshstack = {
