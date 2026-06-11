@@ -57,7 +57,24 @@ source <(
 
 )
 
-# STACKIT unfortunately does nto support a user-level auth, which is our default for local development work (CI uses WIF)
-# By convention, we expect platform engineers to have a service account key in this location
+# STACKIT unfortunately does not support a user-level auth, which is our default for local development work (CI uses WIF).
+# By convention, we expect platform engineers to have a service account key in this location.
 export STACKIT_SERVICE_ACCOUNT_KEY_PATH=~/.stackit/credentials.json
+
+if [[ ! -f "$STACKIT_SERVICE_ACCOUNT_KEY_PATH" ]]; then
+  echo "" >&2
+  echo "⚠️  STACKIT credentials file not found: $STACKIT_SERVICE_ACCOUNT_KEY_PATH" >&2
+  echo "" >&2
+  echo "STACKIT's OpenTofu provider does not support user-level auth." >&2
+  echo "You need a service account key as a stand-in personal access token." >&2
+  echo "" >&2
+  echo "To create one:" >&2
+  echo "  1. Go to https://portal.stackit.cloud → your project → Service Accounts" >&2
+  echo "  2. Create a service account and assign it the same roles as your user" >&2
+  echo "     (e.g. Project.Owner, or the specific roles for the resources you manage)" >&2
+  echo "  3. Under the service account, create a key and download the JSON file" >&2
+  echo "  4. Save it:" >&2
+  echo "     mkdir -p ~/.stackit && cp <downloaded-key>.json $STACKIT_SERVICE_ACCOUNT_KEY_PATH" >&2
+  echo "" >&2
+fi
 set +a
