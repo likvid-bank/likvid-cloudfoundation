@@ -30,6 +30,9 @@ jobs:
 
       # required for the github deployment
       GITHUB_APP_PEM_FILE: ${{ secrets.LIVKID_GITHUB_APP_PEM_FILE }} # note: this environment secret must be set up manually on the github repo
+
+      # required for meshstack e2e tests (stackit platform)
+      MESHSTACK_API_KEY_CLOUDFOUNDATION: ${{ secrets.MESHSTACK_API_KEY_CLOUDFOUNDATION }}
     permissions:
       id-token: write
       contents: read
@@ -59,7 +62,7 @@ jobs:
           subscription-id: ${{ vars.azure_subscription_id }}
 
       - name: Setup aws auth
-        if: ${{ inputs.platform == 'aws' }}
+        if: ${{ inputs.platform == 'aws' || inputs.platform == 'stackit' }}
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: eu-central-1
