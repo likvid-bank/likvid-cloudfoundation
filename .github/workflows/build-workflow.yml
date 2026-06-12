@@ -33,11 +33,10 @@ jobs:
 
       # required for meshstack e2e tests (stackit platform)
       MESHSTACK_API_KEY_CLOUDFOUNDATION: ${{ secrets.MESHSTACK_API_KEY_CLOUDFOUNDATION }}
-      # The hub's e2e main.tf sets service_account_key = null, so the STACKIT provider falls back
-      # to this env var for credentials. Falls back to "{}" when the secret is absent: no STACKIT
-      # API calls are made in foundation mode (module count=0), so the placeholder is never used
-      # for actual authentication.
-      STACKIT_SERVICE_ACCOUNT_KEY: ${{ secrets.STACKIT_SERVICE_ACCOUNT_KEY || '{}' }}
+      # Optional: real STACKIT service account key for e2e tests. When absent the foundation
+      # e2e terragrunt falls back to the placeholder key in the repo (sufficient for foundation
+      # mode where no STACKIT API calls are made).
+      STACKIT_SERVICE_ACCOUNT_KEY: ${{ secrets.STACKIT_SERVICE_ACCOUNT_KEY }}
     permissions:
       id-token: write
       contents: read
