@@ -33,8 +33,12 @@ jobs:
 
       # required for meshstack e2e tests (stackit platform)
       MESHSTACK_API_KEY_CLOUDFOUNDATION: ${{ secrets.MESHSTACK_API_KEY_CLOUDFOUNDATION }}
-      # STACKIT service account email for WIF auth (value sourced from GH environment variable)
+      
+      # 
+      STACKIT_USE_OIDC: "1"
       STACKIT_SERVICE_ACCOUNT_EMAIL: ${{ vars.stackit_service_account_email }}
+
+
     permissions:
       id-token: write
       contents: read
@@ -46,20 +50,10 @@ jobs:
         uses: ./.github/actions/setup-nix-shell
         with:
           prepare_terraform: true
-
-      - name: Setup stackit auth
-        if: ${{ inputs.platform == 'stackit' }}
-        run: |
-          OIDC_TOKEN=$(curl -sSf \
-            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=sts.accounts.stackit.cloud" \
-            | jq -r '.value')
-          STACKIT_TOKEN_FILE="$(mktemp)"
-          printf '%s' "$OIDC_TOKEN" > "$STACKIT_TOKEN_FILE"
-          echo "STACKIT_FEDERATED_TOKEN_FILE=$STACKIT_TOKEN_FILE" >> "$GITHUB_ENV"
-
+      
       - name: Setup gcloud auth
-        if: ${{ inputs.platform == 'gcp' }}
+        # note: STACKIT uses GCP for state backends right now
+        if: ${{ inputs.platform == 'gcp' || inputs.platform == 'stackit' }}
         id: 'auth'
         uses: 'google-github-actions/auth@v2'
         with:
@@ -81,6 +75,9 @@ jobs:
           aws-region: eu-central-1
           role-to-assume: ${{ vars.aws_iam_role }}
           role-session-name: github-actions-${{ github.run_id }}
+
+      # stackit doesn't need specific auth setup because the terraform provider directly
+      # detects the github actions environment
 
       - name: terraform plan
         if: ${{ inputs.action == 'plan' }}

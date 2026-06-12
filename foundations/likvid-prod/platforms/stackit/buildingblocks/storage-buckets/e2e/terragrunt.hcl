@@ -11,22 +11,10 @@ locals {
   hub_module  = "stackit/storage-bucket"
   hub_git_ref = "44e21d6830aa7c6a23c2579506b4b61bf4aa69be"
 
-  # In CI: STACKIT_FEDERATED_TOKEN_FILE is set by the workflow (GitHub OIDC token written to a
-  # temp file). Use WIF with the CI service account. Locally: no token file → fall back to the
-  # provider default, which reads STACKIT_SERVICE_ACCOUNT_KEY_PATH from setup-env.sh.
-  _use_wif = get_env("STACKIT_FEDERATED_TOKEN_FILE", "") != ""
-
-  stackit_provider_override_contents = local._use_wif ? join("\n", [
-    "provider \"stackit\" {",
-    "  service_account_email = \"${get_env("STACKIT_SERVICE_ACCOUNT_EMAIL")}\"",
-    "  use_oidc              = true",
-    "  experiments           = [\"iam\"]",
-    "}",
-  ]) : join("\n", [
-    "provider \"stackit\" {",
-    "  experiments = [\"iam\"]",
-    "}",
-  ])
+  # WIF auth is driven entirely by env vars (STACKIT_USE_OIDC=1 + STACKIT_SERVICE_ACCOUNT_EMAIL
+  # in CI, STACKIT_SERVICE_ACCOUNT_KEY_PATH from setup-env.sh locally) — no provider-block config
+  # needed beyond enabling the IAM experiment.
+  stackit_provider_override_contents = "provider \"stackit\" {\n  experiments = [\"iam\"]\n}"
 }
 
 terraform {
