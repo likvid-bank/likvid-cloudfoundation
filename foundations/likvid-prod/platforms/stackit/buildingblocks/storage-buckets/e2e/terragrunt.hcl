@@ -2,18 +2,14 @@ dependency "deployment" {
   config_path = "../"
 }
 
-locals {
-  # Hub coordinates are read from deployment outputs at generate-time (not in terraform.source).
-  # terraform.source must be a static expression because Terragrunt evaluates it during
-  # `--all` module discovery before dependency outputs are available, causing an
-  # "Unsuitable value: value must be known" error.
-  # Keep this ref in sync with local.hub.git_ref in the sibling main.tf.
-  hub_module  = "stackit/storage-bucket"
-  hub_git_ref = "3504c9c50862927ee1ae23711a6937d613b81e1a"
+# Hub coordinates: single source of truth in the sibling deployment's hub.hcl.
+include "hub" {
+  path   = "../hub.hcl"
+  expose = true
 }
 
 terraform {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/${local.hub_module}/e2e?ref=${local.hub_git_ref}"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/${include.hub.locals.module}/e2e?ref=${include.hub.locals.git_ref}"
 }
 
 generate "provider" {

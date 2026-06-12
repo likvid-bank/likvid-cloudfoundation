@@ -3,12 +3,16 @@ variable "ci_service_account_email" {
   type        = string
 }
 
+variable "hub" {
+  description = "Hub building-block coordinates (single source of truth in hub.hcl, passed in by terragrunt)"
+  type = object({
+    module    = string
+    git_ref   = string
+    bbd_draft = bool
+  })
+}
+
 locals {
-  hub = {
-    module    = "stackit/storage-bucket"
-    git_ref   = "3504c9c50862927ee1ae23711a6937d613b81e1a"
-    bbd_draft = true
-  }
   meshstack = {
     owning_workspace_identifier = "devops-platform"
   }
@@ -53,9 +57,9 @@ resource "stackit_authorization_project_role_assignment" "ci_sa" {
 }
 
 module "stackit_storage_bucket_bb" {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/${local.hub.module}?ref=${local.hub.git_ref}"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/${var.hub.module}?ref=${var.hub.git_ref}"
 
-  hub                = local.hub
+  hub                = var.hub
   stackit_project_id = meshstack_tenant_v4.stackit_storage_buckets.spec.platform_tenant_id
   meshstack          = local.meshstack
 }

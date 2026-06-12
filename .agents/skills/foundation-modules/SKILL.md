@@ -86,14 +86,14 @@ echo $NEW_REF
 
 ### Step 2 — Update the LCF git_ref and apply
 
-In the LCF module's `main.tf`, update `local.hub.git_ref`:
+Hub coordinates are the single source of truth in the module's `hub.hcl`. Update `git_ref` there — the deployment (`main.tf` via `var.hub`) and the sibling `e2e/` both read this one file, so there is nothing to keep in sync:
 
 ```hcl
+# hub.hcl
 locals {
-  hub = {
-    git_ref   = "<new-full-sha>"   # paste $NEW_REF here
-    bbd_draft = true
-  }
+  module    = "stackit/storage-bucket"
+  git_ref   = "<new-full-sha>"   # paste $NEW_REF here
+  bbd_draft = true
 }
 ```
 
@@ -108,7 +108,7 @@ The apply updates the Building Block Definition in meshStack with the new conten
 
 ### Step 3 — Run the e2e smoke test
 
-The `e2e/` sibling directory sources the hub's own `e2e/` module at the same git ref the deployment uses. It reads all configuration from the parent deployment's Terraform outputs — no duplication.
+The `e2e/` sibling directory sources the hub's own `e2e/` module at the same git ref the deployment uses. The module path + git ref come from the shared `hub.hcl` (via `include "hub" { expose = true }`); the remaining smoke-test inputs (workspace, BBD version_ref) are read from the parent deployment's Terraform outputs.
 
 ```bash
 cd foundations/likvid-prod/platforms/<provider>/buildingblocks/<service>/e2e
@@ -127,7 +127,31 @@ Success! 1 passed, 0 failed.
 
 ## Setting Up a New e2e Smoke Test
 
-For a building block that doesn't yet have `e2e/terragrunt.hcl`, create it using this exact pattern (verified 2026-06-10):
+For a building block that doesn't yet have `e2e/terragrunt.hcl`, create it using this pattern.
+
+**Hub coordinates: single source of truth in `hub.hcl`.** `terraform.source` *must* be a statically-known expression — Terragrunt evaluates it during `--all` module discovery, **before** dependency outputs exist, so reading `dependency.deployment.outputs.*` into `source` fails with `Unsuitable value: value must be known`. Put the module path + git ref in a sibling `hub.hcl` (a plain locals file, statically readable) and `include` it in both the deployment and the e2e config:
+
+**`hub.hcl`** (in the deployment dir, next to `main.tf`):
+
+```hcl
+locals {
+  module    = "stackit/storage-bucket"
+  git_ref   = "<full-sha>"
+  bbd_draft = true
+}
+```
+
+The deployment's `terragrunt.hcl` exposes it and passes it to `main.tf` as `var.hub`:
+
+```hcl
+include "hub" {
+  path   = "./hub.hcl"   # find_in_parent_folders can't see the current dir; use a relative path
+  expose = true
+}
+inputs = { hub = include.hub.locals }
+```
+
+and `main.tf` declares `variable "hub" { type = object({ module = string, git_ref = string, bbd_draft = bool }) }`.
 
 **`e2e/terragrunt.hcl`:**
 
@@ -136,8 +160,13 @@ dependency "deployment" {
   config_path = "../"
 }
 
+include "hub" {
+  path   = "../hub.hcl"
+  expose = true
+}
+
 terraform {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/${dependency.deployment.outputs.hub.module}/e2e?ref=${dependency.deployment.outputs.hub.git_ref}"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/${include.hub.locals.module}/e2e?ref=${include.hub.locals.git_ref}"
 }
 
 generate "provider" {
@@ -221,10 +250,11 @@ output "hub" {
 
 Hub modules are sourced from `github.com/meshcloud/meshstack-hub.git` at a pinned git ref. To upgrade:
 
-**1. Update the git ref** in `main.tf` (or wherever `local.hub` is defined):
+**1. Update the git ref** in `hub.hcl` (the single source of truth, read by both the deployment and the sibling `e2e/`):
 
 ```hcl
-hub = {
+# hub.hcl
+locals {
   git_ref = "<new-full-sha>"
 }
 ```
