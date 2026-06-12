@@ -42,6 +42,7 @@ repos:
           - --args=--ignore-path "kit/.*/demos/.*"
           - --args=--ignore-path "kit/azure/meshplatform-au"
           - --args=--ignore-path "kit/azure/landingzones/au-cloud-native"
+          - --args=--ignore-path "kit/azure/bootstrap"
 
       - id: tfupdate
         name: tfupdate hashicorp/azuread
