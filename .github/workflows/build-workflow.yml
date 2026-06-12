@@ -33,8 +33,8 @@ jobs:
 
       # required for meshstack e2e tests (stackit platform)
       MESHSTACK_API_KEY_CLOUDFOUNDATION: ${{ secrets.MESHSTACK_API_KEY_CLOUDFOUNDATION }}
-      
-      # 
+
+      #
       STACKIT_USE_OIDC: "1"
       STACKIT_SERVICE_ACCOUNT_EMAIL: ${{ vars.stackit_service_account_email }}
 
@@ -50,7 +50,7 @@ jobs:
         uses: ./.github/actions/setup-nix-shell
         with:
           prepare_terraform: true
-      
+
       - name: Setup gcloud auth
         # note: STACKIT uses GCP for state backends right now
         if: ${{ inputs.platform == 'gcp' || inputs.platform == 'stackit' }}
