@@ -4,9 +4,9 @@ terraform {
       source  = "stackitcloud/stackit"
       version = ">=0.98"
     }
-    null = {
-      source  = "hashicorp/null"
-      version = "3.2.2"
+    restapi = {
+      source  = "Mastercard/restapi"
+      version = ">= 3.0.0"
     }
   }
 }

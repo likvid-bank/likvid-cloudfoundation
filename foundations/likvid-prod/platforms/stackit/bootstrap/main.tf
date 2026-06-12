@@ -4,82 +4,70 @@ resource "stackit_resourcemanager_project" "management" {
   owner_email         = "jrudolph@meshcloud.io"
 }
 
+# State-only removal: null_resources replaced by restapi_object below.
+# destroy = false prevents the old destroy provisioners from running during migration.
+removed {
+  from = null_resource.platform_admin
+  lifecycle { destroy = false }
+}
+
+removed {
+  from = null_resource.platform_users
+  lifecycle { destroy = false }
+}
 
 ephemeral "stackit_access_token" "token" {}
 
-resource "null_resource" "platform_admin" {
-
-  # Trigger creation and destruction of resources based on the lifecycle
-  triggers = {
-    members         = jsonencode(var.platform_admins)
-    url             = var.api_url
-    organization_id = var.organization_id
+provider "restapi" {
+  alias = "stackit_authorization"
+  uri   = var.api_url
+  headers = {
+    Authorization = "Bearer ${ephemeral.stackit_access_token.token.access_token}"
+    Content-Type  = "application/json"
   }
-
-  # Provisioner for the 'create' action
-  provisioner "local-exec" {
-    when    = create
-    command = <<EOT
-curl -X PATCH "${self.triggers.url}/v2/${self.triggers.organization_id}/members" \
--H "Authorization: Bearer ${ephemeral.stackit_access_token.token.access_token}" \
--H "Content-Type: application/json" \
--d '{
-  "members": ${self.triggers.members},
-  "resourceType": "organization"
-}'
-EOT
-  }
-  # Provisioner for the 'destroy' action
-  provisioner "local-exec" {
-    when    = destroy
-    command = <<EOT
-TOKEN=$(stackit auth get-access-token)
-curl -X POST "${self.triggers.url}/v2/${self.triggers.organization_id}/members/remove" \
--H "Authorization: Bearer $TOKEN" \
--H "Content-Type: application/json" \
--d '{
- "forceRemove": true,
-  "members": ${self.triggers.members},
-  "resourceType": "organization"
-}'
-EOT
-  }
+  write_returns_object = false
 }
 
-resource "null_resource" "platform_users" {
-  # Trigger creation and destruction of resources based on the lifecycle
-  triggers = {
-    members         = jsonencode(var.platform_users)
-    url             = var.api_url
-    organization_id = var.organization_id
+locals {
+  organization_members = merge(
+    { for m in var.platform_admins : "${m.subject}/${m.role}" => m },
+    { for m in var.platform_users : "${m.subject}/${m.role}" => m }
+  )
+}
+
+resource "restapi_object" "organization_member" {
+  for_each = local.organization_members
+  provider = restapi.stackit_authorization
+
+  path         = "/v2/${var.organization_id}/members"
+  create_path  = "/v2/${var.organization_id}/members"
+  read_path    = "/v2/${var.organization_id}/members"
+  destroy_path = "/v2/${var.organization_id}/members/remove"
+
+  create_method  = "PATCH"
+  read_method    = "GET"
+  update_method  = "PATCH"
+  destroy_method = "POST"
+
+  object_id    = each.value.subject
+  id_attribute = "subject"
+
+  data = jsonencode({
+    members      = [{ subject = each.value.subject, role = each.value.role }]
+    resourceType = "organization"
+  })
+
+  destroy_data = jsonencode({
+    forceRemove  = true
+    members      = [{ subject = each.value.subject, role = each.value.role }]
+    resourceType = "organization"
+  })
+
+  read_search = {
+    search_key   = "subject"
+    search_value = each.value.subject
+    results_key  = "members"
   }
 
-  # Provisioner for the 'create' action
-  provisioner "local-exec" {
-    when    = create
-    command = <<EOT
-curl -X PATCH "${self.triggers.url}/v2/${self.triggers.organization_id}/members" \
--H "Authorization: Bearer ${ephemeral.stackit_access_token.token.access_token}" \
--H "Content-Type: application/json" \
--d '{
-  "members": ${self.triggers.members},
-  "resourceType": "organization"
-}'
-EOT
-  }
-  # Provisioner for the 'destroy' action
-  provisioner "local-exec" {
-    when    = destroy
-    command = <<EOT
-TOKEN=$(stackit auth get-access-token)
-curl -X POST "${self.triggers.url}/v2/${self.triggers.organization_id}/members/remove" \
--H "Authorization: Bearer $TOKEN" \
--H "Content-Type: application/json" \
--d '{
- "forceRemove": true,
-  "members": ${self.triggers.members},
-  "resourceType": "organization"
-}'
-EOT
-  }
+  ignore_server_additions = true
 }
