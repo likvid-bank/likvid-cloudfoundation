@@ -35,9 +35,10 @@ jobs:
       MESHSTACK_API_KEY_CLOUDFOUNDATION: ${{ secrets.MESHSTACK_API_KEY_CLOUDFOUNDATION }}
       # required for stackit provider initialization in e2e tests — even in foundation mode
       # where no STACKIT resources are created, the provider still initializes and needs credentials.
-      # Falls back to "placeholder" when the secret is absent: the STACKIT SDK treats a non-empty
-      # token as valid during Configure() and makes no API calls in foundation mode (module count=0).
-      STACKIT_SERVICE_ACCOUNT_TOKEN: ${{ secrets.STACKIT_SERVICE_ACCOUNT_TOKEN || 'placeholder' }}
+      # Falls back to "{}" when the secret is absent: the STACKIT SDK accepts the key JSON during
+      # Configure() and makes no API calls in foundation mode (module count=0), so the placeholder
+      # is never used for actual authentication against the STACKIT API.
+      STACKIT_SERVICE_ACCOUNT_KEY: ${{ secrets.STACKIT_SERVICE_ACCOUNT_KEY || '{}' }}
     permissions:
       id-token: write
       contents: read
