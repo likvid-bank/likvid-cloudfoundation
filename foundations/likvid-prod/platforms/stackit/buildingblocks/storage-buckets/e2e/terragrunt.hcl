@@ -11,10 +11,22 @@ locals {
   hub_module  = "stackit/storage-bucket"
   hub_git_ref = "44e21d6830aa7c6a23c2579506b4b61bf4aa69be"
 
-  # Use STACKIT_SERVICE_ACCOUNT_KEY env var when set (real key in CI); otherwise fall back to the
-  # placeholder file. In foundation mode no STACKIT API calls are made (module count=0), so the
-  # placeholder is never used for actual authentication — it only satisfies provider initialization.
-  stackit_sa_key = get_env("STACKIT_SERVICE_ACCOUNT_KEY", "") != "" ? get_env("STACKIT_SERVICE_ACCOUNT_KEY", "") : file("${get_terragrunt_dir()}/stackit-ci-placeholder-key.json")
+  # In CI: STACKIT_FEDERATED_TOKEN_FILE is set by the workflow (GitHub OIDC token written to a
+  # temp file). Use WIF with the CI service account. Locally: no token file → fall back to the
+  # provider default, which reads STACKIT_SERVICE_ACCOUNT_KEY_PATH from setup-env.sh.
+  _use_wif = get_env("STACKIT_FEDERATED_TOKEN_FILE", "") != ""
+
+  stackit_provider_override_contents = local._use_wif ? join("\n", [
+    "provider \"stackit\" {",
+    "  service_account_email = \"${get_env("STACKIT_SERVICE_ACCOUNT_EMAIL")}\"",
+    "  use_oidc              = true",
+    "  experiments           = [\"iam\"]",
+    "}",
+  ]) : join("\n", [
+    "provider \"stackit\" {",
+    "  experiments = [\"iam\"]",
+    "}",
+  ])
 }
 
 terraform {
@@ -37,11 +49,7 @@ EOF
 generate "stackit_provider_override" {
   path      = "stackit_provider_override.tf"
   if_exists = "overwrite"
-  contents  = <<EOF
-provider "stackit" {
-  service_account_key = ${jsonencode(local.stackit_sa_key)}
-}
-EOF
+  contents  = local.stackit_provider_override_contents
 }
 
 generate "versions_override" {

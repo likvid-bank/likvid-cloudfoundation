@@ -33,10 +33,8 @@ jobs:
 
       # required for meshstack e2e tests (stackit platform)
       MESHSTACK_API_KEY_CLOUDFOUNDATION: ${{ secrets.MESHSTACK_API_KEY_CLOUDFOUNDATION }}
-      # Optional: real STACKIT service account key for e2e tests. When absent the foundation
-      # e2e terragrunt falls back to the placeholder key in the repo (sufficient for foundation
-      # mode where no STACKIT API calls are made).
-      STACKIT_SERVICE_ACCOUNT_KEY: ${{ secrets.STACKIT_SERVICE_ACCOUNT_KEY }}
+      # STACKIT service account email for WIF auth (value sourced from GH environment variable)
+      STACKIT_SERVICE_ACCOUNT_EMAIL: ${{ vars.stackit_service_account_email }}
     permissions:
       id-token: write
       contents: read
@@ -49,8 +47,19 @@ jobs:
         with:
           prepare_terraform: true
 
+      - name: Setup stackit auth
+        if: ${{ inputs.platform == 'stackit' }}
+        run: |
+          OIDC_TOKEN=$(curl -sSf \
+            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=sts.accounts.stackit.cloud" \
+            | jq -r '.value')
+          STACKIT_TOKEN_FILE="$(mktemp)"
+          printf '%s' "$OIDC_TOKEN" > "$STACKIT_TOKEN_FILE"
+          echo "STACKIT_FEDERATED_TOKEN_FILE=$STACKIT_TOKEN_FILE" >> "$GITHUB_ENV"
+
       - name: Setup gcloud auth
-        if: ${{ inputs.platform == 'gcp' || inputs.platform == 'stackit' }}
+        if: ${{ inputs.platform == 'gcp' }}
         id: 'auth'
         uses: 'google-github-actions/auth@v2'
         with:
