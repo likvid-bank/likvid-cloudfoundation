@@ -1,10 +1,18 @@
+resource "stackit_resourcemanager_project" "management" {
+  parent_container_id = var.organization_id
+  name                = "likvid-cloudfoundation-management"
+  owner_email         = "jrudolph@meshcloud.io"
+}
+
+
+ephemeral "stackit_access_token" "token" {}
+
 resource "null_resource" "platform_admin" {
 
   # Trigger creation and destruction of resources based on the lifecycle
   triggers = {
     members         = jsonencode(var.platform_admins)
     url             = var.api_url
-    token           = var.token
     organization_id = var.organization_id
   }
 
@@ -13,7 +21,7 @@ resource "null_resource" "platform_admin" {
     when    = create
     command = <<EOT
 curl -X PATCH "${self.triggers.url}/v2/${self.triggers.organization_id}/members" \
--H "Authorization: Bearer ${self.triggers.token}" \
+-H "Authorization: Bearer ${ephemeral.stackit_access_token.token.access_token}" \
 -H "Content-Type: application/json" \
 -d '{
   "members": ${self.triggers.members},
@@ -25,8 +33,9 @@ EOT
   provisioner "local-exec" {
     when    = destroy
     command = <<EOT
+TOKEN=$(stackit auth get-access-token)
 curl -X POST "${self.triggers.url}/v2/${self.triggers.organization_id}/members/remove" \
--H "Authorization: Bearer ${self.triggers.token}" \
+-H "Authorization: Bearer $TOKEN" \
 -H "Content-Type: application/json" \
 -d '{
  "forceRemove": true,
@@ -42,7 +51,6 @@ resource "null_resource" "platform_users" {
   triggers = {
     members         = jsonencode(var.platform_users)
     url             = var.api_url
-    token           = var.token
     organization_id = var.organization_id
   }
 
@@ -51,7 +59,7 @@ resource "null_resource" "platform_users" {
     when    = create
     command = <<EOT
 curl -X PATCH "${self.triggers.url}/v2/${self.triggers.organization_id}/members" \
--H "Authorization: Bearer ${self.triggers.token}" \
+-H "Authorization: Bearer ${ephemeral.stackit_access_token.token.access_token}" \
 -H "Content-Type: application/json" \
 -d '{
   "members": ${self.triggers.members},
@@ -63,8 +71,9 @@ EOT
   provisioner "local-exec" {
     when    = destroy
     command = <<EOT
+TOKEN=$(stackit auth get-access-token)
 curl -X POST "${self.triggers.url}/v2/${self.triggers.organization_id}/members/remove" \
--H "Authorization: Bearer ${self.triggers.token}" \
+-H "Authorization: Bearer $TOKEN" \
 -H "Content-Type: application/json" \
 -d '{
  "forceRemove": true,

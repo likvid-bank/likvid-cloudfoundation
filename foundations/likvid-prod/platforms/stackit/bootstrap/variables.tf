@@ -14,11 +14,6 @@ variable "platform_users" {
   }))
 }
 
-variable "token" {
-  description = "Bearer token for authentication"
-  type        = string
-  sensitive   = true
-}
 
 variable "api_url" {
   description = "Base API URL"
