@@ -9,7 +9,7 @@ locals {
   # "Unsuitable value: value must be known" error.
   # Keep this ref in sync with local.hub.git_ref in the sibling main.tf.
   hub_module  = "stackit/storage-bucket"
-  hub_git_ref = "44e21d6830aa7c6a23c2579506b4b61bf4aa69be"
+  hub_git_ref = "3504c9c50862927ee1ae23711a6937d613b81e1a"
 }
 
 terraform {
