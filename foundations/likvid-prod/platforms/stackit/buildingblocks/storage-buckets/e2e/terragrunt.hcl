@@ -10,11 +10,6 @@ locals {
   # Keep this ref in sync with local.hub.git_ref in the sibling main.tf.
   hub_module  = "stackit/storage-bucket"
   hub_git_ref = "44e21d6830aa7c6a23c2579506b4b61bf4aa69be"
-
-  # WIF auth is driven entirely by env vars (STACKIT_USE_OIDC=1 + STACKIT_SERVICE_ACCOUNT_EMAIL
-  # in CI, STACKIT_SERVICE_ACCOUNT_KEY_PATH from setup-env.sh locally) — no provider-block config
-  # needed beyond enabling the IAM experiment.
-  stackit_provider_override_contents = "provider \"stackit\" {\n  experiments = [\"iam\"]\n}"
 }
 
 terraform {
@@ -30,27 +25,6 @@ provider "meshstack" {
   endpoint  = "https://federation.demo.meshcloud.io"
   apikey    = "6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74"
   apisecret = "${get_env("MESHSTACK_API_KEY_CLOUDFOUNDATION")}"
-}
-EOF
-}
-
-generate "stackit_provider_override" {
-  path      = "stackit_provider_override.tf"
-  if_exists = "overwrite"
-  contents  = local.stackit_provider_override_contents
-}
-
-generate "versions_override" {
-  path      = "versions_override.tf"
-  if_exists = "overwrite"
-  contents  = <<EOF
-terraform {
-  required_providers {
-    meshstack = {
-      source  = "meshcloud/meshstack"
-      version = "~> 0.21.0"
-    }
-  }
 }
 EOF
 }
