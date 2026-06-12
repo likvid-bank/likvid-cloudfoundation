@@ -1,3 +1,7 @@
+# TODO: this entire module should be re-built on top of 
+# https://github.com/meshcloud/meshstack-hub/blob/main/modules/stackit/meshstack_integration.tf
+# instead
+
 include "common" {
   path = find_in_parent_folders("common.hcl")
 }

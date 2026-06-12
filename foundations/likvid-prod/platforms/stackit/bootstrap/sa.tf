@@ -25,12 +25,9 @@ resource "stackit_service_account_federated_identity_provider" "provider" {
 
   assertions = [
     {
-      item     = "aud" # Including the audience check is mandatory for security reasons, the value is free to choose
+      item     = "aud"
       operator = "equals"
-      value    = "sts.accounts.stackit.cloud"
-      # i'm not sure this is correct, given that https://docs.github.com/en/actions/reference/security/oidc#standard-audience-issuer-and-subject-claims lists
-      # > By default, this is the URL of the repository owner
-      # and i don't see how/if the terraform provider calls getIdToken somehow with a custom audience
+      value    = "sts.accounts.stackit.cloud" # the default aud requested by the stackit terraform provider
     },
     {
       item     = "sub"
