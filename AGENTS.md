@@ -9,7 +9,7 @@ overview and cloud auth setup.
 Discover task-specific skills under [`.agents/skills/`](.agents/skills/) (the `.claude/` directory is
 a symlink to `.agents/`, so Claude Code and other agents share the same skills):
 
-- **[`run-lcf-modules`](.agents/skills/foundation-modules/SKILL.md)** — run/plan/apply/upgrade
+- **[`foundation-modules`](.agents/skills/foundation-modules/SKILL.md)** — run/plan/apply/upgrade
   Terragrunt modules, credential setup, fixing provider/credential errors.
 - **[`hub`](.agents/skills/hub/SKILL.md)** — work with [meshstack-hub](https://github.com/meshcloud/meshstack-hub)
   modules: consume them as deployed building blocks and run foundation e2e smoke tests. Links to the
@@ -19,7 +19,8 @@ a symlink to `.agents/`, so Claude Code and other agents share the same skills):
 
 - **Terragrunt + OpenTofu.** Use `terragrunt` / `tofu` (not `terraform`); tooling comes from the nix
   devShell (`nix develop`).
-- **Credentials first.** `setup-env.sh` must be sourced in zsh (see the `run-lcf-modules` skill).
+- **Credentials first.** `setup-env.sh` must be sourced in zsh (see the `foundation-modules` skill).
+- **Local Development requires cloud provider shells authenticated** see `aws sso login` `az login` instructions in [README.md](./README.md)
 - **Hub modules are pinned by Git ref.** Source hub modules via
   `git::https://github.com/meshcloud/meshstack-hub.git//modules/<path>?ref=<sha>` — never re-implement
   hub logic in the foundation; the foundation is a shim that references hub modules.
