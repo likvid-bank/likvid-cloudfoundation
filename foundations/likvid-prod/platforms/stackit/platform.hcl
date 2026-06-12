@@ -2,23 +2,19 @@ locals {
   cloudfoundation = "likvid"
 }
 
+
+# STACKIT platform modules store Terraform state in the same GCS bucket as
+# the GCP platform (foundation-likvid-prod-tf-states).
+# TODO: this could be moved to STACKIT S3 but we haven't figured that out yet
 remote_state {
-  backend = "s3"
+  backend = "gcs"
   generate = {
     path      = "backend.tf"
     if_exists = "overwrite"
   }
-
   config = {
-    bucket = "likvid-tf-state"
-    # note: we put in a platforms/stackit prefix into the bucket key because we also put state for foundation modules
-    # into this same bucket
-    key            = "platforms/stackit/${path_relative_to_include()}.tfstate"
-    region         = "eu-central-1"
-    encrypt        = true
-    dynamodb_table = "terraform-state-lock"
-    role_arn       = "arn:aws:iam::490004649140:role/OrganizationAccountAccessRole"
-
-    profile = get_env("CI", "false") == "true" ? null : local.cloudfoundation
+    skip_bucket_creation = true
+    bucket               = "foundation-likvid-prod-tf-states"
+    prefix               = "platforms/stackit/${path_relative_to_include()}"
   }
 }
