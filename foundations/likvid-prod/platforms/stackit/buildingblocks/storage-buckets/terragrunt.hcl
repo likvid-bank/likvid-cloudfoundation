@@ -6,6 +6,14 @@ include "tfstate" {
   path = find_in_parent_folders("tfstate.hcl")
 }
 
+dependency "bootstrap" {
+  config_path = "../../bootstrap"
+}
+
+inputs = {
+  ci_service_account_email = dependency.bootstrap.outputs.ci_service_account_email
+}
+
 
 generate "provider" {
   path      = "provider.tf"

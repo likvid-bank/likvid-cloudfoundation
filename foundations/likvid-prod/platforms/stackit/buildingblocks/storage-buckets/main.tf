@@ -1,3 +1,8 @@
+variable "ci_service_account_email" {
+  description = "Email of the CI service account that needs owner access on the storage-buckets project to run plan/apply"
+  type        = string
+}
+
 locals {
   hub = {
     module    = "stackit/storage-bucket"
@@ -7,8 +12,6 @@ locals {
   meshstack = {
     owning_workspace_identifier = "devops-platform"
   }
-  # CI service account that needs read access to plan/apply this module
-  ci_service_account_email = "likvid-cfn-ci-f85ug6i8@sa.stackit.cloud"
 }
 
 resource "meshstack_project" "stackit_storage_buckets" {
@@ -46,7 +49,7 @@ resource "meshstack_tenant_v4" "stackit_storage_buckets" {
 resource "stackit_authorization_project_role_assignment" "ci_sa" {
   resource_id = meshstack_tenant_v4.stackit_storage_buckets.spec.platform_tenant_id
   role        = "owner"
-  subject     = local.ci_service_account_email
+  subject     = var.ci_service_account_email
 }
 
 module "stackit_storage_bucket_bb" {
