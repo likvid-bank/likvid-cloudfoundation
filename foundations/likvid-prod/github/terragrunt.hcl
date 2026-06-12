@@ -28,6 +28,10 @@ dependency "gcp_bootstrap" {
   config_path = "../platforms/gcp/bootstrap"
 }
 
+dependency "stackit_bootstrap" {
+  config_path = "../platforms/stackit/bootstrap"
+}
+
 locals {
   azure         = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file("../platforms/azure/README.md"))[0]).azure
   aws           = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file("../platforms/aws/README.md"))[0]).aws
@@ -67,6 +71,9 @@ inputs = {
 
     gcp_service_account            = dependency.gcp_bootstrap.outputs.github_actions_validation_sa_email
     gcp_workload_identity_provider = dependency.gcp_bootstrap.outputs.github_actions_workload_identity_provider
+
+    stackit_service_account_email = dependency.stackit_bootstrap.outputs.ci_service_account_email
+    stackit_project_id            = dependency.stackit_bootstrap.outputs.ci_service_account_project_id
   }
 
   actions_secrets = {
