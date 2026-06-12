@@ -6,12 +6,19 @@ include "platform" {
   path = find_in_parent_folders("platform.hcl")
 }
 
+# Hub coordinates live in hub.hcl (single source of truth, shared with e2e/).
+include "hub" {
+  path   = "./hub.hcl"
+  expose = true
+}
+
 dependency "bootstrap" {
   config_path = "../../bootstrap"
 }
 
 inputs = {
   ci_service_account_email = dependency.bootstrap.outputs.ci_service_account_email
+  hub                      = include.hub.locals
 }
 
 
