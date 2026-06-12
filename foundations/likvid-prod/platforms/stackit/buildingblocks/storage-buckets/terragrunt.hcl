@@ -2,8 +2,8 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-include "tfstate" {
-  path = find_in_parent_folders("tfstate.hcl")
+include "platform" {
+  path = find_in_parent_folders("platform.hcl")
 }
 
 dependency "bootstrap" {
