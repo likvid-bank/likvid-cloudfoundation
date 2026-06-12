@@ -10,6 +10,11 @@ locals {
   # Keep this ref in sync with local.hub.git_ref in the sibling main.tf.
   hub_module  = "stackit/storage-bucket"
   hub_git_ref = "44e21d6830aa7c6a23c2579506b4b61bf4aa69be"
+
+  # Use STACKIT_SERVICE_ACCOUNT_KEY env var when set (real key in CI); otherwise fall back to the
+  # placeholder file. In foundation mode no STACKIT API calls are made (module count=0), so the
+  # placeholder is never used for actual authentication — it only satisfies provider initialization.
+  stackit_sa_key = get_env("STACKIT_SERVICE_ACCOUNT_KEY", "") != "" ? get_env("STACKIT_SERVICE_ACCOUNT_KEY", "") : file("${get_terragrunt_dir()}/stackit-ci-placeholder-key.json")
 }
 
 terraform {
@@ -25,6 +30,16 @@ provider "meshstack" {
   endpoint  = "https://federation.demo.meshcloud.io"
   apikey    = "6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74"
   apisecret = "${get_env("MESHSTACK_API_KEY_CLOUDFOUNDATION")}"
+}
+EOF
+}
+
+generate "stackit_provider_override" {
+  path      = "stackit_provider_override.tf"
+  if_exists = "overwrite"
+  contents  = <<EOF
+provider "stackit" {
+  service_account_key = ${jsonencode(local.stackit_sa_key)}
 }
 EOF
 }
