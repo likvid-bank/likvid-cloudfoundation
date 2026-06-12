@@ -2,10 +2,10 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-# requires STACKIT_SERVICE_ACCOUNT_TOKEN — skip from `terragrunt test --all` in CI; run manually when credentials are available
+# requires STACKIT_SERVICE_ACCOUNT_TOKEN + AWS credentials (S3 backend) — skip from CI; run manually when credentials are available
 exclude {
   if      = true
-  actions = ["test"]
+  actions = ["plan", "test"]
 }
 
 terraform {
