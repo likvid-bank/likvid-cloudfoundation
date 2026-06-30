@@ -1,0 +1,79 @@
+name: k8s-deploy
+
+on:
+  push:
+    branches:
+      - main
+      - release
+  workflow_dispatch:
+    # This allows manual triggering of the workflow from the GitHub UI or API.
+
+jobs:
+  # This checks if the environment is ready for deployment.
+  # When initially creating the repository, the secrets will not be ready yet.
+  # Once the environment variables are there you can delete this entire job.
+  check-environment:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref == 'refs/heads/release' && 'production' || 'development' }}
+    outputs:
+      ready: ${{ steps.check.outputs.ready }}
+    steps:
+      - id: check
+        env:
+          AKS_SECRET: ${{ secrets.aks_container_registry_host }}
+        run: |
+          if [ -z "$AKS_SECRET" ]; then
+            echo "ready=false" >> $GITHUB_OUTPUT
+          else
+            echo "ready=true" >> $GITHUB_OUTPUT
+          fi
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: check-environment
+    if: needs.check-environment.outputs.ready == 'true'
+    environment: ${{ github.ref == 'refs/heads/release' && 'production' || 'development' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set lowercase repository name
+        # this is needed since repository name must be lowercase for image tags
+        # buildx failed with: ERROR: failed to build: invalid tag "...": repository name must be lowercase
+        run: echo "REPO_NAME_LOWER=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - name: Log in to ACR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.aks_container_registry_host }}
+          username: ${{ secrets.aks_container_registry_username }}
+          password: ${{ secrets.aks_container_registry_password }}
+
+      # 🔧 Build & push backend (Node.js)
+      - name: Build and push backend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          push: true
+          tags: ${{ secrets.aks_container_registry_host }}/${{ env.REPO_NAME_LOWER }}-backend:${{ github.sha }}
+
+      # 🔧 Build & push frontend (Angular)
+      - name: Build and push frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          push: true
+          tags: ${{ secrets.aks_container_registry_host }}/${{ env.REPO_NAME_LOWER }}-frontend:${{ github.sha }}
+
+      - name: Deploy to AKS
+        env:
+          KUBECONFIG_CONTENT: ${{ secrets.KUBECONFIG }}
+          IMAGE_TAG: ${{ github.sha }}
+          DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
+          PROJECT_NAME: ${{ env.REPO_NAME_LOWER }} # Use the lowercase repository name for deployment image tags
+          ACR_HOST: ${{ secrets.aks_container_registry_host }}
+        run: |
+          echo "$KUBECONFIG_CONTENT" > kubeconfig
+          for file in k8s/*.yml; do
+            echo "Applying $file with IMAGE_TAG=$IMAGE_TAG"
+            envsubst < "$file" | kubectl --kubeconfig ./kubeconfig -n ${{ vars.AKS_NAMESPACE_NAME }} apply -f -
+          done

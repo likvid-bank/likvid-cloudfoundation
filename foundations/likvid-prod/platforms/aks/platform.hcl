@@ -1,8 +1,9 @@
 locals {
   # make platform config available
-  platform        = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file(".//README.md"))[0])
-  platform_azure  = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file("..////azure/README.md"))[0])
-  cloudfoundation = "likvid-prod"
+  platform                 = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file(".//README.md"))[0])
+  platform_azure           = yamldecode(regex("^---([\\s\\S]*)\\n---\\n[\\s\\S]*$", file("..////azure/README.md"))[0])
+  cloudfoundation          = "likvid-prod"
+  platform_engineers_group = "likvid-cloudfoundation-platform-engineers"
 
   # if we use terraform_state_storage, it will generate this file here to provide backend configuration
   terraform_state_config_file_path = "..////azure/tfstates-config.yml"

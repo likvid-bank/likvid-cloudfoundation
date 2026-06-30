@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    haproxy.org/ssl-redirect: "true"
+    haproxy.org/path-rewrite: /api/?(.*) /\1
+spec:
+  ingressClassName: haproxy
+  rules:
+    - host: ${DOMAIN_NAME}.likvid-aks.msh.host
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: nodejs-service
+                port:
+                  number: 3000
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: angular-service
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - ${DOMAIN_NAME}.likvid-aks.msh.host
+      secretName: app-tls-secret
