@@ -63,6 +63,10 @@ resource "azurerm_automation_runbook" "start_cluster" {
   PWSH
 }
 
+# The cluster runs Monday–Friday 05:00–21:00 Europe/Berlin and is off overnight and over the
+# weekend. Friday stops early (19:00) and stays down until Monday morning, so the nightly stop
+# skips Friday and the weekend.
+
 # Friday 19:00 Europe/Berlin — cluster goes down for the weekend
 resource "azurerm_automation_schedule" "friday_stop" {
   name                    = "friday-stop"
@@ -71,7 +75,7 @@ resource "azurerm_automation_schedule" "friday_stop" {
   frequency               = "Week"
   interval                = 1
   week_days               = ["Friday"]
-  start_time              = "2026-07-03T19:00:00+02:00" # upcoming Friday (CEST); Azure computes next occurrence from here
+  start_time              = "2026-07-10T19:00:00+02:00" # upcoming Friday (CEST); Azure computes next occurrence from here
   timezone                = "Europe/Berlin"
 
   lifecycle {
@@ -79,15 +83,31 @@ resource "azurerm_automation_schedule" "friday_stop" {
   }
 }
 
-# Monday 06:00 Europe/Berlin — cluster comes back up for the week
-resource "azurerm_automation_schedule" "monday_start" {
-  name                    = "monday-start"
+# Monday–Thursday 21:00 Europe/Berlin — cluster goes down for the night
+resource "azurerm_automation_schedule" "nightly_stop" {
+  name                    = "nightly-stop"
   resource_group_name     = local.resource_group_name
   automation_account_name = azurerm_automation_account.aks_scheduler.name
   frequency               = "Week"
   interval                = 1
-  week_days               = ["Monday"]
-  start_time              = "2026-07-06T06:00:00+02:00" # upcoming Monday (CEST); Azure computes next occurrence from here
+  week_days               = ["Monday", "Tuesday", "Wednesday", "Thursday"]
+  start_time              = "2026-07-08T21:00:00+02:00" # upcoming Wednesday (CEST); Azure computes next occurrence from here
+  timezone                = "Europe/Berlin"
+
+  lifecycle {
+    ignore_changes = [start_time]
+  }
+}
+
+# Monday–Friday 05:00 Europe/Berlin — cluster comes back up for the day
+resource "azurerm_automation_schedule" "weekday_start" {
+  name                    = "weekday-start"
+  resource_group_name     = local.resource_group_name
+  automation_account_name = azurerm_automation_account.aks_scheduler.name
+  frequency               = "Week"
+  interval                = 1
+  week_days               = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+  start_time              = "2026-07-08T05:00:00+02:00" # upcoming Wednesday (CEST); Azure computes next occurrence from here
   timezone                = "Europe/Berlin"
 
   lifecycle {
@@ -102,9 +122,16 @@ resource "azurerm_automation_job_schedule" "stop_on_friday" {
   schedule_name           = azurerm_automation_schedule.friday_stop.name
 }
 
-resource "azurerm_automation_job_schedule" "start_on_monday" {
+resource "azurerm_automation_job_schedule" "stop_nightly" {
+  resource_group_name     = local.resource_group_name
+  automation_account_name = azurerm_automation_account.aks_scheduler.name
+  runbook_name            = azurerm_automation_runbook.stop_cluster.name
+  schedule_name           = azurerm_automation_schedule.nightly_stop.name
+}
+
+resource "azurerm_automation_job_schedule" "start_on_weekdays" {
   resource_group_name     = local.resource_group_name
   automation_account_name = azurerm_automation_account.aks_scheduler.name
   runbook_name            = azurerm_automation_runbook.start_cluster.name
-  schedule_name           = azurerm_automation_schedule.monday_start.name
+  schedule_name           = azurerm_automation_schedule.weekday_start.name
 }
