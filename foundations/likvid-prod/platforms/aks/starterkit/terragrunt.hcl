@@ -18,11 +18,14 @@ dependency "meshstack" {
 dependency "platform" {
   config_path = "../meshstack/platform"
   mock_outputs = {
-    owned_by_workspace       = "devops-platform"
-    full_platform_identifier = "aks-namespace.global"
-    landing_zone_identifiers = {
-      dev  = "aks-namespace-dev"
-      prod = "aks-namespace-prod"
+    owned_by_workspace = "devops-platform"
+    platform_ref = {
+      uuid = "00000000-0000-0000-0000-000000000000"
+      kind = "meshPlatform"
+    }
+    landing_zone_refs = {
+      dev  = { name = "aks-namespace-dev", kind = "meshLandingZone" }
+      prod = { name = "aks-namespace-prod", kind = "meshLandingZone" }
     }
   }
 }
@@ -36,7 +39,7 @@ dependency "connector_backplane" {
 
 locals {
   hub = {
-    git_ref   = "281007cc070cf6f088a325de30c34f3ec0e45b24"
+    git_ref   = "43ee4fc7ed51000d5b9b6764292eb8f7156651ad"
     bbd_draft = false
   }
 }
@@ -70,8 +73,8 @@ inputs = {
 
   connector_config_tf = dependency.connector_backplane.outputs.config_tf
 
-  full_platform_identifier  = dependency.platform.outputs.full_platform_identifier
-  landing_zone_identifiers  = dependency.platform.outputs.landing_zone_identifiers
+  platform_ref              = dependency.platform.outputs.platform_ref
+  landing_zone_refs         = dependency.platform.outputs.landing_zone_refs
   github_template_repo_path = "likvid-bank/aks-app-template"
   apps_base_domain          = "likvid-aks.msh.host"
 

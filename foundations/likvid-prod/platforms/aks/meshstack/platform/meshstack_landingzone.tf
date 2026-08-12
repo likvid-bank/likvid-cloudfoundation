@@ -1,7 +1,7 @@
-output "landing_zone_identifiers" {
-  description = "meshstack landing zone identifiers keyed by environment."
+output "landing_zone_refs" {
+  description = "References to the meshLandingZones, keyed by environment."
   value = {
-    for env, lz in meshstack_landingzone.this : env => lz.metadata.name
+    for env, lz in meshstack_landingzone.this : env => lz.ref
   }
 }
 

@@ -3,7 +3,7 @@ output "owned_by_workspace" {
   value       = var.meshstack.owning_workspace_identifier
 }
 
-output "full_platform_identifier" {
-  description = "The meshstack platform identifier for AKS namespaces"
-  value       = "${meshstack_platform.aks.metadata.name}.${meshstack_platform.aks.spec.location_ref.name}"
+output "platform_ref" {
+  description = "Reference to the meshPlatform for AKS namespaces."
+  value       = meshstack_platform.aks.ref
 }
