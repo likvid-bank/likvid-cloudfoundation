@@ -94,12 +94,14 @@ module "starterkit" {
   full_platform_identifier = var.full_platform_identifier
   landing_zone_identifiers = var.landing_zone_identifiers
 
-  github_org                                       = var.github.org
-  github_repo_definition_uuid                      = module.github_repo.building_block_definition.uuid
-  github_repo_definition_version_uuid              = module.github_repo.building_block_definition.version_ref.uuid
-  github_actions_connector_definition_version_uuid = module.connector.building_block_definition.version_ref.uuid
-  github_template_repo_path                        = var.github_template_repo_path
-  apps_base_domain                                 = var.apps_base_domain
+  building_block_definition_version_refs = {
+    "git-repository" : module.github_repo.building_block_definition.version_ref
+    "github-actions-connector" : module.connector.building_block_definition.version_ref
+  }
+
+  github_org                = var.github.org
+  github_template_repo_path = var.github_template_repo_path
+  apps_base_domain          = var.apps_base_domain
 
   project_tags             = var.project_tags
   notification_subscribers = []
