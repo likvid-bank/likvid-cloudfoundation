@@ -12,16 +12,17 @@ variable "hub" {
   })
 }
 
-variable "full_platform_identifier" {
-  type = string
+variable "platform_ref" {
+  type = object({
+    uuid = string
+    kind = optional(string, "meshPlatform")
+  })
+  description = "Reference to the meshPlatform the starter kit creates its tenants on."
 }
 
-variable "landing_zone_identifiers" {
-  type = object({
-    dev  = string
-    prod = string
-  })
-  description = "Identifiers of meshLandingZones for dev and prod."
+variable "landing_zone_refs" {
+  type        = map(object({ name = string, kind = optional(string, "meshLandingZone") }))
+  description = "References to the meshLandingZones for dev and prod, keyed by stage."
 }
 
 variable "project_tags" {
@@ -103,14 +104,14 @@ module "starterkit" {
   meshstack = var.meshstack
   hub       = var.hub
 
-  building_block_definitions = {
-    "git-repository" : module.git_repository.building_block_definition
-    "forgejo-connector" : module.forgejo_connector.building_block_definition
+  building_block_definition_version_refs = {
+    "git-repository" : module.git_repository.building_block_definition.version_ref
+    "forgejo-connector" : module.forgejo_connector.building_block_definition.version_ref
   }
 
-  full_platform_identifier = var.full_platform_identifier
-  landing_zone_identifiers = var.landing_zone_identifiers
-  project_tags             = var.project_tags
+  platform_ref      = var.platform_ref
+  landing_zone_refs = var.landing_zone_refs
+  project_tags      = var.project_tags
 
   repo_clone_addr        = var.template_repo_clone_url
   dns_zone_name          = var.dns_zone_name

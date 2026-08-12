@@ -1,7 +1,6 @@
-output "full_platform_identifier" {
-  description = "The meshstack platform identifier for SKE namespaces"
-  # Sad that this it not a an output of the meshstack_platform resource
-  value = "${meshstack_platform.this.metadata.name}.${meshstack_platform.this.spec.location_ref.name}"
+output "platform_ref" {
+  description = "Reference to the meshPlatform for SKE namespaces."
+  value       = meshstack_platform.this.ref
 }
 
 module "meshplatform" {
