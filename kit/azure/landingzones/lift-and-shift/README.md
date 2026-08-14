@@ -25,6 +25,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [azurerm_management_group_subscription_association.lift_and_shift](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/management_group_subscription_association) | resource |
+| [azurerm_role_definition.vm_restart_operator](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/resources/role_definition) | resource |
 | [terraform_data.subscription_name](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.116.0/docs/data-sources/subscription) | data source |
 
@@ -41,4 +42,6 @@ No modules.
 |------|-------------|
 | <a name="output_documentation_md"></a> [documentation\_md](#output\_documentation\_md) | n/a |
 | <a name="output_lift_and_shift_subscription_id"></a> [lift\_and\_shift\_subscription\_id](#output\_lift\_and\_shift\_subscription\_id) | n/a |
+| <a name="output_vm_restart_operator_role_definition_resource_id"></a> [vm\_restart\_operator\_role\_definition\_resource\_id](#output\_vm\_restart\_operator\_role\_definition\_resource\_id) | The resource ID of the VM Restart Operator custom RBAC role for use in role assignments |
+| <a name="output_vm_restart_operator_role_id"></a> [vm\_restart\_operator\_role\_id](#output\_vm\_restart\_operator\_role\_id) | The ID of the VM Restart Operator custom RBAC role |
 <!-- END_TF_DOCS -->
