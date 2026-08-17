@@ -19,7 +19,7 @@ locals {
       "fnowarre@meshcloud.io",
       "hdettmer@meshcloud.io",
     ]
-    foundation_engineers = ["ckraus@meshcloud.io", "jschwandke@meshcloud.io"]
+    foundation_engineers = ["ckraus@meshcloud.io", "jschwandke@meshcloud.io", "agrub@meshcloud.io"]
   }
 }
 
