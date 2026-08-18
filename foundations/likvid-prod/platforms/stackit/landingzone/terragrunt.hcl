@@ -2,6 +2,13 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
+# requires STACKIT_ORG_SERVICE_ACCOUNT_KEY, which lives only in Vault and not as a GitHub secret —
+# skip from CI; run manually after sourcing setup-env.sh
+exclude {
+  if      = true
+  actions = ["plan", "test"]
+}
+
 include "platform" {
   path = find_in_parent_folders("platform.hcl")
 }
