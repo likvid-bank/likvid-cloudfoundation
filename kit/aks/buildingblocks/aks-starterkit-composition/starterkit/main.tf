@@ -2,6 +2,9 @@ locals {
   # Create a purely alphanumeric identifier from the display name
   # Remove special characters, convert to lowercase, and replace spaces/hyphens with nothing
   identifier = lower(replace(replace(var.name, "/[^a-zA-Z0-9\\s\\-\\_]/", ""), "/[\\s\\-\\_]+/", "-"))
+
+  # full meshPlatform identifier (`<platform>.<location>`) the dev/prod tenants live on
+  aks_platform_identifier = "aks.meshcloud-azure-dev"
 }
 
 resource "meshstack_project" "dev" {
@@ -76,27 +79,49 @@ resource "meshstack_project_user_binding" "creator_prod_admin" {
   }
 }
 
-resource "meshstack_tenant_v4" "dev" {
+# `meshstack_tenant.spec.platform_ref` needs a platform UUID, which only meshStack can supply, so the
+# identifier is resolved into one here. A hardcoded UUID would tie this building block to one
+# meshStack installation. The data source's `ref` is shaped for exactly this and passes straight
+# through.
+#
+# The filter matches the full `<platform>.<location>` identifier, even though the provider documents
+# it as matching `metadata.name` — filtering by the bare `aks` returns nothing. `one()` makes the
+# building block fail loudly if the filter ever stops matching exactly one platform.
+data "meshstack_platforms" "aks" {
+  identifier = local.aks_platform_identifier
+}
+
+moved {
+  from = meshstack_tenant_v4.dev
+  to   = meshstack_tenant.dev
+}
+
+resource "meshstack_tenant" "dev" {
   metadata = {
     owned_by_workspace = var.workspace_identifier
     owned_by_project   = meshstack_project.dev.metadata.name
   }
 
   spec = {
-    platform_identifier     = "aks.meshcloud-azure-dev"
-    landing_zone_identifier = "likvid-aks-dev"
+    platform_ref     = one(data.meshstack_platforms.aks.platforms).ref
+    landing_zone_ref = { name = "likvid-aks-dev" }
   }
 }
 
-resource "meshstack_tenant_v4" "prod" {
+moved {
+  from = meshstack_tenant_v4.prod
+  to   = meshstack_tenant.prod
+}
+
+resource "meshstack_tenant" "prod" {
   metadata = {
     owned_by_workspace = var.workspace_identifier
     owned_by_project   = meshstack_project.prod.metadata.name
   }
 
   spec = {
-    platform_identifier     = "aks.meshcloud-azure-dev"
-    landing_zone_identifier = "likvid-aks-prod"
+    platform_ref     = one(data.meshstack_platforms.aks.platforms).ref
+    landing_zone_ref = { name = "likvid-aks-prod" }
   }
 }
 
@@ -149,24 +174,28 @@ data "meshstack_building_block_v2" "repo_data" {
 }
 
 # We need to fetch both dev&prod tenant data after creation to get the platform tenant ID
-data "meshstack_tenant_v4" "aks-dev" {
+data "meshstack_tenant" "aks-dev" {
   depends_on = [time_sleep.wait_45_seconds]
 
   metadata = {
-    uuid = meshstack_tenant_v4.dev.metadata.uuid
+    owned_by_workspace  = meshstack_tenant.dev.metadata.owned_by_workspace
+    owned_by_project    = meshstack_tenant.dev.metadata.owned_by_project
+    platform_identifier = local.aks_platform_identifier
   }
 }
 
-data "meshstack_tenant_v4" "aks-prod" {
+data "meshstack_tenant" "aks-prod" {
   depends_on = [time_sleep.wait_45_seconds]
 
   metadata = {
-    uuid = meshstack_tenant_v4.prod.metadata.uuid
+    owned_by_workspace  = meshstack_tenant.prod.metadata.owned_by_workspace
+    owned_by_project    = meshstack_tenant.prod.metadata.owned_by_project
+    platform_identifier = local.aks_platform_identifier
   }
 }
 
 resource "meshstack_building_block_v2" "github_actions_dev" {
-  depends_on = [meshstack_building_block_v2.repo, meshstack_tenant_v4.dev]
+  depends_on = [meshstack_building_block_v2.repo, meshstack_tenant.dev]
 
   spec = {
     building_block_definition_version_ref = {
@@ -175,7 +204,7 @@ resource "meshstack_building_block_v2" "github_actions_dev" {
 
     target_ref = {
       kind = "meshTenant"
-      uuid = meshstack_tenant_v4.dev.metadata.uuid
+      uuid = meshstack_tenant.dev.metadata.uuid
     }
 
     display_name = "GHA Connector Dev"
@@ -190,7 +219,7 @@ resource "meshstack_building_block_v2" "github_actions_dev" {
       additional_environment_variables = {
         value_code = jsonencode({
           "DOMAIN_NAME"        = "${local.identifier}-dev"
-          "AKS_NAMESPACE_NAME" = data.meshstack_tenant_v4.aks-dev.spec.platform_tenant_id
+          "AKS_NAMESPACE_NAME" = data.meshstack_tenant.aks-dev.spec.platform_tenant_id
         })
       }
     }
@@ -207,7 +236,7 @@ resource "meshstack_building_block_v2" "github_actions_prod" {
 
     target_ref = {
       kind = "meshTenant"
-      uuid = meshstack_tenant_v4.prod.metadata.uuid
+      uuid = meshstack_tenant.prod.metadata.uuid
     }
 
     display_name = "GHA Connector Prod"
@@ -222,7 +251,7 @@ resource "meshstack_building_block_v2" "github_actions_prod" {
       additional_environment_variables = {
         value_code = jsonencode({
           "DOMAIN_NAME"        = local.identifier
-          "AKS_NAMESPACE_NAME" = data.meshstack_tenant_v4.aks-prod.spec.platform_tenant_id
+          "AKS_NAMESPACE_NAME" = data.meshstack_tenant.aks-prod.spec.platform_tenant_id
         })
       }
     }
@@ -250,9 +279,9 @@ This starter kit has set up the following resources in workspace `${var.workspac
 
 - **GitHub Repository**: [${local.identifier}](<${data.meshstack_building_block_v2.repo_data.status.outputs.repo_html_url.value_string}>)
 - **Development Project**: [${meshstack_project.dev.spec.display_name}](/#/w/${var.workspace_identifier}/p/${meshstack_project.dev.metadata.name}/tenants)
-  - **AKS Namespace**: [${data.meshstack_tenant_v4.aks-dev.spec.platform_tenant_id}](/#/w/${var.workspace_identifier}/p/${meshstack_project.dev.metadata.name}/i/aks.eu-de-central/overview/azure_kubernetes_service)
+  - **AKS Namespace**: [${data.meshstack_tenant.aks-dev.spec.platform_tenant_id}](/#/w/${var.workspace_identifier}/p/${meshstack_project.dev.metadata.name}/i/aks.eu-de-central/overview/azure_kubernetes_service)
 - **Production Project**: [${meshstack_project.prod.spec.display_name}](/#/w/${var.workspace_identifier}/p/${meshstack_project.prod.metadata.name}/tenants)
-  - **AKS Namespace**: [${data.meshstack_tenant_v4.aks-prod.spec.platform_tenant_id}](/#/w/${var.workspace_identifier}/p/${meshstack_project.prod.metadata.name}/i/aks.eu-de-central/overview/azure_kubernetes_service)
+  - **AKS Namespace**: [${data.meshstack_tenant.aks-prod.spec.platform_tenant_id}](/#/w/${var.workspace_identifier}/p/${meshstack_project.prod.metadata.name}/i/aks.eu-de-central/overview/azure_kubernetes_service)
 
 ---
 
