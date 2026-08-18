@@ -30,16 +30,27 @@ locals {
   # unless the key is an organization owner, as it is in TCF.
   stackit_owner_email = "likvid-stackit-org-cbrue7i8@sa.stackit.cloud"
 
-  # The demo meshStack requires LandingZoneFamily on every meshLandingZone, so the architecture
-  # cannot create its landing zones without it.
+  # LandingZoneFamily is mandatory on every meshLandingZone here, and it is enforced: the policy
+  # "Enforce Landing Zone Family clearance" intersects meshProject.LandingZoneClearance with it.
+  # Both are single-select, so the intersection is equality — a landing zone tagged `sandbox` is
+  # unusable by every project we intend to migrate, all seven of which are `cloud-native`.
+  #
+  # `cloud-native` also describes the landing zone correctly: it hands out a STACKIT project to
+  # build in. A future SKE-namespace variant would be `container-platform` instead, which is why
+  # this belongs per landing zone rather than per deployment.
+  #
+  # environment and confidentiality are matched the same way, against meshProject.environment and
+  # meshProject.Schutzbedarf, so they list every value a migrating project uses.
   tags = {
     landingzone = {
-      LandingZoneFamily = ["sandbox"]
+      LandingZoneFamily = ["cloud-native"]
       environment       = ["dev", "qa", "test", "prod"]
       confidentiality   = ["internal", "public"]
     }
+    # No policy can target a building block definition — PolicySubjectType has no such subject — so
+    # this is descriptive only.
     building_block = {
-      LandingZoneClearance = ["sandbox"]
+      LandingZoneClearance = ["cloud-native"]
     }
   }
 }
