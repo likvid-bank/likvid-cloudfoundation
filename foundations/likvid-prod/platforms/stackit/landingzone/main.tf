@@ -18,17 +18,19 @@ locals {
 
   # Owner of the landing-zone folder and the foundation project the architecture creates.
   #
-  # This must be the deploying service account itself, not a person. The architecture creates a
-  # backplane service account *inside* the foundation project, and STACKIT grants project rights to
-  # the project's owner. With a human owner the run fails with
+  # A mailbox rather than the deploying service account, so the STACKIT portal shows a real owner.
+  # This only works because the deployment key is an organization owner: the architecture creates a
+  # service account *inside* the foundation project, which is a project-level operation, and
+  # `resource-manager.admin` alone cannot do that in a project it does not own. Deploying with such
+  # a narrow key and a mailbox owner fails with
   #   POST /v2/projects/<id>/service-accounts -> 403 Forbidden
-  # because organization `resource-manager.admin` lets the account create a project but not act
-  # inside it. The tenant-project building block already owns its projects the same way
-  # (modules/stackit/project/buildingblock/main.tf:30, `owner_email = var.service_account_email`).
   #
-  # The hub documents this input as needing only `resource-manager.admin`, which is not enough
-  # unless the key is an organization owner, as it is in TCF.
-  stackit_owner_email = "likvid-stackit-org-cbrue7i8@sa.stackit.cloud"
+  # This matches TCF, which uses the same key and the same owner.
+  #
+  # STACKIT applies owner_email at creation only. Changing it here updates Terraform state but
+  # leaves the existing owner in place — the folder and project must be recreated for it to take
+  # effect.
+  stackit_owner_email = "stackit@meshcloud.io"
 
   # LandingZoneFamily is mandatory on every meshLandingZone here, and it is enforced: the policy
   # "Enforce Landing Zone Family clearance" intersects meshProject.LandingZoneClearance with it.
