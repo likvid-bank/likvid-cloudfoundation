@@ -15,9 +15,13 @@ include "hub" {
 inputs = {
   hub = include.hub.locals
 
-  # The organization-scoped service account created for this architecture. It lives only in Vault
-  # (concourse/meshstack-dev/likvid-cloudfoundation, field STACKIT_ORG_SERVICE_ACCOUNT_KEY), so CI
-  # cannot plan this unit until the same value exists as a GitHub secret.
+  # Organization-owner service account, shared with TCF so both foundations deploy the STACKIT
+  # landing zone the same way. Organization owner is required here because `stackit_owner_email` is
+  # a mailbox rather than this account itself — see the comment on that local in main.tf.
+  #
+  # It lives only in Vault (concourse/meshstack-dev/likvid-cloudfoundation, field
+  # STACKIT_ORG_SERVICE_ACCOUNT_KEY), so CI cannot plan this unit until the same value exists as a
+  # GitHub secret.
   stackit_service_account_key = get_env("STACKIT_ORG_SERVICE_ACCOUNT_KEY")
 }
 
