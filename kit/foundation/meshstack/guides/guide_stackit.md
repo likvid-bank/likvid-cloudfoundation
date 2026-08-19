@@ -45,59 +45,45 @@ The Likvid Bank rely on meshStack to standardize cloud access across teams and e
 
 ---
 
-### 2. Configure STACKIT Projects in meshStack
+### 2. Deploy the STACKIT Landing Zone reference architecture
 
-#### Create a Custom Building Block Definition
+The integration is no longer assembled by hand. meshcloud maintains a **STACKIT Landing Zone reference
+architecture** in [meshstack-hub](https://github.com/meshcloud/meshstack-hub/tree/main/reference-architectures/stackit-landingzone),
+and ordering it once creates the whole integration: the meshPlatform, its landing zones, the mandatory
+`STACKIT Project` building block definition, the STACKIT folder that tenant projects live in, and the
+service account that creates them.
 
-1. Create a new Building Block Definition with the following configuration:
-   - **Implementation Type**: Terraform
-   - **Git Repository URL**: `git@github.com:likvid-bank/likvid-cloudfoundation.git`
-   - **Git Repository Path**: `kit/stackit/buildingblocks/projects/buildingblock`
-   - **Inputs**:
-     - `api_url`: The STACKIT API URL (static source).
-     - `token`: The token from your service account (encrypted).
-     - `workspace_id`:  The meshStack workspace identifier (source).
-     - `project_id`: The meshStack project identifier (source).
-     - `parent_container_id`: The parent container for resource organization (static source).
-     - `users`: The [User Permissions](https://docs.meshcloud.io/docs/administration.building-blocks.html#user-permissions) that grant access to the created STACKIT Projects.
-     - **Terraform Backend (AWS):**
-       - `aws_account_id`: AWS account ID for the assume role where the backend was created (part of `versions.tf`).
-       - `AWS_ACCESS_KEY_ID`: AWS IAM user access key (environment variable).
-       - `AWS_SECRET_ACCESS_KEY`: AWS IAM user secret access key (environment variable, encrypted).
-   - **Outputs:**
-     - `tenant_id`: The unique ID of the created project in STACKIT (**Assignment Type**: Platform Tenant ID).
-     - `stackit_login_link`: URL for accessing the STACKIT project.
+Likvid Bank deploys it from `foundations/likvid-prod/platforms/stackit/landingzone/`, which sources the
+architecture as a Terraform module and then orders it once with `meshstack_building_block` against the
+`stackit-platform` workspace.
 
-#### Set Up a Custom Platform
+The inputs that matter:
 
-1. Create a new Custom Platform called:
-   ```bash
-   ${platformDefinitions_stackit_spec_displayName}
-   ```
+- `platform_identifier` names the meshPlatform, the STACKIT folder and the foundation project. Likvid
+  Bank uses `likvid-stackit`.
+- `use_global_location = true` puts the platform in the shared `global` location, giving the identifier
+  `likvid-stackit.global`. Left unset, the architecture creates its own location and the identifier
+  becomes `likvid-stackit.likvid-stackit`.
+- `stackit_service_account_key` is an organization-owner key. The architecture needs to act inside a
+  project it does not own, which a narrower role cannot do.
 
-2. Configure the following parameters:
-   - **Description**: `${platformDefinitions_stackit_spec_description}`
-   - **Web Console URL**: `${platformDefinitions_stackit_spec_web_console_url}`
-   - **Support URL**: `${platformDefinitions_stackit_spec_support_url}`
-   - **Documentation URL**: `${platformDefinitions_stackit_spec_documentation_url}`
+### 3. Publish the platform
 
-3. Define Landing Zones for Development and Production environments:
-   - Development:
-     ```bash
-     ${landingZones_stackit_dev_spec_displayName}
-     ```
-   - Production:
-     ```bash
-     ${landingZones_stackit_prod_spec_displayName}
-     ```
+The architecture deliberately creates the platform `PRIVATE` and `UNPUBLISHED`, so a platform engineer
+decides when it becomes visible. That step is manual and cannot be done in code, because the resource
+ignores changes to its availability on purpose.
 
-### 3. Publish STACKIT Projects building block
+Publishing takes two steps in this order, and the first leaves a visible intermediate state:
 
-1. Navigate to the Landing Zone configuration:
-   - Link the Building Block Definition `${buildingBlockDefinitions_stackit_projects_spec_displayName}` to the Landing Zones for both development and production.
-2. Publish the Custom Platform:
-   - Ensure that the platform appears in the meshStack marketplace.
-3. Submit the platform for administrator review and approval.
+1. Publish to the marketplace. The platform becomes `RESTRICTED` rather than public, because its
+   allowed-workspaces list still holds the owner.
+2. Clear the allowed-workspaces list. The platform becomes `PUBLIC`.
+
+Going straight to public is refused, because an empty allowed-workspaces list would lock the owner out
+of a platform that has never been published.
+
+Application teams then order STACKIT projects through the landing zone, and meshStack instantiates the
+mandatory `STACKIT Project` building block for every new meshTenant.
 
 ---
 
