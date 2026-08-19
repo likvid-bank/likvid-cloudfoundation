@@ -40,4 +40,12 @@ resource "meshstack_tenant" "this" {
     platform_ref     = one(data.meshstack_platforms.stackit.platforms).ref
     landing_zone_ref = { name = "likvid-stackit-default" }
   }
+
+  # Destroying or replacing this tenant destroys its building block, and that block's teardown deletes
+  # the STACKIT project the SKE cluster runs in. `platform_ref` is RequiresReplace, so a plan can ask
+  # for that replacement without anyone intending it — this turns such a plan into an error. Four
+  # downstream units read `stackit_project_id` from here.
+  lifecycle {
+    prevent_destroy = true
+  }
 }

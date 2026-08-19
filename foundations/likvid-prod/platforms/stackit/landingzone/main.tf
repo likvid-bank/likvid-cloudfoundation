@@ -127,6 +127,14 @@ resource "meshstack_building_block" "stackit_landingzone" {
       } }
     }
   }
+
+  # The architecture's building block definition is `deletion_mode = "DELETE"`, so destroying this
+  # block runs its teardown: the `likvid-stackit` folder goes with every tenant project inside it, and
+  # so do the landing zone, the building block definitions and the project-creation service account.
+  # Seven live tenant projects sit in that folder, including the one running the SKE cluster.
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 output "platform_identifier" {

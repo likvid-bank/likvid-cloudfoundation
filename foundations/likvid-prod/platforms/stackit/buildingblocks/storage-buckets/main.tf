@@ -69,6 +69,13 @@ resource "meshstack_tenant" "stackit_storage_buckets" {
     platform_ref     = one(data.meshstack_platforms.stackit.platforms).ref
     landing_zone_ref = { name = "likvid-stackit-default" }
   }
+
+  # Destroying or replacing this tenant destroys its building block, and that block's teardown deletes
+  # the live STACKIT project holding the storage buckets. `platform_ref` is RequiresReplace, so a plan
+  # can ask for that replacement without anyone intending it — this turns such a plan into an error.
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "stackit_authorization_project_role_assignment" "ci_sa" {
