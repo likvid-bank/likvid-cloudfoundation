@@ -87,26 +87,6 @@ locals {
         }
       }
     }
-
-    stackit-dev = {
-      name = "likvid-stackit-dev"
-      spec = {
-        displayName = "likvid stackit dev"
-        tags = {
-          BusinessUnit = ["IT"]
-        }
-      }
-    }
-
-    stackit-prod = {
-      name = "likvid-stackit-prod"
-      spec = {
-        displayName = "likvid stackit prod"
-        tags = {
-          BusinessUnit = ["IT"]
-        }
-      }
-    }
   }
   customPlatformDefinitions = {
     github-repository = {
@@ -145,20 +125,6 @@ locals {
         web-console-url   = "https://dcd.ionos.com/"
         support-url       = "https://meshcloud.slack.com/archives/C0681JFCUQP"
         documentation-url = "https://likvid-bank.github.io/likvid-cloudfoundation/platforms/ionos/bootstrap.html"
-        tags = {
-          BusinessUnit = ["IT"]
-        }
-      }
-    }
-
-    stackit = {
-      name = "stackit"
-      spec = {
-        displayName       = "stackit"
-        description       = "Likvid Bank provides a European cloud solution via meshStack, enabling DSGVO-compliant workload provisioning for state-affiliated institutions."
-        web-console-url   = "https://portal.stackit.cloud/projects"
-        support-url       = "https://meshcloud.slack.com/archives/C0681JFCUQP"
-        documentation-url = "https://likvid-bank.github.io/likvid-cloudfoundation/platforms/stackit/bootstrap.html"
         tags = {
           BusinessUnit = ["IT"]
         }
@@ -217,13 +183,7 @@ locals {
         description = "Your IONOS Cloud infrastructure is set up in Virtual Data Centers (VDCs). Here you will find all the resources required to configure and manage your products and services."
       }
     }
-    stackit-projects = {
-      name = "stackit Projects"
-      spec = {
-        displayName = "STACKIT Projects"
-        description = "STACKIT projects are modular, cloud-native solutions and services provided by Schwarz Group, enabling businesses to manage infrastructure, applications, and data securely while ensuring compliance with European regulations."
-      }
-  } }
+  }
 }
 
 
