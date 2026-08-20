@@ -47,11 +47,6 @@ data "meshstack_platforms" "stackit" {
   identifier = "likvid-stackit.global"
 }
 
-moved {
-  from = meshstack_tenant_v4.stackit_storage_buckets
-  to   = meshstack_tenant.stackit_storage_buckets
-}
-
 # FIXME: It's not possible to create custom platform tenants with required user inputs
 # Created via panel and then imported.
 #

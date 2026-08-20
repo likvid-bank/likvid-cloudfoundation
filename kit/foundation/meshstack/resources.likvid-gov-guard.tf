@@ -85,26 +85,42 @@ resource "meshstack_project_user_binding" "likvid_gov_guard_prod_project_admins"
   }
 }
 
+# The platform refs come from the shared data sources in data.platforms.tf.
+
 resource "meshstack_tenant" "likvid_gov_guard_dev" {
 
   metadata = {
-    platform_identifier = "meshcloud-ionos-dev.sovereign"
-    owned_by_project    = meshstack_project.likvid_gov_guard_dev.metadata.name
-    owned_by_workspace  = meshstack_project.likvid_gov_guard_dev.metadata.owned_by_workspace
+    owned_by_project   = meshstack_project.likvid_gov_guard_dev.metadata.name
+    owned_by_workspace = meshstack_project.likvid_gov_guard_dev.metadata.owned_by_workspace
   }
   spec = {
-    landing_zone_identifier = "likvid-ionos-dev"
+    platform_ref     = one(data.meshstack_platforms.ionos.platforms).ref
+    landing_zone_ref = { name = "likvid-ionos-dev" }
+  }
+
+  # Destroying or replacing this tenant runs its building block's teardown, which deletes the live IONOS
+  # virtual data center. `platform_ref` is RequiresReplace, so a plan can ask for that replacement
+  # without anyone intending it — this turns such a plan into an error.
+  lifecycle {
+    prevent_destroy = true
   }
 }
 
 resource "meshstack_tenant" "likvid_gov_guard_prod" {
 
   metadata = {
-    platform_identifier = "meshcloud-ionos-dev.sovereign"
-    owned_by_project    = meshstack_project.likvid_gov_guard_prod.metadata.name
-    owned_by_workspace  = meshstack_project.likvid_gov_guard_prod.metadata.owned_by_workspace
+    owned_by_project   = meshstack_project.likvid_gov_guard_prod.metadata.name
+    owned_by_workspace = meshstack_project.likvid_gov_guard_prod.metadata.owned_by_workspace
   }
   spec = {
-    landing_zone_identifier = "likvid-ionos-prod"
+    platform_ref     = one(data.meshstack_platforms.ionos.platforms).ref
+    landing_zone_ref = { name = "likvid-ionos-prod" }
+  }
+
+  # Destroying or replacing this tenant runs its building block's teardown, which deletes the live IONOS
+  # virtual data center. `platform_ref` is RequiresReplace, so a plan can ask for that replacement
+  # without anyone intending it — this turns such a plan into an error.
+  lifecycle {
+    prevent_destroy = true
   }
 }

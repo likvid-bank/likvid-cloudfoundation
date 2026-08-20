@@ -38,16 +38,19 @@ resource "meshstack_platform" "azure_m25" {
         entra_tenant = var.azure_m25_platform.tenant_id
 
         replication = {
-          service_principal = merge(
-            {
-              client_id = var.azure_m25_platform.replicator_client_id
-              auth_type = var.azure_m25_platform.replicator_auth_type
-              object_id = var.azure_m25_platform.replicator_object_id
-            },
-            var.azure_m25_platform.replicator_auth_type == "CREDENTIALS" ? {
-              credentials_auth_client_secret = var.azure_m25_platform.replicator_client_secret
-            } : {}
-          )
+          # The flat `auth_type` + `credentials_auth_client_secret` pair was replaced by a nested
+          # `auth` object: `auth.type` is computed from whether `credential` is set, so a null
+          # credential means WORKLOAD_IDENTITY and a set one means CREDENTIALS.
+          service_principal = {
+            client_id = var.azure_m25_platform.replicator_client_id
+            object_id = var.azure_m25_platform.replicator_object_id
+
+            auth = {
+              credential = var.azure_m25_platform.replicator_auth_type == "CREDENTIALS" ? {
+                secret_value = var.azure_m25_platform.replicator_client_secret
+              } : null
+            }
+          }
 
           provisioning = {
             subscription_owner_object_ids = var.azure_m25_platform.subscription_owner_object_ids
@@ -61,10 +64,6 @@ resource "meshstack_platform" "azure_m25" {
           group_name_pattern        = var.azure_m25_platform.group_name_pattern
 
           azure_role_mappings = var.azure_m25_platform.azure_role_mappings
-
-          # todo:
-          blueprint_service_principal = "f71766dc-90d9-4b7d-bd9d-4499c4331c3f"
-          blueprint_location          = ""
 
           tenant_tags = {
             namespace_prefix = "meshstack_"
@@ -85,7 +84,11 @@ resource "meshstack_platform" "azure_m25" {
             ]
           }
 
-          user_look_up_strategy                          = "UserByMailLookupStrategy"
+          # `user_look_up_strategy` was spelled correctly as `user_lookup_strategy`, and
+          # `update_subscription_name` became a required flag; `false` keeps replication from renaming
+          # subscriptions that already exist.
+          user_lookup_strategy                           = "UserByMailLookupStrategy"
+          update_subscription_name                       = false
           skip_user_group_permission_cleanup             = false
           allow_hierarchical_management_group_assignment = false
         }
@@ -101,8 +104,11 @@ resource "meshstack_platform" "azure_m25" {
 resource "meshstack_landingzone" "azure_m25_sandbox" {
   count = local.azure_m25_enabled ? 1 : 0
 
+  # `metadata.owned_by_workspace` became required. It is the same workspace that owns the platform
+  # above — the M25 platform team offers this landing zone on its own platform.
   metadata = {
-    name = var.azure_m25_platform.sandbox_landing_zone.identifier
+    name               = var.azure_m25_platform.sandbox_landing_zone.identifier
+    owned_by_workspace = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.metadata.name
     tags = {
       "LandingZoneFamily" = ["sandbox"]
     }

@@ -9,11 +9,6 @@ data "meshstack_platforms" "azure" {
   identifier = "azure.meshcloud-azure-dev"
 }
 
-moved {
-  from = meshstack_tenant_v4.this
-  to   = meshstack_tenant.this
-}
-
 resource "meshstack_tenant" "this" {
   metadata = {
     owned_by_workspace = local.owning_workspace_identifier

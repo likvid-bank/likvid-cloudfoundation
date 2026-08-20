@@ -29,27 +29,38 @@ resource "meshstack_project" "prod" {
   }
 }
 
+# `meshstack_tenant.spec.platform_ref` needs a platform UUID, which only meshStack can supply, so the
+# identifier is resolved into one here. A hardcoded UUID would tie this building block to one meshStack
+# installation. The data source's `ref` is shaped for exactly this and passes straight through.
+#
+# The filter matches the full `<platform>.<location>` identifier, even though the provider documents
+# it as matching `metadata.name` — filtering by the bare `meshcloud-sapbtp-dev` returns nothing. `one()`
+# makes the module fail loudly if the filter ever stops matching exactly one platform.
+data "meshstack_platforms" "sapbtp" {
+  identifier = "meshcloud-sapbtp-dev.sapbtp"
+}
+
 resource "meshstack_tenant" "dev" {
   metadata = {
-    owned_by_workspace  = var.workspace_identifier
-    owned_by_project    = meshstack_project.dev.metadata.name
-    platform_identifier = "meshcloud-sapbtp-dev.sapbtp"
+    owned_by_workspace = var.workspace_identifier
+    owned_by_project   = meshstack_project.dev.metadata.name
   }
 
   spec = {
-    landing_zone_identifier = "sap-composition-dev"
+    platform_ref     = one(data.meshstack_platforms.sapbtp.platforms).ref
+    landing_zone_ref = { name = "sap-composition-dev" }
   }
 }
 
 resource "meshstack_tenant" "prod" {
   metadata = {
-    owned_by_workspace  = var.workspace_identifier
-    owned_by_project    = meshstack_project.prod.metadata.name
-    platform_identifier = "meshcloud-sapbtp-dev.sapbtp"
+    owned_by_workspace = var.workspace_identifier
+    owned_by_project   = meshstack_project.prod.metadata.name
   }
 
   spec = {
-    landing_zone_identifier = "sap-composition-prod"
+    platform_ref     = one(data.meshstack_platforms.sapbtp.platforms).ref
+    landing_zone_ref = { name = "sap-composition-prod" }
   }
 }
 
@@ -80,12 +91,17 @@ resource "time_sleep" "wait_30_seconds" {
   create_duration = "30s"
 }
 
+# `status.tenant_name` replaces the workspace/project/platform identifiers that used to be assembled by
+# hand here: `meshstack_tenant.metadata.platform_identifier` is gone in provider >= 0.24, and the
+# platform is now referenced by UUID, which is not what `meshstack_buildingblock` wants. The provider
+# builds this attribute as `<workspace>.<project>.<platform>.<location>` — the same string this
+# interpolation used to produce — and it is passed through whole rather than parsed.
 resource "meshstack_buildingblock" "subaccount_dev" {
   depends_on = [meshstack_building_block_v2.subdirectory, time_sleep.wait_30_seconds]
   metadata = {
     definition_uuid    = "6214c14c-1bd5-46b1-a91f-7b0939219e4b"
     definition_version = 44
-    tenant_identifier  = "${meshstack_tenant.dev.metadata.owned_by_workspace}.${meshstack_tenant.dev.metadata.owned_by_project}.${meshstack_tenant.dev.metadata.platform_identifier}"
+    tenant_identifier  = meshstack_tenant.dev.status.tenant_name
   }
   spec = {
     display_name = "subaccount ${var.project_identifier}-dev"
@@ -100,7 +116,7 @@ resource "meshstack_buildingblock" "subaccount_prod" {
   metadata = {
     definition_uuid    = "6214c14c-1bd5-46b1-a91f-7b0939219e4b"
     definition_version = 44
-    tenant_identifier  = "${meshstack_tenant.prod.metadata.owned_by_workspace}.${meshstack_tenant.prod.metadata.owned_by_project}.${meshstack_tenant.prod.metadata.platform_identifier}"
+    tenant_identifier  = meshstack_tenant.prod.status.tenant_name
   }
   spec = {
     display_name = "subaccount ${var.project_identifier}-prod"

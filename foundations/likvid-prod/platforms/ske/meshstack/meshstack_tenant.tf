@@ -14,16 +14,6 @@ data "meshstack_platforms" "stackit" {
   identifier = "likvid-stackit.global"
 }
 
-moved {
-  from = meshstack_tenant_v4.stackit
-  to   = meshstack_tenant_v4.this
-}
-
-moved {
-  from = meshstack_tenant_v4.this
-  to   = meshstack_tenant.this
-}
-
 # Moving this tenant from `stackit.sovereign` to `likvid-stackit.global` is deliberately not a Terraform
 # change: `platform_ref` is RequiresReplace, and replacing a meshTenant destroys its building block and
 # with it the live STACKIT project that runs the SKE cluster. The tenant was migrated out of band by

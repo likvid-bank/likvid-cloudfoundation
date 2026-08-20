@@ -6,11 +6,6 @@ locals {
   }
 }
 
-moved {
-  from = meshstack_project.stackit
-  to   = meshstack_project.this
-}
-
 resource "meshstack_project" "this" {
   metadata = {
     name               = "stackit-kubernetes-platform"

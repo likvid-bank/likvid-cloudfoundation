@@ -199,15 +199,20 @@ locals {
     platformDefinitions_ionos_spec_web_console_url                                = local.customPlatformDefinitions.ionos.spec.web-console-url,
 
     # Quickstart AWS
+    #
+    # The key names predate the ref-based `meshstack_tenant` and are kept: `guides/*.md` interpolate them
+    # by name, so renaming one silently drops the value from the rendered guide. Only the expressions
+    # moved — `spec.landing_zone_identifier` became the `spec.landing_zone_ref` object (`.name` for the
+    # string the template needs) and `spec.local_id` became `spec.platform_tenant_id`.
     meshstack_project_quickstart_aws_spec_display_name           = meshstack_project.quickstart.spec.display_name,
-    meshstack_tenant_quickstart_aws_spec_landing_zone_identifier = meshstack_tenant.quickstart_aws.spec.landing_zone_identifier,
-    meshstack_tenant_quickstart_aws_spec_local_id                = meshstack_tenant.quickstart_aws.spec.local_id,
+    meshstack_tenant_quickstart_aws_spec_landing_zone_identifier = meshstack_tenant.quickstart_aws.spec.landing_zone_ref.name,
+    meshstack_tenant_quickstart_aws_spec_local_id                = meshstack_tenant.quickstart_aws.spec.platform_tenant_id,
 
     # Quickstart Azure
-    meshstack_tenant_quickstart_azure_spec_local_id = meshstack_tenant_v4.quickstart_azure.spec.platform_tenant_id
+    meshstack_tenant_quickstart_azure_spec_local_id = meshstack_tenant.quickstart_azure.spec.platform_tenant_id
 
     # Quickstart GCP
-    meshstack_tenant_quickstart_gcp_spec_local_id = meshstack_tenant_v4.quickstart_gcp.spec.platform_tenant_id
+    meshstack_tenant_quickstart_gcp_spec_local_id = meshstack_tenant.quickstart_gcp.spec.platform_tenant_id
 
     # API and platform URLs for demo stories
     meshstack_api_url = var.meshstack_api.endpoint,
