@@ -2,7 +2,11 @@
 # It shows how to manage Azure platforms and landing zones as Infrastructure as Code
 
 locals {
-  azure_m25_enabled = var.azure_m25_platform != null
+  # `var.azure_m25_platform` is sensitive because it carries the platform's credentials, and the
+  # comparison inherits that mark. Whether the platform is configured at all is not a secret, and
+  # keeping the mark makes every consumer sensitive too — which is what breaks the documentation
+  # output below.
+  azure_m25_enabled = nonsensitive(var.azure_m25_platform != null)
 }
 
 # Azure M25 Platform
