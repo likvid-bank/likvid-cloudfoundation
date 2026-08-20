@@ -74,6 +74,9 @@ locals {
   #
   # `tenant_network_min_prefix_length` and `tenant_network_max_prefix_length` are left to the
   # architecture's defaults of 24 and 28, which match the hub bounds set here.
+  #
+  # Applied on 2026-08-20. The area is `57146b2c-aef7-4666-8e4d-7171a56ea9c2`, held by the nested
+  # `Hub Network Area` building block, not by this unit.
   network = {
     hub_network_area_name     = "likvid-stackit-1"
     hub_network_ranges        = ["10.0.0.0/16"]
