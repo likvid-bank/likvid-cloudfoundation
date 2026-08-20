@@ -54,6 +54,29 @@ locals {
     building_block = {
       LandingZoneClearance = ["cloud-native"]
     }
+
+    # Tags for the meshProjects the STACKIT Project Starterkit creates. Four `meshProject` tag
+    # definitions on this instance are mandatory — `projectOwner`, `environment`, `LandingZoneClearance`
+    # and `Schutzbedarf` — and the last two carry no default value at all, so a starterkit that passes
+    # no tags cannot create a project here.
+    #
+    # `LandingZoneClearance` has to be `cloud-native`: the policy "Enforce Landing Zone Family
+    # clearance" intersects it with the landing zone's `LandingZoneFamily`, and both landing zones
+    # carry `cloud-native`.
+    #
+    # `environment = dev` because the starterkit is stageless — one order, one project. A team that
+    # needs a production project changes the tag afterwards, or orders again once the starterkit grows
+    # a stage input.
+    #
+    # These values match what the live SKE Starterkit passes for its dev stage, so the two starterkits
+    # produce comparably tagged projects.
+    project = {
+      LandingZoneClearance = ["cloud-native"]
+      Schutzbedarf         = ["internal"]
+      environment          = ["dev"]
+      ResponsibilityLevel  = ["Cloud Pro"]
+    }
+    project_owner_tag_key = "projectOwner"
   }
 
   # Hub-and-spoke networking. Setting this is what creates the second landing zone
@@ -99,6 +122,18 @@ resource "meshstack_workspace" "stackit_platform" {
     tags = {
       SecurityContact = ["cloudfoundation@likvid.io"]
       BusinessUnit    = ["IT"]
+
+      # Not decoration. The panel-managed policy `Workspace-Project` intersects this multi-select with
+      # `meshProject.environment`, so a project can only exist in an environment its workspace also
+      # carries. With this unset the intersection is empty and every project creation in the workspace
+      # is refused with a 403 `PolicyErrorResponse`, which is what the first starterkit test hit:
+      #
+      #   authoritativeSubject STACKIT Platform tag environment []
+      #   affectedSubject      sk-sandbox       tag environment ["dev"]
+      #
+      # All four values, matching `devops-platform`, which hosts the SKE and AKS starterkits and is
+      # the working precedent on this instance.
+      environment = ["dev", "qa", "test", "prod"]
     }
   }
 
@@ -180,4 +215,11 @@ output "platform_identifier" {
 output "building_block_uuid" {
   description = "The architecture's building block, whose run holds the STACKIT folder and foundation project in state."
   value       = meshstack_building_block.stackit_landingzone.metadata.uuid
+}
+
+# Building block outputs arrive JSON-encoded, which is why this needs the jsondecode — the REST API
+# renders the same field decoded, which is misleading.
+output "starterkit_bbd_version_uuid" {
+  description = "Version uuid of the STACKIT Project Starterkit definition the architecture registered. Kept as the way a sibling unit can order starterkit instances as code — the definition is created inside the architecture's own run, so there is no module output to read it from."
+  value       = jsondecode(meshstack_building_block.stackit_landingzone.status.outputs["starterkit_bbd_version_uuid"].value)
 }
