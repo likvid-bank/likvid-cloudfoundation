@@ -108,11 +108,20 @@ resource "meshstack_platform" "azure_m25" {
 resource "meshstack_landingzone" "azure_m25_sandbox" {
   count = local.azure_m25_enabled ? 1 : 0
 
-  # `metadata.owned_by_workspace` became required. It is the same workspace that owns the platform
-  # above — the M25 platform team offers this landing zone on its own platform.
+  # `metadata.owned_by_workspace` became required, and it forces replacement, so it has to name the
+  # workspace that already owns this landing zone rather than the one that arguably should.
+  #
+  # That is `likvid-cloud`, not the `m25-platform` workspace that owns the platform above. The
+  # provider version that created this landing zone had no such field, so meshStack assigned the
+  # workspace of the API key doing the call. All three landing zones on the Azure M25 platform are
+  # owned that way, including the two deactivated `test-lz-for-demo*` ones this kit does not manage.
+  #
+  # It is hardcoded because `likvid-cloud` is not a workspace this kit declares under `meshobjects/`.
+  # Moving ownership to the platform team is possible — nothing consumes this landing zone — but it
+  # destroys and recreates the meshLandingZone, so it needs to be a deliberate change.
   metadata = {
     name               = var.azure_m25_platform.sandbox_landing_zone.identifier
-    owned_by_workspace = terraform_data.meshobjects_import["workspaces/m25-platform.yml"].output.metadata.name
+    owned_by_workspace = "likvid-cloud"
     tags = {
       "LandingZoneFamily" = ["sandbox"]
     }
