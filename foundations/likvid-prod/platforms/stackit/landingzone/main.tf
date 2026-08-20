@@ -55,6 +55,34 @@ locals {
       LandingZoneClearance = ["cloud-native"]
     }
   }
+
+  # Hub-and-spoke networking. Setting this is what creates the second landing zone
+  # `likvid-stackit-networked`, so the starterkit's landing-zone select shows two options instead of
+  # one, plus the self-service `STACKIT Network` building block for routed spoke subnets.
+  #
+  # The seven existing tenants are untouched: they sit on the `default` project variant, which passes
+  # `network_area_id = null` and carries no `networkArea` label.
+  #
+  # The address plan is copied from the `hub-demo-test-1` demo area, which STACKIT accepted and which
+  # `hub-demo-bnd2` and `mcdev-pltfm-hub-prod` also run — network areas are independent routing
+  # domains, so identical ranges across areas are allowed and already the norm in this organization.
+  #
+  # One overlap to know about: `transfer 10.1.255.0/24` sits inside the range `10.1.0.0/16` of the
+  # live area `meshcloud-test`, which has four projects attached. Harmless while the two areas are
+  # never connected, and the two demo areas above already do the same. If that ever needs to be
+  # clean, `10.20.0.0/16` with transfer `10.21.255.0/24` is free across the whole organization.
+  #
+  # `tenant_network_min_prefix_length` and `tenant_network_max_prefix_length` are left to the
+  # architecture's defaults of 24 and 28, which match the hub bounds set here.
+  network = {
+    hub_network_area_name     = "likvid-stackit-1"
+    hub_network_ranges        = ["10.0.0.0/16"]
+    hub_transfer_network      = "10.1.255.0/24"
+    hub_min_prefix_length     = 24
+    hub_max_prefix_length     = 28
+    hub_default_prefix_length = 28
+    hub_default_nameservers   = []
+  }
 }
 
 # The architecture owns a platform, so its workspace needs platform builder access. Keeping the
@@ -113,6 +141,10 @@ resource "meshstack_building_block" "stackit_landingzone" {
       stackit_org         = { value = jsonencode(local.stackit_org) }
       stackit_owner_email = { value = jsonencode(local.stackit_owner_email) }
       tags                = { value = jsonencode(jsonencode(local.tags)) }
+
+      # `CODE` inputs are double-encoded, same as `tags` above: meshStack stores the JSON document as
+      # a string, so the outer jsonencode wraps the inner one.
+      network = { value = jsonencode(jsonencode(local.network)) }
 
       # Project admins get `owner` so the demo can show real people working in STACKIT.
       role_mapping = { value = jsonencode(jsonencode({
