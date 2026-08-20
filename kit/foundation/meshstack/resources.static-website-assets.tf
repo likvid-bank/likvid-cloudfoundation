@@ -71,8 +71,10 @@ resource "meshstack_building_block_v2" "m25_online_banking_app_docs" {
       name = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.metadata.name
     }
 
+    # Version 3 of the definition. This block already runs v3; the code named v2, and meshStack
+    # rejects a downgrade with "Cannot downgrade Building Block from 3."
     building_block_definition_version_ref = {
-      uuid = "4dd39de2-3b2f-43c1-b8ae-584069c425ad"
+      uuid = "bbe89d10-72bf-488a-a528-e8036786bc52"
     }
 
     inputs = {
