@@ -3,10 +3,12 @@ name: Deploy Resources
 on:
   workflow_dispatch:
     inputs:
-      buildingBlockRun:
-        description: "Building Block Run Object"
+      buildingBlockRunUrl:
+        description: "URL to fetch the Building Block Run Object from"
         required: true
-
+      # buildingBlockRun:
+      #   description: "building block run object"
+      #   required: true
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -16,10 +18,16 @@ jobs:
 
       - name: Setup meshstack auth
         id: setup-meshstack-auth
-        uses: meshcloud/actions-register-source@v0.1.0
+        uses: meshcloud/actions-meshstack-auth@v2
         with:
+          base_url: ${{ vars.MESHSTACK_BASE_URL }}
           client_id: ${{ vars.BUILDINGBLOCK_API_CLIENT_ID }}
           key_secret: ${{ secrets.BUILDINGBLOCK_API_KEY_SECRET }}
+
+      - name: Register building block source
+        id: register-source
+        uses: meshcloud/actions-register-source@v2
+        with:
           steps: |
             [
               {
@@ -36,7 +44,7 @@ jobs:
         id: variables
         run: |
           # Transform newlines into spaces
-          admin_users_space_separated=$(echo "${{ steps.setup-meshstack-auth.outputs.admin_users }}" | tr '\n' ' ')
+          admin_users_space_separated=$(echo "${{ steps.register-source.outputs.admin_users }}" | tr '\n' ' ')
           # Optionally trim trailing spaces
           usernames_space_separated=$(echo "$admin_users_space_separated" | sed 's/ *$//')
           echo "admin_users=$usernames_space_separated" >> $GITHUB_OUTPUT
@@ -59,9 +67,9 @@ jobs:
         id: create-bucket-stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: "s3-${{ steps.setup-meshstack-auth.outputs.bucket_name }}"
+          name: "s3-${{ steps.register-source.outputs.bucket_name }}"
           template: cloudformation-s3-static-website.yml
-          parameter-overrides: "BucketName=m25-${{ steps.setup-meshstack-auth.outputs.bucket_name }}"
+          parameter-overrides: "BucketName=m25-${{ steps.register-source.outputs.bucket_name }}"
           no-fail-on-empty-changeset: "1"
 
       - name: Get Stack output
@@ -69,11 +77,11 @@ jobs:
         id: get-output
         run: |
           BUCKET_NAME=$(aws cloudformation describe-stacks \
-            --stack-name "s3-${{ steps.setup-meshstack-auth.outputs.bucket_name }}" \
+            --stack-name "s3-${{ steps.register-source.outputs.bucket_name }}" \
             --query "Stacks[0].Outputs[?OutputKey=='BucketName'].OutputValue" \
             --output text)
           WEBSITE_URL=$(aws cloudformation describe-stacks \
-            --stack-name "s3-${{ steps.setup-meshstack-auth.outputs.bucket_name }}" \
+            --stack-name "s3-${{ steps.register-source.outputs.bucket_name }}" \
             --query "Stacks[0].Outputs[?OutputKey=='WebsiteURL'].OutputValue" \
             --output text)
 
@@ -146,7 +154,7 @@ jobs:
           set -o nounset
 
           # Store the truncated bucket name (limit to 19 characters to not exceed the 32 limit)
-          PERMISSION_SET_NAME=$(echo "${{ steps.setup-meshstack-auth.outputs.bucket_name }}" | cut -c1-19)
+          PERMISSION_SET_NAME=$(echo "${{ steps.register-source.outputs.bucket_name }}" | cut -c1-19)
 
           # Ensure the final name is no longer than 32 characters
           FINAL_PERMISSION_SET_NAME="AccessBucket-$PERMISSION_SET_NAME"
@@ -185,8 +193,8 @@ jobs:
                             "s3:*"
                         ],
                         "Resource": [
-                            "arn:aws:s3:::m25-${{ steps.setup-meshstack-auth.outputs.bucket_name }}",
-                            "arn:aws:s3:::m25-${{ steps.setup-meshstack-auth.outputs.bucket_name }}/*"
+                            "arn:aws:s3:::m25-${{ steps.register-source.outputs.bucket_name }}",
+                            "arn:aws:s3:::m25-${{ steps.register-source.outputs.bucket_name }}/*"
                         ]
                     }
                 ]
