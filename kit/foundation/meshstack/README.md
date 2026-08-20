@@ -31,7 +31,7 @@ This documentation is intended as a reference documentation for cloud foundation
 
 | Name | Type |
 | ---- | ---- |
-| [meshstack_building_block_v2.m25_online_banking_app_docs](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/building_block_v2) | resource |
+| [meshstack_building_block.m25_online_banking_app_docs](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/building_block) | resource |
 | [meshstack_landingzone.azure_m25_sandbox](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/landingzone) | resource |
 | [meshstack_platform.azure_m25](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/platform) | resource |
 | [meshstack_project.buildingblocks-testing](https://registry.terraform.io/providers/meshcloud/meshstack/latest/docs/resources/project) | resource |

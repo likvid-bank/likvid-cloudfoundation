@@ -61,11 +61,11 @@ resource "random_id" "bucket_id" {
   byte_length = 4
 }
 
-resource "meshstack_building_block_v2" "m25_online_banking_app_docs" {
+resource "meshstack_building_block" "m25_online_banking_app_docs" {
   spec = {
     display_name = "Docs Website"
 
-    # `target_ref.identifier` was renamed to `target_ref.name` in provider 0.20.11.
+    # `kind = "meshWorkspace"` takes `name`; only a `meshTenant` target uses `uuid`.
     target_ref = {
       kind = "meshWorkspace"
       name = terraform_data.meshobjects_import["workspaces/m25-online-banki.yml"].output.metadata.name
@@ -77,8 +77,10 @@ resource "meshstack_building_block_v2" "m25_online_banking_app_docs" {
       uuid = "bbe89d10-72bf-488a-a528-e8036786bc52"
     }
 
+    # Not a rename: `meshstack_building_block` replaces `_v2`'s per-type `value_string` / `value_int` /
+    # … attributes with a single `value` holding a `jsonencode(...)`d value (or a `sensitive` block).
     inputs = {
-      bucket_name = { value_string = "likvid-docs-website-${random_id.bucket_id.hex}" }
+      bucket_name = { value = jsonencode("likvid-docs-website-${random_id.bucket_id.hex}") }
     }
   }
 }
