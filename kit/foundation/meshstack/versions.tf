@@ -4,7 +4,7 @@ terraform {
   required_providers {
     azuread = {
       source  = "hashicorp/azuread"
-      version = "3.0.2"
+      version = "3.9.0"
     }
 
     # 0.24.3 added the `meshstack_platforms` data source every `platform_ref` in this kit resolves
@@ -23,7 +23,7 @@ terraform {
     }
     random = {
       source  = "hashicorp/random"
-      version = "3.8.1"
+      version = "3.9.0"
     }
   }
 }
