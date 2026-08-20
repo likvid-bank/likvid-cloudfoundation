@@ -24,15 +24,21 @@ repos:
         args:
           - --args=terraform
           - --args=--version ">= 1.0"
+          # this module declares `>= 1.12.0` on purpose; the repo-wide floor would lower it
+          - --args=--ignore-path "foundations/likvid-prod/platforms/aks/aks-app-template"
 
       - id: tfupdate
         name: tfupdate hashicorp/time
         args:
           - --args=provider hashicorp/time
-          - --args=--version "0.11.1"
+          - --args=--version "0.14.1"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
           - --args=--ignore-path "kit/.*/demos/.*"
 
+      # azurerm, aws and integrations/github are deliberately behind latest. Each is at least one major
+      # version back (azurerm 5.x, aws 6.x, github 6.x), and crossing a major means breaking changes
+      # across live Azure and AWS infrastructure. Those are their own plan-verified migrations, not a
+      # version-alignment sweep.
       - id: tfupdate
         name: tfupdate hashicorp/azurerm
         args:
@@ -43,12 +49,14 @@ repos:
           - --args=--ignore-path "kit/azure/meshplatform-au"
           - --args=--ignore-path "kit/azure/landingzones/au-cloud-native"
           - --args=--ignore-path "kit/azure/bootstrap"
+          # this module declares `~> 4.0` on purpose; the repo-wide pin would drag it back a major
+          - --args=--ignore-path "foundations/likvid-prod/platforms/aks/meshstack/platform"
 
       - id: tfupdate
         name: tfupdate hashicorp/azuread
         args:
           - --args=provider hashicorp/azuread
-          - --args=--version "3.0.2"
+          - --args=--version "3.9.0"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
           - --args=--ignore-path "kit/.*/demos/.*"
           - --args=--ignore-path "kit/azure/meshplatform-au"
@@ -66,15 +74,7 @@ repos:
         name: tfupdate hashicorp/random
         args:
           - --args=provider hashicorp/random
-          - --args=--version "3.8.1"
-          - --args=--ignore-path "kit/.*/buildingblocks/.*"
-          - --args=--ignore-path "kit/.*/demos/.*"
-
-      - id: tfupdate
-        name: tfupdate hashicorp/time
-        args:
-          - --args=provider hashicorp/time
-          - --args=--version "0.11.1"
+          - --args=--version "3.9.0"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
           - --args=--ignore-path "kit/.*/demos/.*"
 
@@ -82,7 +82,7 @@ repos:
         name: tfupdate hashicorp/null
         args:
           - --args=provider hashicorp/null
-          - --args=--version "3.2.2"
+          - --args=--version "3.3.1"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
           - --args=--ignore-path "kit/.*/demos/.*"
 
@@ -90,7 +90,7 @@ repos:
         name: tfupdate hashicorp/local
         args:
           - --args=provider hashicorp/local
-          - --args=--version "2.5.1"
+          - --args=--version "2.9.0"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
           - --args=--ignore-path "kit/.*/demos/.*"
 
@@ -102,6 +102,8 @@ repos:
           - --args=--version "5.42.0"
           - --args=--ignore-path "kit/.*/buildingblocks/.*"
           - --args=--ignore-path "kit/.*/demos/.*"
+          # this module declares `>= 6.0.0` on purpose; the repo-wide pin would drag it back a major
+          - --args=--ignore-path "foundations/likvid-prod/platforms/aks/aks-app-template"
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0  # Use the ref you want to point at
