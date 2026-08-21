@@ -39,7 +39,7 @@ dependency "connector_backplane" {
 
 locals {
   hub = {
-    git_ref   = "43ee4fc7ed51000d5b9b6764292eb8f7156651ad"
+    git_ref   = "176fbdf36debb09dc029b7537fc2562467f3d0e6"
     bbd_draft = false
   }
 }
