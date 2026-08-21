@@ -23,25 +23,16 @@ dependency "automation" {
   config_path = "../../automation"
 }
 
-# For GitHub we use github cli authentication see https://registry.terraform.io/providers/integrations/github/latest/docs#github-cli
-# Unless we run in CI, where we need to use app authentication. For convenience we reuse the same app we use for
-# automating BB deploys.
+# No `provider "github"` block: the hub module declares the github provider in `versions.tf` but has no
+# github resource or data source, so there is nothing to configure. The block this unit used to generate
+# also referenced `var.github_app_id` and `var.github_app_installation_id`, which the module does not
+# declare — it takes only `application_name`, `location` and `scope`. That never failed, because an unused
+# provider block is not evaluated, so the undeclared references stayed invisible to both validate and plan.
+# ICF's equivalent unit dropped the block in `6528674d`.
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
   contents  = <<EOF
-provider "github" {
-  owner = "likvid-bank"
-
-  %{if try(get_env("CI"), null) != null}
-  app_auth {
-    id              = var.github_app_id
-    installation_id = var.github_app_installation_id
-    # pem_file sourced from env var GITHUB_APP_PEM_FILE
-  }
-  %{endif}
-}
-
 provider "azuread" {
   tenant_id             = "${dependency.automation.outputs.tenant_id}"
 }
