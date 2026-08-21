@@ -44,9 +44,10 @@ data "meshstack_workspace" "this" {
   }
 }
 
-resource "meshstack_building_block_v2" "repo" {
+resource "meshstack_building_block" "repo" {
   spec = {
     building_block_definition_version_ref = {
+      # v13 of `GitHub Repository`, the version this module has always ordered.
       uuid = "2a17061b-e0c6-400d-a589-4597c44ee84a"
     }
 
@@ -54,62 +55,63 @@ resource "meshstack_building_block_v2" "repo" {
     target_ref   = data.meshstack_workspace.this.ref
 
     inputs = {
-      repo_name = {
-        value_string = var.repo_name
-      }
-
-      template_owner = {
-        value_string = "likvid-bank"
-      }
-
-      template_repo = {
-        value_string = "starterkit-template-azure-static-website"
-      }
-
-      use_template = {
-        value_bool = true
-      }
+      repo_name      = { value = jsonencode(var.repo_name) }
+      template_owner = { value = jsonencode("likvid-bank") }
+      template_repo  = { value = jsonencode("starterkit-template-azure-static-website") }
+      use_template   = { value = jsonencode(true) }
     }
   }
 }
 
+moved {
+  from = meshstack_building_block_v2.repo
+  to   = meshstack_building_block.repo
+}
+
 resource "time_sleep" "wait" {
-  depends_on = [meshstack_building_block_v2.repo]
+  depends_on = [meshstack_building_block.repo]
 
   create_duration = "2m"
 }
 
-resource "meshstack_buildingblock" "pre_github_actions_terraform_setup" {
+resource "meshstack_building_block" "pre_github_actions_terraform_setup" {
   depends_on = [time_sleep.wait]
-  metadata = {
-    definition_uuid    = "5ef1ac36-72bb-4524-8af7-f28f976038fd"
-    definition_version = 1
-    tenant_identifier  = "${var.workspace_identifier}.${var.project_name}.azure.meshcloud-azure-dev"
-  }
 
   spec = {
+    building_block_definition_version_ref = {
+      # v1, the only version of `Azure Subscription GitHub Actions Connector - Role Assignments`.
+      uuid = "b31764b8-989c-4bcc-9d61-1cb2fdf50a16"
+    }
+
     display_name = "Pre GitHub Actions Terraform Setup"
+    target_ref   = meshstack_tenant.azure.ref
+    inputs       = {}
   }
 }
 
-resource "meshstack_buildingblock" "github_actions_terraform_setup" {
-  depends_on = [meshstack_buildingblock.pre_github_actions_terraform_setup]
+moved {
+  from = meshstack_buildingblock.pre_github_actions_terraform_setup
+  to   = meshstack_building_block.pre_github_actions_terraform_setup
+}
 
-  metadata = {
-    definition_uuid    = "129bcf9e-180d-471c-bd38-b9a49a320d87"
-    definition_version = 13
-    tenant_identifier  = "${var.workspace_identifier}.${var.project_name}.azure.meshcloud-azure-dev"
-  }
-
+resource "meshstack_building_block" "github_actions_terraform_setup" {
   spec = {
-    display_name = "GitHub Actions Terraform Setup"
-    parent_building_blocks = [{
-      buildingblock_uuid = meshstack_buildingblock.pre_github_actions_terraform_setup.metadata.uuid
-      definition_uuid    = "5ef1ac36-72bb-4524-8af7-f28f976038fd"
-    }]
+    building_block_definition_version_ref = {
+      # v13 of `GitHub Actions Connector - Azure Subscription`.
+      uuid = "4e211a5b-ffcc-4c46-9567-e5360806be80"
+    }
+
+    display_name               = "GitHub Actions Terraform Setup"
+    target_ref                 = meshstack_tenant.azure.ref
+    parent_building_block_refs = [meshstack_building_block.pre_github_actions_terraform_setup.ref]
 
     inputs = {
-      repo_name = { value_string = var.project_name }
+      repo_name = { value = jsonencode(var.project_name) }
     }
   }
+}
+
+moved {
+  from = meshstack_buildingblock.github_actions_terraform_setup
+  to   = meshstack_building_block.github_actions_terraform_setup
 }

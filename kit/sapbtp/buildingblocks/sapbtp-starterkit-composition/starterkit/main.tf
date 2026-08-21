@@ -70,7 +70,7 @@ data "meshstack_workspace" "this" {
   }
 }
 
-resource "meshstack_building_block_v2" "subdirectory" {
+resource "meshstack_building_block" "subdirectory" {
   spec = {
     building_block_definition_version_ref = {
       uuid = "2b7f3d16-154c-43e9-9eba-13059fca0dd9"
@@ -80,51 +80,65 @@ resource "meshstack_building_block_v2" "subdirectory" {
     target_ref   = data.meshstack_workspace.this.ref
 
     inputs = {
-      subfolder          = { value_single_select = var.subfolder }
-      project_identifier = { value_string = var.project_identifier }
+      subfolder          = { value = jsonencode(var.subfolder) }
+      project_identifier = { value = jsonencode(var.project_identifier) }
     }
   }
+}
 
+moved {
+  from = meshstack_building_block_v2.subdirectory
+  to   = meshstack_building_block.subdirectory
 }
 
 # takes a while until github repo and aks namespace are ready
 resource "time_sleep" "wait_30_seconds" {
-  depends_on = [meshstack_building_block_v2.subdirectory]
+  depends_on = [meshstack_building_block.subdirectory]
 
   create_duration = "30s"
 }
 
-# `status.tenant_name` replaces the workspace/project/platform identifiers that used to be assembled by
-# hand here: `meshstack_tenant.metadata.platform_identifier` is gone in provider >= 0.24, and the
-# platform is now referenced by UUID, which is not what `meshstack_buildingblock` wants. The provider
-# builds this attribute as `<workspace>.<project>.<platform>.<location>` — the same string this
-# interpolation used to produce — and it is passed through whole rather than parsed.
-resource "meshstack_buildingblock" "subaccount_dev" {
-  depends_on = [meshstack_building_block_v2.subdirectory, time_sleep.wait_30_seconds]
-  metadata = {
-    definition_uuid    = "6214c14c-1bd5-46b1-a91f-7b0939219e4b"
-    definition_version = 44
-    tenant_identifier  = meshstack_tenant.dev.status.tenant_name
-  }
+resource "meshstack_building_block" "subaccount_dev" {
+  depends_on = [time_sleep.wait_30_seconds]
+
   spec = {
+    building_block_definition_version_ref = {
+      # v44 of `Subaccount`, the version this module has always ordered.
+      uuid = "71edbbb6-41b4-4170-a408-6ff34c7000f9"
+    }
+
     display_name = "subaccount ${var.project_identifier}-dev"
+    target_ref   = meshstack_tenant.dev.ref
+
     inputs = {
-      subfolder = { value_string = var.project_identifier }
+      subfolder = { value = jsonencode(var.project_identifier) }
     }
   }
 }
 
-resource "meshstack_buildingblock" "subaccount_prod" {
-  depends_on = [meshstack_building_block_v2.subdirectory, time_sleep.wait_30_seconds]
-  metadata = {
-    definition_uuid    = "6214c14c-1bd5-46b1-a91f-7b0939219e4b"
-    definition_version = 44
-    tenant_identifier  = meshstack_tenant.prod.status.tenant_name
-  }
+moved {
+  from = meshstack_buildingblock.subaccount_dev
+  to   = meshstack_building_block.subaccount_dev
+}
+
+resource "meshstack_building_block" "subaccount_prod" {
+  depends_on = [time_sleep.wait_30_seconds]
+
   spec = {
+    building_block_definition_version_ref = {
+      uuid = "71edbbb6-41b4-4170-a408-6ff34c7000f9"
+    }
+
     display_name = "subaccount ${var.project_identifier}-prod"
+    target_ref   = meshstack_tenant.prod.ref
+
     inputs = {
-      subfolder = { value_string = var.project_identifier }
+      subfolder = { value = jsonencode(var.project_identifier) }
     }
   }
+}
+
+moved {
+  from = meshstack_buildingblock.subaccount_prod
+  to   = meshstack_building_block.subaccount_prod
 }
