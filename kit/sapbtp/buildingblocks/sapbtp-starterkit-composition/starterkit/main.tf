@@ -64,6 +64,12 @@ resource "meshstack_tenant" "prod" {
   }
 }
 
+data "meshstack_workspace" "this" {
+  metadata = {
+    name = var.workspace_identifier
+  }
+}
+
 resource "meshstack_building_block_v2" "subdirectory" {
   spec = {
     building_block_definition_version_ref = {
@@ -71,10 +77,7 @@ resource "meshstack_building_block_v2" "subdirectory" {
     }
 
     display_name = "subdirectory ${var.project_identifier}"
-    target_ref = {
-      kind       = "meshWorkspace"
-      identifier = var.workspace_identifier
-    }
+    target_ref   = data.meshstack_workspace.this.ref
 
     inputs = {
       subfolder          = { value_single_select = var.subfolder }

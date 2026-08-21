@@ -38,6 +38,12 @@ resource "meshstack_tenant" "azure" {
   }
 }
 
+data "meshstack_workspace" "this" {
+  metadata = {
+    name = var.workspace_identifier
+  }
+}
+
 resource "meshstack_building_block_v2" "repo" {
   spec = {
     building_block_definition_version_ref = {
@@ -45,10 +51,7 @@ resource "meshstack_building_block_v2" "repo" {
     }
 
     display_name = "GitHub Repo ${var.repo_name}"
-    target_ref = {
-      kind       = "meshWorkspace"
-      identifier = var.workspace_identifier
-    }
+    target_ref   = data.meshstack_workspace.this.ref
 
     inputs = {
       repo_name = {
