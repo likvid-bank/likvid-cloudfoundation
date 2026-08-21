@@ -63,10 +63,6 @@ resource "meshstack_building_block" "repo" {
   }
 }
 
-moved {
-  from = meshstack_building_block_v2.repo
-  to   = meshstack_building_block.repo
-}
 
 resource "time_sleep" "wait" {
   depends_on = [meshstack_building_block.repo]
@@ -89,10 +85,6 @@ resource "meshstack_building_block" "pre_github_actions_terraform_setup" {
   }
 }
 
-moved {
-  from = meshstack_buildingblock.pre_github_actions_terraform_setup
-  to   = meshstack_building_block.pre_github_actions_terraform_setup
-}
 
 resource "meshstack_building_block" "github_actions_terraform_setup" {
   spec = {
@@ -111,7 +103,3 @@ resource "meshstack_building_block" "github_actions_terraform_setup" {
   }
 }
 
-moved {
-  from = meshstack_buildingblock.github_actions_terraform_setup
-  to   = meshstack_building_block.github_actions_terraform_setup
-}

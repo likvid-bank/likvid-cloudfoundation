@@ -86,10 +86,6 @@ resource "meshstack_building_block" "subdirectory" {
   }
 }
 
-moved {
-  from = meshstack_building_block_v2.subdirectory
-  to   = meshstack_building_block.subdirectory
-}
 
 # takes a while until github repo and aks namespace are ready
 resource "time_sleep" "wait_30_seconds" {
@@ -116,10 +112,6 @@ resource "meshstack_building_block" "subaccount_dev" {
   }
 }
 
-moved {
-  from = meshstack_buildingblock.subaccount_dev
-  to   = meshstack_building_block.subaccount_dev
-}
 
 resource "meshstack_building_block" "subaccount_prod" {
   depends_on = [time_sleep.wait_30_seconds]
@@ -138,7 +130,3 @@ resource "meshstack_building_block" "subaccount_prod" {
   }
 }
 
-moved {
-  from = meshstack_buildingblock.subaccount_prod
-  to   = meshstack_building_block.subaccount_prod
-}
