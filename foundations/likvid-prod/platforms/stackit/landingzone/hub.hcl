@@ -2,6 +2,6 @@
 locals {
   architecture = "stackit-landingzone"
 
-  git_ref   = "09e76048d1542c59f349ddca3bebcc264507fa70"
+  git_ref   = "b7ac0aa9818db730958f64e7ba0fdeecedcfbd4e"
   bbd_draft = true
 }
