@@ -9,6 +9,9 @@ module "this" {
     git_ref   = var.hub.git_ref
     bbd_draft = var.hub.bbd_draft
   }
+
+  # This platform is really used, so it takes the plain identifier and keeps its destroy guards.
+  playground_mode = false
 }
 
 resource "meshstack_building_block" "this" {
