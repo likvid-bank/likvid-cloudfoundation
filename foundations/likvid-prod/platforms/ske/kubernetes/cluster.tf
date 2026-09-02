@@ -47,8 +47,11 @@ moved {
 resource "stackit_ske_kubeconfig" "this" {
   project_id   = var.stackit_project_id
   cluster_name = stackit_ske_cluster.this.name
-  expiration   = "15552000" # 180 days
-  refresh      = true
+  # 180 days is the maximum the SKE API accepts; it rejects anything outside
+  # [600, 15552000] with a 400. refresh = true re-mints the kubeconfig once it
+  # expires, but only when this module is applied.
+  expiration = "15552000"
+  refresh    = true
 }
 
 moved {
