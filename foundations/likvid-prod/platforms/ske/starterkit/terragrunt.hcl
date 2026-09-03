@@ -26,11 +26,10 @@ dependency "dns" {
   config_path = "../dns"
 }
 
-locals {
-  hub = {
-    git_ref   = "b7ac0aa9818db730958f64e7ba0fdeecedcfbd4e"
-    bbd_draft = false
-  }
+# Hub coordinates live in hub.hcl (single source of truth, shared with e2e/).
+include "hub" {
+  path   = "./hub.hcl"
+  expose = true
 }
 
 generate "provider" {
@@ -52,7 +51,10 @@ EOF
 
 inputs = {
   meshstack = dependency.meshstack.outputs
-  hub       = local.hub
+  hub = {
+    git_ref   = include.hub.locals.git_ref
+    bbd_draft = include.hub.locals.bbd_draft
+  }
 
   platform_ref      = dependency.platform.outputs.platform_ref
   landing_zone_refs = dependency.platform.outputs.landing_zone_refs
