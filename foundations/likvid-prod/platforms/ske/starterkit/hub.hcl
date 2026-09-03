@@ -5,7 +5,7 @@
 # the two definitions it creates child building blocks from), so it names their paths itself.
 locals {
   module  = "ske/ske-starterkit"
-  git_ref = "b7ac0aa9818db730958f64e7ba0fdeecedcfbd4e"
+  git_ref = "5543c15011ec2193c35584da6d50a5d2796d326b"
 
   # Released, not draft — the e2e test orders against `version_latest_release`.
   bbd_draft = false
