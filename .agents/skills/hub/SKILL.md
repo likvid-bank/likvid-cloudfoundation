@@ -31,42 +31,72 @@ Read it before wiring or changing an `e2e/terragrunt.hcl`. Do not re-document th
 
 ## This foundation's side of the protocol: foundation mode
 
-Foundation e2e units run in **foundation mode** — `test_context.bbd_version_ref` is set: the
-deployment unit (`../`) already created the BBD, and the e2e unit only **orders** an ephemeral
-building block against it.
+Foundation e2e units run in **foundation mode** — `test_context.mode = "foundation"`. The deployment
+unit (`../`) has already published the BBD, and the e2e unit only **orders** an ephemeral building
+block against it.
+
+**One credential, the meshStack API key.** That is the invariant to protect. The hub module finds
+the published definition through the meshStack API itself, so an `e2e/` unit needs no cloud
+credential, no state backend and no `dependency` on the deployment. If a smoke test starts wanting
+one, the hub mode module is taking a value it should be looking up — fix it there, do not add a
+secret to `.github/workflows/smoke-test.yml`.
 
 The `e2e/terragrunt.hcl` therefore:
 
-- Sources the hub `e2e/` module at the deployed `hub.git_ref`.
-- Generates `smoke.auto.tfvars.json` setting `test_context` with `workspace`, `name_suffix`,
-  `hub_git_ref`, and `bbd_version_ref` — read from the deployment's `e2e` output via a `dependency`.
-  `tofu test` cannot type-decode complex `TF_VAR_*`, hence the `.auto.tfvars.json`.
-- Omits the backplane secrets — no backplane is built in foundation mode.
+- Includes `foundations/<foundation>/smoke.hcl`, which renders the meshStack provider and names the
+  platform workspace. Including it is also what puts the unit into the smoke-test workflow.
+- Sources the hub `e2e/` module at the deployed `hub.git_ref` (via `../hub.hcl`, shared with the
+  deployment).
+- Generates `smoke.auto.tfvars.json` — `tofu test` cannot type-decode complex `TF_VAR_*` — setting
+  `test_context` to static values only: `mode`, `workspace`, `bbd_draft` and a fresh `name_suffix`.
+- Omits the backplane secrets and `hub_git_ref` — foundation mode never installs `modes/hub`.
 - Omits `fixtures` for a **workspace-level** block (e.g. storage-bucket). A **tenant-level** block
-  still needs `fixtures.<cloud>.mesh_tenant_id` for its `target_ref`, even with `bbd_version_ref` set.
+  still needs `fixtures.<cloud>.mesh_tenant_id` for its `target_ref`.
 
-Keep passing `hub_git_ref`. A module using the older `count` gate still evaluates it at `tofu init`
-even in foundation mode. A module using the two-mode layout never installs `modes/hub` here, so the
-field is unused but harmless.
+`bbd_draft` must match the flag the deployment published the definition with: with `bbd_draft = true`
+the test orders against `version_latest`, otherwise against `version_latest_release`. Sharing
+`../hub.hcl` keeps the two in step.
 
 ```hcl
+include "smoke" {
+  path   = find_in_parent_folders("smoke.hcl")
+  expose = true
+}
+
 generate "smoke_tfvars" {
-  path      = "smoke.auto.tfvars.json"
-  if_exists = "overwrite"
+  path              = "smoke.auto.tfvars.json"
+  if_exists         = "overwrite"
+  disable_signature = true
   contents = jsonencode({
     test_context = {
-      workspace       = dependency.deployment.outputs.e2e.owning_workspace
-      name_suffix     = run_cmd("--terragrunt-quiet", "date", "-u", "+%Y%m%d%H%M%S")
-      hub_git_ref     = dependency.deployment.outputs.e2e.hub.git_ref
-      bbd_version_ref = dependency.deployment.outputs.e2e.building_block_definition.version_ref
+      mode        = "foundation"
+      workspace   = include.smoke.locals.meshstack.workspace
+      bbd_draft   = include.hub.locals.bbd_draft
+      name_suffix = run_cmd("--terragrunt-quiet", "date", "-u", "+%Y%m%d%H%M%S")
     }
   })
 }
 ```
 
-Run a foundation e2e unit (see also the `run-lcf-modules` skill for credential setup):
+A hub module still on the older `count` gate reads the mode off `bbd_version_ref` instead and
+evaluates `hub_git_ref` even in foundation mode. `platforms/stackit/buildingblocks/storage-buckets/e2e`
+is one such unit: it keeps its `dependency "deployment"` and rides `platforms test` in `build.yml`
+until the hub module moves to the `modes/` layout.
+
+## Running a foundation e2e test
+
+Smoke tests run in GitHub Actions. Dispatch `smoke-test.yml`, optionally narrowing to one case with
+a path prefix under the foundation:
 
 ```bash
-cd foundations/likvid-prod/platforms/stackit/buildingblocks/<svc>/e2e
+gh workflow run smoke-test.yml -f prefix=platforms/ske/starterkit/e2e
+gh run watch
+```
+
+Locally is possible too, since the only credential is the meshStack API key (see the
+`run-lcf-modules` skill for credential setup):
+
+```bash
+cd foundations/likvid-prod/platforms/ske/starterkit/e2e
 terragrunt test
 ```
