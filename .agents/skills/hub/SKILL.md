@@ -61,7 +61,7 @@ generate "smoke_tfvars" {
 }
 ```
 
-Run a foundation e2e unit (see also the `run-lcf-modules` skill for credential setup):
+Run a foundation e2e unit (see also the `foundation-modules` skill for credential setup):
 
 ```bash
 cd foundations/likvid-prod/platforms/stackit/buildingblocks/<svc>/e2e

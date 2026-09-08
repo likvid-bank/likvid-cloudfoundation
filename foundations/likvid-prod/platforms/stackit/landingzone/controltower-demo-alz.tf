@@ -75,16 +75,29 @@ locals {
   }
 }
 
-variable "controltower_demo_admin_api_key" {
-  type        = string
-  sensitive   = true
-  description = "Client id of the admin-scoped meshStack API key the ALZ definitions create their workspaces with."
-}
+# Credential the ALZ definitions authenticate with. A building block's own run token is workspace-
+# scoped, so it cannot create the workspace and payment method the starterkit is about to hand out —
+# hence an `ADM_` key, covering exactly the six object kinds the starterkit manages.
+#
+# Owned by the platform workspace, not by the demo's `stackitcontrolto`: the platform team issues the
+# credential, the demo only consumes it. No `expires_at` — the demo has no rotation story, and an
+# expired key would fail every order until someone notices.
+resource "meshstack_api_key" "controltower_demo_admin" {
+  metadata = {
+    owned_by_workspace = meshstack_workspace.stackit_platform.metadata.name
+  }
 
-variable "controltower_demo_admin_api_secret" {
-  type        = string
-  sensitive   = true
-  description = "Client secret paired with controltower_demo_admin_api_key."
+  spec = {
+    display_name = "STACKIT Control Tower Demo ALZ"
+    permissions = [
+      "ADM_WORKSPACE_LIST", "ADM_WORKSPACE_SAVE", "ADM_WORKSPACE_DELETE",
+      "ADM_PAYMENTMETHOD_LIST", "ADM_PAYMENTMETHOD_SAVE", "ADM_PAYMENTMETHOD_DELETE",
+      "ADM_PROJECT_LIST", "ADM_PROJECT_SAVE", "ADM_PROJECT_DELETE",
+      "ADM_TENANT_LIST", "ADM_TENANT_SAVE", "ADM_TENANT_DELETE",
+      "ADM_WORKSPACEPRINCIPALBINDING_LIST", "ADM_WORKSPACEPRINCIPALBINDING_SAVE", "ADM_WORKSPACEPRINCIPALBINDING_DELETE",
+      "ADM_PROJECTPRINCIPALROLE_LIST", "ADM_PROJECTPRINCIPALROLE_SAVE", "ADM_PROJECTPRINCIPALROLE_DELETE",
+    ]
+  }
 }
 
 # The architecture creates the platform inside its own building block run, so there is no module
@@ -123,8 +136,8 @@ module "controltower_demo_alz" {
   project_role_name        = "admin"
   workspace_expiry_tag_key = meshstack_tag_definition.workspace_expiry.spec.key
 
-  meshstack_admin_api_key    = var.controltower_demo_admin_api_key
-  meshstack_admin_api_secret = var.controltower_demo_admin_api_secret
+  meshstack_admin_api_key    = meshstack_api_key.controltower_demo_admin.status.client_id
+  meshstack_admin_api_secret = meshstack_api_key.controltower_demo_admin.status.client_secret
 
   meshstack = {
     owning_workspace_identifier = "stackitcontrolto"
