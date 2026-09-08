@@ -84,7 +84,7 @@ locals {
 # expired key would fail every order until someone notices.
 resource "meshstack_api_key" "controltower_demo_admin" {
   metadata = {
-    owned_by_workspace = meshstack_workspace.stackit_platform.metadata.name
+    owned_by_workspace = meshstack_workspace.this.metadata.name
   }
 
   spec = {
@@ -107,7 +107,7 @@ resource "meshstack_api_key" "controltower_demo_admin" {
 data "meshstack_platforms" "controltower_demo" {
   identifier = "likvid-stackit.global"
 
-  depends_on = [meshstack_building_block.stackit_landingzone]
+  depends_on = [meshstack_building_block.this]
 }
 
 # The starterkit writes each workspace's expiry date under this tag key, and meshStack silently drops a
