@@ -11,7 +11,15 @@
 locals {
   # The workspace starterkit does not exist at the architecture's `hub.git_ref`, so this file pins its
   # own commit. Used in the module source too, which OpenTofu evaluates statically.
-  controltower_demo_hub_git_ref = "1b67eb951e885b9ab4da8bd7893bb3be6bd85da8"
+  #
+  # Points at meshcloud/meshstack-hub#315, not yet merged: the per-definition display name, input
+  # defaults and identifier patterns below only exist on that branch.
+  controltower_demo_hub_git_ref = "86280c08b200f48da1ca68d97e13474c4960872e"
+
+  # meshStack instances cap workspace identifiers at 16 characters, which the module default (63)
+  # does not know about, and the demo wants dash-separated lowercase names. Both frontends compile
+  # this with the JavaScript RegExp engine, so the lookahead that caps the length is honoured.
+  controltower_demo_workspace_identifier_pattern = "^(?=.{1,16}$)([a-z0-9]+-)*[a-z0-9]+$"
 
   # meshStack drops any tag whose key has no definition on the instance, so these maps carry only keys
   # that exist there. Four `meshProject` tags are mandatory, as is `meshPaymentMethod.paymentMethodType`.
@@ -40,11 +48,18 @@ locals {
     }
   }
 
-  # The demo's three flavours. `meshBuildingBlockDefinition` has no free-form tag on this instance and
-  # the module owns the display name, so the demo marker is this file plus the tag values below.
+  # The demo's three flavours. `meshBuildingBlockDefinition` has no free-form tag on this instance, so
+  # the demo marker is the display name — which is also what tells the three apart in the portal.
+  #
+  # `ttl_days` and `budget` are only the prefilled defaults; whoever orders can still change them.
+  # Sandbox and networked projects are meant to outlive the demo, hence ten years and a budget nobody
+  # hits, while a university project is the time-boxed flavour the starterkit was built for.
   controltower_demo_alz = {
     sandbox = {
+      display_name       = "Sandbox Project (STACKIT Control Tower demo)"
       landing_zone_name  = "likvid-stackit-default"
+      ttl_days           = 3650
+      budget             = 100000
       bb_environment     = "dev"
       bb_confidentiality = "internal"
       project_tags = {
@@ -54,7 +69,10 @@ locals {
     }
 
     networked = {
+      display_name       = "Networked Project (STACKIT Control Tower demo)"
       landing_zone_name  = "likvid-stackit-networked"
+      ttl_days           = 3650
+      budget             = 100000
       bb_environment     = "prod"
       bb_confidentiality = "internal"
       project_tags = {
@@ -64,7 +82,10 @@ locals {
     }
 
     university = {
+      display_name       = "University Project (STACKIT Control Tower demo)"
       landing_zone_name  = "likvid-stackit-default"
+      ttl_days           = 30
+      budget             = 100
       bb_environment     = "test"
       bb_confidentiality = "public"
       project_tags = {
@@ -131,6 +152,13 @@ module "controltower_demo_alz" {
   platform_uuid     = one(data.meshstack_platforms.controltower_demo.platforms).ref.uuid
   landing_zone_name = each.value.landing_zone_name
 
+  display_name                  = each.value.display_name
+  workspace_ttl_days_default    = each.value.ttl_days
+  payment_method_amount_default = each.value.budget
+
+  workspace_identifier_pattern       = local.controltower_demo_workspace_identifier_pattern
+  workspace_identifier_error_message = "Lowercase letters and digits, single dashes between them, at most 16 characters."
+
   # meshProject roles on this instance are `admin`/`user`/`reader`, not the module's default
   # "Project Admin".
   project_role_name        = "admin"
@@ -155,8 +183,11 @@ module "controltower_demo_alz" {
   }
 
   hub = {
-    git_ref   = local.controltower_demo_hub_git_ref
-    bbd_draft = var.hub.bbd_draft
+    git_ref = local.controltower_demo_hub_git_ref
+
+    # Released, not the unit's `var.hub.bbd_draft`: a draft version can only be ordered by the
+    # workspace that owns the definition, and the demo portal orders these for other workspaces.
+    bbd_draft = false
   }
 }
 
