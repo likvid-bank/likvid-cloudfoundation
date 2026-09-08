@@ -1,0 +1,82 @@
+name: smoke test
+
+# On demand and nightly, never per PR: a PR cannot change what the foundation has published, only
+# a deploy can, and each run costs real cloud resources (for the SKE StarterKit, a Let's Encrypt
+# certificate from a rate-limited quota).
+on:
+  workflow_dispatch:
+    inputs:
+      foundation:
+        description: "Foundation to smoke test."
+        required: false
+        default: likvid-prod
+        type: string
+      prefix:
+        description: "Optional. Path under the foundation to limit the run to, e.g. 'platforms/ske' or 'platforms/ske/starterkit/e2e'. Empty = every smoke test in the foundation."
+        required: false
+        default: ""
+        type: string
+  schedule:
+    # Nightly, before the working day.
+    - cron: "30 3 * * 1-5"
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.foundation || 'likvid-prod' }}
+
+    concurrency:
+      # Smoke tests order into a shared workspace, so serialize a foundation against a concurrent
+      # rerun of itself. Cases within one run are parallelized by terragrunt.
+      group: smoke-test-${{ inputs.foundation || 'likvid-prod' }}
+      cancel-in-progress: false
+
+    # Checkout is all the job does with GitHub. No `id-token: write`: no cloud login to federate.
+    permissions:
+      contents: read
+
+    env:
+      TG_TF_PATH: tofu
+      TG_PROVIDER_CACHE: 1
+      TG_NON_INTERACTIVE: true
+      TF_IN_AUTOMATION: true
+
+      # This list stays at one entry — see the `hub` skill before growing it.
+      MESHSTACK_API_KEY_CLOUDFOUNDATION: ${{ secrets.MESHSTACK_API_KEY_CLOUDFOUNDATION }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup environment
+        uses: ./.github/actions/setup-nix-shell
+        with:
+          prepare_terraform: true
+
+      - name: Run smoke tests
+        env:
+          FOUNDATION: ${{ inputs.foundation || 'likvid-prod' }}
+          PREFIX: ${{ inputs.prefix }}
+        run: |
+          marker="$PWD/foundations/$FOUNDATION/smoke.hcl"
+          dir="foundations/$FOUNDATION${PREFIX:+/$PREFIX}"
+
+          test -f "$marker" || { echo "::error::no smoke.hcl for foundation '$FOUNDATION'"; exit 1; }
+          test -d "$dir" || { echo "::error::no such directory: $dir"; exit 1; }
+
+          # --queue-ignore-errors runs every queued unit and still exits non-zero if any failed.
+          terragrunt run --all test \
+            --working-dir "$dir" \
+            --queue-include-units-reading "$marker" \
+            --queue-ignore-errors
+
+      - name: Upload errored test state
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: errored-test-state
+          # terragrunt runs the module from its cache directory, so that is where `tofu test` leaves
+          # errored state behind.
+          path: foundations/**/.terragrunt-cache/**/errored_test.tfstate
+          include-hidden-files: true
+          if-no-files-found: ignore
