@@ -41,10 +41,13 @@ The `e2e/terragrunt.hcl` therefore:
 - Generates `smoke.auto.tfvars.json` setting `test_context` with `workspace`, `name_suffix`,
   `hub_git_ref`, and `bbd_version_ref` — read from the deployment's `e2e` output via a `dependency`.
   `tofu test` cannot type-decode complex `TF_VAR_*`, hence the `.auto.tfvars.json`.
-- Omits build-from-source provider secrets (the ephemeral backplane is not built in foundation mode).
-  For a **workspace-level** block (e.g. storage-bucket) `fixtures` is also omitted; for a
-  **tenant-level** block, still pass `fixtures.<cloud>.mesh_tenant_id` — the e2e module needs it for
-  the `target_ref` even though `bbd_version_ref` is set.
+- Omits the backplane secrets — no backplane is built in foundation mode.
+- Omits `fixtures` for a **workspace-level** block (e.g. storage-bucket). A **tenant-level** block
+  still needs `fixtures.<cloud>.mesh_tenant_id` for its `target_ref`, even with `bbd_version_ref` set.
+
+Keep passing `hub_git_ref`. A module using the older `count` gate still evaluates it at `tofu init`
+even in foundation mode. A module using the two-mode layout never installs `modes/hub` here, so the
+field is unused but harmless.
 
 ```hcl
 generate "smoke_tfvars" {
