@@ -55,6 +55,7 @@
           (pkgs.google-cloud-sdk.withExtraComponents [ pkgs.google-cloud-sdk.components.gke-gcloud-auth-plugin ])
 
           # script dependencies
+          python3 # the hub e2e modules probe deployed app endpoints with a python script
           gnused # sed acts inconsistently on macOS, so we always use GNU sed
           jq
           pre-commit
