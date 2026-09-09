@@ -134,9 +134,8 @@ module "controltower_demo_alz" {
   workspace_identifier_pattern       = local.controltower_demo_workspace_identifier_pattern
   workspace_identifier_error_message = "Lowercase letters and digits, single dashes between them, at most 16 characters."
 
-  # meshProject roles on this instance are `admin`/`user`/`reader`, not the module's default
-  # "Project Admin".
-  project_role_name        = "admin"
+  # Both role names keep the module defaults: meshStack resolves a role by its display name
+  # ("Project Admin", "Workspace Owner"), not by its identifier (`admin`).
   workspace_expiry_tag_key = meshstack_tag_definition.workspace_expiry.spec.key
 
   meshstack = {
