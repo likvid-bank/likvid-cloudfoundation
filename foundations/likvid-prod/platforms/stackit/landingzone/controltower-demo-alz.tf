@@ -11,10 +11,7 @@
 locals {
   # The workspace starterkit does not exist at the architecture's `hub.git_ref`, so this file pins its
   # own commit. Used in the module source too, which OpenTofu evaluates statically.
-  #
-  # Points at meshcloud/meshstack-hub#315, not yet merged: the per-definition display name, input
-  # defaults and identifier patterns below only exist on that branch.
-  controltower_demo_hub_git_ref = "86280c08b200f48da1ca68d97e13474c4960872e"
+  controltower_demo_hub_git_ref = "87a324c0bc9f389e68a611c6ed81cfea1a7139b8"
 
   # meshStack instances cap workspace identifiers at 16 characters, which the module default (63)
   # does not know about, and the demo wants dash-separated lowercase names. Both frontends compile
@@ -96,31 +93,6 @@ locals {
   }
 }
 
-# Credential the ALZ definitions authenticate with. A building block's own run token is workspace-
-# scoped, so it cannot create the workspace and payment method the starterkit is about to hand out —
-# hence an `ADM_` key, covering exactly the six object kinds the starterkit manages.
-#
-# Owned by the platform workspace, not by the demo's `stackitcontrolto`: the platform team issues the
-# credential, the demo only consumes it. No `expires_at` — the demo has no rotation story, and an
-# expired key would fail every order until someone notices.
-resource "meshstack_api_key" "controltower_demo_admin" {
-  metadata = {
-    owned_by_workspace = meshstack_workspace.this.metadata.name
-  }
-
-  spec = {
-    display_name = "STACKIT Control Tower Demo ALZ"
-    permissions = [
-      "ADM_WORKSPACE_LIST", "ADM_WORKSPACE_SAVE", "ADM_WORKSPACE_DELETE",
-      "ADM_PAYMENTMETHOD_LIST", "ADM_PAYMENTMETHOD_SAVE", "ADM_PAYMENTMETHOD_DELETE",
-      "ADM_PROJECT_LIST", "ADM_PROJECT_SAVE", "ADM_PROJECT_DELETE",
-      "ADM_TENANT_LIST", "ADM_TENANT_SAVE", "ADM_TENANT_DELETE",
-      "ADM_WORKSPACEPRINCIPALBINDING_LIST", "ADM_WORKSPACEPRINCIPALBINDING_SAVE", "ADM_WORKSPACEPRINCIPALBINDING_DELETE",
-      "ADM_PROJECTPRINCIPALROLE_LIST", "ADM_PROJECTPRINCIPALROLE_SAVE", "ADM_PROJECTPRINCIPALROLE_DELETE",
-    ]
-  }
-}
-
 # The architecture creates the platform inside its own building block run, so there is no module
 # output to read its uuid from — same reason the storage-buckets unit resolves it this way. The filter
 # matches the full `<platform>.<location>` identifier; `one()` fails loudly if it stops matching
@@ -144,6 +116,9 @@ resource "meshstack_tag_definition" "workspace_expiry" {
   }
 }
 
+# The module mints the `ADM_` API key the definitions authenticate with itself, in its own backplane,
+# and names it after `display_name` — so each flavour gets its own key, expiring on the module's
+# rotation schedule. Nothing here has to supply a credential.
 module "controltower_demo_alz" {
   for_each = local.controltower_demo_alz
 
@@ -163,9 +138,6 @@ module "controltower_demo_alz" {
   # "Project Admin".
   project_role_name        = "admin"
   workspace_expiry_tag_key = meshstack_tag_definition.workspace_expiry.spec.key
-
-  meshstack_admin_api_key    = meshstack_api_key.controltower_demo_admin.status.client_id
-  meshstack_admin_api_secret = meshstack_api_key.controltower_demo_admin.status.client_secret
 
   meshstack = {
     owning_workspace_identifier = "stackitcontrolto"
