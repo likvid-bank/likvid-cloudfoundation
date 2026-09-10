@@ -48,7 +48,10 @@ The `e2e/terragrunt.hcl` therefore:
 - Sources the hub `e2e/` module at the deployed `hub.git_ref` (via `../hub.hcl`, shared with the
   deployment).
 - Generates `smoke.auto.tfvars.json` — `tofu test` cannot type-decode complex `TF_VAR_*` — setting
-  `test_context` to static values only: `mode`, `workspace`, `bbd_draft` and a fresh `name_suffix`.
+  `test_context` to static values only: `mode`, `workspace`, `bbd_draft`, plus the per-run
+  `name_suffix` and `run_id` it reads from `foundations/<foundation>/smoke_run.hcl`. That file is
+  where both e2e units get them, so the shape is defined once; `run_cmd` is cached per unit, so a
+  `run --all` gives each test case its own `run_id`, as hub mode does.
 - Omits the backplane secrets and `hub_git_ref` — foundation mode never installs `modes/hub`.
 - Omits `fixtures` for a **workspace-level** block (e.g. storage-bucket). A **tenant-level** block
   still needs `fixtures.<cloud>.mesh_tenant_id` for its `target_ref`.
@@ -63,6 +66,11 @@ include "smoke" {
   expose = true
 }
 
+include "smoke_run" {
+  path   = find_in_parent_folders("smoke_run.hcl")
+  expose = true
+}
+
 generate "smoke_tfvars" {
   path              = "smoke.auto.tfvars.json"
   if_exists         = "overwrite"
@@ -72,7 +80,8 @@ generate "smoke_tfvars" {
       mode        = "foundation"
       workspace   = include.smoke.locals.meshstack.workspace
       bbd_draft   = include.hub.locals.bbd_draft
-      name_suffix = run_cmd("--terragrunt-quiet", "date", "-u", "+%Y%m%d%H%M%S")
+      name_suffix = include.smoke_run.locals.name_suffix
+      run_id      = include.smoke_run.locals.run_id
     }
   })
 }
