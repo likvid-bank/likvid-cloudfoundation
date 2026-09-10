@@ -8,6 +8,11 @@ include "hub" {
   expose = true
 }
 
+include "smoke_run" {
+  path   = find_in_parent_folders("smoke_run.hcl")
+  expose = true
+}
+
 terraform {
   source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/${include.hub.locals.module}/e2e?ref=${include.hub.locals.git_ref}"
 }
@@ -39,7 +44,8 @@ generate "smoke_tfvars" {
   contents = jsonencode({
     test_context = {
       workspace       = dependency.deployment.outputs.e2e.owning_workspace
-      name_suffix     = run_cmd("--terragrunt-quiet", "date", "-u", "+%Y%m%d%H%M%S")
+      name_suffix     = include.smoke_run.locals.name_suffix
+      run_id          = include.smoke_run.locals.run_id
       hub_git_ref     = dependency.deployment.outputs.e2e.hub.git_ref
       bbd_version_ref = { uuid = dependency.deployment.outputs.e2e.building_block_definition.version_ref.uuid }
     }
