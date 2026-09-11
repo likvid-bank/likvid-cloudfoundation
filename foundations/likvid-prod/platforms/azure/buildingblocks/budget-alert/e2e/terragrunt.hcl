@@ -15,6 +15,13 @@ include "smoke_run" {
   expose = true
 }
 
+# Ordering a building block is not something a platform `plan` or `apply` should do — the smoke
+# workflow drives this unit with `test`. Same guard the `test/` units this replaces carried.
+exclude {
+  if      = true
+  actions = ["plan", "apply", "destroy"]
+}
+
 terraform {
   source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/${include.hub.locals.module}/e2e?ref=${include.hub.locals.git_ref}"
 }
