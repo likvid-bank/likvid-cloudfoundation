@@ -53,9 +53,10 @@ locals {
   # hits, while a university project is the time-boxed flavour the starterkit was built for.
   controltower_demo_alz = {
     sandbox = {
-      display_name       = "Sandbox Project (STACKIT Control Tower demo)"
+      display_name       = "Sandbox Project"
       landing_zone_name  = "likvid-stackit-default"
-      ttl_days           = 3650
+      description        = "A project without hybrid connectivity. This landing zone is intended for cloud-native use-cases that require not connection back to on-premises infrastructure."
+      ttl_days           = null
       budget             = 100000
       bb_environment     = "dev"
       bb_confidentiality = "internal"
@@ -66,9 +67,10 @@ locals {
     }
 
     networked = {
-      display_name       = "Networked Project (STACKIT Control Tower demo)"
+      display_name       = "Networked Project"
       landing_zone_name  = "likvid-stackit-networked"
-      ttl_days           = 3650
+      description        = "A project with hybrid connectivity back to our on-premises infrastructure."
+      ttl_days           = null
       budget             = 100000
       bb_environment     = "prod"
       bb_confidentiality = "internal"
@@ -79,8 +81,9 @@ locals {
     }
 
     university = {
-      display_name       = "University Project (STACKIT Control Tower demo)"
+      display_name       = "University Project"
       landing_zone_name  = "likvid-stackit-default"
+      description        = "A sandbox for learning and experimentation. Automatically decomissioned after 30 days."
       ttl_days           = 30
       budget             = 100
       bb_environment     = "test"
@@ -130,6 +133,7 @@ module "controltower_demo_alz" {
   display_name                  = each.value.display_name
   workspace_ttl_days_default    = each.value.ttl_days
   payment_method_amount_default = each.value.budget
+  description                   = each.value.description
 
   workspace_identifier_pattern       = local.controltower_demo_workspace_identifier_pattern
   workspace_identifier_error_message = "Lowercase letters and digits, single dashes between them, at most 16 characters."
