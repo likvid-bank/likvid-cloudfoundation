@@ -87,6 +87,7 @@ generate "smoke_tfvars" {
 }
 ```
 
+Run a foundation e2e unit (see also the `foundation-modules` skill for credential setup):
 A hub module still on the older `count` gate reads the mode off `bbd_version_ref` instead and
 evaluates `hub_git_ref` even in foundation mode. `platforms/stackit/buildingblocks/storage-buckets/e2e`
 is one such unit: it keeps its `dependency "deployment"` and rides `platforms test` in `build.yml`

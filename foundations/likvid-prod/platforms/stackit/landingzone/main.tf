@@ -21,6 +21,13 @@ resource "meshstack_building_block" "this" {
     display_name = "STACKIT Landing Zone"
     target_ref   = meshstack_workspace.this.ref
 
+    approval_policies = {
+      any_input_changes  = true
+      manual_triggers    = true
+      user_input_changes = true
+      version_upgrade    = true
+    }
+    
     inputs = {
       platform_identifier = { value = jsonencode("likvid-stackit") }
 
