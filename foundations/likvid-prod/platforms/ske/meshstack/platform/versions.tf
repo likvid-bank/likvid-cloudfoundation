@@ -6,7 +6,7 @@ terraform {
     }
     meshstack = {
       source  = "meshcloud/meshstack"
-      version = "~> 0.24.4"
+      version = "~> 0.25.4"
     }
   }
 }
