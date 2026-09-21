@@ -10,6 +10,14 @@ module "this" {
     bbd_draft = var.hub.bbd_draft
   }
 
+  # Gates on the definition itself, switched on in meshPanel. The provider asserts its own defaults
+  # whenever a definition sets no policies, so leaving these out turns them off on the next apply.
+  # Separate from the gates on `meshstack_building_block.this` below, which are on the ordered block.
+  approval_policies = {
+    manual_triggers = true
+    version_upgrade = true
+  }
+
   # This platform is really used, so it takes the plain identifier and keeps its destroy guards.
   playground_mode = false
 }
@@ -27,7 +35,7 @@ resource "meshstack_building_block" "this" {
       user_input_changes = true
       version_upgrade    = true
     }
-    
+
     inputs = {
       platform_identifier = { value = jsonencode("likvid-stackit") }
 
