@@ -5,7 +5,3 @@ output "e2e" {
     owning_workspace          = local.meshstack.owning_workspace_identifier
   }
 }
-
-output "stackit_project_id" {
-  value = meshstack_tenant.stackit_storage_buckets.spec.platform_tenant_id
-}
