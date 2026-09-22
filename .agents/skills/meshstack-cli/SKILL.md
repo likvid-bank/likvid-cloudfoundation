@@ -5,15 +5,16 @@ description: >
   `-o ndjson | jq` pipeline, the meshObject shape (metadata/spec/status) that makes filtering
   cheap, and how to look up shapes the CLI does not print in the meshStack OpenAPI spec.
   Use when asked to list, inspect or debug workspaces, building blocks, building block
-  definitions or building block runs, or to report on the health of the building blocks a
-  platform team provides.
+  definitions or building block runs, to trigger a building block run, or to report on the
+  health of the building blocks a platform team provides.
 ---
 
 # meshStack CLI
 
-The CLI is a read-only window into meshStack today. Everything it can do:
+The CLI is mostly a read-only window into meshStack. Its one write is asking for a building block
+run. Everything it can do:
 
-| Command | Alias | Lists |
+| Command | Alias | Does |
 |---|---|---|
 | `meshstack workspace list` | | workspaces this login can see |
 | `meshstack buildingblock list` | `bb` | building blocks (deployed instances) |
@@ -21,11 +22,12 @@ The CLI is a read-only window into meshStack today. Everything it can do:
 | `meshstack buildingblockdefinitionversion list --definition <uuid>` | `bbdv` | the versions of one definition |
 | `meshstack buildingblockrun list [--building-block <uuid>]` | `bbrun` | runs, newest last, per block |
 | `meshstack buildingblockrun logs <run-uuid>` | `bbrun` | the steps of one run, with their output |
+| `meshstack buildingblock trigger-run <uuid> [--dry-run]` | `bb` | asks meshStack for a run of one block — see [Triggering a run](#triggering-a-run) |
 
 The `bbd`, `bbdv` and `logs` commands are marked **experimental** — their output shape may still
 change, so re-check a field before trusting a stale recipe.
 
-Creating or changing anything goes through Terraform, not this CLI.
+Creating or changing anything else goes through Terraform, not this CLI.
 
 ## Setup
 
@@ -273,6 +275,31 @@ of kilobytes. Read one step at a time when you need it:
 meshstack bbrun logs <run-uuid> -o ndjson |
   jq -r '.steps[] | select(.displayName == "Run Terraform Apply") | .systemMessage'
 ```
+
+## Triggering a run
+
+`trigger-run` asks meshStack to run a block again, for example after a fix was pushed to the branch
+its definition points at. meshStack runs OpenTofu itself, so no cloud credential is needed here.
+It works across workspaces the login can reach, without `--workspace`.
+
+```sh
+meshstack bb trigger-run <uuid>             # APPLY run
+meshstack bb trigger-run <uuid> --dry-run   # DETECT run, plan only; OpenTofu blocks only
+```
+
+It returns as soon as meshStack accepts the run. It never waits and never approves. When the
+definition gates manual triggers (`spec.approvalPolicies.manualTriggers`), the run waits until a
+person approves it in meshPanel.
+
+The block it prints still names the previous run in `status.latestRunUuid`, because meshStack
+creates the run asynchronously. Find the new run in the run list instead, and poll it there:
+
+```sh
+meshstack bbrun list --building-block <uuid> -o ndjson | tail -1 |
+  jq -r '[.metadata.uuid, (.spec.runNumber|tostring), .spec.behavior, .status] | @tsv'
+```
+
+Every call starts a run, so trigger once and poll, rather than trigger again.
 
 ## Shapes the CLI does not print
 
