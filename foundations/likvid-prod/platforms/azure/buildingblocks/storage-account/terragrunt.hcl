@@ -35,25 +35,25 @@ EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/storage-account?ref=af7c3331af34321484fe3f9810b96e1799e28675"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/storage-account?ref=2a47e2f6e0ec880c5d16c65746cfaffe7a46fd9b"
 }
 
 inputs = {
   hub = {
-    git_ref   = "af7c3331af34321484fe3f9810b96e1799e28675"
-    bbd_draft = true
+    git_ref   = "2a47e2f6e0ec880c5d16c65746cfaffe7a46fd9b"
+    bbd_draft = false
   }
 
   meshstack = {
     owning_workspace_identifier = "m25-platform"
   }
 
-  azure = {
-    tenant_id       = include.platform.locals.platform.azure.aadTenantId
-    subscription_id = "bd4b0c49-52bf-4b2b-a6ad-065a691591eb" # managed by meshStack (https://panel.demo.meshcloud.io/#/w/m25-platform/p/quickstart-infra-likvid/i/azure.meshcloud-azure-dev/overview/azure)
-    scope           = dependency.organization_hierarchy.outputs.landingzones_id
-    location        = "germanywestcentral"
-  }
+  azure_tenant_id       = include.platform.locals.platform.azure.aadTenantId
+  azure_subscription_id = "bd4b0c49-52bf-4b2b-a6ad-065a691591eb" # managed by meshStack (https://panel.demo.meshcloud.io/#/w/m25-platform/p/quickstart-infra-likvid/i/azure.meshcloud-azure-dev/overview/azure)
+  azure_scope           = dependency.organization_hierarchy.outputs.landingzones_id
+  azure_location        = "germanywestcentral"
 
   backplane_name = "likvid-azure-storage-account"
+
+  workspace_tag_to_copy = "BusinessUnit"
 }
