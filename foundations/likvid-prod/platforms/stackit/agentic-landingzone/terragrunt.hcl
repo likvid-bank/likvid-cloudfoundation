@@ -16,7 +16,7 @@ inputs = {
 
   # meshStack checks this commit out from GitHub, so it must be pushed. A change to the building
   # block code takes two commits: the change itself, then this pin moved onto it.
-  buildingblock_git_ref = "83cd219eccf964381f168c36917d5d9e8dc9dcde"
+  buildingblock_git_ref = "18f33b07b0cf6cf39dd0e71c2d1d4e495c713628"
 
   # The organization owner whose key the live landingzone unit uses. For this unit it needs the WIF
   # trust from the `workload_identity_federation` output instead.
