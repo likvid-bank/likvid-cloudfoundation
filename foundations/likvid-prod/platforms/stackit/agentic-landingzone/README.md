@@ -70,19 +70,19 @@ Running this reference architecture always:
    projects are created inside this folder.
 2. Creates a **STACKIT foundation project** directly under the organization to host the
    project-creation service account and other landing-zone core assets.
-3. Sources the [`modules/stackit`](https://github.com/meshcloud/meshstack-hub/tree/103b8cf6cf4569f4e457e33f1407cb360d6f89a8/modules/stackit) platform integration to register the
+3. Sources the [`modules/stackit`](https://github.com/meshcloud/meshstack-hub/tree/b70efaad7de7fccf2dcb513d94db6308295261a0/modules/stackit) platform integration to register the
    **STACKIT Project** platform and its default landing zone in meshStack, wired to the foundation
    service account.
-4. Registers the [`stackit/service-account`](https://github.com/meshcloud/meshstack-hub/tree/103b8cf6cf4569f4e457e33f1407cb360d6f89a8/modules/stackit/service-account) building block
+4. Registers the [`stackit/service-account`](https://github.com/meshcloud/meshstack-hub/tree/b70efaad7de7fccf2dcb513d94db6308295261a0/modules/stackit/service-account) building block
    definition (`TENANT_LEVEL`) so application teams can self-service create a STACKIT service account
    — with project roles and optional workload identity federation — inside their own projects.
 
 When a **network** configuration is provided, it additionally:
 
-5. Registers the [`stackit/network-area`](https://github.com/meshcloud/meshstack-hub/tree/103b8cf6cf4569f4e457e33f1407cb360d6f89a8/modules/stackit/network-area) building block
+5. Registers the [`stackit/network-area`](https://github.com/meshcloud/meshstack-hub/tree/b70efaad7de7fccf2dcb513d94db6308295261a0/modules/stackit/network-area) building block
    definition and immediately orders **one instance** of it in the platform team's own workspace —
    this is the hub's IPv4 address plan.
-6. Registers the [`stackit/network`](https://github.com/meshcloud/meshstack-hub/tree/103b8cf6cf4569f4e457e33f1407cb360d6f89a8/modules/stackit/network) building block definition
+6. Registers the [`stackit/network`](https://github.com/meshcloud/meshstack-hub/tree/b70efaad7de7fccf2dcb513d94db6308295261a0/modules/stackit/network) building block definition
    (`TENANT_LEVEL`) so application teams can self-service order routed networks (spokes) inside
    their STACKIT projects, drawing from the hub's address plan.
 7. Provisions an additional **networked project definition and landing zone**. The networked
