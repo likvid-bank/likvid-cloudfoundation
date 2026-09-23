@@ -331,6 +331,8 @@ terraform {
 
 - **setup-env.sh fails in bash** — `ZSH_VERSION: unbound variable` at line 104. Always source in zsh. Claude Code's Bash tool runs bash; work around with the devShell wrapper from § Credential Setup. Use absolute path to `setup-env.sh` to avoid working-directory issues.
 
+- **`plan.tfplan` carries the meshStack API secret** — `foundations/common.hcl` adds `-out=plan.tfplan` to every plan. A unit without `terraform.source` writes it into the unit directory, and the file embeds the generated `provider.tf` with its `apisecret`. `*.tfplan` is gitignored for this reason; still stage files by name rather than whole unit directories.
+
 - **meshstack provider version cap** — provider `0.22.0` requires meshStack server `2026.24.0+`. If the server is on `2026.23.0`, cap at `~> 0.21.0` in `terraform.tf`. The e2e `terragrunt.hcl` must also generate a `versions_override.tf` with this cap, since the hub's e2e module has no version pin of its own.
 
 - **`tofu test` does not type-decode TF_VAR_* for complex objects** — Terragrunt's `inputs` block passes variables as `TF_VAR_*` env vars. For simple strings this is fine. But for complex object variables like `test_context`, `tofu test` receives a raw string and cannot destructure fields like `var.test_context.name_suffix`. Fix: use `generate "smoke_tfvars"` with `path = "smoke.auto.tfvars.json"` and `disable_signature = true` so the file is valid JSON that `tofu test` auto-loads with proper type decoding.

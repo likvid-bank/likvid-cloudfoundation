@@ -23,3 +23,6 @@ config.tf
 .worktrees/
 
 .env*
+
+# plan files embed the generated provider.tf, including the meshStack API secret
+*.tfplan
