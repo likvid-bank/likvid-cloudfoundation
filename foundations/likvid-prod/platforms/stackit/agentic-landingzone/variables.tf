@@ -11,8 +11,7 @@ variable "buildingblock_git_ref" {
   description = "Commit of this repository that meshStack runs ./stackit-landingzone/buildingblock from."
 }
 
-variable "stackit_service_account_key" {
+variable "stackit_service_account_email" {
   type        = string
-  sensitive   = true
-  description = "Key of the organization-scoped STACKIT service account the architecture deploys with."
+  description = "Organization-owner service account the architecture runs as through WIF."
 }

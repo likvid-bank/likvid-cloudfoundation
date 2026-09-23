@@ -2,13 +2,6 @@ include "common" {
   path = find_in_parent_folders("common.hcl")
 }
 
-# requires STACKIT_ORG_SERVICE_ACCOUNT_KEY, which lives only in Vault and not as a GitHub secret —
-# skip from CI; run manually after sourcing setup-env.sh
-exclude {
-  if      = true
-  actions = ["plan", "test"]
-}
-
 include "platform" {
   path = find_in_parent_folders("platform.hcl")
 }
@@ -23,10 +16,11 @@ inputs = {
 
   # meshStack checks this commit out from GitHub, so it must be pushed. A change to the building
   # block code takes two commits: the change itself, then this pin moved onto it.
-  buildingblock_git_ref = "a22b16e493e85006c6f867f88edcfa5e1daaf972"
+  buildingblock_git_ref = "aeb206f040013e69de74d0ee4e3a38ca22fc6cb2"
 
-  # The same organization-owner account as the live landingzone unit, see `stackit_owner_email` there.
-  stackit_service_account_key = get_env("STACKIT_ORG_SERVICE_ACCOUNT_KEY")
+  # The organization owner whose key the live landingzone unit uses. For this unit it needs the WIF
+  # trust from the `workload_identity_federation` output instead.
+  stackit_service_account_email = "bootstrap-sa-4yfw9wi8@sa.stackit.cloud"
 }
 
 generate "provider" {

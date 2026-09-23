@@ -1,6 +1,6 @@
 # A second, throwaway instance of the STACKIT landing zone for the agentic demo. An agent proposes a
 # change to the architecture as a commit, and a platform engineer approves the resulting run in
-# meshStack. Only meshStack holds the STACKIT credentials, the agent never sees them.
+# meshStack. Runs reach STACKIT through WIF, so nobody holds a STACKIT key, the agent included.
 
 locals {
   # Created in meshPanel, not in code.
@@ -14,8 +14,9 @@ module "this" {
     owning_workspace_identifier = local.workspace
   }
 
-  hub                   = var.hub
-  buildingblock_git_ref = var.buildingblock_git_ref
+  hub                           = var.hub
+  buildingblock_git_ref         = var.buildingblock_git_ref
+  stackit_service_account_email = var.stackit_service_account_email
 
   approval_policies = {
     manual_triggers = true
@@ -78,11 +79,11 @@ resource "meshstack_building_block" "this" {
         user   = ["editor"]
         reader = ["reader"]
       })) }
-
-      stackit_service_account_key = { sensitive = {
-        secret_value   = var.stackit_service_account_key
-        secret_version = nonsensitive(sha256(var.stackit_service_account_key))
-      } }
     }
   }
+}
+
+output "workload_identity_federation" {
+  description = "Register this on `stackit_service_account_email` as a federated identity provider, see the architecture's README."
+  value       = module.this.workload_identity_federation
 }
