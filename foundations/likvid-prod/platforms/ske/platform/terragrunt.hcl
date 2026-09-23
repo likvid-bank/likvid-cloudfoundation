@@ -6,11 +6,12 @@ include "tfstate" {
   path = find_in_parent_folders("tfstate.hcl")
 }
 
+dependency "landingzone" {
+  config_path = "../landingzone"
+}
+
 inputs = {
-  hub = {
-    git_ref   = "32f922acd597b07b7923645788d393bd7054898d"
-    bbd_draft = true
-  }
+  building_block_definition = dependency.landingzone.outputs.building_block_definition
 }
 
 generate "provider" {
