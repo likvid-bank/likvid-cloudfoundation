@@ -364,6 +364,7 @@ terraform {
 | Error | Fix |
 |-------|-----|
 | `ZSH_VERSION: unbound variable` | Source `setup-env.sh` in zsh, see § Credential Setup |
+| `Required environment variable MESHSTACK_API_KEY_CLOUDFOUNDATION - not found` | `setup-env.sh` could not reach Vault, usually an expired gcloud login (`Failed to establish port-forward`). Ask the user to run `gcloud auth login`, then retry |
 | `command not found: terragrunt` | Run inside `nix develop <repo> --command ...`, see § Credential Setup |
 | `locked provider X does not match configured version constraint` | `terragrunt run -- init -upgrade` |
 | `~> X.Y.0, >= X.Z.0` unsatisfiable | Change local constraint from `~> X.Y.0` to `>= X.Y.0` in `terraform.tf` |
