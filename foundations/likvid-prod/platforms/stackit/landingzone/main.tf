@@ -53,27 +53,29 @@ resource "meshstack_building_block" "this" {
       tags = { value = jsonencode(jsonencode({
         # The policy "Enforce Landing Zone Family clearance" intersects `LandingZoneFamily` with a
         # project's `LandingZoneClearance`, and both are single-select, so the two must be equal.
-        landingzone = {
-          LandingZoneFamily = ["cloud-native"]
-          environment       = ["dev", "qa", "test", "prod"]
-          confidentiality   = ["internal", "public"]
-        }
+        landingzone = [
+          { key = "LandingZoneFamily", values = ["cloud-native"] },
+          { key = "environment", values = ["dev", "qa", "test", "prod"] },
+          { key = "confidentiality", values = ["internal", "public"] },
+        ]
 
-        building_block = {
-          LandingZoneClearance = ["cloud-native"]
-        }
+        building_block = [
+          { key = "LandingZoneClearance", values = ["cloud-native"] },
+        ]
 
         # Tags for the meshProjects the STACKIT Project Starterkit creates. `LandingZoneClearance` and
         # `Schutzbedarf` are mandatory on this instance and have no default, so a starterkit that
         # passes no tags cannot create a project at all.
-        project = {
-          LandingZoneClearance = ["cloud-native"]
-          Schutzbedarf         = ["internal"]
-          environment          = ["dev"]
-          ResponsibilityLevel  = ["Cloud Pro"]
-        }
+        project = [
+          { key = "LandingZoneClearance", values = ["cloud-native"] },
+          { key = "Schutzbedarf", values = ["internal"] },
+          { key = "environment", values = ["dev"] },
+          { key = "ResponsibilityLevel", values = ["Cloud Pro"] },
+        ]
         project_owner_tag_key = "projectOwner"
       })) }
+
+      topology = { value = jsonencode(["sandbox", "hub&spoke"]) }
 
       # Setting this creates the second landing zone `likvid-stackit-networked` plus the self-service
       # `STACKIT Network` building block. The seven existing tenants keep the unnetworked variant.
@@ -108,6 +110,11 @@ resource "meshstack_building_block" "this" {
   # `likvid-stackit` folder with all seven live tenant projects inside it, including the SKE cluster.
   lifecycle {
     prevent_destroy = true
+
+    postcondition {
+      condition     = self.status.status == "SUCCEEDED"
+      error_message = "Building block ${self.metadata.uuid} is ${self.status.status}, not SUCCEEDED. See its run in meshPanel."
+    }
   }
 }
 
