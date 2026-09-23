@@ -53,7 +53,7 @@ from the `meshstack-cli` skill.
 6. **Ask for the approval** with the plan summary and a meshPanel deep link to the block. Then wait
    for a terminal status (`meshstack-cli`, § Waiting for a run).
 7. **Verify** a change that affects projects by ordering the starterkit
-   (`meshstack-cli`, § Ordering a building block through the REST API).
+   (`meshstack-cli`, § Ordering a building block).
 
 ## Moving `hub.git_ref`
 

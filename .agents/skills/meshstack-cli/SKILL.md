@@ -7,14 +7,14 @@ description: >
   Use when asked to list, inspect or debug workspaces, building blocks, building block
   definitions or building block runs, or to report on the health of the building blocks a
   platform team provides. Also covers preflight runs and approvals, meshPanel deep links, waiting
-  for a run, and ordering a building block through the REST API.
+  for a run, and ordering a building block with `meshstack api`.
 ---
 
 # meshStack CLI
 
-The CLI is a read-only window into meshStack today. Everything it can do:
+The CLI mostly reads. Everything it can do:
 
-| Command | Alias | Lists |
+| Command | Alias | Does |
 |---|---|---|
 | `meshstack workspace list` | | workspaces this login can see |
 | `meshstack buildingblock list` | `bb` | building blocks (deployed instances) |
@@ -22,13 +22,16 @@ The CLI is a read-only window into meshStack today. Everything it can do:
 | `meshstack buildingblockdefinitionversion list --definition <uuid>` | `bbdv` | the versions of one definition |
 | `meshstack buildingblockrun list [--building-block <uuid>]` | `bbrun` | runs, newest last, per block |
 | `meshstack buildingblockrun logs <run-uuid>` | `bbrun` | the steps of one run, with their output |
+| `meshstack buildingblock trigger-run <uuid> [--dry-run]` | `bb` | starts a run, or a preflight with `--dry-run` |
+| `meshstack api <path> [-X method] [-H header] [--input file\|-]` | | any meshStack API call, with this login |
 
 The `bbd`, `bbdv` and `logs` commands are marked **experimental** — their output shape may still
-change, so re-check a field before trusting a stale recipe.
+change, so re-check a field before trusting a stale recipe. `trigger-run` and `api` are not released
+yet; a build without them predates the `feat/buildingblock-trigger-run` and `feat/cli-api` branches.
 
 Creating or changing anything goes through Terraform, not this CLI. The exception is a one-off order
 that Terraform cannot converge on, such as a starterkit: see
-[Ordering a building block through the REST API](#ordering-a-building-block-through-the-rest-api).
+[Ordering a building block](#ordering-a-building-block).
 
 ## Setup
 
@@ -51,10 +54,13 @@ meshstack login --apitoken --stdin      # an access token, sent as it is
 meshstack auth logout                   # drop this profile's credential
 ```
 
-An agent logs in with the foundation's key: pipe `MESHSTACK_API_KEY_CLOUDFOUNDATION` (see the
-`foundation-modules` skill) into the API key login, with key id `6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74`
-and `--endpoint https://federation.demo.meshcloud.io`. A `401 unauthorized_client` on every command
-means the profile holds a rotated secret; log in again.
+Work as the user, through their own browser login. Never log the CLI in with the foundation's API
+key: everything you do then shows up as the key, not as the person who asked for it. When the
+session has expired, ask the user to run `meshstack login`.
+
+A user login mints its token per workspace. `meshstack api` and `bbrun` calls without `--workspace`
+(or `MESHSTACK_WORKSPACE`) act in the profile's default workspace: an object in another workspace
+answers `403`, and its runs come back empty. Name the workspace on those calls.
 
 `--endpoint`, `--workspace`, `--profile` and `--skip-version-check` are global flags with
 `MESHSTACK_`-prefixed env equivalents.
@@ -327,24 +333,14 @@ done
 ```
 
 A block that deletes itself at the end of its run, like a starterkit, drops out of `bb list`. Poll
-its runs instead: `meshstack bbrun list --building-block $B` until the `APPLY` run is terminal.
+its runs instead: `meshstack bbrun list --building-block $B --workspace <workspace>` until the `APPLY` run is terminal.
 
-## Ordering a building block through the REST API
-
-Log in with the foundation's API key (see the `foundation-modules` skill for the secret). `/api/login`
-redirects to the SSO token endpoint, so follow it with `-L`:
-
-```sh
-E=https://federation.demo.meshcloud.io
-T=$(curl -sL -X POST "$E/api/login" \
-  --data-urlencode grant_type=client_credentials \
-  --data-urlencode client_id=6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74 \
-  --data-urlencode "client_secret=$MESHSTACK_API_KEY_CLOUDFOUNDATION" | jq -r .access_token)
-```
+## Ordering a building block
 
 Look up the definition version uuid and the `USER_INPUT` inputs with the `bbdv list` recipe above,
-then post the order. A workspace-level block targets `{kind: "meshWorkspace", name: <workspace>}`;
-a tenant-level one targets `{kind: "meshTenant", uuid: <tenant-uuid>}`:
+then post the order through `meshstack api`. A workspace-level block targets
+`{kind: "meshWorkspace", name: <workspace>}`; a tenant-level one targets
+`{kind: "meshTenant", uuid: <tenant-uuid>}`:
 
 ```sh
 MT=application/vnd.meshcloud.api.meshbuildingblock.v2-preview.hal+json
@@ -353,12 +349,13 @@ jq -n '{apiVersion: "v2-preview", kind: "meshBuildingBlock", spec: {
     buildingBlockDefinitionVersionRef: {kind: "meshBuildingBlockDefinitionVersion", uuid: "<version-uuid>"},
     targetRef: {kind: "meshWorkspace", name: "<workspace>"},
     inputs: {name: {value: "my-project", valueType: "STRING"}}}}' |
-  curl -s -X POST -H "Authorization: Bearer $T" -H "Content-Type: $MT" -H "Accept: $MT" -d @- \
-    "$E/api/meshobjects/meshbuildingblocks" | jq -c '{uuid: .metadata.uuid, status: .status.status}'
+  meshstack api -X POST /api/meshobjects/meshbuildingblocks --workspace <workspace> \
+    -H "Content-Type: $MT" -H "Accept: $MT" --input - |
+  jq -c '{uuid: .metadata.uuid, status: .status.status}'
 ```
 
-A block ordered with an API key has an `ApiKey` author, so a starterkit grants nobody Project Admin.
-A draft definition version can only be ordered in the workspace that owns it.
+The order's author is the logged-in user, so a starterkit grants them Project Admin. A draft
+definition version can only be ordered in the workspace that owns it.
 
 ## Shapes the CLI does not print
 
