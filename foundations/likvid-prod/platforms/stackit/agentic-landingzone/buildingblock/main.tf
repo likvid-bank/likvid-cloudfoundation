@@ -118,7 +118,11 @@ module "stackit_integration" {
 # team sees is built from the landing zones that actually exist, so no configuration is needed to keep
 # the two in step.
 module "stackit_project_starterkit" {
-  source = "github.com/meshcloud/meshstack-hub//modules/stackit/stackit-project-starterkit?ref=${var.hub.git_ref}"
+  source = "./stackit-project-starterkit"
+
+  # The fork lives in the same commit as this architecture, so the starterkit runs what was reviewed
+  # together with it.
+  git_ref = var.buildingblock_git_ref
 
   platform_ref = module.stackit_integration.platform_ref
   landing_zone_refs = merge(

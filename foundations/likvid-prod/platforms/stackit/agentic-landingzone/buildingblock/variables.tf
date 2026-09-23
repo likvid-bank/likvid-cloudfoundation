@@ -101,6 +101,12 @@ variable "playground_mode" {
   description = "Deploy a throwaway platform: the platform identifier gets a random suffix so it does not occupy a name for good, and the landing-zone folder and foundation project are left destroyable. Set to false for a platform that is actually used. A playground platform and the building block definitions it registers are not meant to be published to other workspaces."
 }
 
+variable "buildingblock_git_ref" {
+  type        = string
+  nullable    = false
+  description = "Commit of likvid-cloudfoundation that this building block runs from. The forked project starterkit runs from the same commit."
+}
+
 variable "hub" {
   type = object({
     git_ref   = optional(string, "main")

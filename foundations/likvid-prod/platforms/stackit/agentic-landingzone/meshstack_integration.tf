@@ -210,6 +210,14 @@ resource "meshstack_building_block_definition" "this" {
         argument        = jsonencode(jsonencode(var.hub))
       }
 
+      buildingblock_git_ref = {
+        display_name    = "Building Block Git Ref"
+        description     = "Commit of likvid-cloudfoundation this definition runs from, forwarded to the forked project starterkit it registers."
+        type            = "STRING"
+        assignment_type = "STATIC"
+        argument        = jsonencode(var.buildingblock_git_ref)
+      }
+
       # ── Platform configuration (set by the platform team) ──
 
       stackit_org = {
