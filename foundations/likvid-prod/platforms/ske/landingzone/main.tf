@@ -36,7 +36,8 @@ resource "meshstack_building_block" "this" {
   }
 
   spec = {
-    building_block_definition_version_ref = module.this.building_block_definition.version_ref
+    # Only the uuid: after an import, a content_hash in the config starts a run on the first apply.
+    building_block_definition_version_ref = { uuid = module.this.building_block_definition.version_ref.uuid }
 
     display_name = "STACKIT Kubernetes Platform"
     target_ref = {
@@ -53,6 +54,8 @@ resource "meshstack_building_block" "this" {
       landingzone_variant       = { value = jsonencode("default") }
       dns_parent_domain         = { value = jsonencode("stackit.run") }
       ai_model                  = { value = jsonencode("openai/gpt-oss-120b") }
+
+      harbor_username = { value = jsonencode("robot$ske-platform-thfp14-se7l+bootstrap") }
 
       starterkit_app_name        = { value = jsonencode("ai-summarizer") }
       starterkit_repo_clone_addr = { value = jsonencode("https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git") }
