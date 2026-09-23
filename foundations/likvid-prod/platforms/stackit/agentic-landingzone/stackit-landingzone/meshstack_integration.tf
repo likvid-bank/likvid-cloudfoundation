@@ -42,6 +42,12 @@ variable "hub" {
   EOT
 }
 
+variable "buildingblock_git_ref" {
+  type        = string
+  nullable    = false
+  description = "Commit of likvid-cloudfoundation that meshStack checks out `buildingblock/` from. Use a commit sha: with a branch, a push would change what the next run executes without a new definition version."
+}
+
 variable "approval_policies" {
   type = object({
     building_block_creation = optional(bool, false)
@@ -246,9 +252,9 @@ resource "meshstack_building_block_definition" "this" {
     implementation = {
       terraform = {
         terraform_version              = "1.12.5"
-        repository_url                 = "https://github.com/meshcloud/meshstack-hub.git"
-        repository_path                = "reference-architectures/stackit-landingzone/buildingblock"
-        ref_name                       = var.hub.git_ref
+        repository_url                 = "https://github.com/likvid-bank/likvid-cloudfoundation.git"
+        repository_path                = "foundations/likvid-prod/platforms/stackit/agentic-landingzone/stackit-landingzone/buildingblock"
+        ref_name                       = var.buildingblock_git_ref
         async                          = false
         use_mesh_http_backend_fallback = true
       }
