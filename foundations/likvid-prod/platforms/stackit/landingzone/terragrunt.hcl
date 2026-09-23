@@ -15,7 +15,7 @@ include "platform" {
 
 inputs = {
   hub = {
-    git_ref   = "7b60d9c73ddc6dbbd3657dd09d5548a21e788268"
+    git_ref   = "36164c0dcfd8e61adcd4cbb27cf45e95241de38b"
     bbd_draft = true
   }
 
