@@ -1,143 +1,38 @@
-variable "bbd_display_name" {
-  type        = string
-  default     = null
-  description = "Overrides the name of the marketplace entry application teams see in the catalog."
-}
-
-variable "bbd_description" {
-  type        = string
-  default     = null
-  description = "Overrides the one-line description shown next to the marketplace entry."
-}
-
-variable "bbd_readme" {
-  type        = string
-  default     = null
-  description = "Overrides the markdown readme shown in the marketplace before ordering."
-}
-
-variable "meshstack" {
-  type = object({
-    owning_workspace_identifier = string
-    tags                        = optional(map(list(string)), {})
-  })
-  description = "Shared meshStack context. Tags are optional and propagated to building block definition metadata."
-}
-
-variable "hub" {
-  type = object({
-    git_ref   = optional(string, "main")
-    bbd_draft = optional(bool, true)
-  })
-  const = true
-
-  default = {
-    git_ref   = "main"
-    bbd_draft = true
-  }
-
-  description = <<-EOT
-  `git_ref`: Hub release reference. Set to a tag (e.g. 'v1.2.3') or branch or commit sha of the meshstack-hub repo.
-  `bbd_draft`: If true, the building block definition version is kept in draft mode.
-  EOT
-}
-
-variable "buildingblock_git_ref" {
-  type        = string
-  nullable    = false
-  description = "Commit of likvid-cloudfoundation that meshStack checks out `buildingblock/` from. Use a commit sha: with a branch, a push would change what the next run executes without a new definition version."
-}
-
-variable "approval_policies" {
-  type = object({
-    building_block_creation = optional(bool, false)
-    user_input_changes      = optional(bool, false)
-    any_input_changes       = optional(bool, false)
-    manual_triggers         = optional(bool, false)
-    version_upgrade         = optional(bool, false)
-  })
-  nullable = false
-  default = {
-    building_block_creation = false
-    user_input_changes      = false
-    any_input_changes       = false
-    manual_triggers         = false
-    version_upgrade         = false
-  }
-  description = "Run triggers that need an operator's approval before a run of this architecture is applied. The defaults are the provider's own, and the provider asserts them whenever the definition sets no policies — so a gate switched on in meshPanel is turned off again by the next apply unless it is set here."
-}
-
-variable "starterkit_approval_policies" {
-  type = object({
-    building_block_creation = optional(bool, false)
-    user_input_changes      = optional(bool, false)
-    any_input_changes       = optional(bool, false)
-    manual_triggers         = optional(bool, false)
-    version_upgrade         = optional(bool, false)
-  })
-  nullable = false
-
-  # Spelled out rather than left to the `optional()` defaults: this variable feeds a definition
-  # input's `argument`, and a consumer that does not evaluate object-attribute defaulting would
-  # see unset fields. See .agents/references/meshstack-integration.md.
-  default = {
-    building_block_creation = false
-    user_input_changes      = false
-    any_input_changes       = false
-    manual_triggers         = false
-    version_upgrade         = false
-  }
-  description = "The same, for the project starterkit definition this architecture registers. Set `building_block_creation` to have an operator approve every project an application team orders."
-}
-
-variable "playground_mode" {
-  type     = bool
-  nullable = false
-  default  = true
-
-  description = "Deploy a throwaway platform: the platform identifier gets a random suffix so it does not occupy a name for good, and the landing-zone folder and foundation project are left destroyable. Set to false for a platform that is actually used. Passed to the building block as a STATIC input, so whoever orders the architecture cannot choose. A playground platform and the building block definitions it registers are not meant to be published to other workspaces."
-}
-
-variable "stackit_service_account_email" {
-  type        = string
-  nullable    = false
-  description = "Email of the STACKIT service account the building block runs as. You create it by hand, give it the roles described in the README, and let it trust the `workload_identity_federation` output."
-}
-
 data "meshstack_integrations" "integrations" {}
 
 output "workload_identity_federation" {
-  description = "Issuer and subject to register as a federated identity provider on `stackit_service_account_email`, with audience `api://AzureADTokenExchange`."
+  description = "Register this on `stackit_service_account_email` as a federated identity provider, with audience `api://AzureADTokenExchange`."
   value = {
     issuer  = data.meshstack_integrations.integrations.workload_identity_federation.replicator.issuer
-    subject = "${trimsuffix(data.meshstack_integrations.integrations.workload_identity_federation.replicator.subject, ":replicator")}:workspace.${var.meshstack.owning_workspace_identifier}.buildingblockdefinition.${meshstack_building_block_definition.this.metadata.uuid}"
-  }
-}
-
-output "building_block_definition" {
-  description = "BBD is consumed in building block compositions."
-  value = {
-    uuid        = meshstack_building_block_definition.this.metadata.uuid
-    version_ref = var.hub.bbd_draft ? meshstack_building_block_definition.this.version_latest : meshstack_building_block_definition.this.version_latest_release
+    subject = "${trimsuffix(data.meshstack_integrations.integrations.workload_identity_federation.replicator.subject, ":replicator")}:workspace.${local.workspace}.buildingblockdefinition.${meshstack_building_block_definition.this.metadata.uuid}"
   }
 }
 
 resource "meshstack_building_block_definition" "this" {
   metadata = {
-    owned_by_workspace = var.meshstack.owning_workspace_identifier
-    tags               = var.meshstack.tags
+    owned_by_workspace = local.workspace
   }
 
   spec = {
-    display_name      = coalesce(var.bbd_display_name, "STACKIT Landing Zone Reference Architecture")
-    symbol            = "https://raw.githubusercontent.com/meshcloud/meshstack-hub/${var.hub.git_ref}/reference-architectures/stackit-landingzone/buildingblock/logo.png"
-    description       = coalesce(var.bbd_description, "Onboards a STACKIT sandbox platform into meshStack: a location, resourcemanager folder and the STACKIT Project platform with its default landing zone. Optionally layers on a hub-and-spoke network topology when a network config is provided.")
-    support_url       = "https://portal.stackit.cloud"
-    target_type       = "WORKSPACE_LEVEL"
-    run_transparency  = true
-    approval_policies = var.approval_policies
+    display_name     = "STACKIT Landing Zone Reference Architecture"
+    symbol           = "https://raw.githubusercontent.com/meshcloud/meshstack-hub/${var.hub.git_ref}/reference-architectures/stackit-landingzone/buildingblock/logo.png"
+    description      = "Onboards a STACKIT sandbox platform into meshStack: a location, resourcemanager folder and the STACKIT Project platform with its default landing zone. Optionally layers on a hub-and-spoke network topology when a network config is provided."
+    support_url      = "https://portal.stackit.cloud"
+    target_type      = "WORKSPACE_LEVEL"
+    run_transparency = true
 
-    readme = coalesce(var.bbd_readme, chomp(<<-EOT
+    # Every change the agent proposes reaches STACKIT as a version upgrade, so it waits for approval.
+    # The provider asserts its own defaults whenever a definition sets no policies, so a gate switched
+    # on only in meshPanel is turned off again by the next apply.
+    approval_policies = {
+      building_block_creation = false
+      user_input_changes      = false
+      any_input_changes       = false
+      manual_triggers         = true
+      version_upgrade         = true
+    }
+
+    readme = chomp(<<-EOT
     The **STACKIT Landing Zone** building block bootstraps a complete STACKIT sandbox platform
     integration inside a meshStack workspace. Running it once turns a STACKIT organization into a
     sandbox-ready self-service platform: it registers a meshStack location, carves out a dedicated
@@ -241,7 +136,7 @@ resource "meshstack_building_block_definition" "this" {
     | (Optional) Order spoke networks inside their STACKIT projects | ❌ | ✅ |
     | Manage workloads inside the provisioned STACKIT projects | ❌ | ✅ |
     EOT
-    ))
+    )
   }
 
   version_spec = {
@@ -270,7 +165,7 @@ resource "meshstack_building_block_definition" "this" {
       terraform = {
         terraform_version              = "1.12.5"
         repository_url                 = "https://github.com/likvid-bank/likvid-cloudfoundation.git"
-        repository_path                = "foundations/likvid-prod/platforms/stackit/agentic-landingzone/stackit-landingzone/buildingblock"
+        repository_path                = "foundations/likvid-prod/platforms/stackit/agentic-landingzone/buildingblock"
         ref_name                       = var.buildingblock_git_ref
         async                          = false
         use_mesh_http_backend_fallback = true
@@ -422,7 +317,13 @@ resource "meshstack_building_block_definition" "this" {
         description     = "HCL object of approval gates applied to the project starterkit definition this registers. Fixed by whoever deployed this definition."
         type            = "CODE"
         assignment_type = "STATIC"
-        argument        = jsonencode(jsonencode(var.starterkit_approval_policies))
+        argument = jsonencode(jsonencode({
+          building_block_creation = false
+          user_input_changes      = false
+          any_input_changes       = false
+          manual_triggers         = false
+          version_upgrade         = false
+        }))
       }
 
       playground_mode = {
@@ -430,7 +331,7 @@ resource "meshstack_building_block_definition" "this" {
         description     = "Throwaway deployment: the identifier gets a random suffix and nothing is protected against deletion. Do not publish such a platform or its definitions to other workspaces. Set false for real use."
         type            = "BOOLEAN"
         assignment_type = "STATIC"
-        argument        = jsonencode(var.playground_mode)
+        argument        = jsonencode(true) # a demo instance, never published
       }
     }
 
@@ -468,17 +369,6 @@ resource "meshstack_building_block_definition" "this" {
         type            = "STRING"
         assignment_type = "SUMMARY"
       }
-    }
-  }
-}
-
-terraform {
-  required_version = ">= 1.12.0"
-
-  required_providers {
-    meshstack = {
-      source  = "meshcloud/meshstack"
-      version = ">= 0.25.2"
     }
   }
 }

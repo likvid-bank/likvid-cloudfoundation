@@ -7,30 +7,9 @@ locals {
   workspace = "agentic-platform"
 }
 
-module "this" {
-  source = "./stackit-landingzone"
-
-  meshstack = {
-    owning_workspace_identifier = local.workspace
-  }
-
-  hub                           = var.hub
-  buildingblock_git_ref         = var.buildingblock_git_ref
-  stackit_service_account_email = var.stackit_service_account_email
-
-  approval_policies = {
-    manual_triggers = true
-    version_upgrade = true
-  }
-
-  # A demo instance: the platform identifier gets a random suffix and nothing is protected against
-  # deletion.
-  playground_mode = true
-}
-
 resource "meshstack_building_block" "this" {
   spec = {
-    building_block_definition_version_ref = module.this.building_block_definition.version_ref
+    building_block_definition_version_ref = meshstack_building_block_definition.this.version_latest
 
     display_name = "Agentic STACKIT Landing Zone"
     target_ref   = { kind = "meshWorkspace", name = local.workspace }
@@ -81,9 +60,4 @@ resource "meshstack_building_block" "this" {
       })) }
     }
   }
-}
-
-output "workload_identity_federation" {
-  description = "Register this on `stackit_service_account_email` as a federated identity provider, see the architecture's README."
-  value       = module.this.workload_identity_federation
 }

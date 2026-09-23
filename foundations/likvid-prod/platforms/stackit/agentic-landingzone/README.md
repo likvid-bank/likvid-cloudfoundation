@@ -70,19 +70,19 @@ Running this reference architecture always:
    projects are created inside this folder.
 2. Creates a **STACKIT foundation project** directly under the organization to host the
    project-creation service account and other landing-zone core assets.
-3. Sources the [`modules/stackit`](../../modules/stackit) platform integration to register the
+3. Sources the [`modules/stackit`](https://github.com/meshcloud/meshstack-hub/tree/103b8cf6cf4569f4e457e33f1407cb360d6f89a8/modules/stackit) platform integration to register the
    **STACKIT Project** platform and its default landing zone in meshStack, wired to the foundation
    service account.
-4. Registers the [`stackit/service-account`](../../modules/stackit/service-account) building block
+4. Registers the [`stackit/service-account`](https://github.com/meshcloud/meshstack-hub/tree/103b8cf6cf4569f4e457e33f1407cb360d6f89a8/modules/stackit/service-account) building block
    definition (`TENANT_LEVEL`) so application teams can self-service create a STACKIT service account
    — with project roles and optional workload identity federation — inside their own projects.
 
 When a **network** configuration is provided, it additionally:
 
-5. Registers the [`stackit/network-area`](../../modules/stackit/network-area) building block
+5. Registers the [`stackit/network-area`](https://github.com/meshcloud/meshstack-hub/tree/103b8cf6cf4569f4e457e33f1407cb360d6f89a8/modules/stackit/network-area) building block
    definition and immediately orders **one instance** of it in the platform team's own workspace —
    this is the hub's IPv4 address plan.
-6. Registers the [`stackit/network`](../../modules/stackit/network) building block definition
+6. Registers the [`stackit/network`](https://github.com/meshcloud/meshstack-hub/tree/103b8cf6cf4569f4e457e33f1407cb360d6f89a8/modules/stackit/network) building block definition
    (`TENANT_LEVEL`) so application teams can self-service order routed networks (spokes) inside
    their STACKIT projects, drawing from the hub's address plan.
 7. Provisions an additional **networked project definition and landing zone**. The networked
@@ -99,7 +99,7 @@ architecture creates lives in the foundation project and creates tenant projects
 
 The account you supply has to exist before the definition runs, since nothing can create it
 earlier. Create it by hand, then add a federated identity provider to it with the `issuer` and
-`subject` from the module output `workload_identity_federation`, and the assertion
+`subject` from the unit output `workload_identity_federation`, and the assertion
 `aud equals api://AzureADTokenExchange`. The subject contains the definition's uuid, so this trust
 covers only this definition and outlives its version upgrades.
 
@@ -136,8 +136,8 @@ projects once those projects exist.
 
 ### Playground Mode
 
-`playground_mode` defaults to `true`, so an unconfigured deployment is a throwaway one. Two things
-change with it:
+`playground_mode` is `true` in this unit, so the deployment is a throwaway one. Two things change
+with it:
 
 | | `playground_mode = true` | `playground_mode = false` |
 |---|---|---|
@@ -159,14 +159,14 @@ happens outside the Terraform run, such as someone removing the folder in the ST
 
 The flag belongs to whoever deploys the definition, not to whoever orders it. It reaches the
 building block as a `STATIC` input, so it does not appear as a choice in the order form and a
-consumer cannot turn a real platform into a playground one, or the reverse. Change it by setting
-`playground_mode` on the reference architecture module and deploying a new definition version.
+consumer cannot turn a real platform into a playground one, or the reverse. Change its `argument`
+in `meshstack_integration.tf` and deploy a new definition version.
 
 ### Approval Gates
 
-`approval_policies` sets which run triggers need an operator's approval before a run of this
-architecture is applied; `starterkit_approval_policies` does the same for the project starterkit
-definition it registers. Both default to no gate at all.
+The definition in `meshstack_integration.tf` needs an operator's approval for manual triggers and
+version upgrades. The `starterkit_approval_policies` input sets the gates for the project starterkit
+definition it registers, which has none.
 
 ## Shared Responsibilities
 

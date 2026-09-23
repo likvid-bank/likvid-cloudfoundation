@@ -7,8 +7,8 @@ include "platform" {
 }
 
 inputs = {
-  # Sources the nested hub integrations that the building block registers. The architecture itself
-  # is the local copy in ./stackit-landingzone.
+  # Sources the nested hub integrations that the building block registers. The architecture itself is
+  # the local copy in this unit.
   hub = {
     git_ref   = "103b8cf6cf4569f4e457e33f1407cb360d6f89a8"
     bbd_draft = true

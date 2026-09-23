@@ -8,13 +8,13 @@ description: Onboards a STACKIT sandbox platform into meshStack (location, resou
 This building block bootstraps a complete STACKIT sandbox platform integration inside a meshStack
 workspace. It creates a meshStack location, a dedicated STACKIT resourcemanager folder and a
 foundation project hosting the landing-zone core assets, then sources the
-[`modules/stackit`](../../../modules/stackit) project integration to provision the STACKIT Project
+[`modules/stackit`](https://github.com/meshcloud/meshstack-hub/tree/103b8cf6cf4569f4e457e33f1407cb360d6f89a8/modules/stackit) project integration to provision the STACKIT Project
 platform together with its default landing zone.
 
 When a `network` object is supplied, it additionally composes two more Hub modules into the same
-offering: it registers [`modules/stackit/network-area`](../../../modules/stackit/network-area) and
+offering: it registers [`modules/stackit/network-area`](https://github.com/meshcloud/meshstack-hub/tree/103b8cf6cf4569f4e457e33f1407cb360d6f89a8/modules/stackit/network-area) and
 immediately orders one instance of it as the hub address plan, and registers
-[`modules/stackit/network`](../../../modules/stackit/network) so application teams can self-service
+[`modules/stackit/network`](https://github.com/meshcloud/meshstack-hub/tree/103b8cf6cf4569f4e457e33f1407cb360d6f89a8/modules/stackit/network) so application teams can self-service
 order routed spoke networks inside their STACKIT projects. New STACKIT projects are then placed in
 the hub's network area via an additional `networked` landing zone tagged with the hub's network
 area ID. Leaving `network` unset (`null`) deploys only the sandbox landing zone.
