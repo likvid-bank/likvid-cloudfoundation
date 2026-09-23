@@ -36,8 +36,7 @@ resource "meshstack_building_block" "this" {
   }
 
   spec = {
-    # Only the uuid: after an import, a content_hash in the config starts a run on the first apply.
-    building_block_definition_version_ref = { uuid = module.this.building_block_definition.version_ref.uuid }
+    building_block_definition_version_ref = module.this.building_block_definition.version_ref
 
     display_name = "STACKIT Kubernetes Platform"
     target_ref = {
