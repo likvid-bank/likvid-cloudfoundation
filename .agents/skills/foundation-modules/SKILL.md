@@ -13,10 +13,12 @@ LCF is a Terragrunt monorepo. Modules live under `foundations/likvid-prod/`. Eac
 
 ## Prerequisites
 
-The nix devShell must be active or the nix profile available. Confirm:
+`terragrunt` and `tofu` exist only inside the nix devShell. An agent's shell does not have it
+active, and a plain `zsh -c` fails with `command not found: terragrunt` (verified 2026-09-23).
+Confirm:
 
 ```bash
-which terragrunt  # should resolve to a nix store path
+nix develop /Users/jrudolph/dev/mc/likvid-cloudfoundation --command which terragrunt  # a nix store path
 ```
 
 ---
@@ -25,11 +27,14 @@ which terragrunt  # should resolve to a nix store path
 
 `setup-env.sh` loads secrets from Vault (via kubectl port-forward). **It must be sourced in zsh** — it uses `$ZSH_VERSION` and fails silently in bash.
 
-Claude Code's Bash tool runs bash. Always wrap commands that need Vault credentials:
+Claude Code's Bash tool runs bash. Always wrap commands that need Vault credentials in both the
+devShell and zsh. The first run of `nix develop` in a session takes a while; later runs are fast:
 
 ```bash
-/bin/zsh -c "source setup-env.sh && terragrunt apply -auto-approve"
+nix develop /Users/jrudolph/dev/mc/likvid-cloudfoundation --command zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh >/dev/null 2>&1 && terragrunt apply -auto-approve"
 ```
+
+Redirect `setup-env.sh` output as shown, or its Vault chatter buries the plan.
 
 After sourcing, these env vars are available (verified 2026-06-10):
 
@@ -47,14 +52,14 @@ After sourcing, these env vars are available (verified 2026-06-10):
 
 ```bash
 cd foundations/likvid-prod/<module-path>
-/bin/zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh && terragrunt plan"
+nix develop /Users/jrudolph/dev/mc/likvid-cloudfoundation --command zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh >/dev/null 2>&1 && terragrunt plan"
 ```
 
 Real example (storage-buckets):
 
 ```bash
 cd foundations/likvid-prod/platforms/stackit/buildingblocks/storage-buckets
-/bin/zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh && terragrunt plan"
+nix develop /Users/jrudolph/dev/mc/likvid-cloudfoundation --command zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh >/dev/null 2>&1 && terragrunt plan"
 ```
 
 ---
@@ -62,7 +67,7 @@ cd foundations/likvid-prod/platforms/stackit/buildingblocks/storage-buckets
 ## Applying
 
 ```bash
-/bin/zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh && terragrunt apply -auto-approve"
+nix develop /Users/jrudolph/dev/mc/likvid-cloudfoundation --command zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh >/dev/null 2>&1 && terragrunt apply -auto-approve"
 ```
 
 ---
@@ -101,7 +106,7 @@ Then re-init (module source changed) and apply:
 
 ```bash
 cd foundations/likvid-prod/platforms/<provider>/buildingblocks/<service>
-/bin/zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh && terragrunt run -- init -upgrade && terragrunt apply -auto-approve"
+nix develop /Users/jrudolph/dev/mc/likvid-cloudfoundation --command zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh >/dev/null 2>&1 && terragrunt run -- init -upgrade && terragrunt apply -auto-approve"
 ```
 
 The apply updates the Building Block Definition in meshStack with the new content hash. Verify the output shows the BBD updated with a new `content_hash`.
@@ -113,7 +118,7 @@ The `e2e/` sibling directory sources the hub's own `e2e/` module at the same git
 ```bash
 cd foundations/likvid-prod/platforms/<provider>/buildingblocks/<service>/e2e
 rm -rf .terragrunt-cache   # always clear — stale cache refers to old git ref
-/bin/zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh && terragrunt init -upgrade && terragrunt test"
+nix develop /Users/jrudolph/dev/mc/likvid-cloudfoundation --command zsh -c "source /Users/jrudolph/dev/mc/likvid-cloudfoundation/setup-env.sh >/dev/null 2>&1 && terragrunt init -upgrade && terragrunt test"
 ```
 
 Expected output when passing:
@@ -264,14 +269,14 @@ terraform {
 **3. Re-init with upgrade** (resolves the lock file):
 
 ```zsh
-terragruntrun -- init -upgrade
+terragrunt run -- init -upgrade
 ```
 
 **4. Plan and apply**:
 
 ```zsh
-terragruntplan
-terragruntapply
+terragrunt plan
+terragrunt apply
 ```
 
 ---
@@ -280,7 +285,7 @@ terragruntapply
 
 ```zsh
 cd foundations/likvid-prod/platforms/stackit/buildingblocks/storage-buckets/e2e
-terragrunttest
+terragrunt test
 ```
 
 The `e2e/terragrunt.hcl` reads outputs from the sibling deployment directory as its dependency — apply the parent module first.
@@ -324,7 +329,7 @@ terraform {
 
 ## Gotchas
 
-- **setup-env.sh fails in bash** — `ZSH_VERSION: unbound variable` at line 104. Always source in zsh. Claude Code's Bash tool runs bash; work around with `/bin/zsh -c "source setup-env.sh && ..."`. Use absolute path to `setup-env.sh` to avoid working-directory issues.
+- **setup-env.sh fails in bash** — `ZSH_VERSION: unbound variable` at line 104. Always source in zsh. Claude Code's Bash tool runs bash; work around with the devShell wrapper from § Credential Setup. Use absolute path to `setup-env.sh` to avoid working-directory issues.
 
 - **meshstack provider version cap** — provider `0.22.0` requires meshStack server `2026.24.0+`. If the server is on `2026.23.0`, cap at `~> 0.21.0` in `terraform.tf`. The e2e `terragrunt.hcl` must also generate a `versions_override.tf` with this cap, since the hub's e2e module has no version pin of its own.
 
@@ -356,7 +361,8 @@ terraform {
 
 | Error | Fix |
 |-------|-----|
-| `ZSH_VERSION: unbound variable` | Use `/bin/zsh -c "source setup-env.sh && ..."` |
+| `ZSH_VERSION: unbound variable` | Source `setup-env.sh` in zsh, see § Credential Setup |
+| `command not found: terragrunt` | Run inside `nix develop <repo> --command ...`, see § Credential Setup |
 | `locked provider X does not match configured version constraint` | `terragrunt run -- init -upgrade` |
 | `~> X.Y.0, >= X.Z.0` unsatisfiable | Change local constraint from `~> X.Y.0` to `>= X.Y.0` in `terraform.tf` |
 | `unsupported meshStack version: requires 2026.24.0+` | Cap meshstack provider to `~> 0.21.0` |

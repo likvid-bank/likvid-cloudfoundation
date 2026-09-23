@@ -6,7 +6,8 @@ description: >
   cheap, and how to look up shapes the CLI does not print in the meshStack OpenAPI spec.
   Use when asked to list, inspect or debug workspaces, building blocks, building block
   definitions or building block runs, or to report on the health of the building blocks a
-  platform team provides.
+  platform team provides. Also covers preflight runs and approvals, meshPanel deep links, waiting
+  for a run, and ordering a building block through the REST API.
 ---
 
 # meshStack CLI
@@ -25,7 +26,9 @@ The CLI is a read-only window into meshStack today. Everything it can do:
 The `bbd`, `bbdv` and `logs` commands are marked **experimental** — their output shape may still
 change, so re-check a field before trusting a stale recipe.
 
-Creating or changing anything goes through Terraform, not this CLI.
+Creating or changing anything goes through Terraform, not this CLI. The exception is a one-off order
+that Terraform cannot converge on, such as a starterkit: see
+[Ordering a building block through the REST API](#ordering-a-building-block-through-the-rest-api).
 
 ## Setup
 
@@ -273,6 +276,84 @@ of kilobytes. Read one step at a time when you need it:
 meshstack bbrun logs <run-uuid> -o ndjson |
   jq -r '.steps[] | select(.displayName == "Run Terraform Apply") | .systemMessage'
 ```
+
+## Approval gates and preflight runs
+
+A definition with `approval_policies` does not apply a gated change straight away. meshStack first
+runs a **preflight**: a dry run, listed with `spec.behavior == "DETECT"`. The `APPLY` run after it
+parks in `WAITING_FOR_APPROVAL` until someone approves it in meshPanel. The approver sees the
+preflight's plan, so read it yourself before you ask for the approval:
+
+```sh
+meshstack bbrun logs <preflight-run-uuid> -o ndjson |
+  jq -r '.steps[].systemMessage // ""' |
+  grep -E "will be (created|destroyed|updated|replaced)|must be replaced|Plan:"
+```
+
+Report the `Plan:` line and anything unexpected, and hand the user a deep link (below). A
+Terraform apply that updates such a block ends with the provider warning `Building block run is
+waiting for input or approval` — that is the gate, not an error.
+
+## Linking into meshPanel
+
+Give the user a link whenever you ask them to act in meshPanel. A building block, by uuid:
+
+```
+https://panel.demo.meshcloud.io/#/s/<workspace>/building-blocks/building-blocks-overview?healthStatus=NONE,SUCCEEDED,FAILED&buildingBlock=<uuid>
+```
+
+meshPanel's own links carry the numeric id of meshStack's internal API instead of the uuid. That id
+is not exposed to an API key, so do not try to build those.
+
+## Waiting for a run
+
+Poll the block's status until it reaches a terminal state, and emit only on change. Every terminal
+state has to end the loop, or a failure looks like a run that is still going:
+
+```sh
+B=<uuid>; prev=""
+while true; do
+  s=$(meshstack bb list --workspace <workspace> -o ndjson 2>/dev/null |
+      jq -r "select(.metadata.uuid==\"$B\") | .status.status" || true)
+  [ -n "$s" ] && [ "$s" != "$prev" ] && echo "block status: $s" && prev=$s
+  case "$s" in SUCCEEDED|FAILED|ABORTED) exit 0;; esac
+  sleep 30
+done
+```
+
+A block that deletes itself at the end of its run, like a starterkit, drops out of `bb list`. Poll
+its runs instead: `meshstack bbrun list --building-block $B` until the `APPLY` run is terminal.
+
+## Ordering a building block through the REST API
+
+Log in with the foundation's API key (see the `foundation-modules` skill for the secret). `/api/login`
+redirects to the SSO token endpoint, so follow it with `-L`:
+
+```sh
+E=https://federation.demo.meshcloud.io
+T=$(curl -sL -X POST "$E/api/login" \
+  --data-urlencode grant_type=client_credentials \
+  --data-urlencode client_id=6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74 \
+  --data-urlencode "client_secret=$MESHSTACK_API_KEY_CLOUDFOUNDATION" | jq -r .access_token)
+```
+
+Look up the definition version uuid and the `USER_INPUT` inputs with the `bbdv list` recipe above,
+then post the order. A workspace-level block targets `{kind: "meshWorkspace", name: <workspace>}`;
+a tenant-level one targets `{kind: "meshTenant", uuid: <tenant-uuid>}`:
+
+```sh
+MT=application/vnd.meshcloud.api.meshbuildingblock.v2-preview.hal+json
+jq -n '{apiVersion: "v2-preview", kind: "meshBuildingBlock", spec: {
+    displayName: "my-project",
+    buildingBlockDefinitionVersionRef: {kind: "meshBuildingBlockDefinitionVersion", uuid: "<version-uuid>"},
+    targetRef: {kind: "meshWorkspace", name: "<workspace>"},
+    inputs: {name: {value: "my-project", valueType: "STRING"}}}}' |
+  curl -s -X POST -H "Authorization: Bearer $T" -H "Content-Type: $MT" -H "Accept: $MT" -d @- \
+    "$E/api/meshobjects/meshbuildingblocks" | jq -c '{uuid: .metadata.uuid, status: .status.status}'
+```
+
+A block ordered with an API key has an `ApiKey` author, so a starterkit grants nobody Project Admin.
+A draft definition version can only be ordered in the workspace that owns it.
 
 ## Shapes the CLI does not print
 

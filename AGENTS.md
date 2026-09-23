@@ -15,6 +15,8 @@ a symlink to `.agents/`, so Claude Code and other agents share the same skills):
   modules: consume them as deployed building blocks and run foundation e2e smoke tests. Links to the
   hub's `e2e-test` skill, the **single source of truth** for the e2e invocation protocol.
 - **[meshStack-cli](.agents/skills/meshstack-cli/SKILL.md)** — `meshstack` is the command-line interface to meshstack.
+- **[`agentic-landingzone`](.agents/skills/agentic-landingzone/SKILL.md)** — roll out a change to the
+  agentic STACKIT landing zone: pin, apply, preflight, approval, verify with a starterkit order.
 
 ## Conventions
 
