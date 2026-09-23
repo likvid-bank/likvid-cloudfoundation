@@ -21,13 +21,13 @@ resource "meshstack_building_block_definition" "this" {
     target_type      = "WORKSPACE_LEVEL"
     run_transparency = true
 
-    # Every change the agent proposes reaches STACKIT as a version upgrade, so it waits for approval.
-    # The provider asserts its own defaults whenever a definition sets no policies, so a gate switched
-    # on only in meshPanel is turned off again by the next apply.
+    # A change the agent proposes reaches STACKIT as a version upgrade or an input change, so both
+    # wait for approval. The provider asserts its own defaults whenever a definition sets no policies,
+    # so a gate switched on only in meshPanel is turned off again by the next apply.
     approval_policies = {
       building_block_creation = false
-      user_input_changes      = false
-      any_input_changes       = false
+      user_input_changes      = true
+      any_input_changes       = true
       manual_triggers         = true
       version_upgrade         = true
     }

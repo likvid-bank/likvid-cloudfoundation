@@ -14,14 +14,6 @@ resource "meshstack_building_block" "this" {
     display_name = "Agentic STACKIT Landing Zone"
     target_ref   = { kind = "meshWorkspace", name = local.workspace }
 
-    # A version upgrade is how a proposed change reaches the cloud, so it waits for an approval.
-    approval_policies = {
-      any_input_changes  = true
-      manual_triggers    = true
-      user_input_changes = true
-      version_upgrade    = true
-    }
-
     inputs = {
       platform_identifier = { value = jsonencode("agentic-stackit") }
       use_global_location = { value = jsonencode(true) }
