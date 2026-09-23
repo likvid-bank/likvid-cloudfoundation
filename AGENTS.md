@@ -21,7 +21,8 @@ a symlink to `.agents/`, so Claude Code and other agents share the same skills):
 ## Conventions
 
 - **Terragrunt + OpenTofu.** Use `terragrunt` / `tofu` (not `terraform`); tooling comes from the nix
-  devShell (`nix develop`).
+  devShell (`nix develop`). The exception is `platforms/stackit/agentic-landingzone`: a throwaway
+  demo in plain `tofu`, with local state and the user's meshStack CLI login (see its skill).
 - **Credentials first.** `setup-env.sh` must be sourced in zsh (see the `foundation-modules` skill).
 - **Local Development requires cloud provider shells authenticated** see `aws sso login` `az login` instructions in [README.md](./README.md)
 - **Hub modules are pinned by Git ref.** Source hub modules via

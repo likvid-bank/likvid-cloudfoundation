@@ -11,23 +11,25 @@ description: >
 # Agentic STACKIT Landing Zone
 
 The unit deploys one building block, the landing zone architecture, into the `agentic-platform`
-workspace. meshStack runs the architecture's code, not Terragrunt, and every run of it waits for a
-platform engineer's approval. Your job is to propose the change as commits and get it to that
+workspace. meshStack runs the architecture's code, and every run of it waits for a platform
+engineer's approval. Your job is to propose the change as commits and get it to that
 approval with a clean preflight.
 
 ## Layout
 
 | Path | What it is |
 |---|---|
-| `terragrunt.hcl` | Pins: `hub.git_ref` for all nested hub modules, `buildingblock_git_ref` for the code meshStack runs |
+| `variables.tf` | Pins, as defaults: `hub.git_ref` for all nested hub modules, `buildingblock_git_ref` for the code meshStack runs |
 | `meshstack_integration.tf` | The architecture's definition: inputs, approval gates, the readme shown in meshPanel |
 | `main.tf` | The one building block instance and its inputs |
+| `provider.tf` | Runs as the user's meshStack CLI login. No secret, no Terragrunt, state in a local `terraform.tfstate` |
 | `buildingblock/` | The architecture meshStack runs. Registers the platform, landing zones and nested definitions |
 | `buildingblock/stackit-project-starterkit/` | Fork of the hub starterkit. Runs from the same commit as the architecture |
 
 ## Rollout loop
 
-Credentials and the devShell wrapper come from the `foundation-modules` skill; the meshStack reads
+The unit is plain OpenTofu. It needs the user's `meshstack login` and `tofu` from the nix devShell
+(`nix develop <repo> --command tofu ...`), and neither Vault nor gcloud. The meshStack reads come
 from the `meshstack-cli` skill.
 
 1. **Edit** `buildingblock/`. Update the definition readme in `meshstack_integration.tf` and
@@ -36,7 +38,7 @@ from the `meshstack-cli` skill.
    `hub` is a `const` variable, so `init` needs it too:
 
    ```bash
-   H='hub={git_ref="<hub.git_ref from terragrunt.hcl>",bbd_draft=true}'
+   H='hub={git_ref="<hub.git_ref from variables.tf>",bbd_draft=true}'
    cp -R buildingblock <scratch>/bb && cd <scratch>/bb
    tofu init -backend=false -var="$H" >/dev/null && tofu validate -var="$H"
    ```
@@ -45,8 +47,9 @@ from the `meshstack-cli` skill.
    Run `tofu fmt -check -recursive` on the unit.
 3. **Commit, then pin.** meshStack checks out `buildingblock_git_ref` from GitHub. Commit the change,
    move `buildingblock_git_ref` onto that commit in a second commit, and push both.
-4. **Plan and apply** the unit. Expect `2 to change`: the definition (new `ref_name`) and the block.
-   Anything else is a surprise to explain before you apply.
+4. **Plan and apply** the unit: `tofu plan -out=plan.tfplan`, then `tofu apply plan.tfplan`. Expect
+   `2 to change`: the definition (new `ref_name`) and the block. Anything else is a surprise to
+   explain before you apply.
 5. **Read the preflight.** Find the newest `DETECT` run of the block and read its plan (recipe in
    `meshstack-cli`, § Approval gates and preflight runs). Look up the block's uuid with
    `meshstack bb list --workspace agentic-platform`, display name `Agentic STACKIT Landing Zone`.
@@ -54,6 +57,13 @@ from the `meshstack-cli` skill.
    for a terminal status (`meshstack-cli`, § Waiting for a run).
 7. **Verify** a change that affects projects by ordering the starterkit
    (`meshstack-cli`, § Ordering a building block).
+
+## Local state
+
+`terraform.tfstate` exists only on the machine that last applied the unit. Without it, a plan wants
+to create the definition and the block again. Import both by uuid instead
+(`tofu import meshstack_building_block_definition.this <uuid>`, the same for
+`meshstack_building_block.this`), or delete the block in meshPanel and let the apply recreate it.
 
 ## Moving `hub.git_ref`
 
