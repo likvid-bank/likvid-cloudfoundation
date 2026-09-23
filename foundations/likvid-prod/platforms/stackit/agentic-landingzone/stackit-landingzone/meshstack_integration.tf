@@ -98,6 +98,22 @@ variable "playground_mode" {
   description = "Deploy a throwaway platform: the platform identifier gets a random suffix so it does not occupy a name for good, and the landing-zone folder and foundation project are left destroyable. Set to false for a platform that is actually used. Passed to the building block as a STATIC input, so whoever orders the architecture cannot choose. A playground platform and the building block definitions it registers are not meant to be published to other workspaces."
 }
 
+variable "stackit_service_account_email" {
+  type        = string
+  nullable    = false
+  description = "Email of the STACKIT service account the building block runs as. You create it by hand, give it the roles described in the README, and let it trust the `workload_identity_federation` output."
+}
+
+data "meshstack_integrations" "integrations" {}
+
+output "workload_identity_federation" {
+  description = "Issuer and subject to register as a federated identity provider on `stackit_service_account_email`, with audience `api://AzureADTokenExchange`."
+  value = {
+    issuer  = data.meshstack_integrations.integrations.workload_identity_federation.replicator.issuer
+    subject = "${trimsuffix(data.meshstack_integrations.integrations.workload_identity_federation.replicator.subject, ":replicator")}:workspace.${var.meshstack.owning_workspace_identifier}.buildingblockdefinition.${meshstack_building_block_definition.this.metadata.uuid}"
+  }
+}
+
 output "building_block_definition" {
   description = "BBD is consumed in building block compositions."
   value = {
@@ -207,14 +223,15 @@ resource "meshstack_building_block_definition" "this" {
 
     ## 🔑 Authentication
 
-    You provide the STACKIT organization UUID, owner email, tags, default role mapping and a service account key as inputs.
-    The building block authenticates to STACKIT with the service account key, which needs `resource-manager.admin` on the organization.
+    You provide the STACKIT organization UUID, owner email, tags and default role mapping as inputs.
+    The building block authenticates to STACKIT through workload identity federation, as a service account
+    the platform team set up. No key is stored. The account needs `resource-manager.admin` on the organization.
 
     ## 📊 Shared responsibility
 
     | Responsibility | Platform Team | Application Team |
     |---|:---:|:---:|
-    | Provide the STACKIT service account key, organization details, tags and role mapping | ✅ | ❌ |
+    | Set up the STACKIT service account with its WIF trust, organization details, tags and role mapping | ✅ | ❌ |
     | Provision the location, folder and STACKIT Project platform | ✅ | ❌ |
     | Register the self-service `STACKIT Service Account` building block | ✅ | ❌ |
     | (Optional) Provide the network CIDR plan and provision the hub network area | ✅ | ❌ |
@@ -261,15 +278,33 @@ resource "meshstack_building_block_definition" "this" {
     }
 
     inputs = {
-      # ── STACKIT authentication (service account key supplied by the operator) ──
+      # ── STACKIT authentication (workload identity federation) ──
 
-      stackit_service_account_key = {
-        display_name           = "STACKIT Service Account Key"
-        description            = "Full key JSON of the deployment service account, reused on every run. Needs `resource-manager.admin` on the organization, or organization owner to allow a different `stackit_owner_email`."
-        type                   = "CODE"
-        assignment_type        = "USER_INPUT"
-        updateable_by_consumer = true
-        sensitive              = {}
+      STACKIT_SERVICE_ACCOUNT_EMAIL = {
+        display_name    = "STACKIT Service Account Email"
+        description     = "Email of the STACKIT service account the provider authenticates as via WIF."
+        type            = "STRING"
+        assignment_type = "STATIC"
+        is_environment  = true
+        argument        = jsonencode(var.stackit_service_account_email)
+      }
+
+      STACKIT_USE_OIDC = {
+        display_name    = "STACKIT Use OIDC"
+        description     = "Enables OIDC-based WIF for the STACKIT provider."
+        type            = "STRING"
+        assignment_type = "STATIC"
+        is_environment  = true
+        argument        = jsonencode("1")
+      }
+
+      STACKIT_FEDERATED_TOKEN_FILE = {
+        display_name    = "STACKIT Federated Token File"
+        description     = "Path to the WIF token file injected by meshStack."
+        type            = "STRING"
+        assignment_type = "STATIC"
+        is_environment  = true
+        argument        = jsonencode("/var/run/secrets/workload-identity/azure/token")
       }
 
       hub = {

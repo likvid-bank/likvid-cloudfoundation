@@ -27,13 +27,6 @@ variable "stackit_owner_email" {
   description = "Owner email assigned to the STACKIT resourcemanager folder, the foundation project, and every tenant project the platform creates."
 }
 
-variable "stackit_service_account_key" {
-  type        = string
-  sensitive   = true
-  nullable    = false
-  description = "STACKIT service account key JSON with `resource-manager.admin` on the organization. Used to create the landing-zone folder and foundation project."
-}
-
 variable "platform_identifier" {
   type        = string
   nullable    = false

@@ -92,18 +92,23 @@ When a **network** configuration is provided, it additionally:
 
 ## Service Accounts
 
-You supply one account, as `stackit_service_account_key`, and the architecture creates another. The
-account you supply creates the folder, the foundation project and the meshStack objects, and its key
-is reused on every run rather than only the first. The account it creates lives in the foundation
-project and is what creates tenant projects; it authenticates through workload identity federation,
-so no key for it is ever stored.
+You supply one account, as `stackit_service_account_email`, and the architecture creates another.
+Both authenticate through workload identity federation, so no key is ever stored. The account you
+supply creates the folder, the foundation project and the meshStack objects. The account the
+architecture creates lives in the foundation project and creates tenant projects.
+
+The account you supply has to exist before the definition runs, since nothing can create it
+earlier. Create it by hand, then add a federated identity provider to it with the `issuer` and
+`subject` from the module output `workload_identity_federation`, and the assertion
+`aud equals api://AzureADTokenExchange`. The subject contains the definition's uuid, so this trust
+covers only this definition and outlives its version upgrades.
 
 `stackit_owner_email` owns the folder, the foundation project and every tenant project the platform
 creates. STACKIT applies it at creation only, so changing it later means recreating what it owns.
 
-The key you supply is expected to be an organization owner, which may name any address — a team
-mailbox, typically. A key holding only `resource-manager.admin` may create a project but not act
-inside one it does not own, so with such a key the owner has to be that account's own address, or
+The account you supply is expected to be an organization owner, which may name any address — a team
+mailbox, typically. An account holding only `resource-manager.admin` may create a project but not act
+inside one it does not own, so with such an account the owner has to be its own address, or
 the run fails with `POST /v2/projects/<id>/service-accounts -> 403`.
 
 Tenant projects are unaffected either way: the tenant-project account works through its
@@ -117,7 +122,7 @@ roles to users.
 
 | Requirement          | Description                                                                       |
 |----------------------|-----------------------------------------------------------------------------------|
-| STACKIT organization | With an organization-owner service account key. `resource-manager.admin` alone also works, but then constrains which `stackit_owner_email` values are valid — see [Service Accounts](#service-accounts). |
+| STACKIT organization | With an organization-owner service account that trusts this definition through WIF. `resource-manager.admin` alone also works, but then constrains which `stackit_owner_email` values are valid — see [Service Accounts](#service-accounts). |
 | CIDR plan            | *(Only when enabling networking)* A non-overlapping IPv4 address plan chosen up front for the hub network ranges and transfer network. |
 
 ### Deployment Order

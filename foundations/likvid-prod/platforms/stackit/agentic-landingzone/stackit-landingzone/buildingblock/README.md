@@ -19,9 +19,10 @@ order routed spoke networks inside their STACKIT projects. New STACKIT projects 
 the hub's network area via an additional `networked` landing zone tagged with the hub's network
 area ID. Leaving `network` unset (`null`) deploys only the sandbox landing zone.
 
-It authenticates to STACKIT with a service account key you paste as a secret input. You also
-provide the STACKIT organization UUID, owner email, nested integration tags and default role mapping
-as user inputs. The service account needs `resource-manager.admin` on the organization. The nested
+It authenticates to STACKIT through workload identity federation, as the service account that the
+definition names in `STACKIT_SERVICE_ACCOUNT_EMAIL`. No key is stored. You also provide the STACKIT
+organization UUID, owner email, nested integration tags and default role mapping as user inputs.
+The service account needs `resource-manager.admin` on the organization. The nested
 integrations are pinned to the same `git_ref` as this building block's implementation.
 
 The user-facing readme is maintained inline in the `readme` field of the
@@ -67,7 +68,6 @@ The user-facing readme is maintained inline in the `readme` field of the
 | <a name="input_stackit_org"></a> [stackit\_org](#input\_stackit\_org) | STACKIT organization UUID under which the landing-zone folder, foundation project and tenant projects are created. | `string` | n/a | yes |
 | <a name="input_stackit_organization_onboarding_enabled"></a> [stackit\_organization\_onboarding\_enabled](#input\_stackit\_organization\_onboarding\_enabled) | Whether the nested STACKIT Project integration adds meshStack project users to the STACKIT organization before applying project-level role assignments. Disable if organization membership is managed outside this landing zone. | `bool` | n/a | yes |
 | <a name="input_stackit_owner_email"></a> [stackit\_owner\_email](#input\_stackit\_owner\_email) | Owner email assigned to the STACKIT resourcemanager folder and foundation project. | `string` | n/a | yes |
-| <a name="input_stackit_service_account_key"></a> [stackit\_service\_account\_key](#input\_stackit\_service\_account\_key) | STACKIT service account key JSON with `resource-manager.admin` on the organization. Used to create the landing-zone folder and foundation project. | `string` | n/a | yes |
 | <a name="input_starterkit_approval_policies"></a> [starterkit\_approval\_policies](#input\_starterkit\_approval\_policies) | Run triggers that need an operator's approval before a run of the project starterkit is applied. The defaults are the provider's own, and the provider asserts them whenever the definition sets no policies — so a gate switched on in meshPanel is turned off again by the next run unless it is set here. | <pre>object({<br/>    building_block_creation = optional(bool, false)<br/>    user_input_changes      = optional(bool, false)<br/>    any_input_changes       = optional(bool, false)<br/>    manual_triggers         = optional(bool, false)<br/>    version_upgrade         = optional(bool, false)<br/>  })</pre> | <pre>{<br/>  "any_input_changes": false,<br/>  "building_block_creation": false,<br/>  "manual_triggers": false,<br/>  "user_input_changes": false,<br/>  "version_upgrade": false<br/>}</pre> | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags forwarded to the nested STACKIT integrations. `landingzone` tags are applied to the created landing zones; `building_block` tags are applied to the nested building block definitions. | <pre>object({<br/>    landingzone    = map(list(string))<br/>    building_block = map(list(string))<br/>  })</pre> | n/a | yes |
 | <a name="input_use_global_location"></a> [use\_global\_location](#input\_use\_global\_location) | Use the global location instead of creating a dedicated location for this platform. | `bool` | n/a | yes |
