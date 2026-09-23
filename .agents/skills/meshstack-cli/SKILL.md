@@ -46,10 +46,15 @@ before you ask the user to log in.
 
 ```sh
 meshstack login                         # browser login, needs a human
-meshstack login --apikey <id> --stdin   # API key, secret from stdin
+meshstack login --apikey=<id> --stdin   # API key, secret from stdin; the = is required
 meshstack login --apitoken --stdin      # an access token, sent as it is
 meshstack auth logout                   # drop this profile's credential
 ```
+
+An agent logs in with the foundation's key: pipe `MESHSTACK_API_KEY_CLOUDFOUNDATION` (see the
+`foundation-modules` skill) into the API key login, with key id `6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74`
+and `--endpoint https://federation.demo.meshcloud.io`. A `401 unauthorized_client` on every command
+means the profile holds a rotated secret; log in again.
 
 `--endpoint`, `--workspace`, `--profile` and `--skip-version-check` are global flags with
 `MESHSTACK_`-prefixed env equivalents.
