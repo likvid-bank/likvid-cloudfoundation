@@ -35,12 +35,12 @@ EOF
 }
 
 terraform {
-  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/storage-account?ref=2a47e2f6e0ec880c5d16c65746cfaffe7a46fd9b"
+  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/storage-account?ref=85bf0ce73ff04df03366f915c3d2a9be137dfbfa"
 }
 
 inputs = {
   hub = {
-    git_ref   = "2a47e2f6e0ec880c5d16c65746cfaffe7a46fd9b"
+    git_ref   = "85bf0ce73ff04df03366f915c3d2a9be137dfbfa"
     bbd_draft = false
   }
 
