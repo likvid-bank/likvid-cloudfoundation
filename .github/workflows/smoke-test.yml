@@ -80,3 +80,20 @@ jobs:
           path: foundations/**/.terragrunt-cache/**/errored_test.tfstate
           include-hidden-files: true
           if-no-files-found: ignore
+
+      - name: Report failure to Slack
+        if: failure() && github.event_name == 'schedule'
+        uses: slackapi/slack-github-action@af78098f536edbc4de71162a307590698245be95 # v3.0.1
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL_OPS_CHANNEL }}
+          webhook-type: incoming-webhook
+          payload: |
+            blocks:
+              - type: section
+                text:
+                  type: mrkdwn
+                  text: ":x: *${{ github.workflow }}* failed"
+              - type: context
+                elements:
+                  - type: mrkdwn
+                    text: "<${{ github.server_url }}/${{ github.repository }}|${{ github.repository }}> · <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"
