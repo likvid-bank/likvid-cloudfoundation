@@ -80,6 +80,7 @@ inputs = {
     MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS = get_env("MESHSTACK_API_KEY_STATIC_WEBSITE_ASSETS")
     MESHSTACK_API_KEY_CLOUDFOUNDATION       = get_env("MESHSTACK_API_KEY_CLOUDFOUNDATION")
     MESHSTACK_API_PASSWORD                  = get_env("MESHSTACK_API_PASSWORD")
+    SLACK_WEBHOOK_URL_OPS_CHANNEL           = get_env("SLACK_WEBHOOK_URL_OPS_CHANNEL")
     ACTIONS_GITHUB_APP_PEM_FILE             = get_env("GITHUB_APP_PEM_FILE") # note: secrets may not start with GITHUB_ prefix
     # note: there's currently some more secrets managed outside of this repo still
   }
