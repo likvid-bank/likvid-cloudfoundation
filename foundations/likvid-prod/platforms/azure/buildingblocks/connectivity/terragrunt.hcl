@@ -15,6 +15,10 @@ dependency "corp_online" {
   config_path = "../../landingzones/corp-online"
 }
 
+dependency "ipam_pool" {
+  config_path = "../ipam-pool"
+}
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
@@ -70,4 +74,7 @@ inputs = {
   azure_backplane_subscription_id = dependency.networking.outputs.hub_subscription
 
   backplane_name = "likvid-azure-spoke-network"
+
+  # Application teams pick a size; the pool hands out the range.
+  azure_ipam_pool_id = dependency.ipam_pool.outputs.ipam_pool_id
 }
