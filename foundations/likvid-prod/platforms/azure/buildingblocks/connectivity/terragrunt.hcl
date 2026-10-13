@@ -37,16 +37,20 @@ provider "meshstack" {
 EOF
 }
 
-# meshcloud/meshstack-hub#385, which fixes the integration's undeclared azure_tenant_id. Move both
-# refs to a main commit once it merges.
+# Hub coordinates live in hub.hcl (single source of truth, shared with e2e/).
+include "hub" {
+  path   = "./hub.hcl"
+  expose = true
+}
+
 terraform {
-  source = "https://github.com/meshcloud/meshstack-hub.git//modules/azure/spoke-network?ref=ab8dba7fab431ba76fb971071224e624282d93c1"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/${include.hub.locals.module}?ref=${include.hub.locals.git_ref}"
 }
 
 inputs = {
   hub = {
-    git_ref   = "ab8dba7fab431ba76fb971071224e624282d93c1"
-    bbd_draft = false
+    git_ref   = include.hub.locals.git_ref
+    bbd_draft = include.hub.locals.bbd_draft
   }
 
   meshstack = {
