@@ -19,7 +19,7 @@ dependency "corp_online" {
 # there is no meshTenant to order the hub's building block definition against. This runs the
 # building block's own module instead; it brings its azurerm provider along.
 terraform {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/azure/ipam-pool/buildingblock?ref=19d0e1ec0b8648b7110a13a99bfe93b7f0821607"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/azure/ipam-pool/buildingblock?ref=312039026a5051435322a10d53ede50dc2214735"
 }
 
 inputs = {
