@@ -5,9 +5,18 @@ provider "registry.opentofu.org/azure/azapi" {
   version     = "1.12.1"
   constraints = "~> 1.12.1"
   hashes = [
+    "h1:0f38vRu8qsEMOkxnezYvhy2OidH0OCsZ+wpUot3CbRQ=",
     "h1:4uNzgEfL4VJ48QYAKM4A/E+HWyx7roO58xmR3R2WNh0=",
+    "h1:64oocyoa138UiPdeR8KBWmDVZeIYRtYkLLb6urTKhcY=",
     "h1:EaQL7pQCRm5iL2zy/dG7rOe2OZ0ZypuyVnpQAiAwJmM=",
+    "h1:Fi57o34rGjqMQXCliNQ83BgR8Zr5XUbTImJ4/oMgsjA=",
     "h1:Gv1HwQMV7+3ctMPr1nKmOhEGu+UWb6FlQmrgaHxknJ4=",
+    "h1:H9n5gOhlN5GT5WIhasUbxIONS/6BfRP9ES1oQop2wxk=",
+    "h1:LMLOpK41DWYhslvAgXMBVkNR7Loz3xiFuz7vklxXTXo=",
+    "h1:VfhD4ryQ7MpNwknhE0+jdQ8Apo+VwSTkzmpreLEivAo=",
+    "h1:XpYXl0Y/w5prEQcEqXA5fJXJXQ57KzjWLp6uw0rBnns=",
+    "h1:eBXq0fCbCWFRP4Ta5+nTm9sruMibQoGkYJ1VbTd+HXo=",
+    "h1:swf2u/RlPrfkh9tRQ4SQxuX8k8LvuJKXg6eVcDRiZlo=",
     "zh:1cf52e685ceb04e73e13fbf3f3036bff23a3274a4ceda8693c0612076a588166",
     "zh:321b59c2a67c6cb4e5cf0dbe2cc978f5389d781e8b391f9b75bf4d830abd2ffe",
     "zh:49046bd8020c3b44c6b5dc67041f181e4fff45e3bc1a9ff0646dd20c21c8ce47",
