@@ -3,10 +3,10 @@
 locals {
   module = "ansible/vm-hardening"
 
-  # The head of feature/ansible-vm-hardening. Switch to the main commit once it is merged: a branch
-  # commit stops resolving after a squash merge deletes the branch.
-  git_ref = "993afa47fd6bda9e64cd11bdb1999dd5ec33cc4e"
+  # A commit on main: a PR head stops resolving once its branch is squash-merged and deleted.
+  git_ref = "486b99e8b6469548dbaa9384436ab6b4a04c5239"
 
-  # Draft, like the server definition it depends on: a draft is visible to stackit-platform only.
+  # Released. A released version is immutable, so a change to the definition takes two applies: one
+  # with `true` to create the next version as a draft, then one with `false` to release it.
   bbd_draft = false
 }
