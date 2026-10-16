@@ -28,7 +28,7 @@ jobs:
       ARM_CLIENT_ID: ${{ vars.azure_client_id }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup environment
         uses: ./.github/actions/setup-nix-shell
@@ -36,14 +36,14 @@ jobs:
           prepare_terraform: true
 
       - name: Setup az auth
-        uses: azure/login@v2
+        uses: azure/login@7184910d9eb2b1c5e48f7073824a90609bb9b6d6 # v2.3.1
         with:
           client-id: ${{ vars.azure_client_id }}
           tenant-id: ${{ vars.azure_tenant_id }}
           subscription-id: ${{ vars.azure_subscription_id }}
 
       - name: Setup aws auth
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4.3.1
         with:
           aws-region: eu-central-1
           role-to-assume: ${{ vars.aws_iam_role }}
