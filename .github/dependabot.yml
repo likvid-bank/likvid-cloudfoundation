@@ -1,0 +1,28 @@
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+
+    # The root entry covers .github/workflows only, so the pins inside our composite action need their own
+    # entry or they never move.
+    directories:
+      - /
+      - /.github/actions/setup-nix-shell
+
+    schedule:
+      interval: monthly
+
+    # A compromised release is usually pulled within days of publication, so a week keeps most of them out of
+    # a pull request we would otherwise see.
+    cooldown:
+      default-days: 7
+
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+    open-pull-requests-limit: 1
+
+    commit-message:
+      prefix: ci

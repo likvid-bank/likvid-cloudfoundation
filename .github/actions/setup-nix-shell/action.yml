@@ -8,13 +8,13 @@ outputs: {}
 runs:
   using: "composite"
   steps:
-    - uses: nixbuild/nix-quick-install-action@v34
+    - uses: nixbuild/nix-quick-install-action@2c9db80fb984ceb1bcaa77cdda3fdf8cfba92035 # v34
       with:
         # gh actions runners have 16 GiB of memory by default, we happily trade some of that for a significant speedup
         # of nix install (empirically this cut install times from from 75s to 30s when introduced)
         nix_on_tmpfs: true
 
-    - uses: rrbutani/use-nix-shell-action@v1
+    - uses: rrbutani/use-nix-shell-action@59a52b2b9bbfe3cc0e7deb8f9059abe37a439edf # v1.1.0
       with:
         devShell: .#github_actions # use a special github actions shell
 
