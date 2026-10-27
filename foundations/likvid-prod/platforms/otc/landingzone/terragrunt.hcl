@@ -16,7 +16,7 @@ include "platform" {
 inputs = {
   # The architecture is not on the hub's main branch yet.
   hub = {
-    git_ref   = "4ea78dcd9a0e1fe3f41a0ffba2d416b0014044c7"
+    git_ref   = "5b3344e1734c46d3754b5cd6bf42b34f8bd08bd0"
     bbd_draft = true
   }
 
