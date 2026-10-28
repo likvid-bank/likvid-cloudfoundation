@@ -75,7 +75,8 @@ resource "meshstack_building_block" "this" {
         project_owner_tag_key = "projectOwner"
       })) }
 
-      topology = { value = jsonencode(["sandbox", "hub&spoke"]) }
+      # Literal JSON, because jsonencode() escapes `&` (meshcloud/terraform-provider-meshstack#363).
+      topology = { value = "[\"sandbox\",\"hub&spoke\"]" }
 
       # Setting this creates the second landing zone `likvid-stackit-networked` plus the self-service
       # `STACKIT Network` building block. The seven existing tenants keep the unnetworked variant.
@@ -99,10 +100,7 @@ resource "meshstack_building_block" "this" {
         reader = ["reader"]
       })) }
 
-      stackit_service_account_key = { sensitive = {
-        secret_value   = var.stackit_service_account_key
-        secret_version = nonsensitive(sha256(var.stackit_service_account_key))
-      } }
+      stackit_service_account_key = { sensitive = provider::meshstack::non_ephemeral_secret(nonsensitive(var.stackit_service_account_key)) }
     }
   }
 
