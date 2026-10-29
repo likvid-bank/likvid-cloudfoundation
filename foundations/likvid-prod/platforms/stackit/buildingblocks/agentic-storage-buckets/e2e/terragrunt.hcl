@@ -1,0 +1,53 @@
+dependency "deployment" {
+  config_path = "../"
+}
+
+# Hub coordinates: single source of truth in the sibling deployment's hub.hcl.
+include "hub" {
+  path   = "../hub.hcl"
+  expose = true
+}
+
+include "smoke_run" {
+  path   = find_in_parent_folders("smoke_run.hcl")
+  expose = true
+}
+
+terraform {
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/${include.hub.locals.module}/e2e?ref=${include.hub.locals.git_ref}"
+}
+
+generate "provider" {
+  path      = "provider.tf"
+  if_exists = "overwrite"
+  contents  = <<EOF
+
+provider "meshstack" {
+  endpoint  = "https://federation.demo.meshcloud.io"
+  apikey    = "6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74"
+  apisecret = "${get_env("MESHSTACK_API_KEY_CLOUDFOUNDATION")}"
+}
+EOF
+}
+
+# `tofu test` does not type-decode complex TF_VAR_* env vars — use auto.tfvars.json so the
+# structured `test_context` variable arrives correctly typed in test assertion scope.
+#
+# Foundation mode: the deployment (`../`) already created the BBD, so we set `bbd_version_ref` to
+# order an ephemeral building block against it. Setting `bbd_version_ref` (and omitting `fixtures`)
+# selects foundation mode; the e2e module rejects setting both. See the meshstack-hub `e2e-test`
+# skill for the invocation protocol.
+generate "smoke_tfvars" {
+  path              = "smoke.auto.tfvars.json"
+  if_exists         = "overwrite"
+  disable_signature = true
+  contents = jsonencode({
+    test_context = {
+      workspace       = dependency.deployment.outputs.e2e.owning_workspace
+      name_suffix     = include.smoke_run.locals.name_suffix
+      run_id          = include.smoke_run.locals.run_id
+      hub_git_ref     = dependency.deployment.outputs.e2e.hub.git_ref
+      bbd_version_ref = { uuid = dependency.deployment.outputs.e2e.building_block_definition.version_ref.uuid }
+    }
+  })
+}
