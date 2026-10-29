@@ -14,10 +14,9 @@ include "platform" {
 }
 
 inputs = {
-  # The architecture is not on the hub's main branch yet.
   hub = {
-    git_ref   = "dca5d40a61831c9d690f38fa07109ece3d240dfa"
-    bbd_draft = true
+    git_ref   = "9c3fef1a279ea01bcbda4c7d1626c02d9bd90a6d"
+    bbd_draft = false
   }
 
   otc_access_key = get_env("OTC_ACCESS_KEY")
