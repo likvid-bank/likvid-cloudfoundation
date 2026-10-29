@@ -16,7 +16,7 @@ include "platform" {
 inputs = {
   hub = {
     git_ref   = "9c3fef1a279ea01bcbda4c7d1626c02d9bd90a6d"
-    bbd_draft = false
+    bbd_draft = true
   }
 
   otc_access_key = get_env("OTC_ACCESS_KEY")
