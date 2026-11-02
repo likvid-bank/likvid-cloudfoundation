@@ -1,7 +1,3 @@
-locals {
-  import_secrets = jsonencode({ git = { forgejo_api_token = var.forgejo_api_token } })
-}
-
 module "stackit_kubernetes" {
   source = "git::https://github.com/meshcloud/meshstack-hub.git//reference-architectures/stackit-kubernetes?ref=${var.hub_ref}"
 
@@ -64,7 +60,7 @@ resource "meshstack_building_block" "platform" {
       dns_subdomain             = { value = jsonencode("likvid") }
       dns_parent_domain         = { value = jsonencode("stackit.run") }
       ai_model                  = { value = jsonencode("openai/gpt-oss-120b") }
-      phase2_completed          = { value = jsonencode(false) }
+      phase2_completed          = { value = jsonencode(true) }
 
       starterkit_app_name        = { value = jsonencode("ai-summarizer") }
       starterkit_repo_clone_addr = { value = jsonencode("https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git") }
@@ -144,10 +140,11 @@ resource "meshstack_building_block" "platform" {
           forgejo_connector = "a3bd1afc-4c69-412b-b575-4c72a2ff2e02"
         }
       })) }
+      # Empty since the Forgejo organization is adopted; leaving the input out would keep the stored token.
       import_secrets = {
         sensitive = {
-          secret_value   = local.import_secrets
-          secret_version = nonsensitive(sha256(local.import_secrets))
+          secret_value   = jsonencode({})
+          secret_version = sha256(jsonencode({}))
         }
       }
     }
