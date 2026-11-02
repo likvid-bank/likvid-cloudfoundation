@@ -35,19 +35,19 @@ provider "registry.opentofu.org/integrations/github" {
 }
 
 provider "registry.opentofu.org/meshcloud/meshstack" {
-  version     = "0.24.5"
-  constraints = ">= 0.21.0, >= 0.24.0, ~> 0.24.4"
+  version     = "0.27.1"
+  constraints = ">= 0.21.0, >= 0.24.0, >= 0.26.8"
   hashes = [
-    "h1:206C9zBB9AgYDRhpGbLNmj5CJbcGeyQpZEgqE/fHVrU=",
-    "h1:WG3BpxTl27DcxaYGfCGQgGzlp4LpWA2dfBMvJp41OyA=",
-    "h1:lEXnPw4BhneJr5p9ZWHsz89uoatU/g9Bd+8ZDwT3zeU=",
-    "h1:oEAruV5WMBLCGJbLCxHZBRrGwDQseAVcahZC66mqe5A=",
-    "h1:uTta0tm9j5oSLlovjpX7uCc25B21vve5ZhAWZED7W8k=",
-    "zh:232e5507b4121a1875fc44e0fbdf3a1c861c6cc7a76bd7af166a4864ba0399f6",
-    "zh:79ee7e55701047e1532f2d587386aa3f2ac1eaea2aa27e10c3d3f90270268733",
+    "h1:/bc+5JPtsfKXXYcxH50Kb9LoHCZXFVVXEB+rTnOSzfA=",
+    "h1:HXbQVNjMNYB2WMS+OHJS1fJuY4ZkiIxZlq0zny8Eojs=",
+    "h1:kSjGEuM9xe0gvL4RFaGMGM2B7Y7SNpsy0ZhGO1LV58k=",
+    "h1:mBMmj7YJk7ypgi5XnwDct0kWWkQAlhMsRVDCrbiL35k=",
+    "h1:sT2CZIaYrWNC5D5b9ZHVJBJV+cmrgfDzYaQSaKd1AUs=",
+    "zh:2122e684f44c1bb0cc7047f7c8a258961e0ad0fbfa03a575db7dde3790a6de62",
+    "zh:5fd8c95d6d288c1c4c8b02d9680031beba804a725b0b321e69cb08849e6ac281",
+    "zh:74112a5442c03001f1ee9cad8b123df826114629283a60318c9895bb4ae65b90",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:ab5c0639b116823c96306f9c1169609fba2c77a3cfb04b6854af758b266d1ab9",
-    "zh:c440043e9c72ec1c7bd2b27079236065e03c83ad1609d0f4bada8fe192911e91",
-    "zh:eee7a4bbb422415f8478be82c208950d953d6c6366a946b39e0114c1e458c242",
+    "zh:a8bd07b767f33809706438e6dcf217d4bad33aebff19db14c764af4636f4ca28",
+    "zh:bbb8821707d13f8f48660321976fdfe2106a96b7fb6abadea7ec32636b2c66cb",
   ]
 }

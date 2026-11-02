@@ -2,19 +2,19 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.opentofu.org/meshcloud/meshstack" {
-  version     = "0.25.0"
-  constraints = ">= 0.24.3"
+  version     = "0.27.1"
+  constraints = ">= 0.26.8"
   hashes = [
-    "h1:5uduovRb7f/V/1ACdCtFAM2P/Y1oBQmisYR0a0fDVVE=",
-    "h1:JIOTfBtJkkPRnWpxZzytYgZDLvna0ecZNtIZA1MJQA4=",
-    "h1:djwrLNA94/BEf8nYTZTfXTpAx6do3W4ax7WUDW8SZxU=",
-    "h1:qU0x4L0SGo4Gz3jWlD80t4OYyBowXSwYbfUGjghhfbk=",
-    "h1:qdFsuscMsR/cIP9ByoMnYKi5cnuUUhL53mXLEEzOurg=",
-    "zh:247038affe454956e0ef8d07478f90a3c880f6294d0e0c4473ca4b621f7f31cc",
+    "h1:/bc+5JPtsfKXXYcxH50Kb9LoHCZXFVVXEB+rTnOSzfA=",
+    "h1:HXbQVNjMNYB2WMS+OHJS1fJuY4ZkiIxZlq0zny8Eojs=",
+    "h1:kSjGEuM9xe0gvL4RFaGMGM2B7Y7SNpsy0ZhGO1LV58k=",
+    "h1:mBMmj7YJk7ypgi5XnwDct0kWWkQAlhMsRVDCrbiL35k=",
+    "h1:sT2CZIaYrWNC5D5b9ZHVJBJV+cmrgfDzYaQSaKd1AUs=",
+    "zh:2122e684f44c1bb0cc7047f7c8a258961e0ad0fbfa03a575db7dde3790a6de62",
+    "zh:5fd8c95d6d288c1c4c8b02d9680031beba804a725b0b321e69cb08849e6ac281",
+    "zh:74112a5442c03001f1ee9cad8b123df826114629283a60318c9895bb4ae65b90",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:992085ebfa1dba82218702c25715c0bdcd06fff3ba6307c4c2777b156b7630db",
-    "zh:a5a244d14516eea438f0b59a51579f9d85b2cf603b7bf391867eb3567caea0d4",
-    "zh:c999777164d081cd4c5991e0f4dc2b0eb08badb72161d364c3400b60b04de26e",
-    "zh:db77334d3df275828041ee2b51112847ef4f75221e2f427ffa3414083ecb5422",
+    "zh:a8bd07b767f33809706438e6dcf217d4bad33aebff19db14c764af4636f4ca28",
+    "zh:bbb8821707d13f8f48660321976fdfe2106a96b7fb6abadea7ec32636b2c66cb",
   ]
 }

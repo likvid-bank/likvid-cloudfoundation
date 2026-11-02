@@ -22,15 +22,28 @@ provider "azurerm" {
   tenant_id       = "${include.platform.locals.platform.azure.aadTenantId}"
   storage_use_azuread = true
 }
+
 provider "meshstack" {
-  endpoint = "https://federation.demo.meshcloud.io"
-  # create your own API key with
-  # - BBD read/write/delete permissions
-  # - Integrations read permissions
-  # in https://panel.demo.meshcloud.io/#/w/m25-platform/access-management/api-keys
-  # and set MESHSTACK_API_KEY and MESHSTACK_API_SECRET env vars.
+  endpoint  = "https://federation.demo.meshcloud.io"
+  workspace = "m25-platform"
 }
 
+EOF
+}
+
+generate "versions_override" {
+  path      = "versions_override.tf"
+  if_exists = "overwrite"
+  contents  = <<EOF
+terraform {
+  required_providers {
+    meshstack = {
+      source = "meshcloud/meshstack"
+      # 0.26.8 finds the meshStack CLI profile by its endpoint.
+      version = ">= 0.26.8"
+    }
+  }
+}
 EOF
 }
 

@@ -6,8 +6,8 @@ terraform {
     }
     meshstack = {
       source = "meshcloud/meshstack"
-      # The hub module's own floor.
-      version = ">= 0.26.2"
+      # 0.26.8 finds the meshStack CLI profile by its endpoint.
+      version = ">= 0.26.8"
     }
   }
 }

@@ -18,7 +18,7 @@ This documentation is intended as a reference documentation for cloud foundation
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 3.0.2 |
 | <a name="requirement_github"></a> [github](#requirement\_github) | 5.42.0 |
-| <a name="requirement_meshstack"></a> [meshstack](#requirement\_meshstack) | >= 0.24.3 |
+| <a name="requirement_meshstack"></a> [meshstack](#requirement\_meshstack) | >= 0.26.8 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | 3.8.1 |
 
 ## Modules

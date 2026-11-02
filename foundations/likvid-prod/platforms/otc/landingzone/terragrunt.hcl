@@ -27,10 +27,10 @@ generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
   contents  = <<EOF
+# The admin workspace, because this unit creates `otc-platform`.
 provider "meshstack" {
   endpoint  = "https://federation.demo.meshcloud.io"
-  apikey    = "6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74"
-  apisecret = "${get_env("MESHSTACK_API_KEY_CLOUDFOUNDATION")}"
+  workspace = "likvid-cloud"
 }
 EOF
 }

@@ -24,8 +24,23 @@ generate "provider" {
 
 provider "meshstack" {
   endpoint  = "https://federation.demo.meshcloud.io"
-  apikey    = "6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74"
-  apisecret = "${get_env("MESHSTACK_API_KEY_CLOUDFOUNDATION")}"
+  workspace = "${dependency.deployment.outputs.e2e.owning_workspace}"
+}
+EOF
+}
+
+generate "versions_override" {
+  path      = "versions_override.tf"
+  if_exists = "overwrite"
+  contents  = <<EOF
+terraform {
+  required_providers {
+    meshstack = {
+      source = "meshcloud/meshstack"
+      # 0.26.8 finds the meshStack CLI profile by its endpoint.
+      version = ">= 0.26.8"
+    }
+  }
 }
 EOF
 }

@@ -31,13 +31,22 @@ Claude Code's Bash tool runs bash. Always wrap commands that need Vault credenti
 /bin/zsh -c "source setup-env.sh && terragrunt apply -auto-approve"
 ```
 
-After sourcing, these env vars are available (verified 2026-06-10):
+After sourcing, these env vars are available:
 
 | Var | Used by |
 |-----|---------|
-| `MESHSTACK_API_KEY_CLOUDFOUNDATION` | meshstack provider `apisecret` |
+| `MESHSTACK_API_KEY_CLOUDFOUNDATION` | secret of the CI API key `6169f530-…`; the `github` unit writes it to the Actions secret of that name |
 | `STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY` | SKE-related modules |
 | `STACKIT_S3_ACCESS_KEY_ID` / `STACKIT_S3_SECRET_ACCESS_KEY` | S3-compatible storage |
+
+**meshStack** authenticates through the meshStack CLI: run
+`meshstack login --endpoint https://federation.demo.meshcloud.io --profile likvid-bank-demo` once. The
+provider block sets `endpoint` and `workspace`, and the provider picks the profile whose endpoint
+matches. A login needs a role in that workspace, also as Organization Admin; a unit that creates its
+workspace or manages API keys of another workspace acts in the admin workspace `likvid-cloud`.
+`setup-env.sh` exports no `MESHSTACK_API_KEY`, `MESHSTACK_API_SECRET` or
+`MESHSTACK_API_TOKEN`; any of them set in your shell takes precedence over the profile, so unset
+them. CI sets `MESHSTACK_API_KEY` and `MESHSTACK_API_SECRET` in the workflow env.
 
 **`STACKIT_SERVICE_ACCOUNT_KEY_PATH`** is set by `setup-env.sh` itself (pointing to `~/.stackit/credentials.json`) — it is not in Vault because STACKIT's provider doesn't support user-level auth. If the file doesn't exist, `setup-env.sh` will print instructions for creating a STACKIT service account key as a personal-access-token workaround.
 
@@ -176,15 +185,12 @@ generate "provider" {
 
 provider "meshstack" {
   endpoint  = "https://federation.demo.meshcloud.io"
-  apikey    = "6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74"
-  apisecret = "${get_env("MESHSTACK_API_KEY_CLOUDFOUNDATION")}"
+  workspace = "devops-platform"
 }
 EOF
 }
 
-# Pin meshstack provider to the same version used by the sibling deployment so the hub e2e
-# (which has no version constraint) doesn't pick up a newer release incompatible with the
-# meshStack instance.
+# The hub e2e module has no version constraint; 0.26.8 finds the meshStack CLI profile by endpoint.
 generate "versions_override" {
   path      = "versions_override.tf"
   if_exists = "overwrite"
@@ -193,7 +199,7 @@ terraform {
   required_providers {
     meshstack = {
       source  = "meshcloud/meshstack"
-      version = "~> 0.21.0"
+      version = ">= 0.26.8"
     }
   }
 }
@@ -255,7 +261,7 @@ terraform {
     }
     meshstack = {
       source  = "meshcloud/meshstack"
-      version = "~> 0.21.0"   # cap to match your meshStack server version
+      version = ">= 0.26.8"
     }
   }
 }
@@ -299,8 +305,7 @@ generate "provider" {
   contents  = <<EOF
 provider "meshstack" {
   endpoint  = "https://federation.demo.meshcloud.io"
-  apikey    = "6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74"
-  apisecret = "${get_env("MESHSTACK_API_KEY_CLOUDFOUNDATION")}"
+  workspace = "devops-platform"
 }
 
 provider "stackit" {
@@ -315,7 +320,7 @@ EOF
 terraform {
   required_providers {
     stackit   = { source = "stackitcloud/stackit",  version = ">= 0.98.0" }
-    meshstack = { source = "meshcloud/meshstack",   version = "~> 0.21.0" }
+    meshstack = { source = "meshcloud/meshstack",   version = ">= 0.26.8" }
   }
 }
 ```
@@ -325,8 +330,6 @@ terraform {
 ## Gotchas
 
 - **setup-env.sh fails in bash** — `ZSH_VERSION: unbound variable` at line 104. Always source in zsh. Claude Code's Bash tool runs bash; work around with `/bin/zsh -c "source setup-env.sh && ..."`. Use absolute path to `setup-env.sh` to avoid working-directory issues.
-
-- **meshstack provider version cap** — provider `0.22.0` requires meshStack server `2026.24.0+`. If the server is on `2026.23.0`, cap at `~> 0.21.0` in `terraform.tf`. The e2e `terragrunt.hcl` must also generate a `versions_override.tf` with this cap, since the hub's e2e module has no version pin of its own.
 
 - **`tofu test` does not type-decode TF_VAR_* for complex objects** — Terragrunt's `inputs` block passes variables as `TF_VAR_*` env vars. For simple strings this is fine. But for complex object variables like `test_context`, `tofu test` receives a raw string and cannot destructure fields like `var.test_context.name_suffix`. Fix: use `generate "smoke_tfvars"` with `path = "smoke.auto.tfvars.json"` and `disable_signature = true` so the file is valid JSON that `tofu test` auto-loads with proper type decoding.
 
@@ -344,7 +347,7 @@ terraform {
 
 - **STACKIT credentials for local dev** — `STACKIT_SERVICE_ACCOUNT_KEY_PATH` is set by `setup-env.sh` to `~/.stackit/credentials.json`. If that file is missing, sourcing `setup-env.sh` will print instructions for creating a STACKIT service account key (the workaround for STACKIT not supporting user-level auth in its provider).
 
-- **meshstack 401 on API key** — the hardcoded `apikey = "6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74"` in `terragrunt.hcl` is paired with `MESHSTACK_API_KEY_CLOUDFOUNDATION` as the secret. A 401 means the key ID and secret don't match (key was rotated). Check the meshStack panel for the current API key ID for the `likvid-prod` service account.
+- **meshstack 401 in CI** — the workflows pair `MESHSTACK_API_KEY` (the key id `6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74`) with the Actions secret `MESHSTACK_API_KEY_CLOUDFOUNDATION`. A 401 means the two do not match (key was rotated): update the key id in `.github/workflows/`.
 
 - **meshstack_workspace `smoke-test`** — must exist before deploying modules that reference it. Created manually in meshStack panel if the meshstack module apply fails. The resource is declared in `kit/foundation/meshstack/resources.smoke-test.tf`.
 
@@ -359,8 +362,8 @@ terraform {
 | `ZSH_VERSION: unbound variable` | Use `/bin/zsh -c "source setup-env.sh && ..."` |
 | `locked provider X does not match configured version constraint` | `terragrunt run -- init -upgrade` |
 | `~> X.Y.0, >= X.Z.0` unsatisfiable | Change local constraint from `~> X.Y.0` to `>= X.Y.0` in `terraform.tf` |
-| `unsupported meshStack version: requires 2026.24.0+` | Cap meshstack provider to `~> 0.21.0` |
-| `invalid_client` 401 on meshstack | API key ID rotated — update `apikey` in `terragrunt.hcl` |
+| `invalid_client` 401 on meshstack in CI | API key ID rotated — update `MESHSTACK_API_KEY` in `.github/workflows/` |
+| meshstack provider asks for a login or workspace locally | `meshstack login` for the demo endpoint; the provider block needs `workspace` |
 | `STACKIT_SERVICE_ACCOUNT_TOKEN not set` | `~/.stackit/credentials.json` is missing — source `setup-env.sh` for instructions on creating a STACKIT service account key |
 | Building block reached FAILED state | Get the BB UUID from the error message; fetch logs with `node tools/debug/get-bb-run-logs.mjs <uuid>` from meshstack-hub (needs `MESHSTACK_ENDPOINT`, `MESHSTACK_API_KEY`, `MESHSTACK_API_SECRET`) |
 | `var.test_context.name_suffix` breaks in tftest assertion | Caused by TF_VAR_* raw-string delivery — use `generate "smoke_tfvars"` with `auto.tfvars.json` instead of `inputs` |

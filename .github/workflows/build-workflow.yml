@@ -31,8 +31,8 @@ jobs:
       # required for the github deployment
       GITHUB_APP_PEM_FILE: ${{ secrets.LIVKID_GITHUB_APP_PEM_FILE }} # note: this environment secret must be set up manually on the github repo
 
-      # required for meshstack e2e tests (stackit platform)
-      MESHSTACK_API_KEY_CLOUDFOUNDATION: ${{ secrets.MESHSTACK_API_KEY_CLOUDFOUNDATION }}
+      MESHSTACK_API_KEY: 6169f530-0eaa-4f7f-91b7-c4fd4aaf2a74
+      MESHSTACK_API_SECRET: ${{ secrets.MESHSTACK_API_KEY_CLOUDFOUNDATION }}
 
       #
       STACKIT_USE_OIDC: "1"
