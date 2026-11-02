@@ -1,31 +1,14 @@
 # STACKIT Kubernetes Engine
 
-This contains all resources required to set up STACKIT Kubernetes Engine (SKE).
+[`platform`](platform) orders the hub's STACKIT Kubernetes Platform reference architecture in the
+workspace `devops-platform`. It owns the cluster, Git, DNS, ingress, the meshPlatform
+`ske-namespace` with its landing zones and the starterkit definitions application teams order.
 
-## State Backend
+The units `meshstack`, `meshstack/platform`, `kubernetes`, `kubernetes/addons`,
+`kubernetes/addons/certmanager`, `git` and `dns` only hand their state over with `removed` blocks
+and go once applied. `starterkit` keeps the Model Serving token that building blocks on the old
+starterkit versions put into their namespaces; it goes once they are all upgraded.
 
-Existing GCS bucket `meshcloud-tf-states`, prefix `path/to/<module>`. Configured in [tfstate.hcl](tfstate.hcl).
-
-## Apply
-
-Requires a Vault port-forward to `localhost:8200`. Load credentials with `source setup.sh`, then apply:
-
-```bash
-terragrunt run --all apply
-```
-
-Terragrunt resolves the dependency order automatically. To target a single module: `cd <module> && terragrunt apply`, e.g. `cd kubernetes && terragrunt apply`.
-Use the graph in section [Module Dependencies](#module-dependencies) to know which modules need to be applied first.
-
-## Terragrunt Dependencies
-
-* `meshstack/platform` separate from `meshstack` as it needs `kubernetes`.
-* `kubernetes/addons/certmanager` exists as adding the `ClusterIssuer` custom resource needs the CRD from `kubernetes/addons/certmanager.tf`.
-
-![dependency graph](dep.png)
-
-Helps in knowing order of execution (arrow = depends on).
-Generate the graph with: `terragrunt dag graph | dot -Tpng > dep.png`
 
 ## Access Kubernetes cluster
 
@@ -38,7 +21,7 @@ stackit config set --project-id 47787660-94b9-4fb6-8bf7-53a90c41b26a
 stackit ske kubeconfig create starterkit --login
 ```
 
-## Container Images (one-time manual setup)
+## Container Images of the old starterkit versions (one-time manual setup)
 
 Starterkit templates build on base images pulled from our Harbor project, not from Docker Hub.
 Mirroring those base images is **manual, one-time setup** — not managed by Terragrunt.

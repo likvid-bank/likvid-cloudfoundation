@@ -99,7 +99,7 @@ Smoke tests run in GitHub Actions. Dispatch `smoke-test.yml`, optionally narrowi
 a path prefix under the foundation:
 
 ```bash
-gh workflow run smoke-test.yml -f prefix=platforms/ske/starterkit/e2e
+gh workflow run smoke-test.yml -f prefix=platforms/stackit/buildingblocks/storage-buckets/e2e
 gh run watch
 ```
 
@@ -107,6 +107,6 @@ Locally is possible too, since the only credential is the meshStack API key (see
 `run-lcf-modules` skill for credential setup):
 
 ```bash
-cd foundations/likvid-prod/platforms/ske/starterkit/e2e
+cd foundations/likvid-prod/platforms/stackit/buildingblocks/storage-buckets/e2e
 terragrunt test
 ```
