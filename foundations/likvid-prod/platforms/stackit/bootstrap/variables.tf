@@ -25,3 +25,8 @@ variable "organization_id" {
   description = "Organization ID of your stackit cloud account"
   type        = string
 }
+
+variable "parent_container_id" {
+  description = "Root folder of the STACKIT landing zone, or the organization before the landing zone exists"
+  type        = string
+}

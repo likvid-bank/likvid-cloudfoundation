@@ -3,3 +3,7 @@
 output "foundation_project_id" {
   value = jsondecode(meshstack_building_block.this.status.outputs["foundation_project_id"].value)
 }
+
+output "root_container_id" {
+  value = jsondecode(meshstack_building_block.this.status.outputs["root_container_id"].value)
+}

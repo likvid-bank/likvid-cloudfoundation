@@ -15,7 +15,7 @@ include "platform" {
 
 inputs = {
   hub = {
-    git_ref = "4026c3edc64707a52f7e974e2b9a4a603cdaae4a"
+    git_ref = "d0317b287123840b55f399f2aaf52bbbde5fccdb"
     # Other workspaces, such as `devops-platform`, may order only released versions of the service
     # account and federation definitions.
     bbd_draft = false

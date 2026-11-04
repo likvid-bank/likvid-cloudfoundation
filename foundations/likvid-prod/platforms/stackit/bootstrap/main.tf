@@ -1,5 +1,5 @@
 resource "stackit_resourcemanager_project" "management" {
-  parent_container_id = var.organization_id
+  parent_container_id = var.parent_container_id
   name                = "likvid-cloudfoundation-management"
   owner_email         = "jrudolph@meshcloud.io"
 }

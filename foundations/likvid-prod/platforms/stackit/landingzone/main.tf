@@ -40,6 +40,9 @@ resource "meshstack_building_block" "this" {
 
       stackit_org = { value = jsonencode("05d7eb3f-f875-4bcd-ad0d-a07d62787f21") }
 
+      # The organization also serves the other meshStacks of meshcloud.
+      root_folder_name = { value = jsonencode("meshstack-demo") }
+
       # A mailbox rather than the deploying service account, which is why that account has to be an
       # organization owner. STACKIT applies the owner at creation only, so changing this value leaves
       # the existing folder and project with the old owner.
