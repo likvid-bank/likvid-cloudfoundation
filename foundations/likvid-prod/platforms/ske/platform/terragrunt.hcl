@@ -18,5 +18,5 @@ EOF
 }
 
 inputs = {
-  hub_ref = "bcf874845e1dc2533917379c9bb169fb31a7eff4"
+  hub_ref = "bcd02413d705fb52f5adfd5d19051ba2fdff97ce"
 }

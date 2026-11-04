@@ -18,8 +18,6 @@ module "stackit_kubernetes" {
   }
 
   approval_policies = local.version_upgrade_gate
-  # The legacy starterkit created its projects without a suffix.
-  starterkit_add_random_name_suffix = false
 }
 
 resource "meshstack_building_block" "platform" {
@@ -44,28 +42,33 @@ resource "meshstack_building_block" "platform" {
     # A replaced tenant deletes the STACKIT project through its "STACKIT Project" building block.
     inputs = {
       landingzone = { value = jsonencode(jsonencode({
-        platform_ref = { uuid = local.stackit_platform_uuid, kind = "meshPlatform" }
+        platform_ref = { uuid = local.stackit_platform_uuid }
         landingzone_refs = {
-          default = { name = "likvid-stackit-default", kind = "meshLandingZone" }
+          default = { name = "likvid-stackit-default" }
         }
         service_account_bbd_version_ref            = { uuid = data.meshstack_building_block_definition.service_account.version_latest_release.uuid }
         service_account_federation_bbd_version_ref = { uuid = data.meshstack_building_block_definition.service_account_federation.version_latest_release.uuid }
       })) }
-      landingzone_variant       = { value = jsonencode("default") }
-      platform_identifier       = { value = jsonencode("ske-namespace") }
-      playground_mode           = { value = jsonencode(false) }
-      project_identifier        = { value = jsonencode("stackit-kubernetes-platform") }
-      payment_method_identifier = { value = jsonencode("devops-platform-budget") }
-      cluster_name              = { value = jsonencode("starterkit") }
-      cluster_issuer_email      = { value = jsonencode("ske@meshcloud.io") }
-      dns_subdomain             = { value = jsonencode("likvid") }
-      dns_parent_domain         = { value = jsonencode("stackit.run") }
-      ai_model                  = { value = jsonencode("openai/gpt-oss-120b") }
-      phase2_completed          = { value = jsonencode(true) }
-      quota_definitions         = { value = jsonencode(jsonencode(null)) }
+      landingzone_variant = { value = jsonencode("default") }
+      platform_identifier = { value = jsonencode("ske-namespace") }
+      playground_mode     = { value = jsonencode(false) }
+      # The legacy starterkit created its projects without a suffix.
+      starterkit_add_random_name_suffix = { value = jsonencode(false) }
+      use_global_location               = { value = jsonencode(false) }
+      payment_method                    = { value = jsonencode({ kind = "meshPaymentMethod", name = "devops-platform-budget" }) }
+      dns_domain                        = { value = jsonencode("likvid.stackit.run") }
+      phase2_completed                  = { value = jsonencode(true) }
 
-      starterkit_app_name        = { value = jsonencode("ai-summarizer") }
-      starterkit_repo_clone_addr = { value = jsonencode("https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git") }
+      starterkit_demo = { value = jsonencode(jsonencode({
+        name          = "ai-summarizer"
+        template_repo = "https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git"
+        ai_model      = "openai/gpt-oss-120b"
+      })) }
+      overrides = { value = jsonencode(jsonencode({
+        project_identifier   = "stackit-kubernetes-platform"
+        cluster_name         = "starterkit"
+        cluster_issuer_email = "ske@meshcloud.io"
+      })) }
 
       tags = { value = jsonencode(jsonencode({
         project = [
