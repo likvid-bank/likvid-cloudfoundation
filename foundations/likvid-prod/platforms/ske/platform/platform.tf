@@ -4,7 +4,7 @@ module "stackit_kubernetes" {
   meshstack = { owning_workspace_identifier = local.owning_workspace_identifier }
   hub = {
     git_ref   = var.hub_ref
-    bbd_draft = true
+    bbd_draft = false
   }
 
   playground_mode = false
