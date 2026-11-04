@@ -19,9 +19,6 @@ module "this" {
     user_input_changes = true
     version_upgrade    = true
   }
-
-  # This platform is really used, so it takes the plain identifier and keeps its destroy guards.
-  playground_mode = false
 }
 
 resource "meshstack_building_block" "this" {
@@ -33,6 +30,9 @@ resource "meshstack_building_block" "this" {
 
     inputs = {
       platform_identifier = { value = jsonencode("likvid-stackit") }
+
+      # This platform is really used, so it takes the plain identifier and keeps its destroy guards.
+      playground_mode = { value = jsonencode(false) }
 
       # Without this the architecture creates its own meshLocation and the platform becomes
       # `likvid-stackit.likvid-stackit` instead of `likvid-stackit.global`.
@@ -97,6 +97,17 @@ resource "meshstack_building_block" "this" {
         user   = ["editor"]
         reader = ["reader"]
       })) }
+
+      starterkit_approval_policies = { value = jsonencode(jsonencode({
+        building_block_creation = false
+        user_input_changes      = false
+        any_input_changes       = false
+        manual_triggers         = false
+        version_upgrade         = false
+      })) }
+
+      # Sent although empty: meshStack sends nothing for an optional input this block predates.
+      imports = { value = jsonencode(null) }
 
       stackit_service_account_key = { sensitive = provider::meshstack::non_ephemeral_secret(nonsensitive(var.stackit_service_account_key)) }
     }
