@@ -9,12 +9,8 @@ module "stackit_kubernetes" {
 
   playground_mode = false
 
-  # Every first run and every change waits for review while the live platform is adopted.
   approval_policies = {
-    building_block_creation = true
-    any_input_changes       = true
-    manual_triggers         = true
-    version_upgrade         = true
+    version_upgrade = true
   }
   # Application teams move to the new starterkit version only through a reviewed upgrade.
   starterkit_approval_policies = {
