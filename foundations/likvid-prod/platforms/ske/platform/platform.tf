@@ -16,6 +16,8 @@ module "stackit_kubernetes" {
   starterkit_approval_policies = {
     version_upgrade = true
   }
+  # The legacy starterkit created its projects without a suffix.
+  starterkit_add_random_name_suffix = false
 }
 
 resource "meshstack_building_block" "platform" {
