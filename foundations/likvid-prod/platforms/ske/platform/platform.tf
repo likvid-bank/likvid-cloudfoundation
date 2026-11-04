@@ -1,3 +1,13 @@
+locals {
+  version_upgrade_gate = {
+    building_block_creation = false
+    user_input_changes      = false
+    any_input_changes       = false
+    manual_triggers         = false
+    version_upgrade         = true
+  }
+}
+
 module "stackit_kubernetes" {
   source = "git::https://github.com/meshcloud/meshstack-hub.git//reference-architectures/stackit-kubernetes?ref=${var.hub_ref}"
 
@@ -7,15 +17,7 @@ module "stackit_kubernetes" {
     bbd_draft = false
   }
 
-  playground_mode = false
-
-  approval_policies = {
-    version_upgrade = true
-  }
-  # Application teams move to the new starterkit version only through a reviewed upgrade.
-  starterkit_approval_policies = {
-    version_upgrade = true
-  }
+  approval_policies = local.version_upgrade_gate
   # The legacy starterkit created its projects without a suffix.
   starterkit_add_random_name_suffix = false
 }
@@ -51,6 +53,7 @@ resource "meshstack_building_block" "platform" {
       })) }
       landingzone_variant       = { value = jsonencode("default") }
       platform_identifier       = { value = jsonencode("ske-namespace") }
+      playground_mode           = { value = jsonencode(false) }
       project_identifier        = { value = jsonencode("stackit-kubernetes-platform") }
       payment_method_identifier = { value = jsonencode("devops-platform-budget") }
       cluster_name              = { value = jsonencode("starterkit") }
@@ -59,50 +62,45 @@ resource "meshstack_building_block" "platform" {
       dns_parent_domain         = { value = jsonencode("stackit.run") }
       ai_model                  = { value = jsonencode("openai/gpt-oss-120b") }
       phase2_completed          = { value = jsonencode(true) }
+      quota_definitions         = { value = jsonencode(jsonencode(null)) }
 
       starterkit_app_name        = { value = jsonencode("ai-summarizer") }
       starterkit_repo_clone_addr = { value = jsonencode("https://github.com/likvid-bank/starterkit-template-stackit-ai-summarizer.git") }
 
       tags = { value = jsonencode(jsonencode({
-        project = {
-          environment          = ["prod"]
-          LandingZoneClearance = ["cloud-native"]
-          ResponsibilityLevel  = ["Cloud Pro"]
-          Schutzbedarf         = ["public"]
-        }
-        starterkit_project = {
-          LandingZoneClearance = ["cloud-native"]
-          ResponsibilityLevel  = ["Cloud Pro"]
-        }
-        landingzone               = {}
-        building_block            = {}
-        starterkit_building_block = {}
+        project = [
+          { key = "environment", values = ["prod"] },
+          { key = "LandingZoneClearance", values = ["cloud-native"] },
+          { key = "ResponsibilityLevel", values = ["Cloud Pro"] },
+          { key = "Schutzbedarf", values = ["public"] },
+        ]
+        starterkit_project = [
+          { key = "LandingZoneClearance", values = ["cloud-native"] },
+          { key = "ResponsibilityLevel", values = ["Cloud Pro"] },
+        ]
+        landingzone               = []
+        building_block            = []
+        starterkit_building_block = []
         project_owner_tag_key     = "projectOwner"
       })) }
-      stages = { value = jsonencode(jsonencode({
-        dev = {
-          landingzone = {
-            LandingZoneFamily = ["cloud-native"]
-            environment       = ["dev"]
-            confidentiality   = ["internal"]
-          }
-          project = {
-            environment  = ["dev"]
-            Schutzbedarf = ["internal"]
-          }
+      stages = { value = jsonencode(jsonencode([
+        for stage, confidentiality in { dev = "internal", prod = "public" } : {
+          name                              = stage
+          landingzone = [
+            { key = "LandingZoneFamily", values = ["cloud-native"] },
+            { key = "environment", values = [stage] },
+            { key = "confidentiality", values = [confidentiality] },
+          ]
+          project = [
+            { key = "environment", values = [stage] },
+            { key = "Schutzbedarf", values = [confidentiality] },
+          ]
         }
-        prod = {
-          landingzone = {
-            LandingZoneFamily = ["cloud-native"]
-            environment       = ["prod"]
-            confidentiality   = ["public"]
-          }
-          project = {
-            environment  = ["prod"]
-            Schutzbedarf = ["public"]
-          }
-        }
-      })) }
+      ])) }
+
+      approval_policies = { value = jsonencode(jsonencode(local.version_upgrade_gate)) }
+      # Application teams move to the new starterkit version only through a reviewed upgrade.
+      starterkit_approval_policies = { value = jsonencode(jsonencode(local.version_upgrade_gate)) }
 
       imports = { value = jsonencode(jsonencode({
         project = {
@@ -113,7 +111,7 @@ resource "meshstack_building_block" "platform" {
             "jschwandke@meshcloud.io" = "a402c989-6de2-4fde-a884-f40c9c9d566d"
           }
         }
-        ske = {}
+        adopt_ske = true
         git = {
           instance_id          = "c86ade0c-b3b2-4a1a-9f75-3252200a56de"
           instance_name        = "likvid"
@@ -123,7 +121,7 @@ resource "meshstack_building_block" "platform" {
           zone_id       = "d9b628aa-7dc5-48d8-913d-939fd54490c4"
           record_set_id = "275662f6-532b-49b1-b7de-4c203bbb3618"
         }
-        ingress = {}
+        adopt_ingress = true
         kubernetes_platform = {
           platform_name = "ske-namespace"
           location_name = "sovereign"
