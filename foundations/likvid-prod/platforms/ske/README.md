@@ -4,9 +4,6 @@
 workspace `devops-platform`. It owns the cluster, Git, DNS, ingress, the meshPlatform
 `ske-namespace` with its landing zones and the starterkit definitions application teams order.
 
-`starterkit` keeps the Model Serving token that building blocks on the old starterkit versions put
-into their namespaces; it goes once they are all upgraded.
-
 
 ## Access Kubernetes cluster
 
