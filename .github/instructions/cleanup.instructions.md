@@ -112,7 +112,8 @@ The response contains `_embedded.meshBuildingBlocks[]` — each building block h
 - `metadata.uuid` — unique ID (used for deletion)
 - `metadata.ownedByWorkspace` — owning workspace identifier
 - `spec.displayName` — human-readable name (look for "AKS Starter Kit" or "SKE Starter Kit")
-- `status.status` — current status (e.g. `SUCCEEDED`, `FAILED`, `WAITING_FOR_DEPENDENT_INPUT`)
+- `status.healthStatus` — outcome of the latest finished run (`NONE`, `SUCCEEDED`, `FAILED`, `DELETED`)
+- `status.action` — what the block needs next (e.g. `NO_ACTION`, `PENDING`, `IN_PROGRESS`, `PROVIDE_INPUT`, `REVIEW_ERRORS`)
 
 ### Step 4: Present Deletion Summary and Confirm
 
@@ -196,7 +197,7 @@ for UUID in uuid-1 uuid-2 uuid-3; do
   if [ "$HTTP_CODE" = "404" ]; then
     echo "$UUID: DELETED"
   else
-    STATUS=$(jq -r '.status.status' /tmp/bb_check.json)
+    STATUS=$(jq -r '"\(.status.healthStatus)/\(.status.action)"' /tmp/bb_check.json)
     echo "$UUID: $STATUS (HTTP $HTTP_CODE)"
   fi
 done
@@ -208,10 +209,10 @@ chmod +x /tmp/poll_bbs.sh
 
 1. **Wait 5 minutes** before the first poll — deletions take time and polling earlier wastes calls.
 2. **First poll**: `sleep 300 && bash /tmp/poll_bbs.sh` — the script refreshes its own token.
-3. **Subsequent polls**: If some blocks are still `IN_PROGRESS` or `PENDING`, wait 2 minutes and
+3. **Subsequent polls**: If some blocks still have action `IN_PROGRESS` or `PENDING`, wait 2 minutes and
    poll again: `sleep 120 && bash /tmp/poll_bbs.sh`
 4. A building block is fully deleted when it returns **HTTP 404**.
-5. Statuses during deletion: `PENDING` → `IN_PROGRESS` → (HTTP 404 = deleted).
+5. Actions during deletion: `PENDING` → `IN_PROGRESS` → (HTTP 404 = deleted).
 
 **Critical:** Always call `sleep` *before* invoking the script, never inside the script before
 the token refresh. The token must be obtained immediately before use.
@@ -242,7 +243,7 @@ for WS in workspace-1 workspace-2 workspace-3; do
   COUNT=$(echo "$RESP" | jq '._embedded.meshBuildingBlocks | length')
   if [ "$COUNT" != "0" ]; then
     echo "$WS: $COUNT remaining BBs"
-    echo "$RESP" | jq -r '._embedded.meshBuildingBlocks[] | "  - \(.spec.displayName) (\(.metadata.uuid)) status=\(.status.status)"'
+    echo "$RESP" | jq -r '._embedded.meshBuildingBlocks[] | "  - \(.spec.displayName) (\(.metadata.uuid)) health=\(.status.healthStatus) action=\(.status.action)"'
   else
     echo "$WS: 0 BBs ✓"
   fi
