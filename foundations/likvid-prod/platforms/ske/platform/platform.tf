@@ -46,8 +46,9 @@ resource "meshstack_building_block" "platform" {
         landingzone_refs = {
           default = { name = "likvid-stackit-default" }
         }
-        service_account_bbd_version_ref            = { uuid = data.meshstack_building_block_definition.service_account.version_latest_release.uuid }
-        service_account_federation_bbd_version_ref = { uuid = data.meshstack_building_block_definition.service_account_federation.version_latest_release.uuid }
+        # A run in devops-platform may not re-version children of stackit-platform definitions; upgrading them is an admin step.
+        service_account_bbd_version_ref            = data.meshstack_building_block_definition.service_account.versions["v3"]
+        service_account_federation_bbd_version_ref = data.meshstack_building_block_definition.service_account_federation.versions["v2"]
       })) }
       landingzone_variant = { value = jsonencode("default") }
       platform_identifier = { value = jsonencode("ske-namespace") }
