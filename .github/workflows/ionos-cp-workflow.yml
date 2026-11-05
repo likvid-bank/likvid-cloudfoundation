@@ -17,7 +17,7 @@ jobs:
 
       - name: Setup meshstack auth
         id: setup-meshstack-auth
-        uses: meshcloud/actions-register-source@0834e4300900ed903af6bf3945b00d1d462eb635 # v0.1.0
+        uses: meshcloud/actions-register-source@62ed10e3edbe5fe622aa4c3a876d325c6ab5e4bb # v2.0.2
         with:
           client_id: ${{ vars.BUILDINGBLOCK_API_CLIENT_ID }}
           key_secret: ${{ secrets.BUILDINGBLOCK_API_KEY_SECRET }}
@@ -30,7 +30,7 @@ jobs:
             ]
 
       - name: Set up Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 20
 
