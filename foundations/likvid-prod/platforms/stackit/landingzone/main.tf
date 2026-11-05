@@ -106,9 +106,6 @@ resource "meshstack_building_block" "this" {
         version_upgrade         = false
       })) }
 
-      # Sent although empty: meshStack sends nothing for an optional input this block predates.
-      imports = { value = jsonencode(null) }
-
       stackit_service_account_key = { sensitive = provider::meshstack::non_ephemeral_secret(nonsensitive(var.stackit_service_account_key)) }
     }
   }
