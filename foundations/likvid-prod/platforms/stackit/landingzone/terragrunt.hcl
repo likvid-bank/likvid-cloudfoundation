@@ -15,11 +15,8 @@ include "platform" {
 
 inputs = {
   hub = {
-    git_ref = "bcd02413d705fb52f5adfd5d19051ba2fdff97ce"
-    # Should be false, because other workspaces such as `devops-platform` may order only released
-    # versions of the service account and federation definitions. The definition's `hub` input carries
-    # this flag, so releasing changes the draft's content and the provider refuses it.
-    bbd_draft = true
+    git_ref   = "a37222c8f71f3aa9a0d3e79908afc3250154771c"
+    bbd_draft = false
   }
 
   # The account has to be an organization owner, for the reason given on `stackit_owner_email` in
