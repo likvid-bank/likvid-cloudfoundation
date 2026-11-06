@@ -25,7 +25,7 @@ resource "meshstack_building_block" "this" {
   spec = {
     building_block_definition_version_ref = module.this.building_block_definition.version_ref
 
-    display_name = "STACKIT Landing Zone"
+    display_name = "STACKIT Landing Zone likvid-stackit"
     target_ref   = meshstack_workspace.this.ref
 
     inputs = {

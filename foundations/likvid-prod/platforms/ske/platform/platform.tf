@@ -33,7 +33,7 @@ resource "meshstack_building_block" "platform" {
   spec = {
     building_block_definition_version_ref = module.stackit_kubernetes.building_block_definition.version_ref
 
-    display_name = "STACKIT Kubernetes Platform"
+    display_name = "STACKIT Kubernetes Platform ske-namespace"
     target_ref = {
       kind = "meshWorkspace"
       name = local.owning_workspace_identifier
@@ -108,7 +108,6 @@ resource "meshstack_building_block" "platform" {
 
       imports = { value = jsonencode(jsonencode({
         project = {
-          display_name = "STACKIT Kubernetes Platform"
           admin_bindings = {
             "jrudolph@meshcloud.io"   = "49769bdf-cc4a-4bb8-bc55-f62a467147db"
             "hdettmer@meshcloud.io"   = "31633950-03b0-4696-951e-817bc58559c5"
