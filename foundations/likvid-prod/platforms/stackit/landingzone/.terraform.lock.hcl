@@ -39,19 +39,19 @@ provider "registry.opentofu.org/hashicorp/time" {
 }
 
 provider "registry.opentofu.org/meshcloud/meshstack" {
-  version     = "0.27.2"
-  constraints = ">= 0.20.6, >= 0.25.2, >= 0.26.8, >= 0.27.0"
+  version     = "0.28.0"
+  constraints = ">= 0.20.6, >= 0.25.2, >= 0.27.0"
   hashes = [
-    "h1:0UhpreSQuzpDf4nywCjhsI77di4WPdyHfuLE3Ir0Hgs=",
-    "h1:7iY08PMZ23wOLuhb50k7F14X0tHAQNwuiAPgAjIfMEs=",
-    "h1:KzXCcKkB11vQ+OdEdfzeeEYBJ10EDD3t+iTVGvQ31pI=",
-    "h1:TlF++npzwxJC48Ckp74wPEpMoqiQD+cn3wN8HDr9Gyw=",
-    "h1:qvHcV9voQlLPA/+NihxTGahn1bplZ3/V2quMsefUkIQ=",
-    "zh:5085206e853ef3fbff1d6378638e25a1d42cf83c2d1e9f0a382a0aeb686fdc3b",
-    "zh:6035d24d75a5056a03a79536f43c651b5fdc35b60a977fa1af0b5ad7f6f94983",
-    "zh:76bec9477c8a44e58de6cdaee0d067b8b108a5b2ad3184b32053c1392b01ccb3",
-    "zh:7f500d9634a7683520271e0fe828e22e9cf6b7db7c92feff4b748122443eda61",
+    "h1:6DG7MUwbgnzc8Uxo5M0eiq9msZ48Nh/IfI6Ydw2UcQU=",
+    "h1:BMKtdFELAaCopDens+DSukyXlylCZKZ7OnMZ1ljtPGA=",
+    "h1:br6C2JJiLLWo27aOs4CAdzUxYzWtHuzQqL24SPQpv+U=",
+    "h1:f6fqqU9GuJeTvJx8IuoZzqJ5HNc1E474+/ixz3lotPM=",
+    "h1:t+uqRje+d5x9I1RE+TLExxI3Z15L/wv0jm2bKK0WmWY=",
+    "zh:2aea5df2726dda362f020a12f820887348c69738fb6861145a9e525459bc543a",
+    "zh:3625f533ca230a5547b49722d044f4c14e51dfc723123762a00f105f0c856162",
+    "zh:6173c59da95b83d3252b7b15fc890dacee15e0345139c29fdd0fa7c3ae9600d0",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:cbdefabbeff43575d146c66ae1fe55e96b29fd348ca3dab1b8a6ded6a7ff322d",
+    "zh:974cda53b174b41d43a8a39cd79c9cef3bb4cde51210f5d131689f4773c00748",
+    "zh:d296365dae4f62cf4668715d32a97a9f998d793e53445e0c8defe4b2658be8e8",
   ]
 }
