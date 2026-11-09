@@ -55,6 +55,7 @@ resource "meshstack_building_block" "platform" {
       use_global_location               = { value = jsonencode(false) }
       payment_method                    = { value = jsonencode({ kind = "meshPaymentMethod", name = "devops-platform-budget" }) }
       dns_domain                        = { value = jsonencode("likvid.stackit.run") }
+      stackit_region                    = { value = jsonencode("eu01") }
       phase2_completed                  = { value = jsonencode(true) }
 
       starterkit_demo = { value = jsonencode(jsonencode({
