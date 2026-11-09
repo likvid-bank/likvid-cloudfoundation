@@ -87,6 +87,10 @@ generate "smoke_tfvars" {
 }
 ```
 
+`platforms/ske/platform/e2e` is a complete unit. Its hub module also takes `definition_workspace` and
+`payment_method_identifier`, an existing payment method in the smoke workspace, so the test needs no
+admin rights to create one.
+
 Run a foundation e2e unit (see also the `foundation-modules` skill for credential setup):
 A hub module still on the older `count` gate reads the mode off `bbd_version_ref` instead and
 evaluates `hub_git_ref` even in foundation mode. `platforms/stackit/buildingblocks/storage-buckets/e2e`
@@ -99,7 +103,7 @@ Smoke tests run in GitHub Actions. Dispatch `smoke-test.yml`, optionally narrowi
 a path prefix under the foundation:
 
 ```bash
-gh workflow run smoke-test.yml -f prefix=platforms/stackit/buildingblocks/storage-buckets/e2e
+gh workflow run smoke-test.yml -f prefix=platforms/ske/platform/e2e
 gh run watch
 ```
 
@@ -107,6 +111,6 @@ Locally is possible too, since the only credential is the meshStack API key (see
 `run-lcf-modules` skill for credential setup):
 
 ```bash
-cd foundations/likvid-prod/platforms/stackit/buildingblocks/storage-buckets/e2e
+cd foundations/likvid-prod/platforms/ske/platform/e2e
 terragrunt test
 ```

@@ -12,7 +12,7 @@ on:
         default: likvid-prod
         type: string
       prefix:
-        description: "Optional. Path under the foundation to limit the run to, e.g. 'platforms/stackit' or 'platforms/stackit/buildingblocks/storage-buckets/e2e'. Empty = every smoke test in the foundation."
+        description: "Optional. Path under the foundation to limit the run to, e.g. 'platforms/ske' or 'platforms/ske/platform/e2e'. Empty = every smoke test in the foundation."
         required: false
         default: ""
         type: string

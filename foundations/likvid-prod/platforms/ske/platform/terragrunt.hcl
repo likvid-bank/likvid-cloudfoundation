@@ -6,6 +6,11 @@ include "tfstate" {
   path = find_in_parent_folders("tfstate.hcl")
 }
 
+include "hub" {
+  path   = "./hub.hcl"
+  expose = true
+}
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
@@ -18,5 +23,5 @@ EOF
 }
 
 inputs = {
-  hub_ref = "aa35ccb0074d5ccf58739d290422cdd9e762dff4"
+  hub = include.hub.locals
 }

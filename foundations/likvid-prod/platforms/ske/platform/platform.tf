@@ -9,13 +9,10 @@ locals {
 }
 
 module "stackit_kubernetes" {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//reference-architectures/stackit-kubernetes?ref=${var.hub_ref}"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//reference-architectures/stackit-kubernetes?ref=${var.hub.git_ref}"
 
   meshstack = { owning_workspace_identifier = local.owning_workspace_identifier }
-  hub = {
-    git_ref   = var.hub_ref
-    bbd_draft = false
-  }
+  hub       = var.hub
 
   approval_policies = local.version_upgrade_gate
 }
