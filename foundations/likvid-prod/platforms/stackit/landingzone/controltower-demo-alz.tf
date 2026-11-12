@@ -11,7 +11,7 @@
 locals {
   # The workspace starterkit does not exist at the architecture's `hub.git_ref`, so this file pins its
   # own commit. Used in the module source too, which OpenTofu evaluates statically.
-  controltower_demo_hub_git_ref = "87a324c0bc9f389e68a611c6ed81cfea1a7139b8"
+  controltower_demo_hub_git_ref = "a024258414e46416fd400015969c7aae24e1d4e4"
 
   # meshStack instances cap workspace identifiers at 16 characters, which the module default (63)
   # does not know about, and the demo wants dash-separated lowercase names. Both frontends compile
@@ -130,10 +130,10 @@ module "controltower_demo_alz" {
   platform_uuid     = one(data.meshstack_platforms.controltower_demo.platforms).ref.uuid
   landing_zone_name = each.value.landing_zone_name
 
-  display_name                  = each.value.display_name
+  bbd_display_name              = each.value.display_name
   workspace_ttl_days_default    = each.value.ttl_days
   payment_method_amount_default = each.value.budget
-  description                   = each.value.description
+  bbd_description               = each.value.description
 
   workspace_identifier_pattern       = local.controltower_demo_workspace_identifier_pattern
   workspace_identifier_error_message = "Lowercase letters and digits, single dashes between them, at most 16 characters."
@@ -141,6 +141,10 @@ module "controltower_demo_alz" {
   # Both role names keep the module defaults: meshStack resolves a role by its display name
   # ("Project Admin", "Workspace Owner"), not by its identifier (`admin`).
   workspace_expiry_tag_key = meshstack_tag_definition.workspace_expiry.spec.key
+
+  approval_policies = {
+    building_block_creation = true
+  }
 
   meshstack = {
     owning_workspace_identifier = "stackitcontrolto"
