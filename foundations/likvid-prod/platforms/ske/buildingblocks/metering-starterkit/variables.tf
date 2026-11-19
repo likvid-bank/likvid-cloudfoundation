@@ -29,12 +29,6 @@ variable "stackit_org_service_account_key" {
   description = "Key of a STACKIT service account that may create service accounts and assign roles on the organization."
 }
 
-variable "tcloud_api_token" {
-  type        = string
-  sensitive   = true
-  description = "Admin API key of the T Cloud Financial Dashboard, valid for at most 90 days."
-}
-
 variable "metering_api_secret" {
   type        = string
   sensitive   = true

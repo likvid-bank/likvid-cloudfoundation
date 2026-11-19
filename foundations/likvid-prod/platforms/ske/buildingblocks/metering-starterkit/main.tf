@@ -53,8 +53,7 @@ module "metering_starterkit" {
 
   tcloud_enabled             = true
   tcloud_platform_identifier = "likvid-otc.global"
-  # Valid for at most 90 days. Rotate it in Vault and apply again.
-  tcloud_api_token = var.tcloud_api_token
+  # The T Cloud token lives only in the cluster; rotate it with ./rotate-tcloud-token.sh.
 
   # An API user, because the metering API accepts no API keys. Created in meshPanel, its password is in Vault.
   metering_api_user   = "custom-meshmetering-repo"

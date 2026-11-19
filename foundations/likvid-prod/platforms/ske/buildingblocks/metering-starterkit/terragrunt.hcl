@@ -12,7 +12,7 @@ include "hub" {
 }
 
 # Needs STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY for an SKE admin kubeconfig, STACKIT_ORG_SERVICE_ACCOUNT_KEY
-# for the STACKIT metering backplane, TCLOUD_FINANCIAL_DASHBOARD_API_KEY and
+# for the STACKIT metering backplane and
 # MESHSTACK_API_SECRET_CUSTOM_MESHMETERING from Vault, an SSH key that can clone the private
 # meshcloud/mesh-custom-metering, and a GitHub login (`gh auth login` or GITHUB_TOKEN) as admin of that
 # repo for its deploy key. Skip from CI; run manually after sourcing setup-env.sh
@@ -61,6 +61,5 @@ inputs = {
   stackit_project_id              = dependency.landingzone.outputs.foundation_project_id
   stackit_ske_service_account_key = get_env("STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY")
   stackit_org_service_account_key = get_env("STACKIT_ORG_SERVICE_ACCOUNT_KEY")
-  tcloud_api_token                = get_env("TCLOUD_FINANCIAL_DASHBOARD_API_KEY")
   metering_api_secret             = get_env("MESHSTACK_API_SECRET_CUSTOM_MESHMETERING")
 }
