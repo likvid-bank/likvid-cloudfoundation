@@ -13,8 +13,9 @@ include "hub" {
 
 # Needs STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY for an SKE admin kubeconfig, STACKIT_ORG_SERVICE_ACCOUNT_KEY
 # for the STACKIT metering backplane, TCLOUD_FINANCIAL_DASHBOARD_API_KEY and
-# MESHSTACK_API_SECRET_CUSTOM_MESHMETERING. They live only in Vault and not as GitHub secrets — skip from
-# CI; run manually after sourcing setup-env.sh
+# MESHSTACK_API_SECRET_CUSTOM_MESHMETERING from Vault, an SSH key that can clone the private
+# meshcloud/mesh-custom-metering, and a GitHub login (`gh auth login` or GITHUB_TOKEN) as admin of that
+# repo for its deploy key. Skip from CI; run manually after sourcing setup-env.sh
 exclude {
   if      = true
   actions = ["plan", "test"]
@@ -40,7 +41,7 @@ provider "stackit" {
   experiments         = ["iam"]
 }
 
-# Only creates the short-lived SKE admin kubeconfig in main.tf.
+# Only creates the SKE admin kubeconfig in main.tf.
 provider "stackit" {
   alias               = "ske"
   service_account_key = var.stackit_ske_service_account_key
@@ -48,19 +49,15 @@ provider "stackit" {
   experiments         = ["ske"]
 }
 
-# Short-lived admin kubeconfig, only for this run. The Kubernetes Service Account definition gets the
-# long-lived token of the deployer service account the hub module creates with it.
-provider "kubernetes" {
-  host                   = local.admin_cluster["server"]
-  cluster_ca_certificate = base64decode(local.admin_cluster["certificate-authority-data"])
-  client_certificate     = base64decode(local.admin_user["client-certificate-data"])
-  client_key             = base64decode(local.admin_user["client-key-data"])
+provider "github" {
+  owner = "meshcloud"
 }
 PROVIDER
 }
 
 inputs = {
-  hub                             = include.hub.locals
+  hub                             = include.hub.locals.hub
+  meshstack_hub_git_ref           = include.hub.locals.meshstack_hub_git_ref
   stackit_project_id              = dependency.landingzone.outputs.foundation_project_id
   stackit_ske_service_account_key = get_env("STACKIT_SKE_PROJECT_SERVICE_ACCOUNT_KEY")
   stackit_org_service_account_key = get_env("STACKIT_ORG_SERVICE_ACCOUNT_KEY")

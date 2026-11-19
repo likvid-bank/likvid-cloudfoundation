@@ -1,4 +1,8 @@
 locals {
-  git_ref   = "37b93cac454c1af168ccf761ec9d15a4e595a11a"
-  bbd_draft = true
+  # meshcloud/mesh-custom-metering, the repo of the starterkit.
+  hub = {
+    git_ref   = "6ff86ba503789e27562be36603496f7855ccd2b9"
+    bbd_draft = true
+  }
+  meshstack_hub_git_ref = "a3e2fe20d19d416476b95c0699b159ffe4799079"
 }

@@ -1,7 +1,7 @@
-# The whole metering setup of this meshStack from the hub's metering starterkit: the definition
-# "Platform Metering" in `devops-platform`, which sets up a metering namespace on `ske-namespace.sovereign`
-# with a metering job per selected cloud, and the definitions it orders: Kubernetes Service Account,
-# STACKIT Metering and T Cloud Public Metering.
+# The whole metering setup of this meshStack from the metering starterkit in the private repo
+# meshcloud/mesh-custom-metering: the definition "Platform Metering" in `devops-platform`, which sets
+# up a metering namespace on `ske-namespace.sovereign` with a metering job per selected cloud, and the
+# definitions it orders: Kubernetes Manifest and STACKIT Kubernetes Workload Identity.
 
 locals {
   # Project `stackit-kubernetes-platform` and cluster of the ske/platform unit, see ../../README.md.
@@ -9,19 +9,26 @@ locals {
   ske_cluster_name = "starterkit"
 }
 
-# Short-lived admin login for the `kubernetes` provider in terragrunt.hcl.
-ephemeral "stackit_ske_kubeconfig" "admin" {
+# Stored in the state, because a module variable takes no ephemeral value. `refresh` renews it on a
+# run before it expires.
+resource "stackit_ske_kubeconfig" "admin" {
   provider = stackit.ske
 
   project_id   = local.ske_project_id
   cluster_name = local.ske_cluster_name
-  expiration   = 1800
+  refresh      = true
 }
 
-locals {
-  admin_kubeconfig = yamldecode(ephemeral.stackit_ske_kubeconfig.admin.kube_config)
-  admin_cluster    = one(local.admin_kubeconfig["clusters"])["cluster"]
-  admin_user       = one(local.admin_kubeconfig["users"])["user"]
+# meshStack clones the Platform Metering code of the private repo with this key.
+resource "tls_private_key" "mesh_custom_metering" {
+  algorithm = "ED25519"
+}
+
+resource "github_repository_deploy_key" "mesh_custom_metering" {
+  repository = "mesh-custom-metering"
+  title      = "Platform Metering of the likvid demo meshStack (federation.demo.meshcloud.io)"
+  key        = tls_private_key.mesh_custom_metering.public_key_openssh
+  read_only  = true
 }
 
 # The filter matches the full `<platform>.<location>` identifier; `one()` fails loudly if it stops
@@ -31,16 +38,11 @@ data "meshstack_platforms" "ske_namespace" {
 }
 
 module "metering_starterkit" {
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/meshstack/metering-starterkit?ref=${var.hub.git_ref}"
+  source = "git::ssh://git@github.com/meshcloud/mesh-custom-metering.git//hub/modules/meshstack/metering-starterkit?ref=${var.hub.git_ref}"
 
   kubernetes_platform_ref      = one(data.meshstack_platforms.ske_namespace.platforms).ref
   kubernetes_landing_zone_name = "ske-namespace-prod"
-  kubernetes_cluster_name      = local.ske_cluster_name
-  # Written out, because the ephemeral admin kubeconfig cannot feed a module variable.
-  kubernetes_cluster_server = "https://api.starterkit.9e0d93f4f2.s.ske.eu01.onstackit.cloud"
-  # Teams order the Kubernetes Service Account on their own namespaces too, not only the metering.
-  kubernetes_cluster_roles                    = ["view", "edit", "admin"]
-  kubernetes_service_account_bbd_display_name = "Kubernetes Service Account (ske-namespace)"
+  kubernetes_kubeconfig        = yamldecode(stackit_ske_kubeconfig.admin.kube_config)
 
   stackit_enabled             = true
   stackit_platform_identifier = "likvid-stackit.global"
@@ -67,16 +69,20 @@ module "metering_starterkit" {
     projectOwner         = ["Platform Team"]
   }
 
-  meshstack = { owning_workspace_identifier = "devops-platform" }
-  hub       = var.hub
+  ssh_private_key         = tls_private_key.mesh_custom_metering.private_key_openssh
+  ssh_private_key_version = sha256(tls_private_key.mesh_custom_metering.public_key_openssh)
+
+  meshstack             = { owning_workspace_identifier = "devops-platform" }
+  hub                   = var.hub
+  meshstack_hub_git_ref = var.meshstack_hub_git_ref
 }
 
 output "building_block_definition" {
   value = module.metering_starterkit.building_block_definition
 }
 
-output "service_account_building_block_definition" {
-  value = module.metering_starterkit.service_account_building_block_definition
+output "manifest_building_block_definition" {
+  value = module.metering_starterkit.manifest_building_block_definition
 }
 
 output "metering_service_account_email" {

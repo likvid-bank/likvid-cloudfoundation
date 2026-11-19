@@ -3,6 +3,11 @@ variable "hub" {
     git_ref   = string
     bbd_draft = bool
   })
+  description = "`git_ref` is the ref of meshcloud/mesh-custom-metering."
+}
+
+variable "meshstack_hub_git_ref" {
+  type = string
 }
 
 variable "stackit_project_id" {

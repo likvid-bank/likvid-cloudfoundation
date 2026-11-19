@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.12.0"
+  required_version = ">= 1.0"
 
   required_providers {
     meshstack = {
@@ -10,9 +10,13 @@ terraform {
       source  = "stackitcloud/stackit"
       version = ">= 0.98.0, < 1.0.0"
     }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = ">= 2.38.0, < 3.0.0"
+    tls = {
+      source  = "hashicorp/tls"
+      version = ">= 4.0.0"
+    }
+    github = {
+      source  = "integrations/github"
+      version = ">= 6.0.0"
     }
   }
 }
