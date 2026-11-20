@@ -3,16 +3,12 @@
 # Each definition hands a team a whole workspace in one order — payment method, project and a STACKIT
 # tenant on a landing zone this unit already deploys — so the demo can tell its story one level above
 # a single project. Everything in this file belongs to that demo and can be removed with it; the
-# platform, the two landing zones and the project starterkit in main.tf are untouched.
+# platform and the two landing zones in main.tf are untouched.
 #
 # Owned by `stackitcontrolto`, not by the platform workspace: the demo portal authenticates as that
 # workspace, and a definition it cannot see is a definition it cannot order.
 
 locals {
-  # The workspace starterkit does not exist at the architecture's `hub.git_ref`, so this file pins its
-  # own commit. Used in the module source too, which OpenTofu evaluates statically.
-  controltower_demo_hub_git_ref = "87a324c0bc9f389e68a611c6ed81cfea1a7139b8"
-
   # meshStack instances cap workspace identifiers at 16 characters, which the module default (63)
   # does not know about, and the demo wants dash-separated lowercase names. Both frontends compile
   # this with the JavaScript RegExp engine, so the lookahead that caps the length is honoured.
@@ -68,7 +64,7 @@ locals {
 
     networked = {
       display_name       = "Networked Project"
-      landing_zone_name  = "likvid-stackit-networked"
+      landing_zone_name  = "likvid-stackit-spoke"
       description        = "A project with hybrid connectivity back to our on-premises infrastructure."
       ttl_days           = null
       budget             = 100000
@@ -106,6 +102,13 @@ data "meshstack_platforms" "controltower_demo" {
   depends_on = [meshstack_building_block.this]
 }
 
+# Read after the landing zone's run, which releases its new version.
+data "meshstack_building_block_definition" "stackit_project" {
+  metadata = { uuid = "50bec1ee-5e35-41fa-b808-d5c9e8e435f5" }
+
+  depends_on = [meshstack_building_block.this]
+}
+
 # The starterkit writes each workspace's expiry date under this tag key, and meshStack silently drops a
 # tag with no definition — the workspace would read back without it and every run would see drift. The
 # deploy key holds `ADM_TAGDEFINITION_SAVE`, so the definition is created here instead of by hand.
@@ -125,15 +128,21 @@ resource "meshstack_tag_definition" "workspace_expiry" {
 module "controltower_demo_alz" {
   for_each = local.controltower_demo_alz
 
-  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/meshstack/workspace-starterkit?ref=${local.controltower_demo_hub_git_ref}"
+  source = "git::https://github.com/meshcloud/meshstack-hub.git//modules/meshstack/workspace-starterkit?ref=${var.hub.git_ref}"
 
   platform_uuid     = one(data.meshstack_platforms.controltower_demo.platforms).ref.uuid
   landing_zone_name = each.value.landing_zone_name
 
-  display_name                  = each.value.display_name
+  bbd_display_name              = each.value.display_name
   workspace_ttl_days_default    = each.value.ttl_days
   payment_method_amount_default = each.value.budget
-  description                   = each.value.description
+  bbd_description               = each.value.description
+
+  tenant_building_block = {
+    definition_ref         = { uuid = data.meshstack_building_block_definition.stackit_project.metadata.uuid }
+    definition_version_ref = { uuid = data.meshstack_building_block_definition.stackit_project.version_latest_release.uuid }
+    display_name           = "STACKIT Project"
+  }
 
   workspace_identifier_pattern       = local.controltower_demo_workspace_identifier_pattern
   workspace_identifier_error_message = "Lowercase letters and digits, single dashes between them, at most 16 characters."
@@ -157,13 +166,9 @@ module "controltower_demo_alz" {
     }
   }
 
-  hub = {
-    git_ref = local.controltower_demo_hub_git_ref
-
-    # Released, not the unit's `var.hub.bbd_draft`: a draft version can only be ordered by the
-    # workspace that owns the definition, and the demo portal orders these for other workspaces.
-    bbd_draft = false
-  }
+  # A released version cannot change, so a hub bump goes through a draft like the landing zone's
+  # definitions. The demo portal orders for other workspaces, which only a released version allows.
+  hub = var.hub
 }
 
 output "controltower_demo_alz" {

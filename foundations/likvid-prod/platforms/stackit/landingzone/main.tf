@@ -60,24 +60,13 @@ resource "meshstack_building_block" "this" {
         building_block = [
           { key = "LandingZoneClearance", values = ["cloud-native"] },
         ]
-
-        # Tags for the meshProjects the STACKIT Project Starterkit creates. `LandingZoneClearance` and
-        # `Schutzbedarf` are mandatory on this instance and have no default, so a starterkit that
-        # passes no tags cannot create a project at all.
-        project = [
-          { key = "LandingZoneClearance", values = ["cloud-native"] },
-          { key = "Schutzbedarf", values = ["internal"] },
-          { key = "environment", values = ["dev"] },
-          { key = "ResponsibilityLevel", values = ["Cloud Pro"] },
-        ]
-        project_owner_tag_key = "projectOwner"
       })) }
 
       # Literal JSON, because jsonencode() escapes `&` (meshcloud/terraform-provider-meshstack#363).
       topology = { value = "[\"sandbox\",\"hub&spoke\"]" }
 
-      # Setting this creates the second landing zone `likvid-stackit-networked` plus the self-service
-      # `STACKIT Network` building block. The seven existing tenants keep the unnetworked variant.
+      # Setting this creates the second landing zone `likvid-stackit-spoke` plus the self-service
+      # `STACKIT Network` building block.
       network = { value = jsonencode(jsonencode({
         # `10.1.255.0/24` sits inside the range of the live area `meshcloud-test`, which is harmless
         # only while the two areas are never connected. `10.20.0.0/16` with transfer `10.21.255.0/24`
@@ -96,14 +85,6 @@ resource "meshstack_building_block" "this" {
         admin  = ["owner"]
         user   = ["editor"]
         reader = ["reader"]
-      })) }
-
-      starterkit_approval_policies = { value = jsonencode(jsonencode({
-        building_block_creation = false
-        user_input_changes      = false
-        any_input_changes       = false
-        manual_triggers         = false
-        version_upgrade         = false
       })) }
 
       stackit_service_account_key = { sensitive = provider::meshstack::non_ephemeral_secret(nonsensitive(var.stackit_service_account_key)) }
