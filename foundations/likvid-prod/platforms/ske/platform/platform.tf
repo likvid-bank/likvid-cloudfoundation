@@ -49,7 +49,6 @@ resource "meshstack_building_block" "platform" {
           default = { name = "likvid-stackit-default" }
         }
         # A run in devops-platform may not re-version children of stackit-platform definitions; upgrading them is an admin step.
-        project_bbd_ref                            = data.meshstack_building_block_definition.stackit_project.ref
         project_bbd_version_ref                    = data.meshstack_building_block_definition.stackit_project.version_latest_release
         service_account_bbd_version_ref            = data.meshstack_building_block_definition.service_account.version_latest_release
         service_account_federation_bbd_version_ref = data.meshstack_building_block_definition.service_account_federation.version_latest_release
