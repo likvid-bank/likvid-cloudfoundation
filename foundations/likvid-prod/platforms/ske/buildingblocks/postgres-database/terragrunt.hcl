@@ -31,7 +31,7 @@ PROVIDER
 }
 
 inputs = {
-  draft = true
+  draft = false
 
   # The branch lets a fix reach a released version with the next run; pin a commit after the merge.
   building_block_git_ref = "feature/agentic-factory-demo"
