@@ -2,18 +2,28 @@ provider "stackit" {
   default_region = "eu01"
 }
 
+provider "vault" {
+  address = var.vault_reader.address
+  # A Secrets Manager user may not create the child token the provider asks for by default.
+  skip_child_token = true
+
+  auth_login_userpass {
+    username = var.vault_reader.username
+    password = var.vault_reader.password
+  }
+}
+
+ephemeral "vault_kv_secret_v2" "kubeconfig" {
+  mount = var.vault_reader.mount
+  name  = var.kubeconfig_path
+}
+
 locals {
-  # meshStack writes the static FILE input `kubeconfig.yaml` next to the code.
-  kubeconfig         = yamldecode(file("${path.module}/kubeconfig.yaml"))
-  kubeconfig_cluster = one(local.kubeconfig.clusters).cluster
-  kubeconfig_user    = one(local.kubeconfig.users).user
+  admin_kubeconfig = yamldecode(ephemeral.vault_kv_secret_v2.kubeconfig.data.kubeconfig)
 }
 
 provider "kubernetes" {
-  host                   = local.kubeconfig_cluster.server
-  cluster_ca_certificate = base64decode(local.kubeconfig_cluster["certificate-authority-data"])
-
-  token              = try(local.kubeconfig_user.token, null)
-  client_certificate = try(base64decode(local.kubeconfig_user["client-certificate-data"]), null)
-  client_key         = try(base64decode(local.kubeconfig_user["client-key-data"]), null)
+  host                   = one(local.admin_kubeconfig.clusters).cluster.server
+  cluster_ca_certificate = base64decode(one(local.admin_kubeconfig.clusters).cluster["certificate-authority-data"])
+  token                  = one(local.admin_kubeconfig.users).user.token
 }

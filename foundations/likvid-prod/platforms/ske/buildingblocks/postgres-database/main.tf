@@ -4,7 +4,6 @@
 
 locals {
   owning_workspace_identifier = "devops-platform"
-  ske_cluster_name            = "starterkit"
 
   # The ske/platform unit orders "Shared PostgreSQL <stage>" on its own tenant.
   landing_zone_stages = {
@@ -24,6 +23,11 @@ data "meshstack_tenant" "platform" {
 data "meshstack_building_blocks" "automation_identity" {
   tenant_uuid = data.meshstack_tenant.platform.metadata.uuid
   name        = "Automation Identity"
+}
+
+data "meshstack_building_blocks" "secrets_manager" {
+  tenant_uuid = data.meshstack_tenant.platform.metadata.uuid
+  name        = "Secrets Manager"
 }
 
 data "meshstack_building_blocks" "shared_postgres" {
@@ -48,14 +52,23 @@ locals {
     for landing_zone, blocks in data.meshstack_building_blocks.shared_postgres :
     landing_zone => jsondecode(one(blocks.building_blocks).status.outputs["instance_id"].value)
   }
+
+  secrets_manager_instance_id = jsondecode(one(data.meshstack_building_blocks.secrets_manager.building_blocks).status.outputs["instance_id"].value)
+
+  vault_reader = {
+    # STACKIT serves every eu01 Secrets Manager instance from this address.
+    address  = "https://prod.sm.eu01.stackit.cloud"
+    mount    = local.secrets_manager_instance_id
+    username = stackit_secretsmanager_user.reader.username
+    password = stackit_secretsmanager_user.reader.password
+  }
 }
 
-# Valid until Friday 2026-11-27. Renew with `terragrunt apply -replace=stackit_ske_kubeconfig.admin`,
-# which changes the definition's input and so needs a draft version.
-resource "stackit_ske_kubeconfig" "admin" {
-  project_id   = local.stackit_project_id
-  cluster_name = local.ske_cluster_name
-  expiration   = 7 * 24 * 3600
+resource "stackit_secretsmanager_user" "reader" {
+  project_id    = local.stackit_project_id
+  instance_id   = local.secrets_manager_instance_id
+  description   = "PostgreSQL Database connector reader"
+  write_enabled = false
 }
 
 module "runner" {
@@ -143,17 +156,25 @@ resource "meshstack_building_block_definition" "this" {
         argument        = jsonencode(local.stackit_project_id)
       }
 
-      "kubeconfig.yaml" = {
-        display_name    = "kubeconfig.yaml"
-        description     = "Admin kubeconfig of the cluster `${local.ske_cluster_name}`."
-        type            = "FILE"
+      vault_reader = {
+        display_name    = "Vault Reader"
+        description     = "HCL object `{address, mount, username, password}` of the Vault KV v2 login the run reads the kubeconfig with."
+        type            = "CODE"
         assignment_type = "STATIC"
         sensitive = {
           argument = {
-            secret_value   = "data:application/yaml;base64,${base64encode(stackit_ske_kubeconfig.admin.kube_config)}"
-            secret_version = nonsensitive(sha256(stackit_ske_kubeconfig.admin.kube_config))
+            secret_value   = jsonencode(local.vault_reader)
+            secret_version = nonsensitive(sha256(jsonencode(local.vault_reader)))
           }
         }
+      }
+
+      kubeconfig_path = {
+        display_name    = "Kubeconfig Path"
+        description     = "Vault KV v2 secret the ske/platform unit's cluster block keeps the kubeconfig of its admin service account in, under the key `kubeconfig`."
+        type            = "STRING"
+        assignment_type = "STATIC"
+        argument        = jsonencode("ske-namespace/ske/cluster")
       }
 
       STACKIT_SERVICE_ACCOUNT_EMAIL = {
@@ -260,6 +281,6 @@ output "instance_ids" {
   value = local.instance_ids
 }
 
-output "kubeconfig_expires_at" {
-  value = stackit_ske_kubeconfig.admin.expires_at
+output "secrets_manager_reader_user_id" {
+  value = stackit_secretsmanager_user.reader.user_id
 }

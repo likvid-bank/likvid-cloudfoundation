@@ -33,3 +33,21 @@ variable "stackit_project_id" {
   nullable    = false
   description = "STACKIT project of the shared instances."
 }
+
+variable "vault_reader" {
+  type = object({
+    address  = string
+    mount    = string
+    username = string
+    password = string
+  })
+  nullable    = false
+  sensitive   = true
+  description = "Vault KV v2 userpass login the run reads the kubeconfig with."
+}
+
+variable "kubeconfig_path" {
+  type        = string
+  nullable    = false
+  description = "Vault KV v2 secret holding the kubeconfig of a cluster-admin service account under the key `kubeconfig`."
+}

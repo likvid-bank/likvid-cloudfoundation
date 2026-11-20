@@ -13,9 +13,9 @@ variable "meshstack_hub_git_ref" {
   description = "Ref of meshcloud/meshstack-hub for the runner identity lookup and the logo."
 }
 
-variable "stackit_ske_service_account_key" {
+variable "stackit_access_token" {
   type        = string
   sensitive   = true
   ephemeral   = true
-  description = "Key of a STACKIT service account that may create admin kubeconfigs for the SKE cluster."
+  description = "Access token of a STACKIT login that may create Secrets Manager users in the platform's project."
 }
