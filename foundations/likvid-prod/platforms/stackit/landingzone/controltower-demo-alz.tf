@@ -139,7 +139,6 @@ module "controltower_demo_alz" {
   bbd_description               = each.value.description
 
   tenant_building_block = {
-    definition_ref         = { uuid = data.meshstack_building_block_definition.stackit_project.metadata.uuid }
     definition_version_ref = { uuid = data.meshstack_building_block_definition.stackit_project.version_latest_release.uuid }
     display_name           = "STACKIT Project"
   }
