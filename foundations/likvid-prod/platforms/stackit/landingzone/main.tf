@@ -10,6 +10,9 @@ module "this" {
     bbd_draft = var.hub.bbd_draft
   }
 
+  # The SKE platform in devops-platform orders the service account definitions across workspaces.
+  release_service_account_bbds = true
+
   # The provider asserts its own defaults whenever a definition sets no policies, so leaving these out
   # turns them off on the next apply. A changed static input, such as `hub`, reruns the block, which
   # only `any_input_changes` gates.
