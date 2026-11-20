@@ -11,10 +11,15 @@ locals {
 module "stackit_kubernetes" {
   source = "git::https://github.com/meshcloud/meshstack-hub.git//reference-architectures/stackit-kubernetes?ref=${var.hub.git_ref}"
 
-  meshstack = { owning_workspace_identifier = local.owning_workspace_identifier }
-  hub       = var.hub
+  meshstack = {
+    owning_workspace_identifier = local.owning_workspace_identifier
+    # The provider's default-runner lookup can pick either of the instance's two runners.
+    runner_ref = { kind = "meshBuildingBlockRunner", uuid = "98520496-627d-43e6-82da-ce499179ff3f" }
+  }
+  hub = var.hub
 
-  approval_policies = local.version_upgrade_gate
+  # A changed input stops at the plan too, so a run that would replace the tenant or its project can be refused.
+  approval_policies = merge(local.version_upgrade_gate, { user_input_changes = true })
 }
 
 resource "meshstack_building_block" "platform" {
@@ -44,8 +49,10 @@ resource "meshstack_building_block" "platform" {
           default = { name = "likvid-stackit-default" }
         }
         # A run in devops-platform may not re-version children of stackit-platform definitions; upgrading them is an admin step.
-        service_account_bbd_version_ref            = data.meshstack_building_block_definition.service_account.versions["v3"]
-        service_account_federation_bbd_version_ref = data.meshstack_building_block_definition.service_account_federation.versions["v2"]
+        project_bbd_ref                            = data.meshstack_building_block_definition.stackit_project.ref
+        project_bbd_version_ref                    = data.meshstack_building_block_definition.stackit_project.version_latest_release
+        service_account_bbd_version_ref            = data.meshstack_building_block_definition.service_account.version_latest_release
+        service_account_federation_bbd_version_ref = data.meshstack_building_block_definition.service_account_federation.version_latest_release
       })) }
       landingzone_variant = { value = jsonencode("default") }
       platform_identifier = { value = jsonencode("ske-namespace") }
