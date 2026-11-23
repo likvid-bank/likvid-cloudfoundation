@@ -52,7 +52,7 @@ resource "meshstack_building_block" "this" {
       identity_provider = { value = jsonencode(jsonencode({
         protocol          = "oidc"
         name              = "likvid-entra"
-        email_attribute   = "email"
+        email_attribute   = "upn"
         oidc_provider_url = "https://login.microsoftonline.com/5f0e994b-6436-4f58-be96-4dc7bebff827/v2.0"
         oidc_client_id    = "7d1e2d5e-e2ef-4aef-a11b-5c6f1371c179"
       })) }
