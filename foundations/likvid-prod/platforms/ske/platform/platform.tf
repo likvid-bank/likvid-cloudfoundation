@@ -105,10 +105,7 @@ resource "meshstack_building_block" "platform" {
           ]
         }
       ])) }
-      postgres = { value = jsonencode(jsonencode({
-        dev  = { replicas = 1, flavor = "2.4", storage_size_in_gb = 5 }
-        prod = { replicas = 3, flavor = "2.4", storage_size_in_gb = 5 }
-      })) }
+      additional_federated_building_block_definitions = { value = jsonencode(jsonencode(var.additional_federated_building_block_definitions)) }
 
       approval_policies = { value = jsonencode(jsonencode(local.version_upgrade_gate)) }
       # Application teams move to the new starterkit version only through a reviewed upgrade.
