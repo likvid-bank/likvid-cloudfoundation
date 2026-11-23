@@ -1,2 +1,3 @@
 provider.tf
 plan.tfplan
+!**/buildingblock/provider.tf

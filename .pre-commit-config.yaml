@@ -13,7 +13,7 @@ repos:
           - --args=-platform=linux_amd64
 
       - id: terraform_tflint
-        files: ^kit/
+        files: ^(kit/|foundations/.*/buildingblock/)
         args:
           - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl # share a single tflint config file for all modules
 
