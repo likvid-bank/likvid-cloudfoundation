@@ -5,6 +5,15 @@ module "this" {
     owning_workspace_identifier = "stackit-platform"
   }
 
+  tags = {
+    landingzone = [
+      { key = "LandingZoneFamily", values = ["cloud-native"] },
+      { key = "environment", values = ["dev", "qa", "test", "prod"] },
+      { key = "confidentiality", values = ["internal", "public"] },
+    ]
+    building_block = [{ key = "LandingZoneClearance", values = ["cloud-native"] }]
+  }
+
   hub = var.hub
 }
 
