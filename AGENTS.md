@@ -14,6 +14,9 @@ a symlink to `.agents/`, so Claude Code and other agents share the same skills):
 - **[`hub`](.agents/skills/hub/SKILL.md)** — work with [meshstack-hub](https://github.com/meshcloud/meshstack-hub)
   modules: consume them as deployed building blocks and run foundation e2e smoke tests. Links to the
   hub's `e2e-test` skill, the **single source of truth** for the e2e invocation protocol.
+- **[`meshstack-cli`](.agents/skills/meshstack-cli/SKILL.md)** — query meshStack, follow runs and
+  order building blocks with the `meshstack` CLI. Links to the CLI's own skill, the **single source
+  of truth** for using the CLI.
 
 ## Conventions
 
